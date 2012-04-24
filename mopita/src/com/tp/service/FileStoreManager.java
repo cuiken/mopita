@@ -26,7 +26,7 @@ public class FileStoreManager {
 	private PreviewDao previewDao;
 	private FileStoreDao fileStoreDao;
 
-	public FileInfo getFile(Long id) {
+	public FileInfo getFileInof(Long id) {
 		return fileDao.get(id);
 	}
 
@@ -34,14 +34,14 @@ public class FileStoreManager {
 		return previewDao.get(id);
 	}
 
-	public Page<FileInfo> searchFile(final Page<FileInfo> page,
+	public Page<FileStore> searchFileStore(final Page<FileStore> page,
 			final List<PropertyFilter> filters) {
-		return fileDao.findPage(page, filters);
+		return fileStoreDao.findPage(page, filters);
 	}
 
-	public Page<FileInfo> searchFile(final Page<FileInfo> page, Long categoryId) {
-
-		return fileDao.searchFileByCategory(page, categoryId);
+	public Page<FileStore> searchFileStore(final Page<FileStore> page,
+			Long categoryId) {
+		return fileStoreDao.searchFileByCategory(page, categoryId);
 	}
 
 	public void saveFiles(List<File> files, FileInfo info, FileStore fs) {
@@ -53,7 +53,7 @@ public class FileStoreManager {
 			if (FileUtils.isPreview(fname)) {
 				previews.add(file);
 			} else if (FileUtils.isIcon(fname)) {
-				info.setIconPath(file.getPath());
+				fs.setIconPath(file.getPath());
 			} else if (FileUtils.isApk(extension)) {
 
 				fs.setApkSize(FileUtils.getFileSize(file.getPath()));
@@ -66,11 +66,11 @@ public class FileStoreManager {
 		}
 		saveFileStore(fs);
 		info.setFile(fs);
-		saveFile(info);
-		savePreview(previews, info);
+		saveFileInfo(info);
+		savePreview(previews, fs);
 	}
 
-	private void savePreview(List<File> previews, FileInfo theme) {
+	private void savePreview(List<File> previews, FileStore theme) {
 		for (File pre : previews) {
 			Preview preview = new Preview();
 			preview.setPrePath(pre.getPath());
@@ -79,8 +79,12 @@ public class FileStoreManager {
 		}
 	}
 
-	public void saveFile(FileInfo file) {
+	public void saveFileInfo(FileInfo file) {
 		fileDao.save(file);
+	}
+
+	public FileStore getFileStore(Long id) {
+		return fileStoreDao.get(id);
 	}
 
 	public void saveFileStore(FileStore entity) {

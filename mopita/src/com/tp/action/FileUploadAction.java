@@ -28,9 +28,9 @@ public class FileUploadAction extends ActionSupport {
 	private List<Long> checkedCategoryIds;
 
 	private String title;
-	
+
 	private String marketURL;
-	
+
 	private Long price;
 	private String availMachine;
 	private String unavailMachine;
@@ -50,9 +50,9 @@ public class FileUploadAction extends ActionSupport {
 		String extension = FileUtils.getExtension(uploadFileName);
 		if (extension.equalsIgnoreCase(Constants.ZIP)) {
 			List<File> files = FileUtils.unZip(upload);
-			FileInfo info=getFileInfo();
-			FileStore fs=getFileStore();
-			fileStoreManager.saveFiles(files,info,fs);
+			FileInfo info = getFileInfo();
+			FileStore fs = getFileStore();
+			fileStoreManager.saveFiles(files, info, fs);
 			addActionMessage("上传成功");
 		}
 
@@ -61,23 +61,22 @@ public class FileUploadAction extends ActionSupport {
 
 	private FileInfo getFileInfo() {
 		FileInfo info = new FileInfo();
-			
+
 		info.setTitle(title);
 		info.setPrice(price);
-		info.setMarketURL(marketURL);
 		info.setDescription(description);
-		info.setAvailable(FileStatus.OPEN.getValue());
-		HibernateUtils.mergeByCheckedIds(info.getCategories(),
-				checkedCategoryIds, Category.class);
-		
+
 		return info;
 	}
-	
-	private FileStore getFileStore(){
+
+	private FileStore getFileStore() {
 		FileStore fs = new FileStore();
 		fs.setName(uploadFileName);
 		fs.setAvailMachine(availMachine);
 		fs.setUnavailMachine(unavailMachine);
+		fs.setMarketURL(marketURL);
+		HibernateUtils.mergeByCheckedIds(fs.getCategories(),
+				checkedCategoryIds, Category.class);
 		return fs;
 	}
 
@@ -120,19 +119,19 @@ public class FileUploadAction extends ActionSupport {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	
+
 	public void setMarketURL(String marketURL) {
 		this.marketURL = marketURL;
 	}
-	
+
 	public void setPrice(Long price) {
 		this.price = price;
 	}
-	
+
 	public void setAvailMachine(String availMachine) {
 		this.availMachine = availMachine;
 	}
-	
+
 	public void setUnavailMachine(String unavailMachine) {
 		this.unavailMachine = unavailMachine;
 	}
@@ -141,7 +140,7 @@ public class FileUploadAction extends ActionSupport {
 	public void setFileStoreManager(FileStoreManager fileStoreManager) {
 		this.fileStoreManager = fileStoreManager;
 	}
-	
+
 	@Autowired
 	public void setCategoryManager(CategoryManager categoryManager) {
 		this.categoryManager = categoryManager;

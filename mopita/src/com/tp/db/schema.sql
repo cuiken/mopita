@@ -21,6 +21,8 @@ create table f_file(
 	apk_path varchar(200),
 	avail_machine varchar(255),
 	unavail_machine varchar(255),
+	icon_path varchar(50),
+	market_url varchar(100),
 	create_time timestamp,
 	primary key(id)
 
@@ -30,10 +32,6 @@ create table f_file_info(
 	id int not null auto_increment,
 	title varchar(50) not null,
 	description varchar(100),
-	icon_path varchar(50),
-	market_url varchar(100),
-	create_time timestamp,
-	available varchar(5),
 	sort_by int,
 	price float,
 	fs_id int,

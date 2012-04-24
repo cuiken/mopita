@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tp.dao.HibernateUtils;
 import com.tp.entity.Category;
-import com.tp.entity.FileInfo;
+import com.tp.entity.FileStore;
 import com.tp.orm.Page;
 import com.tp.orm.PropertyFilter;
 import com.tp.service.CategoryManager;
@@ -17,13 +17,13 @@ import com.tp.service.FileStoreManager;
 import com.tp.utils.Struts2Utils;
 
 @Namespace("/file")
-@Results( { @Result(name = CRUDActionSupport.RELOAD, location = "file.action", type = "redirect") })
-public class FileAction extends CRUDActionSupport<FileInfo> {
+@Results({ @Result(name = CRUDActionSupport.RELOAD, location = "file.action", type = "redirect") })
+public class FileAction extends CRUDActionSupport<FileStore> {
 
 	private static final long serialVersionUID = 1L;
-	private FileInfo entity;
+	private FileStore entity;
 	private Long id;
-	private Page<FileInfo> page = new Page<FileInfo>();
+	private Page<FileStore> page = new Page<FileStore>();
 	private List<Long> checkedCategoryIds;
 	private FileStoreManager fileStoreManager;
 	private CategoryManager categoryManager;
@@ -46,7 +46,7 @@ public class FileAction extends CRUDActionSupport<FileInfo> {
 
 		List<PropertyFilter> filters = PropertyFilter
 				.buildFromHttpRequest(Struts2Utils.getRequest());
-		page = fileStoreManager.searchFile(page, filters);
+		page = fileStoreManager.searchFileStore(page, filters);
 
 		return SUCCESS;
 	}
@@ -54,9 +54,9 @@ public class FileAction extends CRUDActionSupport<FileInfo> {
 	@Override
 	protected void prepareModel() throws Exception {
 		if (id == null) {
-			entity = new FileInfo();
+			entity = new FileStore();
 		} else {
-			entity = fileStoreManager.getFile(id);
+			entity = fileStoreManager.getFileStore(id);
 		}
 
 	}
@@ -65,12 +65,12 @@ public class FileAction extends CRUDActionSupport<FileInfo> {
 	public String save() throws Exception {
 		HibernateUtils.mergeByCheckedIds(entity.getCategories(),
 				checkedCategoryIds, Category.class);
-		fileStoreManager.saveFile(entity);
+		fileStoreManager.saveFileStore(entity);
 		return RELOAD;
 	}
 
 	@Override
-	public FileInfo getModel() {
+	public FileStore getModel() {
 
 		return entity;
 	}
@@ -83,13 +83,13 @@ public class FileAction extends CRUDActionSupport<FileInfo> {
 	public void setFileStoreManager(FileStoreManager fileStoreManager) {
 		this.fileStoreManager = fileStoreManager;
 	}
-	
+
 	@Autowired
 	public void setCategoryManager(CategoryManager categoryManager) {
 		this.categoryManager = categoryManager;
 	}
 
-	public Page<FileInfo> getPage() {
+	public Page<FileStore> getPage() {
 		return page;
 	}
 

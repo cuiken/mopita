@@ -24,8 +24,7 @@
 		<h4 class="prepend-top">文件列表</h4>
 			<table>
 				<tr>
-					<th><a href="javascript:sort('file','asc')">文件名</a></th>
-					<th><a href="javascript:sort('title','asc')">标题</a></th>
+					<th><a href="javascript:sort('name','asc')">文件名</a></th>
 					<th>描述</th>
 					<th>Market地址</th>
 					<th>分类</th>
@@ -34,8 +33,7 @@
 				</tr>
 				<s:iterator value="page.result">
 					<tr>
-						<td>${file.name}</td>
-						<td>${title}</td>
+						<td>${name}</td>
 						<td>${description}</td>
 						<td>${marketURL}</td>
 						<td>${categoryNames}</td>
