@@ -37,6 +37,8 @@ public class FileStore extends IdEntity {
 	private List<Preview> previews = Lists.newArrayList();
 	private List<Category> categories = Lists.newArrayList();
 
+	private String previewURL;
+
 	public String getName() {
 		return name;
 	}
@@ -147,6 +149,15 @@ public class FileStore extends IdEntity {
 	public String getCategoryNames() {
 		return ConvertUtils.convertElementPropertyToString(categories, "name",
 				",");
+	}
+
+	@Transient
+	public String getPreviewURL() {
+		return previewURL;
+	}
+
+	public void setPreviewURL(String previewURL) {
+		this.previewURL = previewURL;
 	}
 
 	@Override

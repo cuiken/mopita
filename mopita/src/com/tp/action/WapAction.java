@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionSupport;
 import com.tp.entity.Category;
-import com.tp.entity.FileInfo;
+import com.tp.entity.FileStore;
 import com.tp.entity.Preview;
 import com.tp.orm.Page;
 import com.tp.service.CategoryManager;
@@ -26,8 +26,8 @@ public class WapAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
 
-	private Page<FileInfo> page = new Page<FileInfo>();
-	private FileInfo theme;
+	private Page<FileStore> page = new Page<FileStore>();
+	private FileStore theme;
 	private FileStoreManager fileStoreManager;
 	private CategoryManager categoryManager;
 	private Long id;
@@ -38,13 +38,13 @@ public class WapAction extends ActionSupport {
 
 	@Override
 	public String execute() throws Exception {
-		if(categoryId==null){
-			categoryId=1L;
+		if (categoryId == null) {
+			categoryId = 1L;
 		}
 		categories = categoryManager.getCategories();
-		page = fileStoreManager.searchFile(page, categoryId);
-		List<FileInfo> files = page.getResult();
-		for (FileInfo file : files) {
+		page = fileStoreManager.searchFileStore(page, categoryId);
+		List<FileStore> files = page.getResult();
+		for (FileStore file : files) {
 			String previewURL = "/wap/wap!getImage.action?id=" + file.getId();
 			file.setPreviewURL(previewURL);
 
@@ -53,7 +53,7 @@ public class WapAction extends ActionSupport {
 	}
 
 	public String getImage() throws Exception {
-		FileInfo fi = fileStoreManager.getFile(id);
+		FileStore fi = fileStoreManager.getFileStore(id);
 		List<Preview> previewURLS = fi.getPreviews();
 
 		String imgPath = Constants.FILE_STORAGE
@@ -78,7 +78,7 @@ public class WapAction extends ActionSupport {
 	}
 
 	public String getImages() throws Exception {
-		Preview p=fileStoreManager.getPreview(previewId);
+		Preview p = fileStoreManager.getPreview(previewId);
 		String imgURL = Constants.FILE_STORAGE + p.getPrePath();
 		responseImage(imgURL);
 		return null;
@@ -86,17 +86,16 @@ public class WapAction extends ActionSupport {
 
 	public String details() {
 		categories = categoryManager.getCategories();
-		theme = fileStoreManager.getFile(id);
+		theme = fileStoreManager.getFileStore(id);
 		List<Preview> ps = theme.getPreviews();
-		for(Preview p:ps){
-			urls.add("/wap/wap!getImages.action?previewId="
-					+ p.getId());
+		for (Preview p : ps) {
+			urls.add("/wap/wap!getImages.action?previewId=" + p.getId());
 		}
-	
+
 		return "details";
 	}
 
-	public Page<FileInfo> getPage() {
+	public Page<FileStore> getPage() {
 		return page;
 	}
 
@@ -108,7 +107,7 @@ public class WapAction extends ActionSupport {
 	public void setFileStoreManager(FileStoreManager fileStoreManager) {
 		this.fileStoreManager = fileStoreManager;
 	}
-	
+
 	@Autowired
 	public void setCategoryManager(CategoryManager categoryManager) {
 		this.categoryManager = categoryManager;
@@ -122,7 +121,7 @@ public class WapAction extends ActionSupport {
 		this.previewId = previewId;
 	}
 
-	public FileInfo getTheme() {
+	public FileStore getTheme() {
 		return theme;
 	}
 

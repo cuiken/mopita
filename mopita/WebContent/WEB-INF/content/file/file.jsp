@@ -25,7 +25,6 @@
 			<table>
 				<tr>
 					<th><a href="javascript:sort('name','asc')">文件名</a></th>
-					<th>描述</th>
 					<th>Market地址</th>
 					<th>分类</th>
 					<th><a href="javascript:sort('createTime','asc')">上传时间</a></th>
@@ -34,7 +33,6 @@
 				<s:iterator value="page.result">
 					<tr>
 						<td>${name}</td>
-						<td>${description}</td>
 						<td>${marketURL}</td>
 						<td>${categoryNames}</td>
 						<td>${createTime}</td>

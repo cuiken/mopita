@@ -5,7 +5,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -20,8 +19,6 @@ public class FileInfo extends IdEntity {
 	private FileStore file;
 
 	private Shelf shelf;
-
-	private String previewURL;
 
 	public String getTitle() {
 		return title;
@@ -73,15 +70,6 @@ public class FileInfo extends IdEntity {
 
 	public void setShelf(Shelf shelf) {
 		this.shelf = shelf;
-	}
-
-	@Transient
-	public String getPreviewURL() {
-		return previewURL;
-	}
-
-	public void setPreviewURL(String previewURL) {
-		this.previewURL = previewURL;
 	}
 
 	@Override

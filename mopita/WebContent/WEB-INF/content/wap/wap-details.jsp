@@ -32,7 +32,7 @@
 		</div>
 		
 		<div style="border-top:0px; line-height:30px">
-   			<div class="divthemeitem">${theme.title}</div>
+   			<div class="divthemeitem"></div>
 		</div>
 		
 		<div class="theme_img">
@@ -60,7 +60,7 @@
 		</div>		
 		  <div class="theme"> 
 		  	<span class="theme_span">Desc: </span>
-		  	${theme.description}	
+		  		
 		  </div>
 		
 		</div>
