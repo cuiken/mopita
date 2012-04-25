@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionSupport;
 import com.tp.entity.Category;
-import com.tp.entity.FileStore;
 import com.tp.entity.Preview;
+import com.tp.entity.ThemeFile;
 import com.tp.orm.Page;
 import com.tp.service.CategoryManager;
 import com.tp.service.FileStoreManager;
@@ -26,8 +26,8 @@ public class WapAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
 
-	private Page<FileStore> page = new Page<FileStore>();
-	private FileStore theme;
+	private Page<ThemeFile> page = new Page<ThemeFile>();
+	private ThemeFile theme;
 	private FileStoreManager fileStoreManager;
 	private CategoryManager categoryManager;
 	private Long id;
@@ -43,8 +43,8 @@ public class WapAction extends ActionSupport {
 		}
 		categories = categoryManager.getCategories();
 		page = fileStoreManager.searchFileStore(page, categoryId);
-		List<FileStore> files = page.getResult();
-		for (FileStore file : files) {
+		List<ThemeFile> files = page.getResult();
+		for (ThemeFile file : files) {
 			String previewURL = "/wap/wap!getImage.action?id=" + file.getId();
 			file.setPreviewURL(previewURL);
 
@@ -53,7 +53,7 @@ public class WapAction extends ActionSupport {
 	}
 
 	public String getImage() throws Exception {
-		FileStore fi = fileStoreManager.getFileStore(id);
+		ThemeFile fi = fileStoreManager.getFileStore(id);
 		List<Preview> previewURLS = fi.getPreviews();
 
 		String imgPath = Constants.FILE_STORAGE
@@ -95,7 +95,7 @@ public class WapAction extends ActionSupport {
 		return "details";
 	}
 
-	public Page<FileStore> getPage() {
+	public Page<ThemeFile> getPage() {
 		return page;
 	}
 
@@ -121,7 +121,7 @@ public class WapAction extends ActionSupport {
 		this.previewId = previewId;
 	}
 
-	public FileStore getTheme() {
+	public ThemeFile getTheme() {
 		return theme;
 	}
 

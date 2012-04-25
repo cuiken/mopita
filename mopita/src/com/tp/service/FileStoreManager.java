@@ -9,11 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Lists;
 import com.tp.dao.FileInfoDao;
-import com.tp.dao.FileStoreDao;
 import com.tp.dao.PreviewDao;
+import com.tp.dao.ThemeFileDao;
 import com.tp.entity.FileInfo;
-import com.tp.entity.FileStore;
 import com.tp.entity.Preview;
+import com.tp.entity.ThemeFile;
 import com.tp.orm.Page;
 import com.tp.orm.PropertyFilter;
 import com.tp.utils.FileUtils;
@@ -24,7 +24,7 @@ public class FileStoreManager {
 
 	private FileInfoDao fileDao;
 	private PreviewDao previewDao;
-	private FileStoreDao fileStoreDao;
+	private ThemeFileDao fileStoreDao;
 
 	public FileInfo getFileInof(Long id) {
 		return fileDao.get(id);
@@ -34,17 +34,17 @@ public class FileStoreManager {
 		return previewDao.get(id);
 	}
 
-	public Page<FileStore> searchFileStore(final Page<FileStore> page,
+	public Page<ThemeFile> searchFileStore(final Page<ThemeFile> page,
 			final List<PropertyFilter> filters) {
 		return fileStoreDao.findPage(page, filters);
 	}
 
-	public Page<FileStore> searchFileStore(final Page<FileStore> page,
+	public Page<ThemeFile> searchFileStore(final Page<ThemeFile> page,
 			Long categoryId) {
 		return fileStoreDao.searchFileByCategory(page, categoryId);
 	}
 
-	public void saveFiles(List<File> files, FileInfo info, FileStore fs) {
+	public void saveFiles(List<File> files, ThemeFile fs) {
 
 		List<File> previews = Lists.newArrayList();
 		for (File file : files) {
@@ -65,12 +65,10 @@ public class FileStoreManager {
 			}
 		}
 		saveFileStore(fs);
-		info.setFile(fs);
-		saveFileInfo(info);
 		savePreview(previews, fs);
 	}
 
-	private void savePreview(List<File> previews, FileStore theme) {
+	private void savePreview(List<File> previews, ThemeFile theme) {
 		for (File pre : previews) {
 			Preview preview = new Preview();
 			preview.setPrePath(pre.getPath());
@@ -83,11 +81,11 @@ public class FileStoreManager {
 		fileDao.save(file);
 	}
 
-	public FileStore getFileStore(Long id) {
+	public ThemeFile getFileStore(Long id) {
 		return fileStoreDao.get(id);
 	}
 
-	public void saveFileStore(FileStore entity) {
+	public void saveFileStore(ThemeFile entity) {
 		fileStoreDao.save(entity);
 	}
 
@@ -110,7 +108,7 @@ public class FileStoreManager {
 	}
 
 	@Autowired
-	public void setFileStoreDao(FileStoreDao fileStoreDao) {
+	public void setFileStoreDao(ThemeFileDao fileStoreDao) {
 		this.fileStoreDao = fileStoreDao;
 	}
 }

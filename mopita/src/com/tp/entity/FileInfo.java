@@ -14,9 +14,11 @@ public class FileInfo extends IdEntity {
 
 	private String title;
 	private String description;
+	private String language;
 	private Long price;
 	private Long sortBy;
-	private FileStore file;
+
+	private ThemeFile file;
 
 	private Shelf shelf;
 
@@ -36,6 +38,14 @@ public class FileInfo extends IdEntity {
 		this.description = description;
 	}
 
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
 	public Long getPrice() {
 		return price;
 	}
@@ -53,12 +63,12 @@ public class FileInfo extends IdEntity {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "fs_id")
-	public FileStore getFile() {
+	@JoinColumn(name = "f_id")
+	public ThemeFile getFile() {
 		return file;
 	}
 
-	public void setFile(FileStore file) {
+	public void setFile(ThemeFile file) {
 		this.file = file;
 	}
 

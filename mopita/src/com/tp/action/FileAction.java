@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tp.dao.HibernateUtils;
 import com.tp.entity.Category;
-import com.tp.entity.FileStore;
+import com.tp.entity.ThemeFile;
 import com.tp.orm.Page;
 import com.tp.orm.PropertyFilter;
 import com.tp.service.CategoryManager;
@@ -17,13 +17,13 @@ import com.tp.service.FileStoreManager;
 import com.tp.utils.Struts2Utils;
 
 @Namespace("/file")
-@Results({ @Result(name = CRUDActionSupport.RELOAD, location = "file.action", type = "redirect") })
-public class FileAction extends CRUDActionSupport<FileStore> {
+@Results( { @Result(name = CRUDActionSupport.RELOAD, location = "file.action", type = "redirect") })
+public class FileAction extends CRUDActionSupport<ThemeFile> {
 
 	private static final long serialVersionUID = 1L;
-	private FileStore entity;
+	private ThemeFile entity;
 	private Long id;
-	private Page<FileStore> page = new Page<FileStore>();
+	private Page<ThemeFile> page = new Page<ThemeFile>();
 	private List<Long> checkedCategoryIds;
 	private FileStoreManager fileStoreManager;
 	private CategoryManager categoryManager;
@@ -54,7 +54,7 @@ public class FileAction extends CRUDActionSupport<FileStore> {
 	@Override
 	protected void prepareModel() throws Exception {
 		if (id == null) {
-			entity = new FileStore();
+			entity = new ThemeFile();
 		} else {
 			entity = fileStoreManager.getFileStore(id);
 		}
@@ -70,7 +70,7 @@ public class FileAction extends CRUDActionSupport<FileStore> {
 	}
 
 	@Override
-	public FileStore getModel() {
+	public ThemeFile getModel() {
 
 		return entity;
 	}
@@ -89,7 +89,7 @@ public class FileAction extends CRUDActionSupport<FileStore> {
 		this.categoryManager = categoryManager;
 	}
 
-	public Page<FileStore> getPage() {
+	public Page<ThemeFile> getPage() {
 		return page;
 	}
 

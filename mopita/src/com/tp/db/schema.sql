@@ -15,6 +15,9 @@ create table f_category(
 create table f_file(
 	id int not null auto_increment,
 	name varchar(50) not null,
+	title varchar(50),
+	description varchar(255),
+	price float,
 	ux_size int,
 	apk_size int,
 	ux_path varchar(200),
@@ -31,10 +34,11 @@ create table f_file(
 create table f_file_info(
 	id int not null auto_increment,
 	title varchar(50) not null,
-	description varchar(100),
+	language varchar(10),
+	description varchar(255),
 	sort_by int,
 	price float,
-	fs_id int,
+	f_id int,
 	shelf_id int,
 	primary key(id)
 	

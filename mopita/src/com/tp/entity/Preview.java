@@ -13,7 +13,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class Preview extends IdEntity {
 
 	private String prePath;
-	private FileStore theme;
+	private ThemeFile theme;
 
 	public String getPrePath() {
 		return prePath;
@@ -25,11 +25,11 @@ public class Preview extends IdEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "f_id")
-	public FileStore getTheme() {
+	public ThemeFile getTheme() {
 		return theme;
 	}
 
-	public void setTheme(FileStore theme) {
+	public void setTheme(ThemeFile theme) {
 		this.theme = theme;
 	}
 

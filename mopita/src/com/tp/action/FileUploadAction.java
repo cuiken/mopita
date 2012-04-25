@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.opensymphony.xwork2.ActionSupport;
 import com.tp.dao.HibernateUtils;
 import com.tp.entity.Category;
-import com.tp.entity.FileInfo;
-import com.tp.entity.FileStore;
+import com.tp.entity.ThemeFile;
 import com.tp.service.CategoryManager;
 import com.tp.service.FileStoreManager;
 import com.tp.utils.Constants;
@@ -50,34 +49,26 @@ public class FileUploadAction extends ActionSupport {
 		String extension = FileUtils.getExtension(uploadFileName);
 		if (extension.equalsIgnoreCase(Constants.ZIP)) {
 			List<File> files = FileUtils.unZip(upload);
-			FileInfo info = getFileInfo();
-			FileStore fs = getFileStore();
-			fileStoreManager.saveFiles(files, info, fs);
+			ThemeFile theme = getThemeFile();
+			fileStoreManager.saveFiles(files, theme);
 			addActionMessage("上传成功");
 		}
 
 		return "";
 	}
 
-	private FileInfo getFileInfo() {
-		FileInfo info = new FileInfo();
-
-		info.setTitle(title);
-		info.setPrice(price);
-		info.setDescription(description);
-
-		return info;
-	}
-
-	private FileStore getFileStore() {
-		FileStore fs = new FileStore();
-		fs.setName(uploadFileName);
-		fs.setAvailMachine(availMachine);
-		fs.setUnavailMachine(unavailMachine);
-		fs.setMarketURL(marketURL);
-		HibernateUtils.mergeByCheckedIds(fs.getCategories(),
+	private ThemeFile getThemeFile() {
+		ThemeFile theme = new ThemeFile();
+		theme.setName(uploadFileName);
+		theme.setTitle(title);
+		theme.setPrice(price);
+		theme.setDescription(description);
+		theme.setAvailMachine(availMachine);
+		theme.setUnavailMachine(unavailMachine);
+		theme.setMarketURL(marketURL);
+		HibernateUtils.mergeByCheckedIds(theme.getCategories(),
 				checkedCategoryIds, Category.class);
-		return fs;
+		return theme;
 	}
 
 	public File getUpload() {

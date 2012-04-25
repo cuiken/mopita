@@ -21,9 +21,12 @@ import com.tp.utils.ConvertUtils;
 
 @Entity
 @Table(name = "f_file")
-public class FileStore extends IdEntity {
+public class ThemeFile extends IdEntity {
 
 	private String name;
+	private String title;
+	private String description;
+	private Long price;
 	private Long uxSize;
 	private Long apkSize;
 	private String uxPath;
@@ -45,6 +48,30 @@ public class FileStore extends IdEntity {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Long getPrice() {
+		return price;
+	}
+
+	public void setPrice(Long price) {
+		this.price = price;
 	}
 
 	public Long getUxSize() {

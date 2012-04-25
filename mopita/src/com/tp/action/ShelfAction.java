@@ -16,6 +16,7 @@ import com.tp.service.CategoryManager;
 public class ShelfAction extends CRUDActionSupport<Shelf> {
 
 	private static final long serialVersionUID = 1L;
+	private static final String MANAGE = "manage";
 
 	private Long id;
 	private Shelf entity;
@@ -58,6 +59,11 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 		entity.setStore(s);
 		categoryManager.saveShelf(entity);
 		return RELOAD;
+	}
+
+	public String manage() throws Exception {
+
+		return MANAGE;
 	}
 
 	@Override

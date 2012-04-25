@@ -17,15 +17,15 @@ import com.google.common.collect.Lists;
 @DiscriminatorValue("category")
 public class Category extends BaseCategory {
 
-	private List<FileStore> files = Lists.newArrayList();
+	private List<ThemeFile> files = Lists.newArrayList();
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "f_category_file", joinColumns = { @JoinColumn(name = "category_id") }, inverseJoinColumns = { @JoinColumn(name = "file_id") })
-	public List<FileStore> getFiles() {
+	public List<ThemeFile> getFiles() {
 		return files;
 	}
 
-	public void setFiles(List<FileStore> files) {
+	public void setFiles(List<ThemeFile> files) {
 		this.files = files;
 	}
 
