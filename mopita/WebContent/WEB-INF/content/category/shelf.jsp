@@ -5,6 +5,15 @@
 	<head>
 		<title>货架</title>
 		<%@include file="/common/script.jsp" %>
+		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
+		<script>
+			$(document).ready(function(){
+				alert($("#store").val());
+				$("#store").change(function(){
+					alert($(this).children('option:selected').val());
+				});
+			});
+		</script>
 	</head>
 	<body>
 		<form action="shelf.action" method="get">
@@ -13,6 +22,7 @@
 		<%@include file="/common/left.jsp" %>
 			<div class="span-18 last prepend-top">
 			<div id="message"><s:actionmessage cssClass="success"/></div>
+			商店:<s:select list="allStores" listKey="id" listValue="name" name="" id="store"/>
 			<table>
 				<tr>
 					<th>货架名称</th>
