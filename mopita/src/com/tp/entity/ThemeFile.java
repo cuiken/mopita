@@ -39,6 +39,7 @@ public class ThemeFile extends IdEntity {
 
 	private List<Preview> previews = Lists.newArrayList();
 	private List<Category> categories = Lists.newArrayList();
+	private List<FileInfo> fileInfo = Lists.newArrayList();
 
 	private String previewURL;
 
@@ -164,6 +165,15 @@ public class ThemeFile extends IdEntity {
 
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
+	}
+
+	@OneToMany(mappedBy = "file", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
+	public List<FileInfo> getFileInfo() {
+		return fileInfo;
+	}
+
+	public void setFileInfo(List<FileInfo> fileInfo) {
+		this.fileInfo = fileInfo;
 	}
 
 	@SuppressWarnings("unchecked")

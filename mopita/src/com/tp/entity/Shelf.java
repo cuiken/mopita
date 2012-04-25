@@ -19,7 +19,7 @@ import com.google.common.collect.Lists;
 @DiscriminatorValue("shelf")
 public class Shelf extends BaseCategory {
 
-	private List<FileInfo> files = Lists.newArrayList();
+	private List<FileInfo> fileInfos = Lists.newArrayList();
 	private Store store;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -33,12 +33,12 @@ public class Shelf extends BaseCategory {
 	}
 
 	@OneToMany(mappedBy = "shelf", cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY, orphanRemoval = true)
-	public List<FileInfo> getFiles() {
-		return files;
+	public List<FileInfo> getFileInfos() {
+		return fileInfos;
 	}
 
-	public void setFiles(List<FileInfo> files) {
-		this.files = files;
+	public void setFileInfos(List<FileInfo> fileInfos) {
+		this.fileInfos = fileInfos;
 	}
 
 	@Transient

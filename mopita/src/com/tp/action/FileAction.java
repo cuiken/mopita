@@ -25,12 +25,12 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	private Long id;
 	private Page<ThemeFile> page = new Page<ThemeFile>();
 	private List<Long> checkedCategoryIds;
-	private FileStoreManager fileStoreManager;
+	private FileStoreManager fileManager;
 	private CategoryManager categoryManager;
 
 	@Override
 	public String delete() throws Exception {
-		fileStoreManager.deleteFile(id);
+		fileManager.deleteThemeFile(id);
 		addActionMessage("删除成功");
 		return RELOAD;
 	}
@@ -46,7 +46,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 
 		List<PropertyFilter> filters = PropertyFilter
 				.buildFromHttpRequest(Struts2Utils.getRequest());
-		page = fileStoreManager.searchFileStore(page, filters);
+		page = fileManager.searchThemeFile(page, filters);
 
 		return SUCCESS;
 	}
@@ -56,7 +56,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 		if (id == null) {
 			entity = new ThemeFile();
 		} else {
-			entity = fileStoreManager.getFileStore(id);
+			entity = fileManager.getThemeFile(id);
 		}
 
 	}
@@ -65,7 +65,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	public String save() throws Exception {
 		HibernateUtils.mergeByCheckedIds(entity.getCategories(),
 				checkedCategoryIds, Category.class);
-		fileStoreManager.saveFileStore(entity);
+		fileManager.saveThemeFile(entity);
 		return RELOAD;
 	}
 
@@ -80,8 +80,8 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	}
 
 	@Autowired
-	public void setFileStoreManager(FileStoreManager fileStoreManager) {
-		this.fileStoreManager = fileStoreManager;
+	public void setFileManager(FileStoreManager fileManager) {
+		this.fileManager = fileManager;
 	}
 
 	@Autowired

@@ -7,9 +7,12 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.tp.entity.FileInfo;
 import com.tp.entity.Shelf;
 import com.tp.entity.Store;
+import com.tp.entity.ThemeFile;
 import com.tp.service.CategoryManager;
+import com.tp.service.FileStoreManager;
 
 @Namespace("/category")
 @Results( { @Result(name = CRUDActionSupport.RELOAD, location = "shelf.action", type = "redirect") })
@@ -22,7 +25,10 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	private Shelf entity;
 	private Long checkedStoreId;
 	private List<Shelf> shelfs;
+	private List<FileInfo> onShelfFiles;
+	private List<ThemeFile> remainFiles;
 	private CategoryManager categoryManager;
+	private FileStoreManager fileManager;
 
 	@Override
 	public String delete() throws Exception {
@@ -55,14 +61,17 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 
 	@Override
 	public String save() throws Exception {
-		Store s = categoryManager.getStore(checkedStoreId);
-		entity.setStore(s);
+		Store store = categoryManager.getStore(checkedStoreId);
+		entity.setStore(store);
 		categoryManager.saveShelf(entity);
 		return RELOAD;
 	}
 
 	public String manage() throws Exception {
-
+		entity = categoryManager.getShelf(id);
+		this.onShelfFiles = entity.getFileInfos();
+		List<ThemeFile> allFiles = fileManager.getAllThemeFile();
+		this.remainFiles=fileManager.getRemainFiles(allFiles, onShelfFiles);
 		return MANAGE;
 	}
 
@@ -75,6 +84,11 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	@Autowired
 	public void setCategoryManager(CategoryManager categoryManager) {
 		this.categoryManager = categoryManager;
+	}
+
+	@Autowired
+	public void setFileManager(FileStoreManager fileManager) {
+		this.fileManager = fileManager;
 	}
 
 	public List<Shelf> getShelfs() {
@@ -95,5 +109,13 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 
 	public List<Store> getAllStores() {
 		return categoryManager.getAllStore();
+	}
+
+	public List<FileInfo> getOnShelfFiles() {
+		return onShelfFiles;
+	}
+
+	public List<ThemeFile> getRemainFiles() {
+		return remainFiles;
 	}
 }

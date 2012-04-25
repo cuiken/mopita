@@ -42,7 +42,7 @@ public class WapAction extends ActionSupport {
 			categoryId = 1L;
 		}
 		categories = categoryManager.getCategories();
-		page = fileStoreManager.searchFileStore(page, categoryId);
+		page = fileStoreManager.searchThemeFile(page, categoryId);
 		List<ThemeFile> files = page.getResult();
 		for (ThemeFile file : files) {
 			String previewURL = "/wap/wap!getImage.action?id=" + file.getId();
@@ -53,7 +53,7 @@ public class WapAction extends ActionSupport {
 	}
 
 	public String getImage() throws Exception {
-		ThemeFile fi = fileStoreManager.getFileStore(id);
+		ThemeFile fi = fileStoreManager.getThemeFile(id);
 		List<Preview> previewURLS = fi.getPreviews();
 
 		String imgPath = Constants.FILE_STORAGE
@@ -86,7 +86,7 @@ public class WapAction extends ActionSupport {
 
 	public String details() {
 		categories = categoryManager.getCategories();
-		theme = fileStoreManager.getFileStore(id);
+		theme = fileStoreManager.getThemeFile(id);
 		List<Preview> ps = theme.getPreviews();
 		for (Preview p : ps) {
 			urls.add("/wap/wap!getImages.action?previewId=" + p.getId());
