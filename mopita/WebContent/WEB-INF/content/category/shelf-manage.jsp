@@ -4,53 +4,88 @@
 <html>
 	<head>
 		<title>文件上下架管理</title>
-		
 		<style type="text/css">
-			@import "http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/resources/dojo.css";
-			@import "http://ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/claro/claro.css";
-			ul{
-				border: 3px solid #ccc;
-				padding: 2em;
-				margin: 5em;
-				float: left;
-				cursor: default;
-			}
-			.dojoDndItemOver{
+			@import "${ctx}/js/dojo-1.7.2/dojo/resources/dojo.css";
+			@import "${ctx}/js/dojo-1.7.2/dojo/resources/dnd.css";
+			@import "${ctx}/js/dojo-1.7.2/dndDefault.css";
+			@import "${ctx}/js/dojo-1.7.2/dojo/robot.css";
+			body {
+				padding: 1em;
 				background: #ededed;
-				cursor: pointer;
 			}
-			.dojoDndItemSelected {
-				background: #ccf; 
+			.container {
+				width: 150px;
+				display: block;
 			}
-			.dojoDndItemAnchor{
-				background: #ccf;
+
+			.clear {
+				clear: both;
 			}
 		</style>
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/dojo.xd.js" djConfig="parseOnLoad: true"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.2/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
+
 		<script type="text/javascript">
+		
 			dojo.require("dojo.dnd.Source");
+
 		</script>
 	</head>
-	<body class="claro">
-		<ul dojoType="dojo.dnd.Source">
-			<li class="dojoDndItem">Item 1</li>
-			<li class="dojoDndItem">Item 2</li>
-			<li class="dojoDndItem">Item 3</li>
-			<li class="dojoDndItem">Item 4</li>
-			<li class="dojoDndItem">Item 5</li>
+	<body>
+	<table>
+		<tr>
+			<td>商店</td>
+			<td><select></select></td>
+			<td>货架</td>
+			<td><select></select></td>
+		</tr>
+		
+	</table>
+	<div id="source" style="float: left; margin: 5px;">
+		<h1>仓库文件</h1>
+		<div dojoType="dojo.dnd.Source" class="container">
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
+			<div class="dojoDndItem">fdf</div>
 			<s:iterator value="remainFiles">
-				<li class="dojoDndItem">${name}</li>
+				<div class="dojoDndItem">${name}</div>
 			</s:iterator>
-		</ul>
-		<ul dojoType="dojo.dnd.Source">
-			<li class="dojoDndItem">Item A</li>
-			<li class="dojoDndItem">Item B</li>
-			<li class="dojoDndItem">Item C</li>
-			<li class="dojoDndItem">Item D</li>
-			<li class="dojoDndItem">Item E</li>
+		</div>
+	</div>
+	<div id="target" style="float: left; margin: 5px;">	
+		<h1>货架文件</h1>
+		<div dojoType="dojo.dnd.Source" class="container">
 			<s:iterator value="onShelfFiles">
-				<li class="dojoDndItem">${file.name}</li>
+				<div class="dojoDndItem">${file.name}</div>
 			</s:iterator>
-		</ul>
+		</div>
+	</div>	
 	</body>
 </html>

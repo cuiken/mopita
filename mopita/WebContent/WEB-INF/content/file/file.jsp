@@ -25,15 +25,15 @@
 			<table>
 				<tr>
 					<th><a href="javascript:sort('name','asc')">文件名</a></th>
-					<th>Market地址</th>
+					<th>名称</th>
 					<th>分类</th>
-					<th><a href="javascript:sort('createTime','asc')">上传时间</a></th>
+					<th><a href="javascript:sort('createTime','asc')">添加时间</a></th>
 					<th>操作</th>
 				</tr>
 				<s:iterator value="page.result">
 					<tr>
 						<td>${name}</td>
-						<td>${marketURL}</td>
+						<td>${title}</td>
 						<td>${categoryNames}</td>
 						<td>${createTime}</td>
 						<td>
