@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Lists;
-import com.tp.dao.FileInfoDao;
+import com.tp.dao.FileMultipleInfoDao;
 import com.tp.dao.PreviewDao;
 import com.tp.dao.ThemeFileDao;
-import com.tp.entity.FileInfo;
+import com.tp.entity.FileMultipleInfo;
 import com.tp.entity.Preview;
 import com.tp.entity.ThemeFile;
 import com.tp.orm.Page;
@@ -20,21 +20,21 @@ import com.tp.utils.FileUtils;
 
 @Component
 @Transactional
-public class FileStoreManager {
+public class FileManager {
 
-	private FileInfoDao fileInfoDao;
+	private FileMultipleInfoDao fileMultipleDao;
 	private PreviewDao previewDao;
 	private ThemeFileDao themeFileDao;
 
-	public FileInfo getFileInfo(Long id) {
-		return fileInfoDao.get(id);
+	public FileMultipleInfo getFileInfo(Long id) {
+		return fileMultipleDao.get(id);
 	}
 
 	public Preview getPreview(Long id) {
 		return previewDao.get(id);
 	}
-	
-	public List<ThemeFile> getAllThemeFile(){
+
+	public List<ThemeFile> getAllThemeFile() {
 		return themeFileDao.getAll();
 	}
 
@@ -48,7 +48,7 @@ public class FileStoreManager {
 		return themeFileDao.searchFileByCategory(page, categoryId);
 	}
 
-	public void saveFiles(List<File> files, ThemeFile fs) {
+	public void saveFiles(List<File> files, ThemeFile fs,FileMultipleInfo info) {
 
 		List<File> previews = Lists.newArrayList();
 		for (File file : files) {
@@ -69,9 +69,15 @@ public class FileStoreManager {
 			}
 		}
 		saveThemeFile(fs);
+		saveFileinfo(fs,info);
 		savePreview(previews, fs);
 	}
 
+	private void saveFileinfo(ThemeFile f,FileMultipleInfo info){
+		info.setTheme(f);
+		saveFileInfo(info);
+	}
+	
 	private void savePreview(List<File> previews, ThemeFile theme) {
 		for (File pre : previews) {
 			Preview preview = new Preview();
@@ -81,8 +87,8 @@ public class FileStoreManager {
 		}
 	}
 
-	public void saveFileInfo(FileInfo file) {
-		fileInfoDao.save(file);
+	public void saveFileInfo(FileMultipleInfo file) {
+		fileMultipleDao.save(file);
 	}
 
 	public ThemeFile getThemeFile(Long id) {
@@ -98,25 +104,25 @@ public class FileStoreManager {
 	}
 
 	public void deleteFileInfo(Long id) {
-		fileInfoDao.delete(id);
+		fileMultipleDao.delete(id);
 	}
-	
-	public void deleteThemeFile(Long id){
+
+	public void deleteThemeFile(Long id) {
 		themeFileDao.delete(id);
 	}
-	
-	public List<ThemeFile> getRemainFiles(List<ThemeFile> allFiles,List<FileInfo> fileOnShelf){
-		List<ThemeFile> remainFile=allFiles;
-		for(FileInfo fi:fileOnShelf){
-			ThemeFile theme=fi.getFile();
-			remainFile.remove(theme);
+
+	public List<ThemeFile> getRemainFiles(List<ThemeFile> allFiles,List<ThemeFile> fileOnShelf) {
+		List<ThemeFile> remainFile = allFiles;
+		for (ThemeFile fi : fileOnShelf) {
+
+			remainFile.remove(fi);
 		}
 		return remainFile;
 	}
 
 	@Autowired
-	public void setFileInfoDao(FileInfoDao fileInfoDao) {
-		this.fileInfoDao = fileInfoDao;
+	public void setFileMultipleDao(FileMultipleInfoDao fileMultipleDao) {
+		this.fileMultipleDao = fileMultipleDao;
 	}
 
 	@Autowired

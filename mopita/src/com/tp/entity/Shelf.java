@@ -2,13 +2,13 @@ package com.tp.entity;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -19,7 +19,8 @@ import com.google.common.collect.Lists;
 @DiscriminatorValue("shelf")
 public class Shelf extends BaseCategory {
 
-	private List<FileInfo> fileInfos = Lists.newArrayList();
+	private List<ThemeFile> theme = Lists.newArrayList();
+
 	private Store store;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -32,13 +33,14 @@ public class Shelf extends BaseCategory {
 		this.store = store;
 	}
 
-	@OneToMany(mappedBy = "shelf", cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY, orphanRemoval = true)
-	public List<FileInfo> getFileInfos() {
-		return fileInfos;
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "f_file_shelf", joinColumns = { @JoinColumn(name = "s_id") }, inverseJoinColumns = { @JoinColumn(name = "f_id") })
+	public List<ThemeFile> getTheme() {
+		return theme;
 	}
 
-	public void setFileInfos(List<FileInfo> fileInfos) {
-		this.fileInfos = fileInfos;
+	public void setTheme(List<ThemeFile> theme) {
+		this.theme = theme;
 	}
 
 	@Transient

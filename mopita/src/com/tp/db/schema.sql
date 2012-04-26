@@ -15,9 +15,6 @@ create table f_category(
 create table f_file(
 	id int not null auto_increment,
 	name varchar(50) not null,
-	title varchar(50),
-	description varchar(255),
-	price float,
 	ux_size int,
 	apk_size int,
 	ux_path varchar(200),
@@ -27,6 +24,8 @@ create table f_file(
 	icon_path varchar(50),
 	market_url varchar(100),
 	create_time timestamp,
+	category_id int,
+	sort_by varchar(20),
 	primary key(id)
 
 )ENGINE=InnoDB;
@@ -36,10 +35,19 @@ create table f_file_info(
 	title varchar(50) not null,
 	language varchar(10),
 	description varchar(255),
-	sort_by int,
 	price float,
 	f_id int,
-	shelf_id int,
+	primary key(id)
+	
+)ENGINE=InnoDB;
+
+create table f_store_info(
+	id int not null auto_increment,
+	title varchar(50) not null,
+	language varchar(10),
+	description varchar(255),
+	f_id int,
+	store_id int,
 	primary key(id)
 	
 )ENGINE=InnoDB;
@@ -51,10 +59,10 @@ create table f_preview(
 	primary key(id)
 )ENGINE=InnoDB;
 
-create table f_category_file(
+create table f_file_shelf(
 	id int not null auto_increment,
-	category_id int,
-	file_id int,
+	f_id int,
+	s_id int,
 	primary key(id)
 )ENGINE=InnoDB;
 

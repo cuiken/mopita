@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -17,16 +18,19 @@ import javax.persistence.Transient;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.google.common.collect.Lists;
-import com.tp.utils.ConvertUtils;
 
+/**
+ * 文件基础关系实体
+ * 
+ * @author Administrator
+ * 
+ */
 @Entity
 @Table(name = "f_file")
 public class ThemeFile extends IdEntity {
 
 	private String name;
-	private String title;
-	private String description;
-	private Long price;
+
 	private Long uxSize;
 	private Long apkSize;
 	private String uxPath;
@@ -36,10 +40,13 @@ public class ThemeFile extends IdEntity {
 	private String marketURL;
 	private String iconPath;
 	private Date createTime;
+	private String sortBy;
+
+	private Category categories;
 
 	private List<Preview> previews = Lists.newArrayList();
-	private List<Category> categories = Lists.newArrayList();
-	private List<FileInfo> fileInfo = Lists.newArrayList();
+	private List<FileMultipleInfo> fileInfo = Lists.newArrayList();
+	private List<Shelf> shelfs = Lists.newArrayList();
 
 	private String previewURL;
 
@@ -49,30 +56,6 @@ public class ThemeFile extends IdEntity {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public Long getPrice() {
-		return price;
-	}
-
-	public void setPrice(Long price) {
-		this.price = price;
 	}
 
 	public Long getUxSize() {
@@ -157,35 +140,33 @@ public class ThemeFile extends IdEntity {
 		this.previews = previews;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "f_category_file", joinColumns = { @JoinColumn(name = "file_id") }, inverseJoinColumns = { @JoinColumn(name = "category_id") })
-	public List<Category> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(List<Category> categories) {
-		this.categories = categories;
-	}
-
-	@OneToMany(mappedBy = "file", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
-	public List<FileInfo> getFileInfo() {
+	@OneToMany(mappedBy = "theme", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
+	public List<FileMultipleInfo> getFileInfo() {
 		return fileInfo;
 	}
 
-	public void setFileInfo(List<FileInfo> fileInfo) {
+	public void setFileInfo(List<FileMultipleInfo> fileInfo) {
 		this.fileInfo = fileInfo;
 	}
 
-	@SuppressWarnings("unchecked")
-	@Transient
-	public List<Long> getCategoryIds() {
-		return ConvertUtils.convertElementPropertyToList(categories, "id");
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "f_file_shelf", joinColumns = { @JoinColumn(name = "f_id") }, inverseJoinColumns = { @JoinColumn(name = "s_id") })
+	public List<Shelf> getShelfs() {
+		return shelfs;
 	}
 
-	@Transient
-	public String getCategoryNames() {
-		return ConvertUtils.convertElementPropertyToString(categories, "name",
-				",");
+	public void setShelfs(List<Shelf> shelfs) {
+		this.shelfs = shelfs;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "category_id")
+	public Category getCategories() {
+		return categories;
+	}
+
+	public void setCategories(Category categories) {
+		this.categories = categories;
 	}
 
 	@Transient
@@ -195,6 +176,14 @@ public class ThemeFile extends IdEntity {
 
 	public void setPreviewURL(String previewURL) {
 		this.previewURL = previewURL;
+	}
+
+	public String getSortBy() {
+		return sortBy;
+	}
+
+	public void setSortBy(String sortBy) {
+		this.sortBy = sortBy;
 	}
 
 	@Override

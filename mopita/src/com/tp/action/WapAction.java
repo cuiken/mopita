@@ -17,7 +17,7 @@ import com.tp.entity.Preview;
 import com.tp.entity.ThemeFile;
 import com.tp.orm.Page;
 import com.tp.service.CategoryManager;
-import com.tp.service.FileStoreManager;
+import com.tp.service.FileManager;
 import com.tp.utils.Constants;
 import com.tp.utils.Struts2Utils;
 
@@ -28,7 +28,7 @@ public class WapAction extends ActionSupport {
 
 	private Page<ThemeFile> page = new Page<ThemeFile>();
 	private ThemeFile theme;
-	private FileStoreManager fileStoreManager;
+	private FileManager fileManager;
 	private CategoryManager categoryManager;
 	private Long id;
 	private Long categoryId;
@@ -42,7 +42,7 @@ public class WapAction extends ActionSupport {
 			categoryId = 1L;
 		}
 		categories = categoryManager.getCategories();
-		page = fileStoreManager.searchThemeFile(page, categoryId);
+		page = fileManager.searchThemeFile(page, categoryId);
 		List<ThemeFile> files = page.getResult();
 		for (ThemeFile file : files) {
 			String previewURL = "/wap/wap!getImage.action?id=" + file.getId();
@@ -53,7 +53,7 @@ public class WapAction extends ActionSupport {
 	}
 
 	public String getImage() throws Exception {
-		ThemeFile fi = fileStoreManager.getThemeFile(id);
+		ThemeFile fi = fileManager.getThemeFile(id);
 		List<Preview> previewURLS = fi.getPreviews();
 
 		String imgPath = Constants.FILE_STORAGE
@@ -78,7 +78,7 @@ public class WapAction extends ActionSupport {
 	}
 
 	public String getImages() throws Exception {
-		Preview p = fileStoreManager.getPreview(previewId);
+		Preview p = fileManager.getPreview(previewId);
 		String imgURL = Constants.FILE_STORAGE + p.getPrePath();
 		responseImage(imgURL);
 		return null;
@@ -86,7 +86,7 @@ public class WapAction extends ActionSupport {
 
 	public String details() {
 		categories = categoryManager.getCategories();
-		theme = fileStoreManager.getThemeFile(id);
+		theme = fileManager.getThemeFile(id);
 		List<Preview> ps = theme.getPreviews();
 		for (Preview p : ps) {
 			urls.add("/wap/wap!getImages.action?previewId=" + p.getId());
@@ -104,8 +104,8 @@ public class WapAction extends ActionSupport {
 	}
 
 	@Autowired
-	public void setFileStoreManager(FileStoreManager fileStoreManager) {
-		this.fileStoreManager = fileStoreManager;
+	public void setFileManager(FileManager fileManager) {
+		this.fileManager = fileManager;
 	}
 
 	@Autowired

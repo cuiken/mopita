@@ -7,13 +7,12 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.tp.dao.HibernateUtils;
 import com.tp.entity.Category;
 import com.tp.entity.ThemeFile;
 import com.tp.orm.Page;
 import com.tp.orm.PropertyFilter;
 import com.tp.service.CategoryManager;
-import com.tp.service.FileStoreManager;
+import com.tp.service.FileManager;
 import com.tp.utils.Struts2Utils;
 
 @Namespace("/file")
@@ -24,8 +23,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	private ThemeFile entity;
 	private Long id;
 	private Page<ThemeFile> page = new Page<ThemeFile>();
-	private List<Long> checkedCategoryIds;
-	private FileStoreManager fileManager;
+	private FileManager fileManager;
 	private CategoryManager categoryManager;
 
 	@Override
@@ -37,7 +35,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 
 	@Override
 	public String input() throws Exception {
-		checkedCategoryIds = entity.getCategoryIds();
+
 		return INPUT;
 	}
 
@@ -63,8 +61,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 
 	@Override
 	public String save() throws Exception {
-		HibernateUtils.mergeByCheckedIds(entity.getCategories(),
-				checkedCategoryIds, Category.class);
+
 		fileManager.saveThemeFile(entity);
 		return RELOAD;
 	}
@@ -80,7 +77,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	}
 
 	@Autowired
-	public void setFileManager(FileStoreManager fileManager) {
+	public void setFileManager(FileManager fileManager) {
 		this.fileManager = fileManager;
 	}
 
@@ -97,11 +94,4 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 		this.id = id;
 	}
 
-	public List<Long> getCheckedCategoryIds() {
-		return checkedCategoryIds;
-	}
-
-	public void setCheckedCategoryIds(List<Long> checkedCategoryIds) {
-		this.checkedCategoryIds = checkedCategoryIds;
-	}
 }

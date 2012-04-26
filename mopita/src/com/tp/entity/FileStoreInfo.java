@@ -8,19 +8,23 @@ import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+/**
+ * 文件在市场上的信息实体
+ * 
+ * @author ken
+ * 
+ */
 @Entity
-@Table(name = "f_file_info")
-public class FileInfo extends IdEntity {
+@Table(name = "f_store_info")
+public class FileStoreInfo extends IdEntity {
 
 	private String title;
 	private String description;
-	private String language;
 	private Long price;
-	private Long sortBy;
+	private String language;
 
-	private ThemeFile file;
-
-	private Shelf shelf;
+	private ThemeFile theme;
+	private Store store;
 
 	public String getTitle() {
 		return title;
@@ -38,14 +42,6 @@ public class FileInfo extends IdEntity {
 		this.description = description;
 	}
 
-	public String getLanguage() {
-		return language;
-	}
-
-	public void setLanguage(String language) {
-		this.language = language;
-	}
-
 	public Long getPrice() {
 		return price;
 	}
@@ -54,32 +50,32 @@ public class FileInfo extends IdEntity {
 		this.price = price;
 	}
 
-	public Long getSortBy() {
-		return sortBy;
+	public String getLanguage() {
+		return language;
 	}
 
-	public void setSortBy(Long sortBy) {
-		this.sortBy = sortBy;
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "f_id")
-	public ThemeFile getFile() {
-		return file;
+	public ThemeFile getTheme() {
+		return theme;
 	}
 
-	public void setFile(ThemeFile file) {
-		this.file = file;
+	public void setTheme(ThemeFile theme) {
+		this.theme = theme;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "shelf_id")
-	public Shelf getShelf() {
-		return shelf;
+	@JoinColumn(name = "store_id")
+	public Store getStore() {
+		return store;
 	}
 
-	public void setShelf(Shelf shelf) {
-		this.shelf = shelf;
+	public void setStore(Store store) {
+		this.store = store;
 	}
 
 	@Override

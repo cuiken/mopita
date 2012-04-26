@@ -18,6 +18,8 @@ import com.tp.utils.ConvertUtils;
 @DiscriminatorValue("Store")
 public class Store extends BaseCategory {
 
+	private List<FileStoreInfo> fileStoreInfo = Lists.newArrayList();;
+
 	private List<Shelf> shelfs = Lists.newArrayList();
 
 	@OneToMany(mappedBy = "store", cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY, orphanRemoval = true)
@@ -27,6 +29,15 @@ public class Store extends BaseCategory {
 
 	public void setShelfs(List<Shelf> shelfs) {
 		this.shelfs = shelfs;
+	}
+
+	@OneToMany(mappedBy = "store", cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY, orphanRemoval = true)
+	public List<FileStoreInfo> getFileStoreInfo() {
+		return fileStoreInfo;
+	}
+
+	public void setFileStoreInfo(List<FileStoreInfo> fileStoreInfo) {
+		this.fileStoreInfo = fileStoreInfo;
 	}
 
 	@Transient
