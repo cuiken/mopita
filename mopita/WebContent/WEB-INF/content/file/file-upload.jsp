@@ -47,7 +47,7 @@
 				<tr>
 					<td>分类:</td>
 					<td>
-						<s:checkboxlist name="checkedCategoryIds" list="allCategoryList" listKey="id" listValue="name" theme="simple" />
+						<s:radio name="checkedCategoryIds" list="allCategoryList" listKey="id" listValue="name" theme="simple"></s:radio>
 					</td>
 				</tr>
 				<tr>

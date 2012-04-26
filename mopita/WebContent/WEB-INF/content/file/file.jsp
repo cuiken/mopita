@@ -33,8 +33,8 @@
 				<s:iterator value="page.result">
 					<tr>
 						<td>${name}</td>
-						<td>${title}</td>
-						<td>${categoryNames}</td>
+						<td>${zhTitle}</td>
+						<td>${category.name}</td>
 						<td>${createTime}</td>
 						<td>
 							<a href="file!input.action?id=${id}">修改</a>

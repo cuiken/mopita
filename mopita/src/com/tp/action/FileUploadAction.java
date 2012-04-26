@@ -31,6 +31,8 @@ public class FileUploadAction extends ActionSupport {
 	private String title;
 	private Long price;
 	private String description;
+	
+	private Long checkedCategoryIds;
 
 	private FileManager fileManager;
 	private CategoryManager categoryManager;
@@ -60,7 +62,8 @@ public class FileUploadAction extends ActionSupport {
 		theme.setAvailMachine(availMachine);
 		theme.setUnavailMachine(unavailMachine);
 		theme.setMarketURL(marketURL);
-
+		Category cate=categoryManager.getCategory(checkedCategoryIds);
+		theme.setCategory(cate);
 		return theme;
 	}
 
@@ -68,6 +71,7 @@ public class FileUploadAction extends ActionSupport {
 		FileMultipleInfo info = new FileMultipleInfo();
 		info.setTitle(title);
 		info.setPrice(price);
+		info.setLanguage("ZH");
 		info.setDescription(description);
 		return info;
 	}
@@ -116,6 +120,10 @@ public class FileUploadAction extends ActionSupport {
 		this.unavailMachine = unavailMachine;
 	}
 
+	public void setCheckedCategoryIds(Long checkedCategoryIds) {
+		this.checkedCategoryIds = checkedCategoryIds;
+	}
+	
 	@Autowired
 	public void setFileManager(FileManager fileManager) {
 		this.fileManager = fileManager;

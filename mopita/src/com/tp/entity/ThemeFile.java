@@ -42,7 +42,7 @@ public class ThemeFile extends IdEntity {
 	private Date createTime;
 	private String sortBy;
 
-	private Category categories;
+	private Category category;
 
 	private List<Preview> previews = Lists.newArrayList();
 	private List<FileMultipleInfo> fileInfo = Lists.newArrayList();
@@ -161,12 +161,12 @@ public class ThemeFile extends IdEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "category_id")
-	public Category getCategories() {
-		return categories;
+	public Category getCategory() {
+		return category;
 	}
 
-	public void setCategories(Category categories) {
-		this.categories = categories;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	@Transient
@@ -186,6 +186,16 @@ public class ThemeFile extends IdEntity {
 		this.sortBy = sortBy;
 	}
 
+	@Transient
+	public String getZhTitle(){
+		for(FileMultipleInfo info:fileInfo){
+			if(info.getLanguage().equalsIgnoreCase("zh")){
+				return info.getTitle();
+			}
+		}
+		return "";
+	}
+	
 	@Override
 	public String toString() {
 
