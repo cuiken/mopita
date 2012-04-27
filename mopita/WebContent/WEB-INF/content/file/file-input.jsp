@@ -40,7 +40,7 @@
 				<tr>
 					<td>分类:</td>
 					<td>
-						<s:radio name="category.id" list="allCategoryList" listKey="id" listValue="name" theme="simple"></s:radio>
+						<s:radio name="checkedCategoryId" list="allCategoryList" listKey="id" listValue="name" theme="simple"></s:radio>
 					</td>
 				</tr>
 				<tr>

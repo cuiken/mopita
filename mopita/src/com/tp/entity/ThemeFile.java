@@ -186,6 +186,15 @@ public class ThemeFile extends IdEntity {
 		this.sortBy = sortBy;
 	}
 	
+	@Transient
+	public Long getCheckedCategory(){
+		if(category==null){
+			return 0L;
+		}else{
+			return category.getId();
+		}
+	}
+	
 	@Override
 	public String toString() {
 

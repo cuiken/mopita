@@ -22,6 +22,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	private static final long serialVersionUID = 1L;
 	private ThemeFile entity;
 	private Long id;
+	private Long checkedCategoryId;
 	private Page<ThemeFile> page = new Page<ThemeFile>();
 	private FileManager fileManager;
 	private CategoryManager categoryManager;
@@ -35,7 +36,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 
 	@Override
 	public String input() throws Exception {
-
+		checkedCategoryId=entity.getCheckedCategory();
 		return INPUT;
 	}
 
@@ -61,7 +62,8 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 
 	@Override
 	public String save() throws Exception {
-
+		Category cate=categoryManager.getCategory(checkedCategoryId);
+		entity.setCategory(cate);
 		fileManager.saveThemeFile(entity);
 		return RELOAD;
 	}
@@ -92,6 +94,14 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public Long getCheckedCategoryId() {
+		return checkedCategoryId;
+	}
+	
+	public void setCheckedCategoryId(Long checkedCategoryId) {
+		this.checkedCategoryId = checkedCategoryId;
 	}
 
 }
