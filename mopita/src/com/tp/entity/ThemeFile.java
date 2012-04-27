@@ -185,16 +185,6 @@ public class ThemeFile extends IdEntity {
 	public void setSortBy(String sortBy) {
 		this.sortBy = sortBy;
 	}
-
-	@Transient
-	public String getZhTitle(){
-		for(FileMultipleInfo info:fileInfo){
-			if(info.getLanguage().equalsIgnoreCase("zh")){
-				return info.getTitle();
-			}
-		}
-		return "";
-	}
 	
 	@Override
 	public String toString() {

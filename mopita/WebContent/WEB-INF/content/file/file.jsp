@@ -25,19 +25,20 @@
 			<table>
 				<tr>
 					<th><a href="javascript:sort('name','asc')">文件名</a></th>
-					<th>名称</th>
-					<th>分类</th>
+					<th><a>MarketURL</a></th>
+					<th></th>
 					<th><a href="javascript:sort('createTime','asc')">添加时间</a></th>
 					<th>操作</th>
 				</tr>
 				<s:iterator value="page.result">
 					<tr>
 						<td>${name}</td>
-						<td>${zhTitle}</td>
-						<td>${category.name}</td>
+						<td>${marketURL}</td>
+						<td></td>
 						<td>${createTime}</td>
 						<td>
 							<a href="file!input.action?id=${id}">修改</a>
+							<a href="file-info.action?themeId=${id}">多语言</a>
 							<a href="file!delete.action?id=${id}">删除</a>
 						</td>
 					</tr>

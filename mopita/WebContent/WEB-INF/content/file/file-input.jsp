@@ -30,12 +30,12 @@
 		<%@include file="/common/header.jsp" %>
 		<%@include file="/common/left.jsp" %>
 			<div class="span-18 last prepend-top">
-			<div id="message"><s:actionmessage cssClass="error"/></div>
+		
 			<input type="hidden" value="${id}" name="id"/>
 			<table>
 				<tr>
 					<td>标题:</td>
-					<td><input type="text" name="title" class="required" value="${title}"></td>
+					<td><input type="text" name="title" class="required" value="${fileInfo[0].title}"></td>
 				</tr>
 				<tr>
 					<td>分类:</td>
@@ -45,7 +45,7 @@
 				</tr>
 				<tr>
 					<td>描述:</td>
-					<td><input type="text" name="description" class="required" value="${description}"></td>
+					<td><input type="text" name="description" class="required" value="${fileInfo[0].description}"></td>
 				</tr>
 				<tr>
 					<td>Market地址:</td>
@@ -60,8 +60,11 @@
 					<td></td>
 				</tr>
 				<tr>
-					<td><input type="submit" value="保存"></td>
-					<td><a href="file.action">返回</a></td>
+					<td colspan="2">
+						<input type="submit" value="保存">&nbsp;
+						<input class="button" type="button" value="返回" onclick="history.back();">
+					</td>
+					
 				</tr>
 			</table>		
 			</div>

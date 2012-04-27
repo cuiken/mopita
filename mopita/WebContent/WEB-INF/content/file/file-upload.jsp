@@ -20,6 +20,7 @@
 					}
 				
 				});
+				$("#message").fadeOut(3000);
 			});
 		
 		</script>

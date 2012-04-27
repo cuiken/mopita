@@ -47,8 +47,12 @@ public class FileManager {
 			Long categoryId) {
 		return themeFileDao.searchFileByCategory(page, categoryId);
 	}
+	
+	public Page<FileMultipleInfo> searchFileInfo(final Page<FileMultipleInfo> page,final List<PropertyFilter> filters){
+		return fileMultipleDao.findPage(page, filters);
+	}
 
-	public void saveFiles(List<File> files, ThemeFile fs,FileMultipleInfo info) {
+	public ThemeFile saveFiles(List<File> files, ThemeFile fs,FileMultipleInfo info) {
 
 		List<File> previews = Lists.newArrayList();
 		for (File file : files) {
@@ -71,6 +75,7 @@ public class FileManager {
 		saveThemeFile(fs);
 		saveFileinfo(fs,info);
 		savePreview(previews, fs);
+		return fs;
 	}
 
 	private void saveFileinfo(ThemeFile f,FileMultipleInfo info){
