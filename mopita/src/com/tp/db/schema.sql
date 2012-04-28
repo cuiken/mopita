@@ -45,6 +45,7 @@ create table f_store_info(
 	title varchar(50) not null,
 	language varchar(10),
 	description varchar(255),
+	price float,
 	sort_by varchar(20),
 	f_id int,
 	store_id int,

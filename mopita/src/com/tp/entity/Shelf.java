@@ -14,12 +14,13 @@ import javax.persistence.Transient;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.google.common.collect.Lists;
+import com.tp.utils.ConvertUtils;
 
 @Entity
 @DiscriminatorValue("shelf")
 public class Shelf extends BaseCategory {
 
-	private List<ThemeFile> theme = Lists.newArrayList();
+	private List<ThemeFile> themes = Lists.newArrayList();
 
 	private Store store;
 
@@ -35,12 +36,18 @@ public class Shelf extends BaseCategory {
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "f_file_shelf", joinColumns = { @JoinColumn(name = "s_id") }, inverseJoinColumns = { @JoinColumn(name = "f_id") })
-	public List<ThemeFile> getTheme() {
-		return theme;
+	public List<ThemeFile> getThemes() {
+		return themes;
 	}
 
-	public void setTheme(List<ThemeFile> theme) {
-		this.theme = theme;
+	public void setThemes(List<ThemeFile> themes) {
+		this.themes = themes;
+	}
+	
+	@Transient
+	@SuppressWarnings("unchecked")
+	public List<Long> getCheckedFileIds(){
+		return ConvertUtils.convertElementPropertyToList(themes, "id");
 	}
 
 	@Transient

@@ -7,11 +7,13 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.tp.dao.HibernateUtils;
 import com.tp.entity.Shelf;
 import com.tp.entity.Store;
 import com.tp.entity.ThemeFile;
 import com.tp.service.CategoryManager;
 import com.tp.service.FileManager;
+import com.tp.service.FileStoreInfoManager;
 
 @Namespace("/category")
 @Results( { @Result(name = CRUDActionSupport.RELOAD, location = "shelf.action", type = "redirect") })
@@ -26,8 +28,10 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	private List<Shelf> shelfs;
 	private List<ThemeFile> onShelfFiles;
 	private List<ThemeFile> remainFiles;
+	private List<Long> checkedFileIds;
 	private CategoryManager categoryManager;
 	private FileManager fileManager;
+	private FileStoreInfoManager storeInfoManager;
 
 	@Override
 	public String delete() throws Exception {
@@ -65,13 +69,37 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 		categoryManager.saveShelf(entity);
 		return RELOAD;
 	}
+	
+	public String saveFile(){
+		HibernateUtils.mergeByCheckedIds(entity.getThemes(), checkedFileIds, ThemeFile.class);
+		categoryManager.saveShelf(entity);
+		storeInfoManager.copyFileInfoToStore(entity.getThemes(),entity.getStore());
+		return RELOAD;
+	}
 
 	public String manage() throws Exception {
-		entity = categoryManager.getShelf(id);
-		this.onShelfFiles = entity.getTheme();
+		
+		this.onShelfFiles = entity.getThemes();
 		List<ThemeFile> allFiles = fileManager.getAllThemeFile();
 		this.remainFiles = fileManager.getRemainFiles(allFiles, onShelfFiles);
 		return MANAGE;
+	}
+	
+	public String file(){
+		checkedFileIds=entity.getCheckedFileIds();
+		return "file";
+	}
+	
+	public void prepareSaveFile() throws Exception{
+		prepareModel();
+	}
+	
+	public void prepareFile() throws Exception{
+		prepareModel();
+	}
+	
+	public void prepareManage() throws Exception{
+		prepareModel();
 	}
 
 	@Override
@@ -88,6 +116,11 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	@Autowired
 	public void setFileManager(FileManager fileManager) {
 		this.fileManager = fileManager;
+	}
+	
+	@Autowired
+	public void setStoreInfoManager(FileStoreInfoManager storeInfoManager) {
+		this.storeInfoManager = storeInfoManager;
 	}
 
 	public List<Shelf> getShelfs() {
@@ -116,5 +149,17 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 
 	public List<ThemeFile> getRemainFiles() {
 		return remainFiles;
+	}
+	
+	public List<ThemeFile> getAllFiles(){
+		return fileManager.getAllThemeFile();
+	}
+	
+	public List<Long> getCheckedFileIds() {
+		return checkedFileIds;
+	}
+	
+	public void setCheckedFileIds(List<Long> checkedFileIds) {
+		this.checkedFileIds = checkedFileIds;
 	}
 }
