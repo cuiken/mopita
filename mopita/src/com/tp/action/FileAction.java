@@ -8,6 +8,7 @@ import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tp.entity.Category;
+import com.tp.entity.FileMultipleInfo;
 import com.tp.entity.ThemeFile;
 import com.tp.orm.Page;
 import com.tp.orm.PropertyFilter;
@@ -24,6 +25,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	private Long id;
 	private Long checkedCategoryId;
 	private Page<ThemeFile> page = new Page<ThemeFile>();
+	private List<FileMultipleInfo> fileInfo;
 	private FileManager fileManager;
 	private CategoryManager categoryManager;
 
@@ -104,4 +106,11 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 		this.checkedCategoryId = checkedCategoryId;
 	}
 
+	public List<FileMultipleInfo> getFileInfo() {
+		return fileInfo;
+	}
+	
+	public void setFileInfo(List<FileMultipleInfo> fileInfo) {
+		this.fileInfo = fileInfo;
+	}
 }

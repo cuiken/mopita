@@ -34,7 +34,7 @@
 	<table>
 		<tr>
 			<td>商店</td>
-			<td><select></select></td>
+			<td><s:select list="allStores" listKey="id" listValue="name" theme="simple"></s:select></td>
 			<td>货架</td>
 			<td><select></select></td>
 		</tr>
@@ -43,37 +43,7 @@
 	<div id="source" style="float: left; margin: 5px;">
 		<h1>仓库文件</h1>
 		<div dojoType="dojo.dnd.Source" class="container">
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
-			<div class="dojoDndItem">fdf</div>
+
 			<s:iterator value="remainFiles">
 				<div class="dojoDndItem">${name}</div>
 			</s:iterator>

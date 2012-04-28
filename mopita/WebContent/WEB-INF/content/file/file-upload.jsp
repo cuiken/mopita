@@ -61,7 +61,7 @@
 				</tr>
 				<tr>
 					<td>单价:</td>
-					<td><input type="text" name="price"></td>
+					<td><input type="text" name="price" class="number"></td>
 				</tr>
 				<tr>
 					<td>可用机型:</td>

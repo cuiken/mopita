@@ -50,7 +50,7 @@
 				</tr>
 				<tr>
 					<td>单价:</td>
-					<td><input type="text" name="price" value="${price}"></td>
+					<td><input type="text" name="price" value="${price}" class="number"></td>
 				</tr>
 				<s:iterator value="fileInfo" status="info">
 					<tr>
