@@ -12,6 +12,7 @@ import com.tp.entity.FileMultipleInfo;
 import com.tp.entity.ThemeFile;
 import com.tp.orm.Page;
 import com.tp.orm.PropertyFilter;
+import com.tp.orm.PageRequest.Sort;
 import com.tp.service.CategoryManager;
 import com.tp.service.FileManager;
 import com.tp.utils.Struts2Utils;
@@ -38,7 +39,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 
 	@Override
 	public String input() throws Exception {
-		checkedCategoryId=entity.getCheckedCategory();
+		checkedCategoryId = entity.getCheckedCategory();
 		return INPUT;
 	}
 
@@ -47,6 +48,10 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 
 		List<PropertyFilter> filters = PropertyFilter
 				.buildFromHttpRequest(Struts2Utils.getRequest());
+		if (!page.isOrderBySetted()) {
+			page.setOrderBy("createTime");
+			page.setOrderDir(Sort.DESC);
+		}
 		page = fileManager.searchThemeFile(page, filters);
 
 		return SUCCESS;
@@ -64,7 +69,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 
 	@Override
 	public String save() throws Exception {
-		Category cate=categoryManager.getCategory(checkedCategoryId);
+		Category cate = categoryManager.getCategory(checkedCategoryId);
 		entity.setCategory(cate);
 		fileManager.saveThemeFile(entity);
 		return RELOAD;
@@ -97,11 +102,11 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public Long getCheckedCategoryId() {
 		return checkedCategoryId;
 	}
-	
+
 	public void setCheckedCategoryId(Long checkedCategoryId) {
 		this.checkedCategoryId = checkedCategoryId;
 	}
@@ -109,7 +114,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	public List<FileMultipleInfo> getFileInfo() {
 		return fileInfo;
 	}
-	
+
 	public void setFileInfo(List<FileMultipleInfo> fileInfo) {
 		this.fileInfo = fileInfo;
 	}

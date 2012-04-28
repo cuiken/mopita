@@ -14,7 +14,7 @@
 	</head>
 	<body>
 		<div class="container">
-		<form id="mainForm" action="file.action" method="get">
+		<form id="mainForm" action="file.action" method="post">
 		<input type="hidden" name="page.orderBy" id="orderBy" value="${page.orderBy}"/>
 		<input type="hidden" name="page.orderDir" id="order" value="${page.orderDir}"/>
 		<%@include file="/common/header.jsp" %>
@@ -22,6 +22,10 @@
 		<div class="span-18 last prepend-top">
 		<div id="message"><s:actionmessage cssClass="success"/></div>
 		<h4 class="prepend-top">文件列表</h4>
+		<div id="filter">
+			文件名: <input type="text" name="filter_EQS_name" value="${param['filter_EQS_name']}" size="9"/>
+			<input type="button" value="搜索" onclick="search();"/>
+		</div>
 			<table>
 				<tr>
 					<th><a href="javascript:sort('name','asc')">文件名</a></th>

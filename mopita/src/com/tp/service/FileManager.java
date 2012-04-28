@@ -125,6 +125,10 @@ public class FileManager {
 		return remainFile;
 	}
 
+	public boolean isFileNameUnique(String newValue,String oldValue){
+		return themeFileDao.isPropertyUnique("name", newValue, oldValue);
+	}
+	
 	@Autowired
 	public void setFileMultipleDao(FileMultipleInfoDao fileMultipleDao) {
 		this.fileMultipleDao = fileMultipleDao;
