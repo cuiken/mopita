@@ -25,7 +25,6 @@ create table f_file(
 	market_url varchar(100),
 	create_time timestamp,
 	category_id int,
-	sort_by varchar(20),
 	primary key(id)
 
 )ENGINE=InnoDB;
@@ -46,6 +45,7 @@ create table f_store_info(
 	title varchar(50) not null,
 	language varchar(10),
 	description varchar(255),
+	sort_by varchar(20),
 	f_id int,
 	store_id int,
 	primary key(id)

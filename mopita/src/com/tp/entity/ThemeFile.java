@@ -40,7 +40,6 @@ public class ThemeFile extends IdEntity {
 	private String marketURL;
 	private String iconPath;
 	private Date createTime;
-	private String sortBy;
 
 	private Category category;
 
@@ -178,23 +177,15 @@ public class ThemeFile extends IdEntity {
 		this.previewURL = previewURL;
 	}
 
-	public String getSortBy() {
-		return sortBy;
-	}
-
-	public void setSortBy(String sortBy) {
-		this.sortBy = sortBy;
-	}
-	
 	@Transient
-	public Long getCheckedCategory(){
-		if(category==null){
+	public Long getCheckedCategory() {
+		if (category == null) {
 			return 0L;
-		}else{
+		} else {
 			return category.getId();
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 

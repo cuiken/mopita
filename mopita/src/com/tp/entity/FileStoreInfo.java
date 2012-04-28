@@ -22,6 +22,7 @@ public class FileStoreInfo extends IdEntity {
 	private String description;
 	private Long price;
 	private String language;
+	private String sortBy;
 
 	private ThemeFile theme;
 	private Store store;
@@ -56,6 +57,14 @@ public class FileStoreInfo extends IdEntity {
 
 	public void setLanguage(String language) {
 		this.language = language;
+	}
+
+	public String getSortBy() {
+		return sortBy;
+	}
+
+	public void setSortBy(String sortBy) {
+		this.sortBy = sortBy;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -65,7 +65,7 @@ public class FileUploadAction extends ActionSupport {
 
 	private ThemeFile getThemeFile() {
 		ThemeFile theme = new ThemeFile();
-		theme.setName(uploadFileName);
+		theme.setName(FileUtils.getFileName(uploadFileName));
 		theme.setAvailMachine(availMachine);
 		theme.setUnavailMachine(unavailMachine);
 		theme.setMarketURL(marketURL);
