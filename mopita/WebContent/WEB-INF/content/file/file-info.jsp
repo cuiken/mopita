@@ -3,7 +3,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>多语言列表</title>
+		<title>文件多语言信息</title>
 		<%@include file="/common/script.jsp" %>
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
 		<script>
@@ -20,7 +20,7 @@
 		<%@include file="/common/left.jsp" %>
 		<div class="span-18 last prepend-top">
 		<div id="message"><s:actionmessage cssClass="success"/></div>
-		<h4 class="prepend-top">语言列表</h4>
+		<h4 class="prepend-top">多语言信息</h4>
 			<table>
 				<tr>			
 					<th>名称</th>

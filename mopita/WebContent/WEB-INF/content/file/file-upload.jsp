@@ -48,7 +48,7 @@
 				</div>
 				
 				<div>
-					<label for="" class="field">分类:</label>
+					<label for="checkedCategoryIds" class="field">分类:</label>
 					<s:radio name="checkedCategoryIds" list="allCategoryList" listKey="id" listValue="name" theme="simple"></s:radio>
 				</div>
 				<div>

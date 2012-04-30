@@ -28,7 +28,7 @@
 		</c:if>
 		<h3>文件列表</h3>
 		<div id="filter">
-			文件名: <input type="text" name="filter_EQS_name" value="${param['filter_EQS_name']}" size="9"/>
+			文件名: <input type="text" name="filter_EQS_name" value="${param['filter_EQS_name']}" size="20"/>
 			<input type="button" value="搜索" onclick="search();"/>
 		</div>
 			<table>
@@ -47,8 +47,8 @@
 						<td>${createTime}</td>
 						<td>
 							<a href="file!input.action?id=${id}">修改</a>
-							<a href="file-info.action?themeId=${id}">多语言</a>
 							<a href="file!delete.action?id=${id}">删除</a>
+							<a href="file-info.action?themeId=${id}">语言</a>
 						</td>
 					</tr>
 				</s:iterator>
