@@ -4,11 +4,7 @@
 <html>
 	<head>
 		<title>文件编辑</title>
-		<link href="${ctx}/css/showcase.css" type="text/css" rel="stylesheet" />
-		<link href="${ctx}/css/blueprint/screen.css" type="text/css" rel="stylesheet" media="screen, projection" />
-		<link href="${ctx}/css/blueprint/print.css" type="text/css" rel="stylesheet" media="print" />
-		<link href="${ctx}/css/mini-web.css" rel="stylesheet"/>	
-		<!--[if lt IE 8]><link href="${ctx}/css/blueprint/ie.css" type="text/css" rel="stylesheet" media="screen, projection"><![endif]-->
+		<%@include file="/common/script.jsp" %>
 		<link href="${ctx}/js/jquery/validation/milk.css" rel="stylesheet">
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
 		<script src="${ctx}/js/jquery/validation/jquery.validate.min.js"></script>
@@ -41,7 +37,8 @@
 				<tr>
 					<td>分类:</td>
 					<td>
-						<s:radio name="checkedCategoryId" list="allCategoryList" listKey="id" listValue="name" theme="simple"></s:radio>
+						<!--<s:radio name="checkedCategoryId" list="allCategoryList" listKey="id" listValue="name" theme="simple"></s:radio>-->
+						<s:checkboxlist name="checkedCategoryId" list="allCategoryList" listKey="id" listValue="name" theme="simple"></s:checkboxlist>
 					</td>
 				</tr>
 				<tr>

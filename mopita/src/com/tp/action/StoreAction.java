@@ -26,6 +26,7 @@ public class StoreAction extends CRUDActionSupport<Store> {
 	@Override
 	public String delete() throws Exception {
 		categoryManager.deleteStore(id);
+		addActionMessage("删除成功");
 		return RELOAD;
 	}
 
@@ -58,6 +59,7 @@ public class StoreAction extends CRUDActionSupport<Store> {
 			categoryManager.copyAllStore(copyId, entity);
 		if(id==null&&copyId==null)
 			categoryManager.createDefaultShelf(entity);
+		addActionMessage("保存成功");
 		return RELOAD;
 	}
 

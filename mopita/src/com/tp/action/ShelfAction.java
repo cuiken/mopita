@@ -67,6 +67,7 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 		Store store = categoryManager.getStore(checkedStoreId);
 		entity.setStore(store);
 		categoryManager.saveShelf(entity);
+		addActionMessage("保存成功");
 		return RELOAD;
 	}
 	

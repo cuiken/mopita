@@ -7,6 +7,7 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.tp.dao.HibernateUtils;
 import com.tp.entity.Category;
 import com.tp.entity.FileMultipleInfo;
 import com.tp.entity.ThemeFile;
@@ -24,7 +25,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	private static final long serialVersionUID = 1L;
 	private ThemeFile entity;
 	private Long id;
-	private Long checkedCategoryId;
+	private List<Long> checkedCategoryId;
 	private Page<ThemeFile> page = new Page<ThemeFile>();
 	private List<FileMultipleInfo> fileInfo;
 	private FileManager fileManager;
@@ -39,7 +40,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 
 	@Override
 	public String input() throws Exception {
-		checkedCategoryId = entity.getCheckedCategory();
+		checkedCategoryId = entity.getCheckedCategoryIds();
 		return INPUT;
 	}
 
@@ -69,9 +70,9 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 
 	@Override
 	public String save() throws Exception {
-		Category cate = categoryManager.getCategory(checkedCategoryId);
-		entity.setCategory(cate);
+		HibernateUtils.mergeByCheckedIds(entity.getCategories(), checkedCategoryId, Category.class);
 		fileManager.saveThemeFile(entity);
+		addActionMessage("保存成功");
 		return RELOAD;
 	}
 
@@ -103,11 +104,11 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 		this.id = id;
 	}
 
-	public Long getCheckedCategoryId() {
+	public List<Long> getCheckedCategoryId() {
 		return checkedCategoryId;
 	}
 
-	public void setCheckedCategoryId(Long checkedCategoryId) {
+	public void setCheckedCategoryId(List<Long> checkedCategoryId) {
 		this.checkedCategoryId = checkedCategoryId;
 	}
 

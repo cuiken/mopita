@@ -4,17 +4,28 @@
 <html>
 	<head>
 		<title>货架</title>
-		<link href="${ctx}/css/showcase.css" type="text/css" rel="stylesheet" />
-		<link href="${ctx}/css/blueprint/screen.css" type="text/css" rel="stylesheet" media="screen, projection" />
-		<link href="${ctx}/css/blueprint/print.css" type="text/css" rel="stylesheet" media="print" />
-		<!--[if lt IE 8]><link href="${ctx}/css/blueprint/ie.css" type="text/css" rel="stylesheet" media="screen, projection"><![endif]-->
+		<%@include file="/common/script.jsp" %>
 		<link href="${ctx}/js/jquery/validation/milk.css" rel="stylesheet">
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
 		<script src="${ctx}/js/jquery/validation/jquery.validate.min.js"></script>
 		<script src="${ctx}/js/jquery/validation/messages_cn.js"></script>
 		<script>
 			$(document).ready(function(){
-				$("#inputForm").validate();
+				$("#name").focus();
+				$("#inputForm").validate({
+					rules:{
+						checkedStoreId:"required"
+						
+					},
+					errorContainer: "#messageBox",
+					errorPlacement: function(error, element) {
+						if (element.is(":radio") )
+							error.appendTo (element.parent());
+						else
+							error.insertAfter( element );
+					}
+					
+				});
 			});
 		</script>
 	</head>
@@ -25,28 +36,29 @@
 		<%@include file="/common/left.jsp" %>
 		<input type="hidden" name="id" value="${id}">
 		<div class="span-18 last prepend-top">
-			<table>
-				<tr>
-					<td>货架分类:</td>
-					<td><input type="text" name="name" value="${name}" class="required"/></td>
-				</tr>
-				<tr>
-					<td>货架描述:</td>
-					<td><input type="text" name="description" value="${description}" /></td>
-				</tr>
-				<tr>
-					<td>所属商店:</td>
-					<td><s:radio name="checkedStoreId" list="allStores" listKey="id" listValue="name" theme="simple" /></td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						<input type="submit" value="保存">
-					</td>
-					<td>
-						<a href="shelf.action">返回</a>
-					</td>
-				</tr>
-			</table>
+			<fieldset>
+			<legend>管理货架</legend>
+			<div id="messageBox" class="error" style="display:none">输入有误，请先更正。</div>
+			<div>
+				<label for="name" class="field">货架名称:</label>
+				<input type="text" id="name" name="name" size="25" maxlength="20" value="${name}" class="required"/>
+			</div>
+			
+			<div>
+				<label for="description" class="field">货架描述:</label>
+				<input type="text" id="description" name="description" value="${description}" size="25" maxlength="50" />
+			</div>
+			
+			<div>
+				<label for="checkedStoreId" class="field">所属商店:</label>
+				<s:radio name="checkedStoreId" list="allStores" listKey="id" listValue="name" theme="simple" />
+			</div>
+			
+			</fieldset>
+			<div>
+				<input type="submit" value="保存">&nbsp;
+				<input type="button" value="返回" onclick="history.back();">
+			</div>
 			</div>
 		</div>
 		</form>

@@ -5,6 +5,13 @@
 	<head>
 		<title>文件分类</title>
 		<%@include file="/common/script.jsp" %>
+		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
+		<script>
+			$(document).ready(function(){
+				$("#message").fadeOut(3000);
+				
+			});
+		</script>
 	</head>
 	<body>
 		<form action="category.action" method="get">
@@ -12,7 +19,10 @@
 		<%@include file="/common/header.jsp" %>
 		<%@include file="/common/left.jsp" %>
 			<div class="span-18 last prepend-top">
-			<div id="message"><s:actionmessage cssClass="success"/></div>
+			<c:if test="${not empty actionMessages}">
+				<div id="message" class="success">${actionMessages}</div>	
+			</c:if>
+			<h3>文件分类</h3>
 			<table>
 				<tr>
 					<th>分类名称</th>
@@ -31,9 +41,9 @@
 				</s:iterator>
 				
 			</table>
-			<div>
-				<a href="category!input.action">add</a>
-			</div>
+		
+			<a href="category!input.action">创建分类</a>
+		
 			</div>
 		</div>
 		</form>

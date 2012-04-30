@@ -4,10 +4,7 @@
 <html>
 	<head>
 		<title>编辑文件信息</title>
-		<link href="${ctx}/css/showcase.css" type="text/css" rel="stylesheet" />
-		<link href="${ctx}/css/blueprint/screen.css" type="text/css" rel="stylesheet" media="screen, projection" />
-		<link href="${ctx}/css/blueprint/print.css" type="text/css" rel="stylesheet" media="print" />
-		<!--[if lt IE 8]><link href="${ctx}/css/blueprint/ie.css" type="text/css" rel="stylesheet" media="screen, projection"><![endif]-->
+		<%@include file="/common/script.jsp" %>
 	</head>
 	
 	<body>

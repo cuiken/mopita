@@ -3,24 +3,22 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>商店</title>
-		<link href="${ctx}/css/showcase.css" type="text/css" rel="stylesheet" />
-		<link href="${ctx}/css/blueprint/screen.css" type="text/css" rel="stylesheet" media="screen, projection" />
-		<link href="${ctx}/css/blueprint/print.css" type="text/css" rel="stylesheet" media="print" />
-		<link href="${ctx}/css/mini-web.css" rel="stylesheet"/>	
-		<!--[if lt IE 8]><link href="${ctx}/css/blueprint/ie.css" type="text/css" rel="stylesheet" media="screen, projection"><![endif]-->
+		<title>管理商店</title>
+		<%@include file="/common/script.jsp" %>
 		<link href="${ctx}/js/jquery/validation/milk.css" rel="stylesheet">
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
 		<script src="${ctx}/js/jquery/validation/jquery.validate.min.js"></script>
 		<script src="${ctx}/js/jquery/validation/messages_cn.js"></script>
 		<script>
 			$(document).ready(function(){
+				$("#name").focus();
 				$("#inputForm").validate({
 					rules:{
 						name:{
 							remote: "store!checkStoreName.action?oldStoreName=" + encodeURIComponent('${name}')
 						}
 					},
+					errorContainer: "#messageBox",
 					messages:{
 						name:{
 							remote:"商店名称已存在"
@@ -43,24 +41,24 @@
 			<s:if test="copyId!=null">复制</s:if><s:elseif test="id!=null">编辑</s:elseif>
 			<s:else>新增</s:else>商店
 		</h4>
-			<table>
-				<tr>
-					<td>商店名称:</td>
-					<td><input type="text" id="name" name="name" size="20" value="${name}" class="required"/></td>
-				</tr>
-				<tr>
-					<td>商店描述:</td>
-					<td><input type="text" name="description" value="${description}" /></td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						<input type="submit" value="保存">
-					</td>
-					<td>
-						<a href="store.action">back</a>
-					</td>
-				</tr>
-			</table>
+			<fieldset>
+				<legend>管理商店</legend>
+				<div id="messageBox" class="error" style="display:none">输入有误，请先更正。</div>
+				<div>
+					<label for="name" class="field">商店名称:</label>
+					<input type="text" id="name" name="name" size="25" maxlength="20" value="${name}" class="required"/>
+				</div>
+				
+				<div>
+					<label for="description" class="field">商店描述:</label>
+					<input type="text" id="description" name="description" size="25" maxlength="50" value="${description}" />
+				</div>
+			</fieldset>
+			
+			<div>
+				<input type="submit" value="保存">&nbsp;
+				<input type="button" value="返回" onclick="history.back();">
+			</div>
 			</div>
 		</div>
 		</form>

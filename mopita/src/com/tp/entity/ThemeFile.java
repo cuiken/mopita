@@ -10,7 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -18,6 +17,7 @@ import javax.persistence.Transient;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.google.common.collect.Lists;
+import com.tp.utils.ConvertUtils;
 
 /**
  * 文件基础关系实体
@@ -41,8 +41,7 @@ public class ThemeFile extends IdEntity {
 	private String iconPath;
 	private Date createTime;
 
-	private Category category;
-
+	private List<Category> categories = Lists.newArrayList();
 	private List<Preview> previews = Lists.newArrayList();
 	private List<FileMultipleInfo> fileInfo = Lists.newArrayList();
 	private List<Shelf> shelfs = Lists.newArrayList();
@@ -158,14 +157,14 @@ public class ThemeFile extends IdEntity {
 		this.shelfs = shelfs;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "category_id")
-	public Category getCategory() {
-		return category;
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "f_category_file", joinColumns = { @JoinColumn(name = "file_id") }, inverseJoinColumns = { @JoinColumn(name = "category_id") })
+	public List<Category> getCategories() {
+		return categories;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
 	}
 
 	@Transient
@@ -177,13 +176,10 @@ public class ThemeFile extends IdEntity {
 		this.previewURL = previewURL;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Transient
-	public Long getCheckedCategory() {
-		if (category == null) {
-			return 0L;
-		} else {
-			return category.getId();
-		}
+	public List<Long> getCheckedCategoryIds() {
+		return ConvertUtils.convertElementPropertyToList(categories, "id");
 	}
 
 	@Override

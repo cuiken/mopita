@@ -10,6 +10,7 @@ import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.tp.dao.HibernateUtils;
 import com.tp.entity.Category;
 import com.tp.entity.FileMultipleInfo;
 import com.tp.entity.ThemeFile;
@@ -35,7 +36,7 @@ public class FileUploadAction extends ActionSupport {
 	private Long price;
 	private String description;
 
-	private Long checkedCategoryIds;
+	private List<Long> checkedCategoryIds;
 
 	private FileManager fileManager;
 	private CategoryManager categoryManager;
@@ -69,8 +70,7 @@ public class FileUploadAction extends ActionSupport {
 		theme.setAvailMachine(availMachine);
 		theme.setUnavailMachine(unavailMachine);
 		theme.setMarketURL(marketURL);
-		Category cate = categoryManager.getCategory(checkedCategoryIds);
-		theme.setCategory(cate);
+		HibernateUtils.mergeByCheckedIds(theme.getCategories(), checkedCategoryIds, Category.class);
 		return theme;
 	}
 
@@ -127,7 +127,7 @@ public class FileUploadAction extends ActionSupport {
 		this.unavailMachine = unavailMachine;
 	}
 
-	public void setCheckedCategoryIds(Long checkedCategoryIds) {
+	public void setCheckedCategoryIds(List<Long> checkedCategoryIds) {
 		this.checkedCategoryIds = checkedCategoryIds;
 	}
 

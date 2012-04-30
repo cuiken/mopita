@@ -17,14 +17,13 @@ create table f_file(
 	name varchar(50) not null,
 	ux_size int,
 	apk_size int,
-	ux_path varchar(200),
-	apk_path varchar(200),
+	ux_path varchar(255),
+	apk_path varchar(255),
 	avail_machine varchar(255),
 	unavail_machine varchar(255),
-	icon_path varchar(50),
+	icon_path varchar(255),
 	market_url varchar(100),
 	create_time timestamp,
-	category_id int,
 	primary key(id)
 
 )ENGINE=InnoDB;
@@ -64,6 +63,13 @@ create table f_file_shelf(
 	id int not null auto_increment,
 	f_id int,
 	s_id int,
+	primary key(id)
+)ENGINE=InnoDB;
+
+create table f_category_file(
+	id int not null auto_increment,
+	category_id int,
+	file_id int,
 	primary key(id)
 )ENGINE=InnoDB;
 

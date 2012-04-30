@@ -4,11 +4,7 @@
 <html>
 	<head>
 		<title>多语言列表</title>
-		<link href="${ctx}/css/showcase.css" type="text/css" rel="stylesheet" />
-		<link href="${ctx}/css/blueprint/screen.css" type="text/css" rel="stylesheet" media="screen, projection" />
-		<link href="${ctx}/css/blueprint/print.css" type="text/css" rel="stylesheet" media="print" />
-		<!--[if lt IE 8]><link href="${ctx}/css/blueprint/ie.css" type="text/css" rel="stylesheet" media="screen, projection"><![endif]-->
-		<link href="${ctx}/css/mini-web.css" rel="stylesheet"/>	
+		<%@include file="/common/script.jsp" %>
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
 		<script>
 			$(document).ready(function(){

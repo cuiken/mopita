@@ -4,13 +4,15 @@
 <html>
 	<head>
 		<title>文件列表</title>
-		<link href="${ctx}/css/showcase.css" type="text/css" rel="stylesheet" />
-		<link href="${ctx}/css/blueprint/screen-customized.css" type="text/css" rel="stylesheet" media="screen, projection" />
-		<link href="${ctx}/css/blueprint/print.css" type="text/css" rel="stylesheet" media="print" />
-		<!--[if lt IE 8]><link href="${ctx}/css/blueprint/ie.css" type="text/css" rel="stylesheet" media="screen, projection"><![endif]-->
-		<link href="${ctx}/css/mini-web.css" rel="stylesheet"/>	
+		<%@include file="/common/script.jsp" %>
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
 		<script src="${ctx}/js/table.js"></script>
+		<script>
+			$(document).ready(function(){
+				$("#message").fadeOut(3000);
+				
+			});
+		</script>
 	</head>
 	<body>
 		<div class="container">
@@ -20,8 +22,11 @@
 		<%@include file="/common/header.jsp" %>
 		<%@include file="/common/left.jsp" %>
 		<div class="span-18 last prepend-top">
-		<div id="message"><s:actionmessage cssClass="success"/></div>
-		<h4 class="prepend-top">文件列表</h4>
+		
+		<c:if test="${not empty actionMessages}">
+			<div id="message" class="success">${actionMessages}</div>	
+		</c:if>
+		<h3>文件列表</h3>
 		<div id="filter">
 			文件名: <input type="text" name="filter_EQS_name" value="${param['filter_EQS_name']}" size="9"/>
 			<input type="button" value="搜索" onclick="search();"/>

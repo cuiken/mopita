@@ -8,6 +8,7 @@
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
 		<script>
 			$(document).ready(function(){
+				$("#message").fadeOut(3000);
 				//alert($("#store").val());
 				$("#store").change(function(){
 					//alert($(this).children('option:selected').val());
@@ -21,7 +22,10 @@
 		<%@include file="/common/header.jsp" %>
 		<%@include file="/common/left.jsp" %>
 			<div class="span-18 last prepend-top">
-			<div id="message"><s:actionmessage cssClass="success"/></div>
+			<c:if test="${not empty actionMessages}">
+				<div id="message" class="success">${actionMessages}</div>	
+			</c:if>
+			<h3>货架列表</h3>
 			商店:<s:select list="allStores" listKey="id" listValue="name" name="" id="store"/>
 			<table>
 				<tr>
@@ -37,16 +41,14 @@
 						<td>${store.name}</td>
 						<td>
 							<a href="shelf!file.action?id=${id}">管理</a>
-							<a href="shelf!input.action?id=${id}">编辑</a>
+							<a href="shelf!input.action?id=${id}">修改</a>
 							<a href="shelf!delete.action?id=${id}">删除</a>
 						</td>
 					</tr>
 				</s:iterator>
 				
-			</table>
-			<div>
-				<a href="shelf!input.action">add</a>
-			</div>
+			</table>		
+			<a href="shelf!input.action">创建货架</a>			
 			</div>
 		</div>
 		</form>
