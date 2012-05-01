@@ -40,7 +40,7 @@
 						<td>${description}</td>
 						<td>${store.name}</td>
 						<td>
-							<a href="shelf!file.action?id=${id}">管理</a>
+							<a href="test1.action?id=${id}">管理</a>
 							<a href="shelf!input.action?id=${id}">修改</a>
 							<a href="shelf!delete.action?id=${id}">删除</a>
 						</td>

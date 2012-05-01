@@ -34,7 +34,7 @@
 	<table>
 		<tr>
 			<td>商店</td>
-			<td><s:select list="allStores" listKey="id" listValue="name" theme="simple"></s:select></td>
+			<td></td>
 			<td>货架</td>
 			<td><select></select></td>
 		</tr>
