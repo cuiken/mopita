@@ -13,8 +13,12 @@
 			$(document).ready(function(){
 				$("#name").focus();
 				$("#inputForm").validate({
+					
 					rules:{
-						checkedStoreId:"required"
+						checkedStoreId:"required",
+						//name:{
+					//		remote: "shelf!checkShelfName.action?storeId=" + encodeURIComponent('${store.id}')+"&oldName="+encodeURIComponent('${name}')
+					//	}
 						
 					},
 					errorContainer: "#messageBox",

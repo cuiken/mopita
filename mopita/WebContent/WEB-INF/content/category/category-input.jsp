@@ -13,7 +13,16 @@
 			$(document).ready(function(){
 				$("#name").focus();
 				$("#inputForm").validate({			
-						
+					rules:{
+						name:{
+							remote: "category!checkCategoryName.action?oldCategoryName=" + encodeURIComponent('${name}')
+						}
+					},
+					messages:{
+						name:{
+							remote:"名称已存在"
+						}
+					},	
 					errorContainer:"#messageBox"			
 					
 				});

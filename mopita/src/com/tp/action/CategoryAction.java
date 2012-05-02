@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tp.entity.Category;
 import com.tp.service.CategoryManager;
+import com.tp.utils.Struts2Utils;
 
 @Namespace("/category")
 @Results( { @Result(name = CRUDActionSupport.RELOAD, location = "category.action", type = "redirect") })
@@ -56,6 +57,17 @@ public class CategoryAction extends CRUDActionSupport<Category> {
 		categoryManager.saveCategory(entity);
 		addActionMessage("保存成功");
 		return RELOAD;
+	}
+	
+	public String checkCategoryName() throws Exception{
+		String newCategoryName = new String(Struts2Utils.getParameter("name").getBytes("iso-8859-1"),"utf-8");
+		String oldCategoryName = new String(Struts2Utils.getParameter("oldCategoryName").getBytes("iso-8859-1"),"utf-8");
+		if(categoryManager.isCategoryUnique(newCategoryName, oldCategoryName)){
+			Struts2Utils.renderText("true");
+		}else{
+			Struts2Utils.renderText("false");
+		}
+		return null;
 	}
 
 	@Override

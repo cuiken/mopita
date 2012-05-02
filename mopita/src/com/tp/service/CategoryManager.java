@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Lists;
 import com.tp.dao.CategoryDao;
+import com.tp.dao.HibernateUtils;
 import com.tp.dao.ShelfDao;
 import com.tp.dao.StoreDao;
 import com.tp.entity.Category;
 import com.tp.entity.Shelf;
 import com.tp.entity.Store;
+import com.tp.entity.ThemeFile;
 
 @Component
 @Transactional
@@ -87,17 +90,35 @@ public class CategoryManager {
 		for (Shelf s : oriShelfs) {
 			Shelf targetShelf = new Shelf();
 			targetShelf.setName(s.getName());
+			copyShelfFiles(targetShelf, s.getThemes());
 			targetShelf.setDescription(s.getDescription());
 			targetShelf.setStore(targetStore);
 			this.saveShelf(targetShelf);
 		}
+	}
+	
+	public void copyShelfFiles(Shelf shelf,List<ThemeFile> themes){
+		
+		List<Long> themeIds=Lists.newArrayList();
+		for(ThemeFile file:themes){
+			themeIds.add(file.getId());
+		}
+		HibernateUtils.mergeByCheckedIds(shelf.getThemes(), themeIds, ThemeFile.class);
 	}
 
 	@Transactional(readOnly = true)
 	public boolean isStoreNameUnique(String newStoreName, String oldStoreName) {
 		return storeDao.isPropertyUnique("name", newStoreName, oldStoreName);
 	}
+	
+	public boolean isCategoryUnique(String newName,String oldName){
+		return categoryDao.isPropertyUnique("name", newName, oldName);
+	}
 
+	public boolean isShelfUnique(String newName,String oldName,Long id){
+		return shelfDao.isShelfNameUnique(newName,oldName, id);
+	}
+	
 	@Autowired
 	public void setCategoryDao(CategoryDao categoryDao) {
 		this.categoryDao = categoryDao;

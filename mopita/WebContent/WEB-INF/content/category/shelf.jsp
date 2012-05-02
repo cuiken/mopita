@@ -9,9 +9,32 @@
 		<script>
 			$(document).ready(function(){
 				$("#message").fadeOut(3000);
-				//alert($("#store").val());
+				var sid=$("#store").val();
+				
+				var getData=function(sid){$.ajax({
+					url:"shelf!filterShelf.action?checkedStoreId="+sid,
+					success:function(data){
+						
+						var html;
+						$.each(data,function(i,val){		
+							html+="<tr><td>"+val.name+"</td><td>"+val.description+"</td><td><a href=shelf!manage.action?id="+val.id+">管理</a></td></tr>"
+							/**				
+							var tr=$("<tr></tr>");
+							var td1=$("<td></td>").text(val.name);
+							
+							tr.append(td1);
+							
+							$("#content tr").after(tr);*/
+						});
+						$("#content tr").after(html);
+						
+					}
+				})};
+				
+				getData(sid);
 				$("#store").change(function(){
-					//alert($(this).children('option:selected').val());
+					$("#content tr:not(:first)").remove();
+					getData($(this).children('option:selected').val());
 				});
 			});
 		</script>
@@ -27,26 +50,23 @@
 			</c:if>
 			<h3>货架列表</h3>
 			商店:<s:select list="allStores" listKey="id" listValue="name" name="" id="store"/>
-			<table>
+			<table id="content">
 				<tr>
 					<th>货架名称</th>
 					<th>货架描述</th>
-					<th>所属商店</th>
 					<th>操作</th>
-				</tr>
-				<s:iterator value="shelfs">
-					<tr>
+				</tr>	
+				<!--  		
+				<tr>
 						<td>${name}</td>
 						<td>${description}</td>
-						<td>${store.name}</td>
 						<td>
-							<a href="test1.action?id=${id}">管理</a>
+							<a href="shelf!manage.action?id=${id}">管理</a>
 							<a href="shelf!input.action?id=${id}">修改</a>
 							<a href="shelf!delete.action?id=${id}">删除</a>
 						</td>
-					</tr>
-				</s:iterator>
-				
+				</tr>
+				-->
 			</table>		
 			<a href="shelf!input.action">创建货架</a>			
 			</div>

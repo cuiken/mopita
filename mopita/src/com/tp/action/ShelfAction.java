@@ -7,13 +7,16 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.collect.Lists;
 import com.tp.dao.HibernateUtils;
+import com.tp.dto.ShelfDTO;
 import com.tp.entity.Shelf;
 import com.tp.entity.Store;
 import com.tp.entity.ThemeFile;
+import com.tp.mapper.JsonMapper;
 import com.tp.service.CategoryManager;
 import com.tp.service.FileManager;
-import com.tp.service.FileStoreInfoManager;
+import com.tp.utils.Struts2Utils;
 
 @Namespace("/category")
 @Results( { @Result(name = CRUDActionSupport.RELOAD, location = "shelf.action", type = "redirect") })
@@ -31,7 +34,6 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	private List<Long> checkedFileIds;
 	private CategoryManager categoryManager;
 	private FileManager fileManager;
-	private FileStoreInfoManager storeInfoManager;
 
 	@Override
 	public String delete() throws Exception {
@@ -48,8 +50,25 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 
 	@Override
 	public String list() throws Exception {
-		shelfs = categoryManager.getAllShelf();
+		//shelfs = categoryManager.getAllShelf();
 		return SUCCESS;
+	}
+	
+	public String filterShelf()throws Exception{
+		Store store=categoryManager.getStore(checkedStoreId);
+		List<Shelf> shelfs=store.getShelfs();
+		List<ShelfDTO> sdto=Lists.newArrayList();
+		for(Shelf shelf:shelfs){
+			ShelfDTO dto=new ShelfDTO();
+			dto.setId(shelf.getId());
+			dto.setName(shelf.getName());
+			dto.setDescription(shelf.getDescription());
+			sdto.add(dto);
+		}
+		JsonMapper mapper=JsonMapper.buildNormalMapper();
+		String json=mapper.toJson(sdto);
+		Struts2Utils.renderJson(json);
+		return null;
 	}
 
 	@Override
@@ -72,9 +91,10 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	}
 	
 	public String saveFile(){
+//		fileManager.merge(entity.getThemes(), checkedFileIds);
 		HibernateUtils.mergeByCheckedIds(entity.getThemes(), checkedFileIds, ThemeFile.class);
 		categoryManager.saveShelf(entity);
-		storeInfoManager.copyFileInfoToStore(entity.getThemes(),entity.getStore());
+//		fileManager.copyFileInfoToStore(entity);
 		return RELOAD;
 	}
 
@@ -84,6 +104,18 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 		List<ThemeFile> allFiles = fileManager.getAllThemeFile();
 		this.remainFiles = fileManager.getRemainFiles(allFiles, onShelfFiles);
 		return MANAGE;
+	}
+	
+	public String checkShelfName() throws Exception{
+		String newShelfName = new String(Struts2Utils.getParameter("name").getBytes("iso-8859-1"),"utf-8");
+		String oldShelfName = new String(Struts2Utils.getParameter("oldName").getBytes("iso-8859-1"),"utf-8");
+		Long storeId=Long.valueOf(Struts2Utils.getParameter("storeId"));
+		if(categoryManager.isShelfUnique(newShelfName,oldShelfName, storeId)){
+			Struts2Utils.renderText("true");
+		}else{
+			Struts2Utils.renderText("false");
+		}
+		return null;
 	}
 	
 	public String file(){
@@ -117,11 +149,6 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	@Autowired
 	public void setFileManager(FileManager fileManager) {
 		this.fileManager = fileManager;
-	}
-	
-	@Autowired
-	public void setStoreInfoManager(FileStoreInfoManager storeInfoManager) {
-		this.storeInfoManager = storeInfoManager;
 	}
 
 	public List<Shelf> getShelfs() {

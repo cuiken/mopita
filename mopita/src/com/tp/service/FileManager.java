@@ -9,10 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Lists;
 import com.tp.dao.FileMultipleInfoDao;
+import com.tp.dao.FileStoreInfoDao;
 import com.tp.dao.PreviewDao;
 import com.tp.dao.ThemeFileDao;
 import com.tp.entity.FileMultipleInfo;
+import com.tp.entity.FileStoreInfo;
 import com.tp.entity.Preview;
+import com.tp.entity.Shelf;
 import com.tp.entity.ThemeFile;
 import com.tp.orm.Page;
 import com.tp.orm.PropertyFilter;
@@ -25,6 +28,7 @@ public class FileManager {
 	private FileMultipleInfoDao fileMultipleDao;
 	private PreviewDao previewDao;
 	private ThemeFileDao themeFileDao;
+	private FileStoreInfoDao storeInfoDao;
 
 	public FileMultipleInfo getFileInfo(Long id) {
 		return fileMultipleDao.get(id);
@@ -129,6 +133,53 @@ public class FileManager {
 		return themeFileDao.isPropertyUnique("name", newValue, oldValue);
 	}
 	
+	public FileStoreInfo get(Long id) {
+		return storeInfoDao.get(id);
+	}
+
+	public void save(FileStoreInfo entity) {
+		storeInfoDao.save(entity);
+	}
+
+	public void delete(Long id) {
+		storeInfoDao.delete(id);
+	}
+	
+	public void deleteByThemeId(Long id){
+		storeInfoDao.deleteByTheme(id);
+	}
+	
+	public void copyFileInfoToStore(Shelf shelf) {
+		List<ThemeFile> files=shelf.getThemes();
+		for (ThemeFile file : files) {
+			List<FileMultipleInfo> infos = file.getFileInfo();
+			for (FileMultipleInfo fmi : infos) {
+				FileStoreInfo fsi = new FileStoreInfo();
+				fsi.setTitle(fmi.getTitle());
+				fsi.setDescription(fmi.getDescription());
+				fsi.setLanguage(fmi.getLanguage());
+				fsi.setPrice(fmi.getPrice());
+				fsi.setTheme(fmi.getTheme());
+				fsi.setStore(shelf.getStore());
+				this.save(fsi);
+			}
+		}
+	}
+	
+	public void merge(List<ThemeFile> themes, List<Long> checkedId) {
+//		List<Long> checkedIds=Lists.newArrayList();
+//		checkedIds.addAll(checkedId);
+//		List<ThemeFile> files=themes;
+//		for(ThemeFile file:files){
+//			Long id=file.getId();
+//			if(!checkedIds.contains(id)){
+//				deleteByThemeId(id);
+//			}else{
+//				checkedIds.remove(id);
+//			}
+//		}
+	}
+	
 	@Autowired
 	public void setFileMultipleDao(FileMultipleInfoDao fileMultipleDao) {
 		this.fileMultipleDao = fileMultipleDao;
@@ -142,6 +193,11 @@ public class FileManager {
 	@Autowired
 	public void setThemeFileDao(ThemeFileDao themeFileDao) {
 		this.themeFileDao = themeFileDao;
+	}
+	
+	@Autowired
+	public void setStoreInfoDao(FileStoreInfoDao storeInfoDao) {
+		this.storeInfoDao = storeInfoDao;
 	}
 
 }
