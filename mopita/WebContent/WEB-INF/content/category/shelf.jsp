@@ -17,7 +17,7 @@
 							url:"shelf!filterShelf.action?checkedStoreId="+sid,
 							success:function(data){
 								
-								var html;
+								var html="";
 								$.each(data,function(i,val){		
 									html+="<tr><td>"+val.name+"</td><td>"
 									+val.description

@@ -186,8 +186,8 @@ public class ThemeFile extends IdEntity {
 	public boolean equals(Object obj) {
 		if(obj==null)
 			return false;
-		if(obj.getClass()!=this.getClass())
-			return false;
+//		if(obj.getClass()!=this.getClass())
+//			return false;
 		ThemeFile that=(ThemeFile)obj;
 		return that.getId()==this.getId();
 	}
