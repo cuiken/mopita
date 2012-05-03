@@ -16,6 +16,7 @@ import com.tp.entity.FileMultipleInfo;
 import com.tp.entity.FileStoreInfo;
 import com.tp.entity.Preview;
 import com.tp.entity.Shelf;
+import com.tp.entity.Store;
 import com.tp.entity.ThemeFile;
 import com.tp.orm.Page;
 import com.tp.orm.PropertyFilter;
@@ -51,12 +52,15 @@ public class FileManager {
 			Long categoryId) {
 		return themeFileDao.searchFileByCategory(page, categoryId);
 	}
-	
-	public Page<FileMultipleInfo> searchFileInfo(final Page<FileMultipleInfo> page,final List<PropertyFilter> filters){
+
+	public Page<FileMultipleInfo> searchFileInfo(
+			final Page<FileMultipleInfo> page,
+			final List<PropertyFilter> filters) {
 		return fileMultipleDao.findPage(page, filters);
 	}
 
-	public ThemeFile saveFiles(List<File> files, ThemeFile fs,FileMultipleInfo info) {
+	public ThemeFile saveFiles(List<File> files, ThemeFile fs,
+			FileMultipleInfo info) {
 
 		List<File> previews = Lists.newArrayList();
 		for (File file : files) {
@@ -77,16 +81,16 @@ public class FileManager {
 			}
 		}
 		saveThemeFile(fs);
-		saveFileinfo(fs,info);
+		saveFileinfo(fs, info);
 		savePreview(previews, fs);
 		return fs;
 	}
 
-	private void saveFileinfo(ThemeFile f,FileMultipleInfo info){
+	private void saveFileinfo(ThemeFile f, FileMultipleInfo info) {
 		info.setTheme(f);
 		saveFileInfo(info);
 	}
-	
+
 	private void savePreview(List<File> previews, ThemeFile theme) {
 		for (File pre : previews) {
 			Preview preview = new Preview();
@@ -120,7 +124,8 @@ public class FileManager {
 		themeFileDao.delete(id);
 	}
 
-	public List<ThemeFile> getRemainFiles(List<ThemeFile> allFiles,List<ThemeFile> fileOnShelf) {
+	public List<ThemeFile> getRemainFiles(List<ThemeFile> allFiles,
+			List<ThemeFile> fileOnShelf) {
 		List<ThemeFile> remainFile = allFiles;
 		for (ThemeFile fi : fileOnShelf) {
 
@@ -129,10 +134,10 @@ public class FileManager {
 		return remainFile;
 	}
 
-	public boolean isFileNameUnique(String newValue,String oldValue){
+	public boolean isFileNameUnique(String newValue, String oldValue) {
 		return themeFileDao.isPropertyUnique("name", newValue, oldValue);
 	}
-	
+
 	public FileStoreInfo get(Long id) {
 		return storeInfoDao.get(id);
 	}
@@ -144,42 +149,77 @@ public class FileManager {
 	public void delete(Long id) {
 		storeInfoDao.delete(id);
 	}
-	
-	public void deleteByThemeId(Long id){
+
+	public void deleteByThemeId(Long id) {
 		storeInfoDao.deleteByTheme(id);
 	}
-	
-	public void copyFileInfoToStore(Shelf shelf) {
-		List<ThemeFile> files=shelf.getThemes();
-		for (ThemeFile file : files) {
-			List<FileMultipleInfo> infos = file.getFileInfo();
-			for (FileMultipleInfo fmi : infos) {
-				FileStoreInfo fsi = new FileStoreInfo();
-				fsi.setTitle(fmi.getTitle());
-				fsi.setDescription(fmi.getDescription());
-				fsi.setLanguage(fmi.getLanguage());
-				fsi.setPrice(fmi.getPrice());
-				fsi.setTheme(fmi.getTheme());
-				fsi.setStore(shelf.getStore());
-				this.save(fsi);
+
+	public void copyFileInfoToStore(ThemeFile file, Store store) {
+		List<FileMultipleInfo> infos = file.getFileInfo();
+		for (FileMultipleInfo fmi : infos) {
+			FileStoreInfo fsi = new FileStoreInfo();
+			fsi.setTitle(fmi.getTitle());
+			fsi.setDescription(fmi.getDescription());
+			fsi.setLanguage(fmi.getLanguage());
+			fsi.setPrice(fmi.getPrice());
+			fsi.setTheme(fmi.getTheme());
+			fsi.setStore(store);
+			this.save(fsi);
+		}
+
+	}
+
+	/**
+	 * 整合FileStoreInfo信息
+	 * 
+	 * @param themes
+	 * @param ids
+	 */
+	public void merge(Shelf shelf, List<Long> ids) {
+		List<ThemeFile> themes = shelf.getThemes();
+		Store store = shelf.getStore();
+
+		if (ids == null) {
+			for (ThemeFile f : themes) {
+				if (!isFileInStore(store, shelf, f)) {
+					deleteByThemeId(f.getId());
+				}
+			}
+
+			return;
+		}
+		List<Long> checkedIds = Lists.newArrayList();
+		List<ThemeFile> checkedThemes = Lists.newArrayList();
+		checkedThemes.addAll(themes);
+		checkedIds.addAll(ids);
+
+		for (ThemeFile file : checkedThemes) {
+			Long id = file.getId();
+			if (!checkedIds.contains(id) && !isFileInStore(store, shelf, file)) {
+				deleteByThemeId(id);
+			} else {
+				checkedIds.remove(id);
 			}
 		}
+		for (Long id : checkedIds) {
+			ThemeFile file = this.getThemeFile(id);
+			if (!isFileInStore(store, shelf, file)) {
+				copyFileInfoToStore(file, store);
+			}
+
+		}
 	}
-	
-	public void merge(List<ThemeFile> themes, List<Long> checkedId) {
-//		List<Long> checkedIds=Lists.newArrayList();
-//		checkedIds.addAll(checkedId);
-//		List<ThemeFile> files=themes;
-//		for(ThemeFile file:files){
-//			Long id=file.getId();
-//			if(!checkedIds.contains(id)){
-//				deleteByThemeId(id);
-//			}else{
-//				checkedIds.remove(id);
-//			}
-//		}
+
+	private boolean isFileInStore(Store store, Shelf sh, ThemeFile theme) {
+		List<ThemeFile> allFileInStore = Lists.newArrayList();
+		List<Shelf> shelfs = store.getShelfs();
+		for (Shelf shelf : shelfs) {
+			if (!shelf.equals(sh))
+				allFileInStore.addAll(shelf.getThemes());
+		}
+		return allFileInStore.contains(theme);
 	}
-	
+
 	@Autowired
 	public void setFileMultipleDao(FileMultipleInfoDao fileMultipleDao) {
 		this.fileMultipleDao = fileMultipleDao;
@@ -194,7 +234,7 @@ public class FileManager {
 	public void setThemeFileDao(ThemeFileDao themeFileDao) {
 		this.themeFileDao = themeFileDao;
 	}
-	
+
 	@Autowired
 	public void setStoreInfoDao(FileStoreInfoDao storeInfoDao) {
 		this.storeInfoDao = storeInfoDao;

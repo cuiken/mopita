@@ -92,5 +92,25 @@ public class FileStoreInfo extends IdEntity {
 
 		return ToStringBuilder.reflectionToString(this);
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj==null)
+			return false;
+		if(obj.getClass()!=getClass())
+			return false;
+		FileStoreInfo that=(FileStoreInfo) obj;
+		return that.getId()==this.getId()&&that.getLanguage().equals(this.getLanguage());
+	}
+	
+	@Override
+	public int hashCode() {
+		int result=37;
+		result=result*17+id.hashCode();
+		result=result*17+title.hashCode();
+		result=result*17+description.hashCode();
+		result=result*17+language.hashCode();
+		return result;
+	}
 
 }

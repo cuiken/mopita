@@ -11,25 +11,25 @@
 				$("#message").fadeOut(3000);
 				var sid=$("#store").val();
 				
-				var getData=function(sid){$.ajax({
-					url:"shelf!filterShelf.action?checkedStoreId="+sid,
-					success:function(data){
-						
-						var html;
-						$.each(data,function(i,val){		
-							html+="<tr><td>"+val.name+"</td><td>"+val.description+"</td><td><a href=shelf!manage.action?id="+val.id+">管理</a></td></tr>"
-							/**				
-							var tr=$("<tr></tr>");
-							var td1=$("<td></td>").text(val.name);
-							
-							tr.append(td1);
-							
-							$("#content tr").after(tr);*/
+				var getData=function(sid){
+						$.ajax({
+							dataType:"json",
+							url:"shelf!filterShelf.action?checkedStoreId="+sid,
+							success:function(data){
+								
+								var html;
+								$.each(data,function(i,val){		
+									html+="<tr><td>"+val.name+"</td><td>"
+									+val.description
+									+"</td><td><a href=shelf!manage.action?id="
+									+val.id+">管理</a></td></tr>";
+								
+								});
+								$("#content tr").after(html);
+								
+							}
 						});
-						$("#content tr").after(html);
-						
-					}
-				})};
+				};
 				
 				getData(sid);
 				$("#store").change(function(){

@@ -181,6 +181,16 @@ public class ThemeFile extends IdEntity {
 	public List<Long> getCheckedCategoryIds() {
 		return ConvertUtils.convertElementPropertyToList(categories, "id");
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj==null)
+			return false;
+		if(obj.getClass()!=this.getClass())
+			return false;
+		ThemeFile that=(ThemeFile)obj;
+		return that.getId()==this.getId();
+	}
 
 	@Override
 	public String toString() {

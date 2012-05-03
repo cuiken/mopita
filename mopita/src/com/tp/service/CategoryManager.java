@@ -55,6 +55,7 @@ public class CategoryManager {
 		for(int i=0;i<defShelf.length;i++){
 			Shelf shf=new Shelf();
 			shf.setName(defShelf[i]);
+			shf.setDescription("默认创建");
 			shf.setStore(store);
 			this.saveShelf(shf);
 		}

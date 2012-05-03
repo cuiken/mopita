@@ -91,7 +91,7 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	}
 	
 	public String saveFile(){
-//		fileManager.merge(entity.getThemes(), checkedFileIds);
+		fileManager.merge(entity, checkedFileIds);
 		HibernateUtils.mergeByCheckedIds(entity.getThemes(), checkedFileIds, ThemeFile.class);
 		categoryManager.saveShelf(entity);
 //		fileManager.copyFileInfoToStore(entity);
