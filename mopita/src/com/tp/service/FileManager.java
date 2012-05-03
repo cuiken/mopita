@@ -12,12 +12,14 @@ import com.tp.dao.FileMultipleInfoDao;
 import com.tp.dao.FileStoreInfoDao;
 import com.tp.dao.PreviewDao;
 import com.tp.dao.ThemeFileDao;
+import com.tp.dto.FileDTO;
 import com.tp.entity.FileMultipleInfo;
 import com.tp.entity.FileStoreInfo;
 import com.tp.entity.Preview;
 import com.tp.entity.Shelf;
 import com.tp.entity.Store;
 import com.tp.entity.ThemeFile;
+import com.tp.mapper.JsonMapper;
 import com.tp.orm.Page;
 import com.tp.orm.PropertyFilter;
 import com.tp.utils.FileUtils;
@@ -218,6 +220,20 @@ public class FileManager {
 				allFileInStore.addAll(shelf.getThemes());
 		}
 		return allFileInStore.contains(theme);
+	}
+	
+	public String jsonString(List<ThemeFile> themeFiles){
+		List<FileDTO> fileDtos=Lists.newArrayList();
+		
+		for(ThemeFile f:themeFiles){
+			FileDTO dto=new FileDTO();
+			dto.setId(f.getId());
+			dto.setName(f.getName());
+			fileDtos.add(dto);
+		}
+		JsonMapper mapper=JsonMapper.buildNormalMapper();
+		return mapper.toJson(fileDtos);
+		
 	}
 
 	@Autowired

@@ -7,13 +7,10 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.google.common.collect.Lists;
 import com.tp.dao.HibernateUtils;
-import com.tp.dto.ShelfDTO;
 import com.tp.entity.Shelf;
 import com.tp.entity.Store;
 import com.tp.entity.ThemeFile;
-import com.tp.mapper.JsonMapper;
 import com.tp.service.CategoryManager;
 import com.tp.service.FileManager;
 import com.tp.utils.Struts2Utils;
@@ -57,16 +54,7 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	public String filterShelf()throws Exception{
 		Store store=categoryManager.getStore(checkedStoreId);
 		List<Shelf> shelfs=store.getShelfs();
-		List<ShelfDTO> sdto=Lists.newArrayList();
-		for(Shelf shelf:shelfs){
-			ShelfDTO dto=new ShelfDTO();
-			dto.setId(shelf.getId());
-			dto.setName(shelf.getName());
-			dto.setDescription(shelf.getDescription());
-			sdto.add(dto);
-		}
-		JsonMapper mapper=JsonMapper.buildNormalMapper();
-		String json=mapper.toJson(sdto);
+		String json=categoryManager.jsonString(shelfs);
 		Struts2Utils.renderJson(json);
 		return null;
 	}
@@ -94,7 +82,6 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 		fileManager.merge(entity, checkedFileIds);
 		HibernateUtils.mergeByCheckedIds(entity.getThemes(), checkedFileIds, ThemeFile.class);
 		categoryManager.saveShelf(entity);
-//		fileManager.copyFileInfoToStore(entity);
 		return RELOAD;
 	}
 
@@ -104,6 +91,23 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 		List<ThemeFile> allFiles = fileManager.getAllThemeFile();
 		this.remainFiles = fileManager.getRemainFiles(allFiles, onShelfFiles);
 		return MANAGE;
+	}
+	
+	public String getRemainFile(){
+		Shelf sh=categoryManager.getShelf(id);
+		this.onShelfFiles = sh.getThemes();
+		List<ThemeFile> allFiles = fileManager.getAllThemeFile();
+		this.remainFiles = fileManager.getRemainFiles(allFiles, onShelfFiles);
+		String json=fileManager.jsonString(remainFiles);
+		Struts2Utils.renderJson(json);
+		return null;
+	}
+	public String getOnShelfFile(){
+		Shelf sh=categoryManager.getShelf(id);
+		this.onShelfFiles = sh.getThemes();
+		String json=fileManager.jsonString(onShelfFiles);
+		Struts2Utils.renderJson(json);
+		return null;
 	}
 	
 	public String checkShelfName() throws Exception{

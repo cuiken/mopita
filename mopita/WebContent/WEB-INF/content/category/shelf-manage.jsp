@@ -28,6 +28,9 @@
 	</style>
 
 	<script>
+	function openwindow(id){
+		window.open("../file/file-store-info.action?themeId="+id,'newwindow', 'height=400, width=400, top=100, left=500, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+	}
 	
 	$(function() {
 		$( "#sortable1, #sortable2" ).sortable({
@@ -41,6 +44,69 @@
 			$("#manageForm").submit();
 		});
 		
+		var sid=$("#store").val();
+			
+		var getData=function(sid){
+			$.ajax({
+				dataType:"json",
+				url:"shelf!filterShelf.action?checkedStoreId="+sid,
+				success:function(data){	
+					var opt="";						
+					$.each(data,function(i,val){		
+						opt+="<option value="+val.id+">"+val.name+"</option>"
+								
+					});
+					
+					$("#shelf").append(opt);
+					$("#shelf option[value="+${id}+"]").attr("selected", true);
+				}
+			});
+		};
+		
+		var getRemainFileData=function(sfid){
+			$.ajax({
+				dataType:"json",
+				url:"shelf!getRemainFile.action?id="+sfid,
+				success:function(data){
+					var li="";
+					$.each(data,function(i,val){
+						li+="<li id="+val.id+">"+val.name+"</li>";
+					});
+					$("#sortable1").append(li);
+				}
+			});
+		};
+		var getShelfFileData=function(sfid){
+			$.ajax({
+				dataType:"json",
+				url:"shelf!getOnShelfFile.action?id="+sfid,
+				success:function(data){
+					var li="";
+					
+					$.each(data,function(i,val){
+						li+="<li id="+val.id+" onclick=openwindow("+val.id+");><a>"+val.name+"</a></li>";
+					});
+					$("#sortable2").append(li);
+				}		
+			});
+		};
+		
+		getData(sid);
+		
+		getRemainFileData(${id});
+		getShelfFileData(${id});
+		$("#store").change(function(){
+			$("#shelf option").remove();
+			getData($(this).children('option:selected').val());
+		});
+		
+		$("#shelf").change(function(){
+			$("#sortable1 li").remove();
+			$("#sortable2 li").remove();
+			getRemainFileData($(this).children('option:selected').val());
+			getShelfFileData($(this).children('option:selected').val());
+		});
+		
 	});
 	</script>
 </head>
@@ -52,16 +118,17 @@
 <%@include file="/common/left.jsp" %>
 <div class="span-18 last prepend-top">
 <div>
-商店名称:<select><option>----</option></select> &nbsp;
-货架名称:<select><option>----</option></select>
+商店名称:<s:select list="allStores" listKey="id" listValue="name" name="store.id" id="store"/> &nbsp;
+货架名称:<select id="shelf"></select>
 </div>
 <div id="products">
 	<h3>仓库文件</h3>	
 	<div class="ui-widget-content">
 		<ol id="sortable1" class="connectedSortable" style="min-height: 300px;">
+		<!--  
 			<s:iterator value="remainFiles">
 				<li id="${id}">${name}</li>
-			</s:iterator>
+			</s:iterator>-->
 		</ol>
 	</div>
 </div>
@@ -70,9 +137,10 @@
 	<h3>已上架文件</h3>
 	<div class="ui-widget-content" >
 		<ol id="sortable2" class="connectedSortable" style="min-height: 300px;">
+		<!--
 			<s:iterator value="onShelfFiles">
-				<li id="${id}">${name}</li>
-			</s:iterator>
+				<li id="${id}"><a>${name}</a></li>
+			</s:iterator>  -->
 		</ol>
 	</div>
 </div>

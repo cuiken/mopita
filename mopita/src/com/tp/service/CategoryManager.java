@@ -11,10 +11,12 @@ import com.tp.dao.CategoryDao;
 import com.tp.dao.HibernateUtils;
 import com.tp.dao.ShelfDao;
 import com.tp.dao.StoreDao;
+import com.tp.dto.ShelfDTO;
 import com.tp.entity.Category;
 import com.tp.entity.Shelf;
 import com.tp.entity.Store;
 import com.tp.entity.ThemeFile;
+import com.tp.mapper.JsonMapper;
 
 @Component
 @Transactional
@@ -84,6 +86,19 @@ public class CategoryManager {
 	public void deleteShelf(Long id) {
 		shelfDao.delete(id);
 	}
+	
+	public String jsonString(List<Shelf> shelfs){
+		List<ShelfDTO> sdto=Lists.newArrayList();
+		for(Shelf shelf:shelfs){
+			ShelfDTO dto=new ShelfDTO();
+			dto.setId(shelf.getId());
+			dto.setName(shelf.getName());
+			dto.setDescription(shelf.getDescription());
+			sdto.add(dto);
+		}
+		JsonMapper mapper=JsonMapper.buildNormalMapper();
+		return mapper.toJson(sdto);
+	}
 
 	public void copyAllStore(Long storeId, Store targetStore) {
 		Store originalStore = this.getStore(storeId);
@@ -98,13 +113,17 @@ public class CategoryManager {
 		}
 	}
 	
-	public void copyShelfFiles(Shelf shelf,List<ThemeFile> themes){
+	private void copyShelfFiles(Shelf shelf,List<ThemeFile> themes){
 		
 		List<Long> themeIds=Lists.newArrayList();
 		for(ThemeFile file:themes){
 			themeIds.add(file.getId());
 		}
 		HibernateUtils.mergeByCheckedIds(shelf.getThemes(), themeIds, ThemeFile.class);
+	}
+	
+	private void copyFileStoreInfo(){
+		
 	}
 
 	@Transactional(readOnly = true)
