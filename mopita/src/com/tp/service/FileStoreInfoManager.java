@@ -27,8 +27,8 @@ public class FileStoreInfoManager {
 		storeInfoDao.delete(id);
 	}
 	
-	public List<FileStoreInfo> getByTheme(Long tid){
-		return storeInfoDao.getInfoByTheme(tid);
+	public List<FileStoreInfo> getByTheme(Long tid,Long sid){
+		return storeInfoDao.getInfoByTheme(tid,sid);
 	}
 
 	@Autowired

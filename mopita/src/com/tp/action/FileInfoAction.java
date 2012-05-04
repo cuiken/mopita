@@ -54,8 +54,14 @@ public class FileInfoAction extends CRUDActionSupport<FileMultipleInfo> {
 	@Override
 	public String save() throws Exception {
 		ThemeFile file = fileManager.getThemeFile(themeId);
-		entity.setTheme(file);
-		fileManager.saveFileInfo(entity);
+		List<FileMultipleInfo> existInfo=file.getFileInfo();
+		if(existInfo.contains(entity)){
+			addActionMessage("信息已存在");
+		}else{
+			entity.setTheme(file);
+			fileManager.saveFileInfo(entity);
+			addActionMessage("保存成功");
+		}
 		return RELOAD;
 	}
 

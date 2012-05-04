@@ -29,6 +29,7 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	private List<ThemeFile> onShelfFiles;
 	private List<ThemeFile> remainFiles;
 	private List<Long> checkedFileIds;
+	private Long selectId;
 	private CategoryManager categoryManager;
 	private FileManager fileManager;
 
@@ -79,6 +80,7 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	}
 	
 	public String saveFile(){
+		entity=categoryManager.getShelf(selectId);
 		fileManager.merge(entity, checkedFileIds);
 		HibernateUtils.mergeByCheckedIds(entity.getThemes(), checkedFileIds, ThemeFile.class);
 		categoryManager.saveShelf(entity);
@@ -110,25 +112,9 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 		return null;
 	}
 	
-	public String checkShelfName() throws Exception{
-		String newShelfName = new String(Struts2Utils.getParameter("name").getBytes("iso-8859-1"),"utf-8");
-		String oldShelfName = new String(Struts2Utils.getParameter("oldName").getBytes("iso-8859-1"),"utf-8");
-		Long storeId=Long.valueOf(Struts2Utils.getParameter("storeId"));
-		if(categoryManager.isShelfUnique(newShelfName,oldShelfName, storeId)){
-			Struts2Utils.renderText("true");
-		}else{
-			Struts2Utils.renderText("false");
-		}
-		return null;
-	}
-	
 	public String file(){
 		checkedFileIds=entity.getCheckedFileIds();
 		return "file";
-	}
-	
-	public void prepareSaveFile() throws Exception{
-		prepareModel();
 	}
 	
 	public void prepareFile() throws Exception{
@@ -193,5 +179,9 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	
 	public void setCheckedFileIds(List<Long> checkedFileIds) {
 		this.checkedFileIds = checkedFileIds;
+	}
+	
+	public void setSelectId(Long selectId) {
+		this.selectId = selectId;
 	}
 }

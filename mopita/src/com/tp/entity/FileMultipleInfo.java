@@ -68,6 +68,16 @@ public class FileMultipleInfo extends IdEntity {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if(obj==null)
+			return false;
+		if(this.getClass()!=obj.getClass())
+			return false;
+		FileMultipleInfo that=(FileMultipleInfo)obj;
+		return that.getLanguage().equals(this.getLanguage());
+	}
+
+	@Override
 	public String toString() {
 
 		return ToStringBuilder.reflectionToString(this);

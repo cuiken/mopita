@@ -45,7 +45,7 @@
 			</fieldset>
 			<div>
 				<input type="button" id="submitBtn" value="保存">&nbsp;
-				<input class="button" type="button" value="返回" onclick="history.back();">
+				<input class="button" type="button" value="返回" onclick="window.close();">
 			</div>
 	</form>		
 	</body>

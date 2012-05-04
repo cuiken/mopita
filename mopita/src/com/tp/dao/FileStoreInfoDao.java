@@ -11,14 +11,14 @@ import com.tp.orm.hibernate.HibernateDao;
 public class FileStoreInfoDao extends HibernateDao<FileStoreInfo, Long> {
 
 	private static final String DELETE_BY_THEME = "delete from FileStoreInfo fsi where fsi.theme.id=?";
-	private static final String QUERY_BY_THEME = "select fsi from FileStoreInfo fsi where fsi.theme.id=?";
+	private static final String QUERY_BY_THEME = "select fsi from FileStoreInfo fsi where fsi.theme.id=? and fsi.store.id=?";
 
 	public void deleteByTheme(Long id) {
 		createQuery(DELETE_BY_THEME, id).executeUpdate();
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<FileStoreInfo> getInfoByTheme(Long id) {
-		return createQuery(QUERY_BY_THEME, id).list();
+	public List<FileStoreInfo> getInfoByTheme(Long id,Long storeId) {
+		return createQuery(QUERY_BY_THEME, id,storeId).list();
 	}
 }

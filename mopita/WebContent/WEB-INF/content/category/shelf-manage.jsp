@@ -29,7 +29,7 @@
 
 	<script>
 	function openwindow(id){
-		window.open("../file/file-store-info.action?themeId="+id,'newwindow', 'height=400, width=400, top=100, left=500, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+		window.open("../file/file-store-info.action?themeId="+id+"&storeId="+${store.id},'newwindow', 'height=400, width=400, top=100, left=500, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
 	}
 	
 	$(function() {
@@ -41,9 +41,11 @@
 			for(var i=0;i<checked.length;i++){
 				$("#cart").append("<input type='hidden' name='checkedFileIds' value="+checked[i].id+">");
 			}
+			$("#cart").append("<input type='hidden' name='selectId' value="+$("#shelf").val()+">");
 			$("#manageForm").submit();
 		});
 		
+		$("#store option[value="+${store.id}+"]").attr("selected",true);
 		var sid=$("#store").val();
 			
 		var getData=function(sid){
@@ -51,9 +53,10 @@
 				dataType:"json",
 				url:"shelf!filterShelf.action?checkedStoreId="+sid,
 				success:function(data){	
-					var opt="";						
-					$.each(data,function(i,val){		
-						opt+="<option value="+val.id+">"+val.name+"</option>"
+					var opt="<option value=0>--请选择--</option>";						
+					$.each(data,function(i,val){
+							
+						opt+="<option value="+val.id+">"+val.name+"</option>";
 								
 					});
 					
@@ -62,6 +65,7 @@
 				}
 			});
 		};
+			
 		
 		var getRemainFileData=function(sfid){
 			$.ajax({
@@ -98,6 +102,8 @@
 		$("#store").change(function(){
 			$("#shelf option").remove();
 			getData($(this).children('option:selected').val());
+			$("#sortable1 li").remove();
+			$("#sortable2 li").remove();
 		});
 		
 		$("#shelf").change(function(){
@@ -108,6 +114,7 @@
 		});
 		
 	});
+	
 	</script>
 </head>
 <body>
@@ -118,7 +125,7 @@
 <%@include file="/common/left.jsp" %>
 <div class="span-18 last prepend-top">
 <div>
-商店名称:<s:select list="allStores" listKey="id" listValue="name" name="store.id" id="store"/> &nbsp;
+商店名称:<s:select list="allStores" listKey="id" listValue="name" name="" id="store" /> &nbsp;
 货架名称:<select id="shelf"></select>
 </div>
 <div id="products">

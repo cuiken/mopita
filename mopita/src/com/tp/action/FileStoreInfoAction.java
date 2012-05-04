@@ -17,6 +17,7 @@ public class FileStoreInfoAction extends CRUDActionSupport<FileStoreInfo>{
 	private FileStoreInfo entity;
 	private Long id;
 	private Long themeId;
+	private Long storeId;
 	private List<FileStoreInfo> fileInfo=Lists.newArrayList();
 	private FileStoreInfoManager storeInfoManager;
 
@@ -34,7 +35,7 @@ public class FileStoreInfoAction extends CRUDActionSupport<FileStoreInfo>{
 
 	@Override
 	public String list() throws Exception {
-		fileInfo=storeInfoManager.getByTheme(themeId);
+		fileInfo=storeInfoManager.getByTheme(themeId,storeId);
 		return SUCCESS;
 	}
 
@@ -74,6 +75,10 @@ public class FileStoreInfoAction extends CRUDActionSupport<FileStoreInfo>{
 	
 	public void setThemeId(Long themeId) {
 		this.themeId = themeId;
+	}
+	
+	public void setStoreId(Long storeId) {
+		this.storeId = storeId;
 	}
 	
 	public List<FileStoreInfo> getFileInfo() {
