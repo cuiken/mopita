@@ -8,11 +8,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Lists;
 import com.tp.dao.CategoryDao;
+import com.tp.dao.FileStoreInfoDao;
 import com.tp.dao.HibernateUtils;
 import com.tp.dao.ShelfDao;
 import com.tp.dao.StoreDao;
 import com.tp.dto.ShelfDTO;
 import com.tp.entity.Category;
+import com.tp.entity.FileMultipleInfo;
+import com.tp.entity.FileStoreInfo;
 import com.tp.entity.Shelf;
 import com.tp.entity.Store;
 import com.tp.entity.ThemeFile;
@@ -25,6 +28,7 @@ public class CategoryManager {
 	private CategoryDao categoryDao;
 	private StoreDao storeDao;
 	private ShelfDao shelfDao;
+	private FileStoreInfoDao storeInfoDao;
 
 	public Category getCategory(Long id) {
 		return categoryDao.get(id);
@@ -110,6 +114,7 @@ public class CategoryManager {
 			targetShelf.setDescription(s.getDescription());
 			targetShelf.setStore(targetStore);
 			this.saveShelf(targetShelf);
+			copyFileStoreInfo(s.getThemes(), targetStore);
 		}
 	}
 	
@@ -122,8 +127,19 @@ public class CategoryManager {
 		HibernateUtils.mergeByCheckedIds(shelf.getThemes(), themeIds, ThemeFile.class);
 	}
 	
-	private void copyFileStoreInfo(){
-		
+	private void copyFileStoreInfo(List<ThemeFile> themes,Store store){
+		for(ThemeFile theme:themes){
+			List<FileMultipleInfo> infos=theme.getFileInfo();
+			for(FileMultipleInfo fmi:infos){
+				FileStoreInfo storeInfo=new FileStoreInfo();
+				storeInfo.setTitle(fmi.getTitle());
+				storeInfo.setDescription(fmi.getDescription());
+				storeInfo.setLanguage(fmi.getLanguage());
+				storeInfo.setTheme(theme);
+				storeInfo.setStore(store);
+				storeInfoDao.save(storeInfo);
+			}
+		}
 	}
 
 	@Transactional(readOnly = true)
@@ -152,5 +168,10 @@ public class CategoryManager {
 	@Autowired
 	public void setShelfDao(ShelfDao shelfDao) {
 		this.shelfDao = shelfDao;
+	}
+	
+	@Autowired
+	public void setStoreInfoDao(FileStoreInfoDao storeInfoDao) {
+		this.storeInfoDao = storeInfoDao;
 	}
 }

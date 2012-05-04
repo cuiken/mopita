@@ -29,10 +29,11 @@
 
 	<script>
 	function openwindow(id){
-		window.open("../file/file-store-info.action?themeId="+id+"&storeId="+${store.id},'newwindow', 'height=400, width=400, top=100, left=500, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+		window.open("../file/file-store-info.action?themeId="+id+"&storeId="+$("#store").val(),'newwindow', 'height=400, width=400, top=100, left=500, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
 	}
 	
 	$(function() {
+		$("#message").fadeOut(3000);
 		$( "#sortable1, #sortable2" ).sortable({
 			connectWith: ".connectedSortable"
 		}).disableSelection();
@@ -124,6 +125,9 @@
 <%@include file="/common/header.jsp" %>
 <%@include file="/common/left.jsp" %>
 <div class="span-18 last prepend-top">
+<c:if test="${not empty actionMessages}">
+	<div id="message" class="success">${actionMessages}</div>	
+</c:if>
 <div>
 商店名称:<s:select list="allStores" listKey="id" listValue="name" name="" id="store" /> &nbsp;
 货架名称:<select id="shelf"></select>
@@ -132,10 +136,7 @@
 	<h3>仓库文件</h3>	
 	<div class="ui-widget-content">
 		<ol id="sortable1" class="connectedSortable" style="min-height: 300px;">
-		<!--  
-			<s:iterator value="remainFiles">
-				<li id="${id}">${name}</li>
-			</s:iterator>-->
+
 		</ol>
 	</div>
 </div>
@@ -144,10 +145,7 @@
 	<h3>已上架文件</h3>
 	<div class="ui-widget-content" >
 		<ol id="sortable2" class="connectedSortable" style="min-height: 300px;">
-		<!--
-			<s:iterator value="onShelfFiles">
-				<li id="${id}"><a>${name}</a></li>
-			</s:iterator>  -->
+
 		</ol>
 	</div>
 </div>

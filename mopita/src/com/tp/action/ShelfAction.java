@@ -16,7 +16,10 @@ import com.tp.service.FileManager;
 import com.tp.utils.Struts2Utils;
 
 @Namespace("/category")
-@Results( { @Result(name = CRUDActionSupport.RELOAD, location = "shelf.action", type = "redirect") })
+@Results( {
+		@Result(name = CRUDActionSupport.RELOAD, location = "shelf.action", type = "redirect"),
+		@Result(name = "shelf-manage", location = "shelf!manage.action", params = {
+				"id", "${selectId}" }, type = "redirect") })
 public class ShelfAction extends CRUDActionSupport<Shelf> {
 
 	private static final long serialVersionUID = 1L;
@@ -48,14 +51,14 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 
 	@Override
 	public String list() throws Exception {
-		//shelfs = categoryManager.getAllShelf();
+		// shelfs = categoryManager.getAllShelf();
 		return SUCCESS;
 	}
-	
-	public String filterShelf()throws Exception{
-		Store store=categoryManager.getStore(checkedStoreId);
-		List<Shelf> shelfs=store.getShelfs();
-		String json=categoryManager.jsonString(shelfs);
+
+	public String filterShelf() throws Exception {
+		Store store = categoryManager.getStore(checkedStoreId);
+		List<Shelf> shelfs = store.getShelfs();
+		String json = categoryManager.jsonString(shelfs);
 		Struts2Utils.renderJson(json);
 		return null;
 	}
@@ -78,50 +81,60 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 		addActionMessage("保存成功");
 		return RELOAD;
 	}
-	
-	public String saveFile(){
-		entity=categoryManager.getShelf(selectId);
+
+	public String saveFile() {
+		if (selectId == 0)
+			return "";
+		entity = categoryManager.getShelf(selectId);
 		fileManager.merge(entity, checkedFileIds);
-		HibernateUtils.mergeByCheckedIds(entity.getThemes(), checkedFileIds, ThemeFile.class);
+
+		HibernateUtils.mergeByCheckedIds(entity.getThemes(), checkedFileIds,
+				ThemeFile.class);
 		categoryManager.saveShelf(entity);
-		return RELOAD;
+		addActionMessage("保存成功");
+		return "shelf-manage";
 	}
 
 	public String manage() throws Exception {
-		
+
 		this.onShelfFiles = entity.getThemes();
 		List<ThemeFile> allFiles = fileManager.getAllThemeFile();
 		this.remainFiles = fileManager.getRemainFiles(allFiles, onShelfFiles);
 		return MANAGE;
 	}
-	
-	public String getRemainFile(){
-		Shelf sh=categoryManager.getShelf(id);
+
+	public String getRemainFile() {
+		if (id == 0)
+			return "";
+		Shelf sh = categoryManager.getShelf(id);
 		this.onShelfFiles = sh.getThemes();
 		List<ThemeFile> allFiles = fileManager.getAllThemeFile();
 		this.remainFiles = fileManager.getRemainFiles(allFiles, onShelfFiles);
-		String json=fileManager.jsonString(remainFiles);
+		String json = fileManager.jsonString(remainFiles);
 		Struts2Utils.renderJson(json);
 		return null;
 	}
-	public String getOnShelfFile(){
-		Shelf sh=categoryManager.getShelf(id);
+
+	public String getOnShelfFile() {
+		if (id == 0)
+			return "";
+		Shelf sh = categoryManager.getShelf(id);
 		this.onShelfFiles = sh.getThemes();
-		String json=fileManager.jsonString(onShelfFiles);
+		String json = fileManager.jsonString(onShelfFiles);
 		Struts2Utils.renderJson(json);
 		return null;
 	}
-	
-	public String file(){
-		checkedFileIds=entity.getCheckedFileIds();
+
+	public String file() {
+		checkedFileIds = entity.getCheckedFileIds();
 		return "file";
 	}
-	
-	public void prepareFile() throws Exception{
+
+	public void prepareFile() throws Exception {
 		prepareModel();
 	}
-	
-	public void prepareManage() throws Exception{
+
+	public void prepareManage() throws Exception {
 		prepareModel();
 	}
 
@@ -168,17 +181,21 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	public List<ThemeFile> getRemainFiles() {
 		return remainFiles;
 	}
-	
-	public List<ThemeFile> getAllFiles(){
+
+	public List<ThemeFile> getAllFiles() {
 		return fileManager.getAllThemeFile();
 	}
-	
+
 	public List<Long> getCheckedFileIds() {
 		return checkedFileIds;
 	}
-	
+
 	public void setCheckedFileIds(List<Long> checkedFileIds) {
 		this.checkedFileIds = checkedFileIds;
+	}
+
+	public Long getSelectId() {
+		return selectId;
 	}
 	
 	public void setSelectId(Long selectId) {

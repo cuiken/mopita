@@ -53,11 +53,13 @@
 					<label for="description" class="field">商店描述:</label>
 					<input type="text" id="description" name="description" size="25" maxlength="50" value="${description}" />
 				</div>
+				<!--  
 				<div>
 					<label for="dtype" class="field">下载方式:</label>
 					<input type="radio" value="market" name="dntype">market
 					<input type="radio" value="http" name="dntype">http
 				</div>
+				-->
 			</fieldset>
 			
 			<div>
