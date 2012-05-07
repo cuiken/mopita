@@ -19,7 +19,9 @@
 		<%@include file="/common/header.jsp" %>
 		<%@include file="/common/left.jsp" %>
 		<div class="span-18 last prepend-top">
-		<div id="message"><s:actionmessage cssClass="success"/></div>
+		<c:if test="${not empty actionMessages}">
+			<div id="message" class="success">${actionMessages}</div>	
+		</c:if>
 		<h4 class="prepend-top">多语言信息</h4>
 			<table>
 				<tr>			

@@ -20,10 +20,14 @@ import com.tp.utils.Constants;
 import com.tp.utils.FileUtils;
 
 @Namespace("/file")
-@Results( { @Result(name = "editinfo", location = "file-info.action", params={"themeId","${id}"}, type = "redirect") })
+@Results( { @Result(name = "editinfo", location = "file-info.action", params={"themeId","${id}"}, type = "redirect"),
+			@Result(name = "reupload", location = "file-upload.action", type = "redirect") })
 public class FileUploadAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
+	private static final String RELOAD="reupload";
+	private static final String EDITINFO="editinfo";
+	private static final long MAX_SIZE=10000000L;
 
 	private File upload;
 	private String uploadFileName;
@@ -55,7 +59,11 @@ public class FileUploadAction extends ActionSupport {
 		String extension = FileUtils.getExtension(uploadFileName);
 		if (!extension.equalsIgnoreCase(Constants.ZIP)) {
 			addActionMessage("请上传一个zip文件");
-			return "";
+			return RELOAD;
+		}
+		if(upload.length() > MAX_SIZE){
+			addActionMessage("上传文件过大");
+			return RELOAD;
 		}
 		List<File> files = FileUtils.unZip(upload);
 		ThemeFile theme = getThemeFile();
@@ -63,7 +71,7 @@ public class FileUploadAction extends ActionSupport {
 		theme = fileManager.saveFiles(files, theme, info);
 		this.setId(theme.getId());
 		addActionMessage("上传成功");
-		return "editinfo";
+		return EDITINFO;
 	}
 
 	private ThemeFile getThemeFile() {

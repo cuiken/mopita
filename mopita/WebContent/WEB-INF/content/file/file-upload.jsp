@@ -24,15 +24,22 @@
 							error.appendTo (element.parent());
 						else
 							error.insertAfter( element );
-					}
-				
+					}				
 				});
+				/**
+				$("#upload").bind('change', function() {
+								
+			  					return this.files[0].size<1;
+		
+						});
+				*/
 				$("#message").fadeOut(3000);
 				$("#golist").click(function(){
 					window.location="file.action";
 				});
+				
 			});
-		
+
 		</script>
 	</head>
 	<body>
@@ -41,7 +48,9 @@
 		<%@include file="/common/header.jsp" %>
 		<%@include file="/common/left.jsp" %>
 			<div class="span-18 last prepend-top">
-			<div id="message"><s:actionmessage cssClass="error"/></div>
+			<c:if test="${not empty actionMessages}">
+				<div id="message" class="notice">${actionMessages}</div>	
+			</c:if>
 			<fieldset>
 				<legend>文件上传</legend>
 				<div>
