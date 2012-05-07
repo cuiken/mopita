@@ -16,8 +16,6 @@ import com.tp.dto.FileDTO;
 import com.tp.entity.FileMultipleInfo;
 import com.tp.entity.FileStoreInfo;
 import com.tp.entity.Preview;
-import com.tp.entity.Shelf;
-import com.tp.entity.Store;
 import com.tp.entity.ThemeFile;
 import com.tp.mapper.JsonMapper;
 import com.tp.orm.Page;
@@ -144,7 +142,7 @@ public class FileManager {
 		return storeInfoDao.get(id);
 	}
 
-	public void save(FileStoreInfo entity) {
+	public void saveStoreInfo(FileStoreInfo entity) {
 		storeInfoDao.save(entity);
 	}
 
@@ -156,84 +154,18 @@ public class FileManager {
 		storeInfoDao.deleteByTheme(id);
 	}
 
-	public void copyFileInfoToStore(ThemeFile file, Store store) {
-		List<FileMultipleInfo> infos = file.getFileInfo();
-		for (FileMultipleInfo fmi : infos) {
-			FileStoreInfo fsi = new FileStoreInfo();
-			fsi.setTitle(fmi.getTitle());
-			fsi.setDescription(fmi.getDescription());
-			fsi.setLanguage(fmi.getLanguage());
-			fsi.setPrice(fmi.getPrice());
-			fsi.setTheme(fmi.getTheme());
-			fsi.setStore(store);
-			this.save(fsi);
-		}
+	public String jsonString(List<ThemeFile> themeFiles) {
+		List<FileDTO> fileDtos = Lists.newArrayList();
 
-	}
-
-	/**
-	 * 整合FileStoreInfo信息
-	 * 
-	 * @param themes
-	 * @param ids
-	 */
-	public void merge(Shelf shelf, List<Long> ids) {
-		List<ThemeFile> themes = shelf.getThemes();
-		Store store = shelf.getStore();
-
-		if (ids == null) {
-			for (ThemeFile f : themes) {
-				if (!isFileInStore(store, shelf, f)) {
-					deleteByThemeId(f.getId());
-				}
-			}
-
-			return;
-		}
-		List<Long> checkedIds = Lists.newArrayList();
-		List<ThemeFile> checkedThemes = Lists.newArrayList();
-		checkedThemes.addAll(themes);
-		checkedIds.addAll(ids);
-
-		for (ThemeFile file : checkedThemes) {
-			Long id = file.getId();
-			if (!checkedIds.contains(id) && !isFileInStore(store, shelf, file)) {
-				deleteByThemeId(id);
-			} else {
-				checkedIds.remove(id);
-			}
-		}
-		for (Long id : checkedIds) {
-			ThemeFile file = this.getThemeFile(id);
-			if (!isFileInStore(store, shelf, file)) {
-				copyFileInfoToStore(file, store);
-			}
-
-		}
-	}
-
-	private boolean isFileInStore(Store store, Shelf sh, ThemeFile theme) {
-		List<ThemeFile> allFileInStore = Lists.newArrayList();
-		List<Shelf> shelfs = store.getShelfs();
-		for (Shelf shelf : shelfs) {
-			if (!shelf.equals(sh))
-				allFileInStore.addAll(shelf.getThemes());
-		}
-		return allFileInStore.contains(theme);
-	}
-	
-	public String jsonString(List<ThemeFile> themeFiles){
-		List<FileDTO> fileDtos=Lists.newArrayList();
-		
-		for(ThemeFile f:themeFiles){
-			FileDTO dto=new FileDTO();
+		for (ThemeFile f : themeFiles) {
+			FileDTO dto = new FileDTO();
 			dto.setId(f.getId());
 			dto.setName(f.getName());
 			fileDtos.add(dto);
 		}
-		JsonMapper mapper=JsonMapper.buildNormalMapper();
+		JsonMapper mapper = JsonMapper.buildNormalMapper();
 		return mapper.toJson(fileDtos);
-		
+
 	}
 
 	@Autowired

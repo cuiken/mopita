@@ -33,17 +33,17 @@
 		</div>
 			<table>
 				<tr>
-					<th><a href="javascript:sort('name','asc')">文件名</a></th>
-					<th><a>MarketURL</a></th>
-					<th></th>
+					<th><a href="javascript:sort('title','asc')">标题</a></th>
+					<th><a href="javascript:sort('name','asc')">文件名</a></th>					
+					<th><a>MarketURL</a></th>					
 					<th><a href="javascript:sort('createTime','asc')">添加时间</a></th>
 					<th>操作</th>
 				</tr>
 				<s:iterator value="page.result">
 					<tr>
-						<td>${name}</td>
+						<td>${title}</td>
+						<td>${name}</td>						
 						<td>${marketURL}</td>
-						<td></td>
 						<td>${createTime}</td>
 						<td>
 							<a href="file!input.action?id=${id}">修改</a>

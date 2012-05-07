@@ -22,7 +22,7 @@ import com.tp.utils.ConvertUtils;
 /**
  * 文件基础关系实体
  * 
- * @author Administrator
+ * @author ken.cui
  * 
  */
 @Entity
@@ -30,7 +30,7 @@ import com.tp.utils.ConvertUtils;
 public class ThemeFile extends IdEntity {
 
 	private String name;
-
+	private String title;
 	private Long uxSize;
 	private Long apkSize;
 	private String uxPath;
@@ -44,6 +44,7 @@ public class ThemeFile extends IdEntity {
 	private List<Category> categories = Lists.newArrayList();
 	private List<Preview> previews = Lists.newArrayList();
 	private List<FileMultipleInfo> fileInfo = Lists.newArrayList();
+	private List<FileStoreInfo> infoStore = Lists.newArrayList();
 	private List<Shelf> shelfs = Lists.newArrayList();
 
 	private String previewURL;
@@ -54,6 +55,14 @@ public class ThemeFile extends IdEntity {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public Long getUxSize() {
@@ -147,6 +156,15 @@ public class ThemeFile extends IdEntity {
 		this.fileInfo = fileInfo;
 	}
 
+	@OneToMany(mappedBy = "theme", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
+	public List<FileStoreInfo> getInfoStore() {
+		return infoStore;
+	}
+
+	public void setInfoStore(List<FileStoreInfo> infoStore) {
+		this.infoStore = infoStore;
+	}
+
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "f_file_shelf", joinColumns = { @JoinColumn(name = "f_id") }, inverseJoinColumns = { @JoinColumn(name = "s_id") })
 	public List<Shelf> getShelfs() {
@@ -181,15 +199,15 @@ public class ThemeFile extends IdEntity {
 	public List<Long> getCheckedCategoryIds() {
 		return ConvertUtils.convertElementPropertyToList(categories, "id");
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		if(obj==null)
+		if (obj == null)
 			return false;
-//		if(obj.getClass()!=this.getClass())
-//			return false;
-		ThemeFile that=(ThemeFile)obj;
-		return that.getId()==this.getId();
+		// if(obj.getClass()!=this.getClass())
+		// return false;
+		ThemeFile that = (ThemeFile) obj;
+		return that.getId() == this.getId();
 	}
 
 	@Override

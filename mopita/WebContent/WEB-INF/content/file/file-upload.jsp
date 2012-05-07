@@ -13,7 +13,11 @@
 			$(document).ready(function(){
 				$("#inputForm").validate({
 					rules:{
-						checkedCategoryIds:"required"
+						checkedCategoryIds:"required",
+						longDescription:{
+							required:true,
+							maxlength:200
+						}
 					},
 					errorPlacement: function(error, element) {
 						if (element.is(":radio") )
@@ -38,30 +42,40 @@
 			<fieldset>
 				<legend>文件上传</legend>
 				<div>
-					<label for="upload" class="field">上传文件</label>
+					<label for="upload" class="field">上传文件:<font color="red">*</font></label>
 					<input  type="file" id="upload" name="upload" class="required"/>(*仅支持zip)
 				</div>
 				
 				<div>
-					<label for="title" class="field">标题:</label>
-					<input type="text" id="title" name="title" size="25" maxlength="50" value="${title}" class="required">
+					<label for="title" class="field">标题:<font color="red">*</font></label>
+					<input type="text" id="title" name="title" size="25" maxlength="30" value="${title}" class="required">
 				</div>
 				
 				<div>
-					<label for="checkedCategoryIds" class="field">分类:</label>
+					<label for="checkedCategoryIds" class="field">分类:<font color="red">*</font></label>
 					<s:radio name="checkedCategoryIds" list="allCategoryList" listKey="id" listValue="name" theme="simple"></s:radio>
 				</div>
 				<div>
-					<label for="description" class="field">描述:</label>
-					<input type="text" id="description" name="description" value="${description}" size="25" maxlength="255" class="required">
-				</div>
-				<div>
-					<label for="marketURL" class="field">Market地址:</label>
+					<label for="marketURL" class="field">Market地址:<font color="red">*</font></label>
 					<input type="text" id="marketURL" name="marketURL" value="${marketURL}" size="25" maxlength="100" class="required">
 				</div>
 				<div>
+					<label for="shortDescription" class="field">简要描述:<font color="red">*</font></label>
+					<input type="text" id="shortDescription" name="shortDescription" value="${shortDescription}" size="25" maxlength="11" class="required">
+					
+				</div>
+				<div>
+					<label for="longDescription" class="field" style="vertical-align: top">详细描述:<font color="red">*</font></label>
+					<textarea  id="longDescription" name="longDescription"></textarea>
+					
+				</div>
+				<div>
+					<label for="author" class="field">作者:</label>
+					<input type="text" id="author" name="author" value="${author}" size="25" maxlength="25" />
+				</div>
+				<div>
 					<label for="price" class="field">单价:</label>
-					<input type="text" id="price" name="price" value="${price}" size="25" maxlength="10" class="number">
+					<input type="text" id="price" name="price" value="${price}" size="25" maxlength="10" class="number" />
 				</div>
 				<div>
 					<label for="availMachine" class="field">可用机型:</label>
@@ -73,7 +87,7 @@
 				</div>
 			</fieldset>
 			<div>
-				<input type="submit" value="上传">
+				<input type="submit" class="submit" value="上传">
 				<input type="reset" value="取消"/>
 			</div>	
 			</div>

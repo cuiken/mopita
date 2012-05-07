@@ -86,7 +86,7 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 		if (selectId == 0)
 			return "";
 		entity = categoryManager.getShelf(selectId);
-		fileManager.merge(entity, checkedFileIds);
+		categoryManager.merge(entity, checkedFileIds);
 
 		HibernateUtils.mergeByCheckedIds(entity.getThemes(), checkedFileIds,
 				ThemeFile.class);

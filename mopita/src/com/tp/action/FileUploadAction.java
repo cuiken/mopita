@@ -34,7 +34,9 @@ public class FileUploadAction extends ActionSupport {
 
 	private String title;
 	private Long price;
-	private String description;
+	private String shortDescription;
+	private String longDescription;
+	private String author;
 
 	private List<Long> checkedCategoryIds;
 
@@ -67,6 +69,7 @@ public class FileUploadAction extends ActionSupport {
 	private ThemeFile getThemeFile() {
 		ThemeFile theme = new ThemeFile();
 		theme.setName(FileUtils.getFileName(uploadFileName));
+		theme.setTitle(title);
 		theme.setAvailMachine(availMachine);
 		theme.setUnavailMachine(unavailMachine);
 		theme.setMarketURL(marketURL);
@@ -79,7 +82,9 @@ public class FileUploadAction extends ActionSupport {
 		info.setTitle(title);
 		info.setPrice(price);
 		info.setLanguage("ZH");
-		info.setDescription(description);
+		info.setLongDescription(longDescription);
+		info.setShortDescription(shortDescription);
+		info.setAuthor(author);
 		return info;
 	}
 
@@ -103,8 +108,16 @@ public class FileUploadAction extends ActionSupport {
 		return categoryManager.getCategories();
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setLongDescription(String longDescription) {
+		this.longDescription = longDescription;
+	}
+	
+	public void setShortDescription(String shortDescription) {
+		this.shortDescription = shortDescription;
+	}
+	
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 
 	public void setTitle(String title) {

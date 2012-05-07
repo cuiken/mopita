@@ -19,7 +19,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class FileMultipleInfo extends IdEntity {
 
 	private String title;
-	private String description;
+	private String shortDescription;
+	private String longDescription;
+	private String author;
 	private String language;
 	private Long price;
 
@@ -33,12 +35,28 @@ public class FileMultipleInfo extends IdEntity {
 		this.title = title;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getShortDescription() {
+		return shortDescription;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setShortDescription(String shortDescription) {
+		this.shortDescription = shortDescription;
+	}
+
+	public String getLongDescription() {
+		return longDescription;
+	}
+
+	public void setLongDescription(String longDescription) {
+		this.longDescription = longDescription;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 
 	public String getLanguage() {
@@ -69,11 +87,11 @@ public class FileMultipleInfo extends IdEntity {
 
 	@Override
 	public boolean equals(Object obj) {
-		if(obj==null)
+		if (obj == null)
 			return false;
-		if(this.getClass()!=obj.getClass())
+		if (this.getClass() != obj.getClass())
 			return false;
-		FileMultipleInfo that=(FileMultipleInfo)obj;
+		FileMultipleInfo that = (FileMultipleInfo) obj;
 		return that.getLanguage().equals(this.getLanguage());
 	}
 

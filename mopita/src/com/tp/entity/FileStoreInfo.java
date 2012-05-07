@@ -19,7 +19,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class FileStoreInfo extends IdEntity {
 
 	private String title;
-	private String description;
+	private String shortDescription;
+	private String longDescription;
+	private String author;
 	private Long price;
 	private String language;
 	private String sortBy;
@@ -35,12 +37,28 @@ public class FileStoreInfo extends IdEntity {
 		this.title = title;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getShortDescription() {
+		return shortDescription;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setShortDescription(String shortDescription) {
+		this.shortDescription = shortDescription;
+	}
+
+	public String getLongDescription() {
+		return longDescription;
+	}
+
+	public void setLongDescription(String longDescription) {
+		this.longDescription = longDescription;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 
 	public Long getPrice() {
@@ -92,24 +110,27 @@ public class FileStoreInfo extends IdEntity {
 
 		return ToStringBuilder.reflectionToString(this);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		if(obj==null)
+		if (obj == null)
 			return false;
-		if(obj.getClass()!=getClass())
+		if (obj.getClass() != getClass())
 			return false;
-		FileStoreInfo that=(FileStoreInfo) obj;
-		return that.getId()==this.getId()&&that.getLanguage().equals(this.getLanguage());
+		FileStoreInfo that = (FileStoreInfo) obj;
+		return that.getId() == this.getId()
+				&& that.getLanguage().equals(this.getLanguage());
 	}
-	
+
 	@Override
 	public int hashCode() {
-		int result=37;
-		result=result*17+id.hashCode();
-		result=result*17+title.hashCode();
-		result=result*17+description.hashCode();
-		result=result*17+language.hashCode();
+		int result = 37;
+		result = result * 17 + id.hashCode();
+		result = result * 17 + title.hashCode();
+		result = result * 17 + shortDescription.hashCode();
+		result = result * 17 + longDescription.hashCode();
+		result = result * 17 + author.hashCode();
+		result = result * 17 + language.hashCode();
 		return result;
 	}
 

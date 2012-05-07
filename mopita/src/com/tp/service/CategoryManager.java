@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Lists;
 import com.tp.dao.CategoryDao;
-import com.tp.dao.FileStoreInfoDao;
 import com.tp.dao.HibernateUtils;
 import com.tp.dao.ShelfDao;
 import com.tp.dao.StoreDao;
@@ -28,7 +27,7 @@ public class CategoryManager {
 	private CategoryDao categoryDao;
 	private StoreDao storeDao;
 	private ShelfDao shelfDao;
-	private FileStoreInfoDao storeInfoDao;
+	private FileManager fileManager;
 
 	public Category getCategory(Long id) {
 		return categoryDao.get(id);
@@ -53,13 +52,13 @@ public class CategoryManager {
 	public void saveStore(Store entity) {
 
 		storeDao.save(entity);
-		
+
 	}
-	
-	public void createDefaultShelf(Store store){
-		String [] defShelf={"最新","最热","推荐"};
-		for(int i=0;i<defShelf.length;i++){
-			Shelf shf=new Shelf();
+
+	public void createDefaultShelf(Store store) {
+		String[] defShelf = { "最新", "最热", "推荐" };
+		for (int i = 0; i < defShelf.length; i++) {
+			Shelf shf = new Shelf();
 			shf.setName(defShelf[i]);
 			shf.setDescription("默认创建");
 			shf.setStore(store);
@@ -90,17 +89,17 @@ public class CategoryManager {
 	public void deleteShelf(Long id) {
 		shelfDao.delete(id);
 	}
-	
-	public String jsonString(List<Shelf> shelfs){
-		List<ShelfDTO> sdto=Lists.newArrayList();
-		for(Shelf shelf:shelfs){
-			ShelfDTO dto=new ShelfDTO();
+
+	public String jsonString(List<Shelf> shelfs) {
+		List<ShelfDTO> sdto = Lists.newArrayList();
+		for (Shelf shelf : shelfs) {
+			ShelfDTO dto = new ShelfDTO();
 			dto.setId(shelf.getId());
 			dto.setName(shelf.getName());
 			dto.setDescription(shelf.getDescription());
 			sdto.add(dto);
 		}
-		JsonMapper mapper=JsonMapper.buildNormalMapper();
+		JsonMapper mapper = JsonMapper.buildNormalMapper();
 		return mapper.toJson(sdto);
 	}
 
@@ -117,28 +116,84 @@ public class CategoryManager {
 			copyFileStoreInfo(s.getThemes(), targetStore);
 		}
 	}
-	
-	private void copyShelfFiles(Shelf shelf,List<ThemeFile> themes){
-		
-		List<Long> themeIds=Lists.newArrayList();
-		for(ThemeFile file:themes){
+
+	private void copyShelfFiles(Shelf shelf, List<ThemeFile> themes) {
+
+		List<Long> themeIds = Lists.newArrayList();
+		for (ThemeFile file : themes) {
 			themeIds.add(file.getId());
 		}
-		HibernateUtils.mergeByCheckedIds(shelf.getThemes(), themeIds, ThemeFile.class);
+		HibernateUtils.mergeByCheckedIds(shelf.getThemes(), themeIds,
+				ThemeFile.class);
 	}
-	
-	private void copyFileStoreInfo(List<ThemeFile> themes,Store store){
-		for(ThemeFile theme:themes){
-			List<FileMultipleInfo> infos=theme.getFileInfo();
-			for(FileMultipleInfo fmi:infos){
-				FileStoreInfo storeInfo=new FileStoreInfo();
-				storeInfo.setTitle(fmi.getTitle());
-				storeInfo.setDescription(fmi.getDescription());
-				storeInfo.setLanguage(fmi.getLanguage());
-				storeInfo.setTheme(theme);
-				storeInfo.setStore(store);
-				storeInfoDao.save(storeInfo);
+
+	/**
+	 * 整合FileStoreInfo信息
+	 * 
+	 */
+	public void merge(Shelf shelf, List<Long> ids) {
+		List<ThemeFile> themes = shelf.getThemes();
+		Store store = shelf.getStore();
+
+		if (ids == null) {
+			for (ThemeFile f : themes) {
+				if (!isFileInStore(store, shelf, f)) {
+					fileManager.deleteByThemeId(f.getId());
+				}
 			}
+
+			return;
+		}
+		List<Long> checkedIds = Lists.newArrayList();
+		List<ThemeFile> checkedThemes = Lists.newArrayList();
+		checkedThemes.addAll(themes);
+		checkedIds.addAll(ids);
+
+		for (ThemeFile file : checkedThemes) {
+			Long id = file.getId();
+			if (!checkedIds.contains(id) && !isFileInStore(store, shelf, file)) {
+				fileManager.deleteByThemeId(id);
+			} else {
+				checkedIds.remove(id);
+			}
+		}
+		for (Long id : checkedIds) {
+			ThemeFile file = fileManager.getThemeFile(id);
+			if (!isFileInStore(store, shelf, file)) {
+				copyFileStoreInfo(file, store);
+			}
+
+		}
+	}
+
+	private boolean isFileInStore(Store store, Shelf sh, ThemeFile theme) {
+		List<ThemeFile> allFileInStore = Lists.newArrayList();
+		List<Shelf> shelfs = store.getShelfs();
+		for (Shelf shelf : shelfs) {
+			if (!shelf.equals(sh))
+				allFileInStore.addAll(shelf.getThemes());
+		}
+		return allFileInStore.contains(theme);
+	}
+
+	private void copyFileStoreInfo(List<ThemeFile> themes, Store store) {
+		for (ThemeFile theme : themes) {
+			copyFileStoreInfo(theme, store);
+		}
+	}
+
+	private void copyFileStoreInfo(ThemeFile theme, Store store) {
+		List<FileMultipleInfo> infos = theme.getFileInfo();
+		for (FileMultipleInfo fmi : infos) {
+			FileStoreInfo storeInfo = new FileStoreInfo();
+			storeInfo.setTitle(fmi.getTitle());
+			storeInfo.setShortDescription(fmi.getShortDescription());
+			storeInfo.setLongDescription(fmi.getLongDescription());
+			storeInfo.setAuthor(fmi.getAuthor());
+			storeInfo.setLanguage(fmi.getLanguage());
+			storeInfo.setTheme(theme);
+			storeInfo.setStore(store);
+			fileManager.saveStoreInfo(storeInfo);
 		}
 	}
 
@@ -146,15 +201,15 @@ public class CategoryManager {
 	public boolean isStoreNameUnique(String newStoreName, String oldStoreName) {
 		return storeDao.isPropertyUnique("name", newStoreName, oldStoreName);
 	}
-	
-	public boolean isCategoryUnique(String newName,String oldName){
+
+	public boolean isCategoryUnique(String newName, String oldName) {
 		return categoryDao.isPropertyUnique("name", newName, oldName);
 	}
 
-	public boolean isShelfUnique(String newName,String oldName,Long id){
-		return shelfDao.isShelfNameUnique(newName,oldName, id);
+	public boolean isShelfUnique(String newName, String oldName, Long id) {
+		return shelfDao.isShelfNameUnique(newName, oldName, id);
 	}
-	
+
 	@Autowired
 	public void setCategoryDao(CategoryDao categoryDao) {
 		this.categoryDao = categoryDao;
@@ -169,9 +224,9 @@ public class CategoryManager {
 	public void setShelfDao(ShelfDao shelfDao) {
 		this.shelfDao = shelfDao;
 	}
-	
+
 	@Autowired
-	public void setStoreInfoDao(FileStoreInfoDao storeInfoDao) {
-		this.storeInfoDao = storeInfoDao;
+	public void setFileManager(FileManager fileManager) {
+		this.fileManager = fileManager;
 	}
 }
