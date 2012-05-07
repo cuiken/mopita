@@ -28,6 +28,9 @@
 				
 				});
 				$("#message").fadeOut(3000);
+				$("#golist").click(function(){
+					window.location="file.action";
+				});
 			});
 		
 		</script>
@@ -42,32 +45,30 @@
 			<fieldset>
 				<legend>文件上传</legend>
 				<div>
-					<label for="upload" class="field">上传文件:<font color="red">*</font></label>
-					<input  type="file" id="upload" name="upload" class="required"/>(*仅支持zip)
+					<label for="upload" class="field">上传文件:<font class="red">*</font></label>
+					<input type="file" id="upload" name="upload" class="required"/>(*仅支持zip文件*)
 				</div>
 				
 				<div>
-					<label for="title" class="field">标题:<font color="red">*</font></label>
+					<label for="title" class="field">标题:<font class="red">*</font></label>
 					<input type="text" id="title" name="title" size="25" maxlength="30" value="${title}" class="required">
 				</div>
 				
 				<div>
-					<label for="checkedCategoryIds" class="field">分类:<font color="red">*</font></label>
+					<label for="checkedCategoryIds" class="field">分类:<font class="red">*</font></label>
 					<s:radio name="checkedCategoryIds" list="allCategoryList" listKey="id" listValue="name" theme="simple"></s:radio>
 				</div>
 				<div>
-					<label for="marketURL" class="field">Market地址:<font color="red">*</font></label>
+					<label for="marketURL" class="field">Market地址:<font class="red">*</font></label>
 					<input type="text" id="marketURL" name="marketURL" value="${marketURL}" size="25" maxlength="100" class="required">
 				</div>
 				<div>
-					<label for="shortDescription" class="field">简要描述:<font color="red">*</font></label>
-					<input type="text" id="shortDescription" name="shortDescription" value="${shortDescription}" size="25" maxlength="11" class="required">
-					
+					<label for="shortDescription" class="field">简要描述:<font class="red">*</font></label>
+					<input type="text" id="shortDescription" name="shortDescription" value="${shortDescription}" size="25" maxlength="11" class="required">				
 				</div>
 				<div>
-					<label for="longDescription" class="field" style="vertical-align: top">详细描述:<font color="red">*</font></label>
-					<textarea  id="longDescription" name="longDescription"></textarea>
-					
+					<label for="longDescription" class="field" style="vertical-align: top">详细描述:<font class="red">*</font></label>
+					<textarea  id="longDescription" name="longDescription"></textarea>					
 				</div>
 				<div>
 					<label for="author" class="field">作者:</label>
@@ -88,7 +89,7 @@
 			</fieldset>
 			<div>
 				<input type="submit" class="submit" value="上传">
-				<input type="reset" value="取消"/>
+				<input type="button" id="golist" value="取消"/>
 			</div>	
 			</div>
 		</form>

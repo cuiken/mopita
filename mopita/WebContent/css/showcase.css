@@ -6,6 +6,11 @@ table {
 label.field {
 	width:98px;
 	display:inline-block;
+	/*color: #1870A9*/
+}
+
+font.red{
+	color:red
 }
 
 /* header */

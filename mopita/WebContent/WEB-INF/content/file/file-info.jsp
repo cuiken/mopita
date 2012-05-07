@@ -23,17 +23,19 @@
 		<h4 class="prepend-top">多语言信息</h4>
 			<table>
 				<tr>			
-					<th>名称</th>
-					<th>描述</th>
+					<th>标题</th>
 					<th>语言</th>
+					<th>作者</th>
+					<th>单价</th>			
 					<th>操作</th>
 				</tr>
 				<s:iterator value="allInfo">
 					<tr>
 						
 						<td>${title}</td>
-						<td>${description}</td>
 						<td>${language}</td>
+						<td>${author}</td>
+						<td>${price}</td>
 						<td>
 							<a href="file-info!input.action?id=${id}&themeId=${themeId}">修改</a>
 						
