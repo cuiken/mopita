@@ -42,7 +42,20 @@ public class FileManager {
 	public List<ThemeFile> getAllThemeFile() {
 		return themeFileDao.getAll();
 	}
+	
+	/**
+	 * 判断该条语言信息是否存在于商店中
+	 * @param fiId 
+	 * @return
+	 */
+	public boolean isInfoInStore(Long fiId){
+		return !getStoreInfoByFiId(fiId).isEmpty();
+	}
 
+	public List<FileStoreInfo> getStoreInfoByFiId(Long fiId){
+		return storeInfoDao.getByFileInfo(fiId);
+	}
+	
 	public Page<ThemeFile> searchThemeFile(final Page<ThemeFile> page,
 			final List<PropertyFilter> filters) {
 		return themeFileDao.findPage(page, filters);
@@ -149,12 +162,16 @@ public class FileManager {
 	public void deleteStoreInfo(Long id) {
 		storeInfoDao.delete(id);
 	}
+	
+	public void deleteStoreInfoByFmId(Long fid){
+		storeInfoDao.deleteByFileInfo(fid);
+	}
 
 	public void deleteStoreInfoByTheme(Long id) {
 		storeInfoDao.deleteByTheme(id);
 	}
-	
-	public List<FileStoreInfo> getThemeInfoByStore(Long tid,Long sid){
+
+	public List<FileStoreInfo> getThemeInfoByStore(Long tid, Long sid) {
 		return storeInfoDao.getInfoByTheme(tid, sid);
 	}
 

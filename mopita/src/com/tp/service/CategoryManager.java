@@ -106,6 +106,7 @@ public class CategoryManager {
 	public void copyAllStore(Long storeId, Store targetStore) {
 		Store originalStore = this.getStore(storeId);
 		List<Shelf> oriShelfs = originalStore.getShelfs();
+		List<ThemeFile> singleThemeFile = Lists.newArrayList();
 		for (Shelf s : oriShelfs) {
 			Shelf targetShelf = new Shelf();
 			targetShelf.setName(s.getName());
@@ -113,8 +114,14 @@ public class CategoryManager {
 			targetShelf.setDescription(s.getDescription());
 			targetShelf.setStore(targetStore);
 			this.saveShelf(targetShelf);
-			copyFileStoreInfo(s.getThemes(), targetStore);
+			for (ThemeFile file : s.getThemes()) {  //remove the theme file where in one store on diff shelfs 
+				if (!singleThemeFile.contains(file)) {
+					singleThemeFile.add(file);
+				}
+
+			}
 		}
+		copyFileStoreInfo(singleThemeFile, targetStore);
 	}
 
 	private void copyShelfFiles(Shelf shelf, List<ThemeFile> themes) {
@@ -191,6 +198,7 @@ public class CategoryManager {
 			storeInfo.setLongDescription(fmi.getLongDescription());
 			storeInfo.setAuthor(fmi.getAuthor());
 			storeInfo.setLanguage(fmi.getLanguage());
+			storeInfo.setFiId(fmi.getId());
 			storeInfo.setTheme(theme);
 			storeInfo.setStore(store);
 			fileManager.saveStoreInfo(storeInfo);

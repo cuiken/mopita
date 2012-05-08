@@ -52,6 +52,7 @@ create table f_store_info(
 	price float,
 	sort_by varchar(20),
 	f_id int,
+	fi_id int,
 	store_id int,
 	primary key(id)
 	

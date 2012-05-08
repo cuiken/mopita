@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tp.entity.FileMultipleInfo;
 import com.tp.entity.ThemeFile;
+import com.tp.service.FileInfoObservable;
 import com.tp.service.FileManager;
 
 @Namespace("/file")
-@Results( { @Result(name = CRUDActionSupport.RELOAD, location = "file-info.action",params={"themeId","${themeId}"}, type = "redirect") })
+@Results( { @Result(name = CRUDActionSupport.RELOAD, location = "file-info.action", params = {
+		"themeId", "${themeId}" }, type = "redirect") })
 public class FileInfoAction extends CRUDActionSupport<FileMultipleInfo> {
 
 	private static final long serialVersionUID = 1L;
@@ -22,10 +24,11 @@ public class FileInfoAction extends CRUDActionSupport<FileMultipleInfo> {
 	private FileMultipleInfo entity;
 
 	private FileManager fileManager;
+	private FileInfoObservable observer;
 
 	@Override
 	public String delete() throws Exception {
-		fileManager.deleteFileInfo(id);
+		observer.deleteFileInfo(id);
 		return RELOAD;
 	}
 
@@ -54,14 +57,15 @@ public class FileInfoAction extends CRUDActionSupport<FileMultipleInfo> {
 	@Override
 	public String save() throws Exception {
 		ThemeFile file = fileManager.getThemeFile(themeId);
-		List<FileMultipleInfo> existInfo=file.getFileInfo();
-		if(existInfo.contains(entity)){
+		List<FileMultipleInfo> existInfo = file.getFileInfo();
+		if (existInfo.contains(entity)) {
 			addActionMessage("信息已存在");
-		}else{
+		} else {
 			entity.setTheme(file);
-			fileManager.saveFileInfo(entity);
+			observer.saveFileInfo(entity);
 			addActionMessage("保存成功");
 		}
+
 		return RELOAD;
 	}
 
@@ -76,6 +80,10 @@ public class FileInfoAction extends CRUDActionSupport<FileMultipleInfo> {
 		this.fileManager = fileManager;
 	}
 
+	@Autowired
+	public void setObserver(FileInfoObservable observer) {
+		this.observer = observer;
+	}
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -83,7 +91,7 @@ public class FileInfoAction extends CRUDActionSupport<FileMultipleInfo> {
 	public Long getThemeId() {
 		return themeId;
 	}
-	
+
 	public void setThemeId(Long themeId) {
 		this.themeId = themeId;
 	}
@@ -92,4 +100,5 @@ public class FileInfoAction extends CRUDActionSupport<FileMultipleInfo> {
 		ThemeFile file = fileManager.getThemeFile(themeId);
 		return file.getFileInfo();
 	}
+
 }

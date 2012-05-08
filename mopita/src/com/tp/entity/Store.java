@@ -44,6 +44,14 @@ public class Store extends BaseCategory {
 	public String getCategoryNames() {
 		return ConvertUtils.convertElementPropertyToString(shelfs, "name", ",");
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj==null)
+			return false;
+		Store that=(Store)obj;
+		return that.getName().equals(this.getName());
+	}
 
 	@Override
 	public String toString() {

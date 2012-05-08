@@ -24,6 +24,9 @@ public class FileStoreInfo extends IdEntity {
 	private String author;
 	private Long price;
 	private String language;
+	
+	private Long fiId;
+	
 	private String sortBy;
 
 	private ThemeFile theme;
@@ -104,6 +107,14 @@ public class FileStoreInfo extends IdEntity {
 	public void setStore(Store store) {
 		this.store = store;
 	}
+	
+	public Long getFiId() {
+		return fiId;
+	}
+	
+	public void setFiId(Long fiId) {
+		this.fiId = fiId;
+	}
 
 	@Override
 	public String toString() {
@@ -115,8 +126,8 @@ public class FileStoreInfo extends IdEntity {
 	public boolean equals(Object obj) {
 		if (obj == null)
 			return false;
-		if (obj.getClass() != getClass())
-			return false;
+//		if (obj.getClass() != getClass())
+//			return false;
 		FileStoreInfo that = (FileStoreInfo) obj;
 		return that.getId() == this.getId()
 				&& that.getLanguage().equals(this.getLanguage());
