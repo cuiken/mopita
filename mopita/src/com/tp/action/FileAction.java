@@ -75,6 +75,18 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 		addActionMessage("保存成功");
 		return RELOAD;
 	}
+	
+	public String checkTitle() throws Exception{
+		
+		String oldTitle=new String(Struts2Utils.getParameter("oldTitle").getBytes("iso-8859-1"),"utf-8");
+		String newTitle=new String(Struts2Utils.getParameter("title").getBytes("iso-8859-1"),"utf-8");
+		if(fileManager.isFileTitleUnique(newTitle, oldTitle)){
+			Struts2Utils.renderText("true");
+		}else{
+			Struts2Utils.renderText("false");
+		}
+		return null;
+	}
 
 	@Override
 	public ThemeFile getModel() {

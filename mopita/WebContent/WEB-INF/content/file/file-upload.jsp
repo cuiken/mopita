@@ -13,11 +13,19 @@
 			$(document).ready(function(){
 				$("#inputForm").validate({
 					rules:{
+						title:{
+							remote:"file!checkTitle.action?oldTitle="+encodeURIComponent('${title}')							
+						},
 						checkedCategoryIds:"required",
 						longDescription:{
 							required:true,
 							maxlength:200
 						}
+					},
+					messages:{
+						title:{
+							remote:"文件已存在"
+						}						
 					},
 					errorPlacement: function(error, element) {
 						if (element.is(":radio") )

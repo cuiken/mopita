@@ -147,10 +147,6 @@ public class FileManager {
 		return remainFile;
 	}
 
-	public boolean isFileNameUnique(String newValue, String oldValue) {
-		return themeFileDao.isPropertyUnique("name", newValue, oldValue);
-	}
-
 	public FileStoreInfo getStoreInfo(Long id) {
 		return storeInfoDao.get(id);
 	}
@@ -187,6 +183,10 @@ public class FileManager {
 		JsonMapper mapper = JsonMapper.buildNormalMapper();
 		return mapper.toJson(fileDtos);
 
+	}
+	
+	public boolean isFileTitleUnique(String newTitle,String oldTitle){
+		return themeFileDao.isPropertyUnique("title", newTitle, oldTitle);
 	}
 
 	@Autowired
