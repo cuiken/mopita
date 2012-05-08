@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.collect.Lists;
 import com.tp.entity.FileStoreInfo;
-import com.tp.service.FileStoreInfoManager;
+import com.tp.service.FileManager;
 
 @Namespace("/file")
 public class FileStoreInfoAction extends CRUDActionSupport<FileStoreInfo>{
@@ -19,7 +19,7 @@ public class FileStoreInfoAction extends CRUDActionSupport<FileStoreInfo>{
 	private Long themeId;
 	private Long storeId;
 	private List<FileStoreInfo> fileInfo=Lists.newArrayList();
-	private FileStoreInfoManager storeInfoManager;
+	private FileManager fileManager;
 
 	@Override
 	public String delete() throws Exception {
@@ -35,7 +35,7 @@ public class FileStoreInfoAction extends CRUDActionSupport<FileStoreInfo>{
 
 	@Override
 	public String list() throws Exception {
-		fileInfo=storeInfoManager.getByTheme(themeId,storeId);
+		fileInfo=fileManager.getThemeInfoByStore(themeId,storeId);
 		return SUCCESS;
 	}
 
@@ -44,7 +44,7 @@ public class FileStoreInfoAction extends CRUDActionSupport<FileStoreInfo>{
 		if(id==null){
 			entity=new FileStoreInfo();
 		}else{
-			entity=storeInfoManager.get(id);
+			entity=fileManager.getStoreInfo(id);
 		}
 		
 	}
@@ -52,7 +52,7 @@ public class FileStoreInfoAction extends CRUDActionSupport<FileStoreInfo>{
 	@Override
 	public String save() throws Exception {
 		for(FileStoreInfo info:fileInfo){
-			storeInfoManager.save(info);
+			fileManager.saveStoreInfo(info);
 		}
 		addActionMessage("修改成功");
 		return null;
@@ -65,8 +65,8 @@ public class FileStoreInfoAction extends CRUDActionSupport<FileStoreInfo>{
 	}
 
 	@Autowired
-	public void setStoreInfoManager(FileStoreInfoManager storeInfoManager) {
-		this.storeInfoManager = storeInfoManager;
+	public void setFileManager(FileManager fileManager) {
+		this.fileManager = fileManager;
 	}
 	
 	public void setId(Long id) {

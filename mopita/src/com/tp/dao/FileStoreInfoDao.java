@@ -18,7 +18,7 @@ public class FileStoreInfoDao extends HibernateDao<FileStoreInfo, Long> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<FileStoreInfo> getInfoByTheme(Long id,Long storeId) {
-		return createQuery(QUERY_BY_THEME, id,storeId).list();
+	public List<FileStoreInfo> getInfoByTheme(Long themeId,Long storeId) {
+		return createQuery(QUERY_BY_THEME, themeId,storeId).list();
 	}
 }

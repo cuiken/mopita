@@ -29,7 +29,7 @@
 
 	<script>
 	function openwindow(id){
-		window.open("../file/file-store-info.action?themeId="+id+"&storeId="+$("#store").val(),'newwindow', 'height=400, width=400, top=100, left=500, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+		window.open("../file/file-store-info.action?themeId="+id+"&storeId="+$("#store").val(),'newwindow');
 	}
 	
 	$(function() {

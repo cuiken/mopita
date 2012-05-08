@@ -138,7 +138,7 @@ public class CategoryManager {
 		if (ids == null) {
 			for (ThemeFile f : themes) {
 				if (!isFileInStore(store, shelf, f)) {
-					fileManager.deleteByThemeId(f.getId());
+					fileManager.deleteStoreInfoByTheme(f.getId());
 				}
 			}
 
@@ -152,7 +152,7 @@ public class CategoryManager {
 		for (ThemeFile file : checkedThemes) {
 			Long id = file.getId();
 			if (!checkedIds.contains(id) && !isFileInStore(store, shelf, file)) {
-				fileManager.deleteByThemeId(id);
+				fileManager.deleteStoreInfoByTheme(id);
 			} else {
 				checkedIds.remove(id);
 			}

@@ -138,7 +138,7 @@ public class FileManager {
 		return themeFileDao.isPropertyUnique("name", newValue, oldValue);
 	}
 
-	public FileStoreInfo get(Long id) {
+	public FileStoreInfo getStoreInfo(Long id) {
 		return storeInfoDao.get(id);
 	}
 
@@ -146,12 +146,16 @@ public class FileManager {
 		storeInfoDao.save(entity);
 	}
 
-	public void delete(Long id) {
+	public void deleteStoreInfo(Long id) {
 		storeInfoDao.delete(id);
 	}
 
-	public void deleteByThemeId(Long id) {
+	public void deleteStoreInfoByTheme(Long id) {
 		storeInfoDao.deleteByTheme(id);
+	}
+	
+	public List<FileStoreInfo> getThemeInfoByStore(Long tid,Long sid){
+		return storeInfoDao.getInfoByTheme(tid, sid);
 	}
 
 	public String jsonString(List<ThemeFile> themeFiles) {
