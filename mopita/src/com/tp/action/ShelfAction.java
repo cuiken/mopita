@@ -26,7 +26,7 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 
 	private static final long serialVersionUID = 1L;
 	private static final String MANAGE = "manage";
-
+	private static final long noSelect=0L;
 	private Long id;
 	private Shelf entity;
 	private Long checkedStoreId;
@@ -86,7 +86,7 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	}
 
 	public String saveFile() {
-		if (selectId == 0)
+		if (selectId == noSelect)
 			return "";
 		entity = categoryManager.getShelf(selectId);
 		categoryManager.merge(entity, checkedFileIds);
@@ -95,44 +95,41 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 		addActionMessage("保存成功");
 		return "shelf-manage";
 	}
-
+	
 	public String manage() throws Exception {
-
-//		this.onShelfFiles = entity.getThemes();
-		List<ShelfFileLink> shelfFiles=entity.getShelfFile();
-		for(ShelfFileLink sf:shelfFiles){
-			onShelfFiles.add(sf.getTheme());
-		}
+		getOnshelfThemes(entity);
 		List<ThemeFile> allFiles = fileManager.getAllThemeFile();
 		this.remainFiles = fileManager.getRemainFiles(allFiles, onShelfFiles);
 		return MANAGE;
 	}
 
 	public String getRemainFile() {
-		if (id == 0)
+		if (id == noSelect)
 			return "";
-		Shelf sh = categoryManager.getShelf(id);
-		List<ShelfFileLink> shelfFiles=sh.getShelfFile();
-		for(ShelfFileLink sf:shelfFiles){
-			onShelfFiles.add(sf.getTheme());
-		}
-//		this.onShelfFiles = sh.getThemes();
+		mergedOnShelfFiles();
 		List<ThemeFile> allFiles = fileManager.getAllThemeFile();
 		this.remainFiles = fileManager.getRemainFiles(allFiles, onShelfFiles);
 		String json = fileManager.jsonString(remainFiles);
 		Struts2Utils.renderJson(json);
 		return null;
 	}
-
-	public String getOnShelfFile() {
-		if (id == 0)
-			return "";
-		Shelf sh = categoryManager.getShelf(id);
-		List<ShelfFileLink> shelfFiles=sh.getShelfFile();
+	
+	private void mergedOnShelfFiles(){
+		Shelf shelf = categoryManager.getShelf(id);
+		getOnshelfThemes(shelf);
+	}
+	
+	private void getOnshelfThemes(Shelf shelf){
+		List<ShelfFileLink> shelfFiles=shelf.getShelfFile();
 		for(ShelfFileLink sf:shelfFiles){
 			onShelfFiles.add(sf.getTheme());
 		}
-//		this.onShelfFiles = sh.getThemes();
+	}
+
+	public String getOnShelfFile() {
+		if (id == noSelect)
+			return "";
+		mergedOnShelfFiles();
 		String json = fileManager.jsonString(onShelfFiles);
 		Struts2Utils.renderJson(json);
 		return null;
