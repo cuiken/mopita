@@ -45,7 +45,7 @@ public class ThemeFile extends IdEntity {
 	private List<Preview> previews = Lists.newArrayList();
 	private List<FileMultipleInfo> fileInfo = Lists.newArrayList();
 	private List<FileStoreInfo> infoStore = Lists.newArrayList();
-	private List<Shelf> shelfs = Lists.newArrayList();
+	private List<ShelfFileLink> shelfFiles = Lists.newArrayList();
 
 	private String previewURL;
 
@@ -165,14 +165,13 @@ public class ThemeFile extends IdEntity {
 		this.infoStore = infoStore;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "f_file_shelf", joinColumns = { @JoinColumn(name = "f_id") }, inverseJoinColumns = { @JoinColumn(name = "s_id") })
-	public List<Shelf> getShelfs() {
-		return shelfs;
+	@OneToMany(mappedBy = "theme", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
+	public List<ShelfFileLink> getShelfFiles() {
+		return shelfFiles;
 	}
 
-	public void setShelfs(List<Shelf> shelfs) {
-		this.shelfs = shelfs;
+	public void setShelfFiles(List<ShelfFileLink> shelfFiles) {
+		this.shelfFiles = shelfFiles;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -204,8 +203,7 @@ public class ThemeFile extends IdEntity {
 	public boolean equals(Object obj) {
 		if (obj == null)
 			return false;
-		// if(obj.getClass()!=this.getClass())
-		// return false;
+
 		ThemeFile that = (ThemeFile) obj;
 		return that.getId() == this.getId();
 	}

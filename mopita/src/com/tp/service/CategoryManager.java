@@ -8,14 +8,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Lists;
 import com.tp.dao.CategoryDao;
-import com.tp.dao.HibernateUtils;
 import com.tp.dao.ShelfDao;
+import com.tp.dao.ShelfFileLinkDao;
 import com.tp.dao.StoreDao;
 import com.tp.dto.ShelfDTO;
 import com.tp.entity.Category;
 import com.tp.entity.FileMultipleInfo;
 import com.tp.entity.FileStoreInfo;
 import com.tp.entity.Shelf;
+import com.tp.entity.ShelfFileLink;
 import com.tp.entity.Store;
 import com.tp.entity.ThemeFile;
 import com.tp.mapper.JsonMapper;
@@ -27,6 +28,7 @@ public class CategoryManager {
 	private CategoryDao categoryDao;
 	private StoreDao storeDao;
 	private ShelfDao shelfDao;
+	private ShelfFileLinkDao sflDao;
 	private FileManager fileManager;
 
 	public Category getCategory(Long id) {
@@ -107,14 +109,14 @@ public class CategoryManager {
 		Store originalStore = this.getStore(storeId);
 		List<Shelf> oriShelfs = originalStore.getShelfs();
 		List<ThemeFile> singleThemeFile = Lists.newArrayList();
-		for (Shelf s : oriShelfs) {
+		for (Shelf oriShelf : oriShelfs) {
 			Shelf targetShelf = new Shelf();
-			targetShelf.setName(s.getName());
-			copyShelfFiles(targetShelf, s.getThemes());
-			targetShelf.setDescription(s.getDescription());
+			targetShelf.setName(oriShelf.getName());
+			copyShelfFiles(targetShelf, oriShelf.getShelfFile());
+			targetShelf.setDescription(oriShelf.getDescription());
 			targetShelf.setStore(targetStore);
 			this.saveShelf(targetShelf);
-			for (ThemeFile file : s.getThemes()) {  //remove the theme file where in one store on diff shelfs 
+			for (ThemeFile file : getThemes(oriShelf.getShelfFile())) {  //remove the theme file where in one store on diff shelfs 
 				if (!singleThemeFile.contains(file)) {
 					singleThemeFile.add(file);
 				}
@@ -123,15 +125,24 @@ public class CategoryManager {
 		}
 		copyFileStoreInfo(singleThemeFile, targetStore);
 	}
-
-	private void copyShelfFiles(Shelf shelf, List<ThemeFile> themes) {
-
-		List<Long> themeIds = Lists.newArrayList();
-		for (ThemeFile file : themes) {
-			themeIds.add(file.getId());
+	
+	private List<ThemeFile> getThemes(List<ShelfFileLink> links){
+		List<ThemeFile> themes=Lists.newArrayList();
+		for(ShelfFileLink shelfFile:links){
+			themes.add(shelfFile.getTheme());
 		}
-		HibernateUtils.mergeByCheckedIds(shelf.getThemes(), themeIds,
-				ThemeFile.class);
+		return themes;
+	}
+
+	private void copyShelfFiles(Shelf targetShelf, List<ShelfFileLink> oriLinks) {
+		for(ShelfFileLink ori:oriLinks){
+			ShelfFileLink targetLink=new ShelfFileLink();
+			targetLink.setTheme(ori.getTheme());
+			targetLink.setShelf(targetShelf);
+			targetLink.setSort(ori.getSort());
+			sflDao.save(targetLink);
+		}
+
 	}
 
 	/**
@@ -139,13 +150,13 @@ public class CategoryManager {
 	 * 
 	 */
 	public void merge(Shelf shelf, List<Long> ids) {
-		List<ThemeFile> themes = shelf.getThemes();
+		List<ThemeFile> themes = getThemes(shelf.getShelfFile());
 		Store store = shelf.getStore();
 
 		if (ids == null) {
 			for (ThemeFile f : themes) {
 				if (!isFileInStore(store, shelf, f)) {
-					fileManager.deleteStoreInfoByTheme(f.getId());
+					fileManager.deleteStoreInfoByThemeAndStore(f.getId(),store.getId());
 				}
 			}
 
@@ -159,7 +170,7 @@ public class CategoryManager {
 		for (ThemeFile file : checkedThemes) {
 			Long id = file.getId();
 			if (!checkedIds.contains(id) && !isFileInStore(store, shelf, file)) {
-				fileManager.deleteStoreInfoByTheme(id);
+				fileManager.deleteStoreInfoByThemeAndStore(id,store.getId());
 			} else {
 				checkedIds.remove(id);
 			}
@@ -178,7 +189,7 @@ public class CategoryManager {
 		List<Shelf> shelfs = store.getShelfs();
 		for (Shelf shelf : shelfs) {
 			if (!shelf.equals(sh))
-				allFileInStore.addAll(shelf.getThemes());
+				allFileInStore.addAll(getThemes(shelf.getShelfFile()));
 		}
 		return allFileInStore.contains(theme);
 	}
@@ -236,5 +247,10 @@ public class CategoryManager {
 	@Autowired
 	public void setFileManager(FileManager fileManager) {
 		this.fileManager = fileManager;
+	}
+	
+	@Autowired
+	public void setSflDao(ShelfFileLinkDao sflDao) {
+		this.sflDao = sflDao;
 	}
 }

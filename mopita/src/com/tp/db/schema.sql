@@ -50,7 +50,6 @@ create table f_store_info(
 	short_description varchar(255),
 	long_description varchar(255),
 	price float,
-	sort_by varchar(20),
 	f_id int,
 	fi_id int,
 	store_id int,
@@ -69,6 +68,7 @@ create table f_file_shelf(
 	id int not null auto_increment,
 	f_id int,
 	s_id int,
+	sort int,
 	primary key(id)
 )ENGINE=InnoDB;
 

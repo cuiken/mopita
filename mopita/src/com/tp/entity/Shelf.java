@@ -2,13 +2,14 @@ package com.tp.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -20,7 +21,7 @@ import com.tp.utils.ConvertUtils;
 @DiscriminatorValue("shelf")
 public class Shelf extends BaseCategory {
 
-	private List<ThemeFile> themes = Lists.newArrayList();
+	private List<ShelfFileLink> shelfFile = Lists.newArrayList();
 
 	private Store store;
 
@@ -34,20 +35,26 @@ public class Shelf extends BaseCategory {
 		this.store = store;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "f_file_shelf", joinColumns = { @JoinColumn(name = "s_id") }, inverseJoinColumns = { @JoinColumn(name = "f_id") })
-	public List<ThemeFile> getThemes() {
-		return themes;
-	}
-
-	public void setThemes(List<ThemeFile> themes) {
-		this.themes = themes;
-	}
-	
 	@Transient
 	@SuppressWarnings("unchecked")
-	public List<Long> getCheckedFileIds(){
+	public List<Long> getCheckedFileIds() {
+
+		List<ShelfFileLink> shelfFiles = this.getShelfFile();
+		List<ThemeFile> themes = Lists.newArrayList();
+		for (ShelfFileLink sf : shelfFiles) {
+			themes.add(sf.getTheme());
+		}
 		return ConvertUtils.convertElementPropertyToList(themes, "id");
+	}
+
+	@OneToMany(mappedBy = "shelf", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
+	@OrderBy("sort")
+	public List<ShelfFileLink> getShelfFile() {
+		return shelfFile;
+	}
+
+	public void setShelfFile(List<ShelfFileLink> shelfFile) {
+		this.shelfFile = shelfFile;
 	}
 
 	@Transient
@@ -58,6 +65,14 @@ public class Shelf extends BaseCategory {
 			return store.getId();
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if(obj==null)
+			return false;
+		Shelf that=(Shelf) obj;
+		return this.getId()==that.getId();
+	}
+	
 	@Override
 	public String toString() {
 

@@ -7,12 +7,14 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.tp.dao.HibernateUtils;
+import com.google.common.collect.Lists;
 import com.tp.entity.Shelf;
+import com.tp.entity.ShelfFileLink;
 import com.tp.entity.Store;
 import com.tp.entity.ThemeFile;
 import com.tp.service.CategoryManager;
 import com.tp.service.FileManager;
+import com.tp.service.ShelfFileLinkManager;
 import com.tp.utils.Struts2Utils;
 
 @Namespace("/category")
@@ -29,12 +31,13 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	private Shelf entity;
 	private Long checkedStoreId;
 	private List<Shelf> shelfs;
-	private List<ThemeFile> onShelfFiles;
-	private List<ThemeFile> remainFiles;
+	private List<ThemeFile> onShelfFiles=Lists.newArrayList();
+	private List<ThemeFile> remainFiles=Lists.newArrayList();
 	private List<Long> checkedFileIds;
 	private Long selectId;
 	private CategoryManager categoryManager;
 	private FileManager fileManager;
+	private ShelfFileLinkManager linkManager;
 
 	@Override
 	public String delete() throws Exception {
@@ -51,7 +54,7 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 
 	@Override
 	public String list() throws Exception {
-		// shelfs = categoryManager.getAllShelf();
+		
 		return SUCCESS;
 	}
 
@@ -87,17 +90,19 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 			return "";
 		entity = categoryManager.getShelf(selectId);
 		categoryManager.merge(entity, checkedFileIds);
+		linkManager.mergeCheckedIds(entity, checkedFileIds);
 
-		HibernateUtils.mergeByCheckedIds(entity.getThemes(), checkedFileIds,
-				ThemeFile.class);
-		categoryManager.saveShelf(entity);
 		addActionMessage("保存成功");
 		return "shelf-manage";
 	}
 
 	public String manage() throws Exception {
 
-		this.onShelfFiles = entity.getThemes();
+//		this.onShelfFiles = entity.getThemes();
+		List<ShelfFileLink> shelfFiles=entity.getShelfFile();
+		for(ShelfFileLink sf:shelfFiles){
+			onShelfFiles.add(sf.getTheme());
+		}
 		List<ThemeFile> allFiles = fileManager.getAllThemeFile();
 		this.remainFiles = fileManager.getRemainFiles(allFiles, onShelfFiles);
 		return MANAGE;
@@ -107,7 +112,11 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 		if (id == 0)
 			return "";
 		Shelf sh = categoryManager.getShelf(id);
-		this.onShelfFiles = sh.getThemes();
+		List<ShelfFileLink> shelfFiles=sh.getShelfFile();
+		for(ShelfFileLink sf:shelfFiles){
+			onShelfFiles.add(sf.getTheme());
+		}
+//		this.onShelfFiles = sh.getThemes();
 		List<ThemeFile> allFiles = fileManager.getAllThemeFile();
 		this.remainFiles = fileManager.getRemainFiles(allFiles, onShelfFiles);
 		String json = fileManager.jsonString(remainFiles);
@@ -119,7 +128,11 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 		if (id == 0)
 			return "";
 		Shelf sh = categoryManager.getShelf(id);
-		this.onShelfFiles = sh.getThemes();
+		List<ShelfFileLink> shelfFiles=sh.getShelfFile();
+		for(ShelfFileLink sf:shelfFiles){
+			onShelfFiles.add(sf.getTheme());
+		}
+//		this.onShelfFiles = sh.getThemes();
 		String json = fileManager.jsonString(onShelfFiles);
 		Struts2Utils.renderJson(json);
 		return null;
@@ -152,6 +165,11 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	@Autowired
 	public void setFileManager(FileManager fileManager) {
 		this.fileManager = fileManager;
+	}
+	
+	@Autowired
+	public void setLinkManager(ShelfFileLinkManager linkManager) {
+		this.linkManager = linkManager;
 	}
 
 	public List<Shelf> getShelfs() {

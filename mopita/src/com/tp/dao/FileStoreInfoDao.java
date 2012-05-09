@@ -10,29 +10,28 @@ import com.tp.orm.hibernate.HibernateDao;
 @Component
 public class FileStoreInfoDao extends HibernateDao<FileStoreInfo, Long> {
 
-	private static final String DELETE_BY_THEME = "delete from FileStoreInfo fsi where fsi.theme.id=?";
-	private static final String DELETE_BY_FID="delete from FileStoreInfo fsi where fsi.fiId=?";
-	
+	private static final String DELETE_BY_THEME_AND_STORE = "delete from FileStoreInfo fsi where fsi.theme.id=? and fsi.store.id=?";
+	private static final String DELETE_BY_FID = "delete from FileStoreInfo fsi where fsi.fiId=?";
+
 	private static final String QUERY_BY_THEME_STORE = "select fsi from FileStoreInfo fsi where fsi.theme.id=? and fsi.store.id=?";
-	private static final String QUERY_BY_FID="select fsi from FileStoreInfo fsi where fsi.fiId=?";
-	
-	
-	public void deleteByTheme(Long id) {
-		createQuery(DELETE_BY_THEME, id).executeUpdate();
+	private static final String QUERY_BY_FID = "select fsi from FileStoreInfo fsi where fsi.fiId=?";
+
+	public void deleteByThemeAndStore(Long fid, Long sid) {
+		createQuery(DELETE_BY_THEME_AND_STORE, fid, sid).executeUpdate();
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<FileStoreInfo> getInfoByTheme(Long themeId,Long storeId) {
-		return createQuery(QUERY_BY_THEME_STORE, themeId,storeId).list();
+	public List<FileStoreInfo> getInfoByTheme(Long themeId, Long storeId) {
+		return createQuery(QUERY_BY_THEME_STORE, themeId, storeId).list();
 	}
-	
-	public void deleteByFileInfo(Long fid){
+
+	public void deleteByFileInfo(Long fid) {
 		createQuery(DELETE_BY_FID, fid).executeUpdate();
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public List<FileStoreInfo> getByFileInfo(Long fiId){
+	public List<FileStoreInfo> getByFileInfo(Long fiId) {
 		return createQuery(QUERY_BY_FID, fiId).list();
 	}
-	
+
 }

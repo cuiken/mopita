@@ -163,8 +163,8 @@ public class FileManager {
 		storeInfoDao.deleteByFileInfo(fid);
 	}
 
-	public void deleteStoreInfoByTheme(Long id) {
-		storeInfoDao.deleteByTheme(id);
+	public void deleteStoreInfoByThemeAndStore(Long fid,Long sid) {
+		storeInfoDao.deleteByThemeAndStore(fid,sid);
 	}
 
 	public List<FileStoreInfo> getThemeInfoByStore(Long tid, Long sid) {

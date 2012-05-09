@@ -11,6 +11,7 @@ import com.google.common.collect.Lists;
 import com.tp.entity.FileMultipleInfo;
 import com.tp.entity.FileStoreInfo;
 import com.tp.entity.Shelf;
+import com.tp.entity.ShelfFileLink;
 import com.tp.entity.Store;
 import com.tp.entity.ThemeFile;
 
@@ -44,7 +45,7 @@ public class FileStoreInfoObserver implements Observer {
 	
 	private List<Store> getStores(ThemeFile theme){
 		List<Store> stores=Lists.newArrayList();
-		List<Shelf> shelfs=theme.getShelfs();
+		List<Shelf> shelfs=getShelf(theme.getShelfFiles());
 		for(Shelf shelf:shelfs){
 			Store store=shelf.getStore();
 			if(!stores.contains(store)){
@@ -52,6 +53,14 @@ public class FileStoreInfoObserver implements Observer {
 			}
 		}
 		return stores;
+	}
+	
+	private List<Shelf> getShelf(List<ShelfFileLink> links){
+		List<Shelf> shelfs=Lists.newArrayList();
+		for(ShelfFileLink link:links){
+			shelfs.add(link.getShelf());
+		}
+		return shelfs;
 	}
 
 	/**
