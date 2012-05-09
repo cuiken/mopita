@@ -177,7 +177,7 @@ public class FileManager {
 		for (ThemeFile f : themeFiles) {
 			FileDTO dto = new FileDTO();
 			dto.setId(f.getId());
-			dto.setName(f.getName());
+			dto.setName(f.getTitle());
 			fileDtos.add(dto);
 		}
 		JsonMapper mapper = JsonMapper.buildNormalMapper();
