@@ -32,7 +32,7 @@
 		</div>
 		
 		<div style="border-top:0px; line-height:30px">
-   			<div class="divthemeitem"></div>
+   			<div class="divthemeitem">${theme.title}</div>
 		</div>
 		
 		<div class="theme_img">
