@@ -67,12 +67,18 @@ public class Shelf extends BaseCategory {
 
 	@Override
 	public boolean equals(Object obj) {
-		if(obj==null)
+		if (obj == null)
 			return false;
-		Shelf that=(Shelf) obj;
-		return this.getId()==that.getId();
+		Shelf that = (Shelf) obj;
+		return this.getId().equals(that.getId());
 	}
 	
+	@Override
+	public int hashCode() {
+		assert false : "hashCode not designed";
+		return 42; // any arbitrary constant will do
+	}
+
 	@Override
 	public String toString() {
 

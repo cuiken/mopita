@@ -30,7 +30,6 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	private Long id;
 	private Shelf entity;
 	private Long checkedStoreId;
-	private List<Shelf> shelfs;
 	private List<ThemeFile> onShelfFiles=Lists.newArrayList();
 	private List<ThemeFile> remainFiles=Lists.newArrayList();
 	private List<Long> checkedFileIds;
@@ -167,10 +166,6 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	@Autowired
 	public void setLinkManager(ShelfFileLinkManager linkManager) {
 		this.linkManager = linkManager;
-	}
-
-	public List<Shelf> getShelfs() {
-		return shelfs;
 	}
 
 	public void setId(Long id) {

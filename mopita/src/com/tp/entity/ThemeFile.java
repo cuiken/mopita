@@ -205,7 +205,13 @@ public class ThemeFile extends IdEntity {
 			return false;
 
 		ThemeFile that = (ThemeFile) obj;
-		return that.getId() == this.getId();
+		return that.getId().equals(this.getId());
+	}
+	
+	@Override
+	public int hashCode() {
+		assert false : "hashCode not designed";
+		return 42; // any arbitrary constant will do
 	}
 
 	@Override
