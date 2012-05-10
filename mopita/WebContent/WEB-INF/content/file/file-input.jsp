@@ -14,8 +14,14 @@
 				$("textarea").css("height","150px");
 				$("#inputForm").validate({
 					rules:{
-						checkedCategoryIds:"required"
-					}
+						checkedCategoryId:"required"
+					},
+					errorPlacement: function(error, element) {
+						if (element.is(":checkbox") )
+							error.appendTo (element.parent());
+						else
+							error.insertAfter( element );
+					}	
 				
 				});
 			});
@@ -34,15 +40,15 @@
 				<legend>文件基础属性</legend>
 				<div>
 					<label for="name" class="field">文件名:</label>
-					<input type="text" id="name" name="name" value="${name}" size="25" readonly="readonly">
+					${name}
 				</div>
 				<div>
 					<label for="upload" class="field">上传文件:</label>
 					<input type="file" id="upload" name="upload" />(*仅支持zip文件*)
 				</div>
 				<div>
-					<label for="checkedCategoryIds" class="field">文件分类:<font class="red">*</font></label>
-					<s:checkboxlist name="checkedCategoryId" list="allCategoryList" listKey="id" listValue="name" theme="simple"></s:checkboxlist>
+					<label for="checkedCategoryId" class="field">文件分类:<font class="red">*</font></label>
+					<s:checkboxlist name="checkedCategoryId" id="checkedCategoryId" list="allCategoryList" listKey="id" listValue="name" theme="simple"></s:checkboxlist>
 				</div>
 				
 				<div>
@@ -63,6 +69,7 @@
 			<fieldset>
 				<legend>多语言描述信息</legend>
 				<s:iterator value="fileInfo" status="info">
+					<input type="hidden" name="fileInfo[${info.index}].id" value="${id}"/>
 					<div>
 						<font color="blue">${language}</font>
 					</div>
@@ -80,7 +87,7 @@
 					</div>
 					<div>
 						<label for="author" class="field">作者:</label>
-						<input type="text" id="author" name="fileInfo[${info.index}].author" value="${author}" size="25" maxlength="25" />
+						<input type="text" id="author[${info.index}]" name="fileInfo[${info.index}].author" value="${author}" size="25" maxlength="25" />
 					</div>
 					<div>
 						<label for="price" class="field">单价:</label>

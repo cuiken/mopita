@@ -15,6 +15,7 @@ import com.tp.orm.Page;
 import com.tp.orm.PropertyFilter;
 import com.tp.orm.PageRequest.Sort;
 import com.tp.service.CategoryManager;
+import com.tp.service.FileInfoObservable;
 import com.tp.service.FileManager;
 import com.tp.utils.Struts2Utils;
 
@@ -30,6 +31,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	private List<FileMultipleInfo> fileInfo;
 	private FileManager fileManager;
 	private CategoryManager categoryManager;
+	private FileInfoObservable observer;
 
 	@Override
 	public String delete() throws Exception {
@@ -72,6 +74,10 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	public String save() throws Exception {
 		HibernateUtils.mergeByCheckedIds(entity.getCategories(), checkedCategoryId, Category.class);
 		fileManager.saveThemeFile(entity);
+		for(FileMultipleInfo info :entity.getFileInfo()){
+			info.setTheme(entity);
+			observer.saveFileInfo(info);
+		}
 		addActionMessage("保存成功");
 		return RELOAD;
 	}
@@ -106,6 +112,11 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	@Autowired
 	public void setCategoryManager(CategoryManager categoryManager) {
 		this.categoryManager = categoryManager;
+	}
+	
+	@Autowired
+	public void setObserver(FileInfoObservable observer) {
+		this.observer = observer;
 	}
 
 	public Page<ThemeFile> getPage() {
