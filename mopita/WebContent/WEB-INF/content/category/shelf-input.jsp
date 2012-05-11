@@ -49,10 +49,14 @@
 			</div>
 			
 			<div>
+				<label for="value" class="field">货架标识:</label>
+				<input type="text" id="value" name="value" value="${value}" size="25" maxlength="50" class="required"/>
+			</div>
+			
+			<div>
 				<label for="description" class="field">货架描述:</label>
 				<input type="text" id="description" name="description" value="${description}" size="25" maxlength="50" />
 			</div>
-			
 			<div>
 				<label for="checkedStoreId" class="field">所属商店:</label>
 				<s:radio name="checkedStoreId" list="allStores" listKey="id" listValue="name" theme="simple" />

@@ -15,6 +15,7 @@ import org.hibernate.annotations.DiscriminatorOptions;
 public abstract class BaseCategory extends IdEntity {
 
 	protected String name;
+	protected String value;
 	protected String description;
 
 	public String getName() {
@@ -25,6 +26,14 @@ public abstract class BaseCategory extends IdEntity {
 		this.name = name;
 	}
 
+	public String getValue() {
+		return value;
+	}
+	
+	public void setValue(String value) {
+		this.value = value;
+	}
+	
 	public String getDescription() {
 		return description;
 	}

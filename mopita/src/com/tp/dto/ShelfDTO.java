@@ -6,6 +6,7 @@ public class ShelfDTO {
 
 	private Long id;
 	private String name;
+	private String value;
 	private String description;
 
 	public Long getId() {
@@ -22,6 +23,14 @@ public class ShelfDTO {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getValue() {
+		return value;
+	}
+	
+	public void setValue(String value) {
+		this.value = value;
 	}
 	
 	public String getDescription() {

@@ -20,6 +20,7 @@
 								var html="";
 								$.each(data,function(i,val){		
 									html+="<tr><td>"+val.name+"</td><td>"
+									+val.value+"</td><td>"
 									+val.description
 									+"</td><td><a href=shelf!manage.action?id="
 									+val.id+">管理</a></td></tr>";
@@ -53,6 +54,7 @@
 			<table id="content">
 				<tr>
 					<th>货架名称</th>
+					<th>货架标识</th>
 					<th>货架描述</th>
 					<th>操作</th>
 				</tr>	

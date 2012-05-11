@@ -58,13 +58,14 @@ public class CategoryManager {
 	}
 
 	public void createDefaultShelf(Store store) {
-		String[] defShelf = { "最新", "最热", "推荐" };
-		for (int i = 0; i < defShelf.length; i++) {
-			Shelf shf = new Shelf();
-			shf.setName(defShelf[i]);
-			shf.setDescription("默认创建");
-			shf.setStore(store);
-			this.saveShelf(shf);
+
+		for (Shelf.Type st : Shelf.Type.values()) {
+			Shelf shelf = new Shelf();
+			shelf.setName(st.getDisplayName());
+			shelf.setValue(st.getValue());
+			shelf.setDescription("created by default");
+			shelf.setStore(store);
+			this.saveShelf(shelf);
 		}
 	}
 
@@ -98,6 +99,7 @@ public class CategoryManager {
 			ShelfDTO dto = new ShelfDTO();
 			dto.setId(shelf.getId());
 			dto.setName(shelf.getName());
+			dto.setValue(shelf.getValue());
 			dto.setDescription(shelf.getDescription());
 			sdto.add(dto);
 		}
@@ -116,7 +118,7 @@ public class CategoryManager {
 			targetShelf.setDescription(oriShelf.getDescription());
 			targetShelf.setStore(targetStore);
 			this.saveShelf(targetShelf);
-			for (ThemeFile file : getThemes(oriShelf.getShelfFile())) {  //remove the theme file where in one store on diff shelfs 
+			for (ThemeFile file : getThemes(oriShelf.getShelfFile())) { //remove the theme file where in one store on diff shelfs 
 				if (!singleThemeFile.contains(file)) {
 					singleThemeFile.add(file);
 				}
@@ -125,18 +127,18 @@ public class CategoryManager {
 		}
 		copyFileStoreInfo(singleThemeFile, targetStore);
 	}
-	
-	private List<ThemeFile> getThemes(List<ShelfFileLink> links){
-		List<ThemeFile> themes=Lists.newArrayList();
-		for(ShelfFileLink shelfFile:links){
+
+	private List<ThemeFile> getThemes(List<ShelfFileLink> links) {
+		List<ThemeFile> themes = Lists.newArrayList();
+		for (ShelfFileLink shelfFile : links) {
 			themes.add(shelfFile.getTheme());
 		}
 		return themes;
 	}
 
 	private void copyShelfFiles(Shelf targetShelf, List<ShelfFileLink> oriLinks) {
-		for(ShelfFileLink ori:oriLinks){
-			ShelfFileLink targetLink=new ShelfFileLink();
+		for (ShelfFileLink ori : oriLinks) {
+			ShelfFileLink targetLink = new ShelfFileLink();
 			targetLink.setTheme(ori.getTheme());
 			targetLink.setShelf(targetShelf);
 			targetLink.setSort(ori.getSort());
@@ -156,7 +158,7 @@ public class CategoryManager {
 		if (ids == null) {
 			for (ThemeFile f : themes) {
 				if (!isFileInStore(store, shelf, f)) {
-					fileManager.deleteStoreInfoByThemeAndStore(f.getId(),store.getId());
+					fileManager.deleteStoreInfoByThemeAndStore(f.getId(), store.getId());
 				}
 			}
 
@@ -170,7 +172,7 @@ public class CategoryManager {
 		for (ThemeFile file : checkedThemes) {
 			Long id = file.getId();
 			if (!checkedIds.contains(id) && !isFileInStore(store, shelf, file)) {
-				fileManager.deleteStoreInfoByThemeAndStore(id,store.getId());
+				fileManager.deleteStoreInfoByThemeAndStore(id, store.getId());
 			} else {
 				checkedIds.remove(id);
 			}
@@ -248,7 +250,7 @@ public class CategoryManager {
 	public void setFileManager(FileManager fileManager) {
 		this.fileManager = fileManager;
 	}
-	
+
 	@Autowired
 	public void setSflDao(ShelfFileLinkDao sflDao) {
 		this.sflDao = sflDao;

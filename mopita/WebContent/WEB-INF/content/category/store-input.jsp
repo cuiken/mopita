@@ -48,7 +48,10 @@
 					<label for="name" class="field">商店名称:</label>
 					<input type="text" id="name" name="name" size="25" maxlength="20" value="${name}" class="required"/>
 				</div>
-				
+				<div>
+					<label for="value" class="field">商店标识:</label>
+					<input type="text" id="value" name="value" size="25" maxlength="20" value="${value}" class="required"/>
+				</div>
 				<div>
 					<label for="description" class="field">商店描述:</label>
 					<input type="text" id="description" name="description" size="25" maxlength="50" value="${description}" />

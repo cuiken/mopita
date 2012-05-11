@@ -4,9 +4,10 @@ use mopita;
 
 create table f_category(
 	id int not null auto_increment,
-	name varchar(20) not null,
+	name varchar(50) not null,
+	value varchar(50) not null,
 	description varchar(100),
-	store_id int,
+	parent_id int,
 	dtype varchar(32) not null,
 	primary key(id)
 	

@@ -26,7 +26,7 @@ public class Shelf extends BaseCategory {
 	private Store store;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "store_id")
+	@JoinColumn(name = "parent_id")
 	public Store getStore() {
 		return store;
 	}
@@ -72,11 +72,31 @@ public class Shelf extends BaseCategory {
 		Shelf that = (Shelf) obj;
 		return this.getId().equals(that.getId());
 	}
-	
+
 	@Override
 	public int hashCode() {
 		assert false : "hashCode not designed";
 		return 42; // any arbitrary constant will do
+	}
+
+	public static enum Type {
+		RECOMMEND("recommended", "推荐"), HOTTEST("hottest", "最热"), NEWEST("newest", "最新");
+
+		public String value;
+		public String displayName;
+
+		Type(String value, String displayName) {
+			this.value = value;
+			this.displayName = displayName;
+		}
+
+		public String getValue() {
+			return value;
+		}
+
+		public String getDisplayName() {
+			return displayName;
+		}
 	}
 
 	@Override
