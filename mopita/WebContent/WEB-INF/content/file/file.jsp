@@ -28,7 +28,7 @@
 		</c:if>
 		<h3>文件列表</h3>
 		<div id="filter">
-			文件名: <input type="text" name="filter_EQS_name" value="${param['filter_EQS_name']}" size="20"/>
+			文件名: <input type="text" name="filter_LIKES_name" value="${param['filter_LIKES_name']}" size="20"/>
 			<input type="button" value="搜索" onclick="search();"/>
 		</div>
 			<table>

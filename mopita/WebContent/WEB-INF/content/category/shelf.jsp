@@ -70,7 +70,7 @@
 				</tr>
 				-->
 			</table>		
-			<a href="shelf!input.action">创建货架</a>			
+			<!-- <a href="shelf!input.action">创建货架</a>	 -->		
 			</div>
 		</div>
 		</form>
