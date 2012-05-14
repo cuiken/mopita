@@ -8,60 +8,48 @@
 	  	<meta name="apple-mobile-web-app-status-bar-style" content="black">  
 	  	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   		<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
- 
+ 		<%@include file="/common/script.jsp" %>
 		<title>商店首页</title>
 		<link rel="stylesheet" href="${ctx}/css/style.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/mobile.css" media="screen"/>
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
-  		<script>
-		  $(function(){
-		
-		    var $container = $('#container');
-		    
-		  
-		  });
-	</script>
 	</head>
 	<body>
 	
 		<form action="wap.action" method="get">
 			<div id="container"> 
+				
 				<s:iterator value="recommendPage.result">
-					<div class="box col1">
-						<div>
-							<a href="${ctx}/wap/wap!details.action?id=${id}">
-								<img alt="${title}" src="${ctx}/image!getImage.action?path=${iconPath}">
-							</a>
-						</div>
-						<div class="themeDesc">
-							${title}
-						</div>
+					<div class="col1">
+						<a href="${ctx}/wap/wap!details.action?id=${id}">
+							<img alt="${title}" src="${ctx}/image!getImage.action?path=${iconPath}">
+						</a>
 					</div>
 				</s:iterator>
+				
 				<s:iterator value="newestPage.result">
-					<div class="box col1">
+					<div class="newest col2">
+
 						<div>
 							<a href="${ctx}/wap/wap!details.action?id=${id}">
 								<img alt="${title}" src="${ctx}/image!getImage.action?path=${iconPath}">
 							</a>
 						</div>
-						<div class="themeDesc">
-							${title}
+						<div>						
+							${title}				
+							shortdes
 						</div>
-					</div>
+					</div>								
 				</s:iterator>
+				
 				<s:iterator value="hottestPage.result">
-					<div class="box col1">
-						<div>
-							<a href="${ctx}/wap/wap!details.action?id=${id}">
-								<img alt="${title}" src="${ctx}/image!getImage.action?path=${iconPath}">
-							</a>
-						</div>
-						<div class="themeDesc">
-							${title}
-						</div>
+					<div class="hottest col1">
+						<a href="${ctx}/wap/wap!details.action?id=${id}">
+							<img alt="${title}" src="${ctx}/image!getImage.action?path=${iconPath}">
+						</a>
 					</div>
 				</s:iterator>
+				
 			</div>
 
 		</form>
