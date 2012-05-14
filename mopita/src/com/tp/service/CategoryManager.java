@@ -38,6 +38,10 @@ public class CategoryManager {
 	public Store getStore(Long id) {
 		return storeDao.get(id);
 	}
+	
+	public Store getStore(String propertyValue){
+		return storeDao.findUniqueBy("value", propertyValue);
+	}
 
 	public List<Category> getCategories() {
 		return categoryDao.getAll();
@@ -117,6 +121,7 @@ public class CategoryManager {
 			copyShelfFiles(targetShelf, oriShelf.getShelfFile());
 			targetShelf.setDescription(oriShelf.getDescription());
 			targetShelf.setStore(targetStore);
+			targetShelf.setValue(oriShelf.getValue());
 			this.saveShelf(targetShelf);
 			for (ThemeFile file : getThemes(oriShelf.getShelfFile())) { //remove the theme file where in one store on diff shelfs 
 				if (!singleThemeFile.contains(file)) {

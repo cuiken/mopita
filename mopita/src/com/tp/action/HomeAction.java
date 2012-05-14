@@ -1,23 +1,23 @@
 package com.tp.action;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.tp.entity.Shelf;
+import com.tp.entity.Store;
 import com.tp.entity.ThemeFile;
+import com.tp.orm.Page;
 import com.tp.service.HomeManager;
 
 public class HomeAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
 
-	private List<ThemeFile> hottestFiles;
-	private List<ThemeFile> newestFiles;
-	private List<ThemeFile> recommendFiles;
-
 	private HomeManager homeManager;
+
+	private Page<ThemeFile> hottestPage = new Page<ThemeFile>();
+	private Page<ThemeFile> newestPage = new Page<ThemeFile>();
+	private Page<ThemeFile> recommendPage = new Page<ThemeFile>();
 
 	@Override
 	public String execute() throws Exception {
@@ -31,16 +31,10 @@ public class HomeAction extends ActionSupport {
 	 * @throws Exception
 	 */
 	public String list() throws Exception {
-		List<Shelf> shelfs = homeManager.getDefaultShelfs();
-		for (Shelf shelf : shelfs) {
-			if (shelf.getValue().equals(Shelf.Type.HOTTEST.getValue())) {
-				hottestFiles = homeManager.getHottestFiles(shelf);
-			} else if (shelf.getValue().equals(Shelf.Type.NEWEST.getValue())) {
-				newestFiles = homeManager.getNewestFiles(shelf);
-			} else if (shelf.getValue().equals(Shelf.Type.RECOMMEND.getValue())) {
-				recommendFiles = homeManager.getRecommendFiles(shelf);
-			}
-		}
+		Store store = homeManager.getDefaultStore();
+		hottestPage = homeManager.searchFileByShelf(hottestPage, Shelf.Type.HOTTEST, store.getId());
+		newestPage = homeManager.searchFileByShelf(newestPage, Shelf.Type.NEWEST, store.getId());
+		recommendPage = homeManager.searchFileByShelf(recommendPage, Shelf.Type.RECOMMEND, store.getId());
 		return SUCCESS;
 	}
 
@@ -49,16 +43,15 @@ public class HomeAction extends ActionSupport {
 		this.homeManager = homeManager;
 	}
 
-	public List<ThemeFile> getHottestFiles() {
-		return hottestFiles;
+	public Page<ThemeFile> getHottestPage() {
+		return hottestPage;
 	}
 
-	public List<ThemeFile> getNewestFiles() {
-		return newestFiles;
+	public Page<ThemeFile> getNewestPage() {
+		return newestPage;
 	}
 
-	public List<ThemeFile> getRecommendFiles() {
-		return recommendFiles;
+	public Page<ThemeFile> getRecommendPage() {
+		return recommendPage;
 	}
-
 }

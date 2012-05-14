@@ -26,10 +26,36 @@
 	
 		<form action="wap.action" method="get">
 			<div id="container"> 
-				<s:iterator value="page.result">
+				<s:iterator value="recommendPage.result">
 					<div class="box col1">
 						<div>
-							<a href="wap!details.action?id=${id}"><img alt="${title}" src="${ctx}${previewURL}"></a>
+							<a href="${ctx}/wap/wap!details.action?id=${id}">
+								<img alt="${title}" src="${ctx}/image!getImage.action?path=${iconPath}">
+							</a>
+						</div>
+						<div class="themeDesc">
+							${title}
+						</div>
+					</div>
+				</s:iterator>
+				<s:iterator value="newestPage.result">
+					<div class="box col1">
+						<div>
+							<a href="${ctx}/wap/wap!details.action?id=${id}">
+								<img alt="${title}" src="${ctx}/image!getImage.action?path=${iconPath}">
+							</a>
+						</div>
+						<div class="themeDesc">
+							${title}
+						</div>
+					</div>
+				</s:iterator>
+				<s:iterator value="hottestPage.result">
+					<div class="box col1">
+						<div>
+							<a href="${ctx}/wap/wap!details.action?id=${id}">
+								<img alt="${title}" src="${ctx}/image!getImage.action?path=${iconPath}">
+							</a>
 						</div>
 						<div class="themeDesc">
 							${title}
