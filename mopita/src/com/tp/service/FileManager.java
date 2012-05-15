@@ -16,6 +16,7 @@ import com.tp.dto.FileDTO;
 import com.tp.entity.FileMultipleInfo;
 import com.tp.entity.FileStoreInfo;
 import com.tp.entity.Preview;
+import com.tp.entity.Shelf;
 import com.tp.entity.ThemeFile;
 import com.tp.mapper.JsonMapper;
 import com.tp.orm.Page;
@@ -42,42 +43,41 @@ public class FileManager {
 	public List<ThemeFile> getAllThemeFile() {
 		return themeFileDao.getAll();
 	}
-	
-	public  Page<ThemeFile> searchFileByShelf(final Page<ThemeFile> page,String stype,Long sid){
-		return themeFileDao.searchFileByShelf(page, stype, sid);
+
+	public Page<ThemeFile> searchFileByShelf(final Page<ThemeFile> page, Shelf.Type stype, Long sid) {
+		return themeFileDao.searchFileByShelf(page, stype.getValue(), sid);
 	}
-	
+
+	public Preview getAdPreview(Long themeId) {
+		return previewDao.get_ad_preview(themeId);
+	}
+
 	/**
 	 * 判断该条语言信息是否存在于商店中
 	 * @param fiId 
 	 * @return
 	 */
-	public boolean isInfoInStore(Long fiId){
+	public boolean isInfoInStore(Long fiId) {
 		return !getStoreInfoByFiId(fiId).isEmpty();
 	}
 
-	public List<FileStoreInfo> getStoreInfoByFiId(Long fiId){
+	public List<FileStoreInfo> getStoreInfoByFiId(Long fiId) {
 		return storeInfoDao.getByFileInfo(fiId);
 	}
-	
-	public Page<ThemeFile> searchThemeFile(final Page<ThemeFile> page,
-			final List<PropertyFilter> filters) {
+
+	public Page<ThemeFile> searchThemeFile(final Page<ThemeFile> page, final List<PropertyFilter> filters) {
 		return themeFileDao.findPage(page, filters);
 	}
 
-	public Page<ThemeFile> searchThemeFile(final Page<ThemeFile> page,
-			Long categoryId) {
+	public Page<ThemeFile> searchThemeFile(final Page<ThemeFile> page, Long categoryId) {
 		return themeFileDao.searchFileByCategory(page, categoryId);
 	}
 
-	public Page<FileMultipleInfo> searchFileInfo(
-			final Page<FileMultipleInfo> page,
-			final List<PropertyFilter> filters) {
+	public Page<FileMultipleInfo> searchFileInfo(final Page<FileMultipleInfo> page, final List<PropertyFilter> filters) {
 		return fileMultipleDao.findPage(page, filters);
 	}
 
-	public ThemeFile saveFiles(List<File> files, ThemeFile fs,
-			FileMultipleInfo info) {
+	public ThemeFile saveFiles(List<File> files, ThemeFile fs, FileMultipleInfo info) {
 
 		List<File> previews = Lists.newArrayList();
 		for (File file : files) {
@@ -142,8 +142,7 @@ public class FileManager {
 		themeFileDao.delete(id);
 	}
 
-	public List<ThemeFile> getRemainFiles(List<ThemeFile> allFiles,
-			List<ThemeFile> fileOnShelf) {
+	public List<ThemeFile> getRemainFiles(List<ThemeFile> allFiles, List<ThemeFile> fileOnShelf) {
 		List<ThemeFile> remainFile = allFiles;
 		for (ThemeFile fi : fileOnShelf) {
 
@@ -163,13 +162,13 @@ public class FileManager {
 	public void deleteStoreInfo(Long id) {
 		storeInfoDao.delete(id);
 	}
-	
-	public void deleteStoreInfoByFmId(Long fid){
+
+	public void deleteStoreInfoByFmId(Long fid) {
 		storeInfoDao.deleteByFileInfo(fid);
 	}
 
-	public void deleteStoreInfoByThemeAndStore(Long fid,Long sid) {
-		storeInfoDao.deleteByThemeAndStore(fid,sid);
+	public void deleteStoreInfoByThemeAndStore(Long fid, Long sid) {
+		storeInfoDao.deleteByThemeAndStore(fid, sid);
 	}
 
 	public List<FileStoreInfo> getThemeInfoByStore(Long tid, Long sid) {
@@ -189,9 +188,27 @@ public class FileManager {
 		return mapper.toJson(fileDtos);
 
 	}
-	
-	public boolean isFileTitleUnique(String newTitle,String oldTitle){
+
+	public boolean isFileTitleUnique(String newTitle, String oldTitle) {
 		return themeFileDao.isPropertyUnique("title", newTitle, oldTitle);
+	}
+
+	public String adXml(List<ThemeFile> themes) {
+		StringBuilder buffer = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		if (themes.size() > 5) {
+			themes = themes.subList(0, 5);
+		}
+		buffer.append("<ads>");
+		for (ThemeFile theme : themes) {
+			Preview pv = this.getAdPreview(theme.getId());
+			buffer.append("<ad>");
+			buffer.append("<fid>" + theme.getId() + "</fid>");
+			buffer.append("<name>" + pv.getName() + "</name>");
+			buffer.append("<path>mopita/image.action?path=" + pv.getPrePath() + "</path>");
+			buffer.append("</ad>");
+		}
+		buffer.append("</ads>");
+		return buffer.toString();
 	}
 
 	@Autowired

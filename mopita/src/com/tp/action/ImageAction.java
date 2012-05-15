@@ -15,6 +15,11 @@ public class ImageAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 
 	private String path;
+	
+	@Override
+	public String execute() throws Exception {
+		return getImage();
+	}
 
 	public String getImage() throws Exception {
 		String imgURL = Constants.FILE_STORAGE + new String(path.getBytes("iso-8859-1"), "utf-8");

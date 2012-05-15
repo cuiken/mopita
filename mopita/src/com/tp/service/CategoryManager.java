@@ -38,9 +38,9 @@ public class CategoryManager {
 	public Store getStore(Long id) {
 		return storeDao.get(id);
 	}
-	
-	public Store getStore(String propertyValue){
-		return storeDao.findUniqueBy("value", propertyValue);
+
+	public Store getDefaultStore() {
+		return storeDao.findUniqueBy("value", "local");
 	}
 
 	public List<Category> getCategories() {
