@@ -60,6 +60,7 @@ create table f_store_info(
 
 create table f_preview(
 	id int not null auto_increment,
+	name varchar(50),
 	pre_path varchar(100),
 	f_id int,
 	primary key(id)

@@ -20,8 +20,7 @@ import com.google.common.collect.Lists;
 
 public class FileUtils {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(FileUtils.class);
+	private static final Logger logger = LoggerFactory.getLogger(FileUtils.class);
 
 	private static final String FILE_STORAGE = Constants.FILE_STORAGE;
 
@@ -65,14 +64,16 @@ public class FileUtils {
 		return Arrays.asList(Constants.IMG_EXTENSION);
 
 	}
-	
-	public static long getFileSize(String child){
-		return new File(Constants.FILE_STORAGE,child).length();
+
+	public static long getFileSize(String child) {
+		return new File(Constants.FILE_STORAGE, child).length();
 	}
 
 	public static boolean isPreview(String fname) {
 
-		return StringUtils.containsIgnoreCase(fname, Constants.PREVIEW);
+		return StringUtils.containsIgnoreCase(fname, Constants.PREVIEW_CLIENT)
+				|| StringUtils.containsIgnoreCase(fname, Constants.PREVIEW_WEB)
+				|| StringUtils.containsIgnoreCase(fname, Constants.AD);
 	}
 
 	public static boolean isIcon(String fname) {
@@ -87,17 +88,14 @@ public class FileUtils {
 		return StringUtils.equalsIgnoreCase(ext, Constants.APK);
 	}
 
-	private static List<File> outputFile(List<ZipArchiveEntry> entries,
-			ZipFile zipFile, File baseDir) throws Exception {
+	private static List<File> outputFile(List<ZipArchiveEntry> entries, ZipFile zipFile, File baseDir) throws Exception {
 		List<File> files = Lists.newArrayList();
 		for (ZipArchiveEntry entry : entries) {
 			File file = new File(baseDir, entry.getName());
 
-			String relativePath = StringUtils.substring(file.getPath(),
-					FILE_STORAGE.length());
+			String relativePath = StringUtils.substring(file.getPath(), FILE_STORAGE.length());
 			files.add(new File(relativePath));
-			BufferedOutputStream outputStream = new BufferedOutputStream(
-					new FileOutputStream(file));
+			BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file));
 			InputStream inputStream = zipFile.getInputStream(entry);
 			byte[] data = new byte[1024];
 			int len = 0;

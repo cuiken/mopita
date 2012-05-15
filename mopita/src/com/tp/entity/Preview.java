@@ -12,9 +12,18 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 @Table(name = "f_preview")
 public class Preview extends IdEntity {
 
+	private String name;
 	private String prePath;
 	private ThemeFile theme;
 
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	public String getPrePath() {
 		return prePath;
 	}

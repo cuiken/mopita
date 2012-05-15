@@ -8,5 +8,4 @@
 	<a href="${ctx}/category/store.action">商店列表</a>
 	<a href="${ctx}/category/shelf.action">货架列表</a>
 	<a href="${ctx}/home.action">商店首页</a>
-	<a href="${ctx}/wap/wap.action">wap演示</a>
 </div>

@@ -112,6 +112,7 @@ public class FileManager {
 		for (File pre : previews) {
 			Preview preview = new Preview();
 			preview.setPrePath(pre.getPath());
+			preview.setName(pre.getName());
 			preview.setTheme(theme);
 			savePreview(preview);
 		}
