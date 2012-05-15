@@ -69,11 +69,18 @@ public class FileUtils {
 		return new File(Constants.FILE_STORAGE, child).length();
 	}
 
-	public static boolean isPreview(String fname) {
+	public static boolean isPreClient(String fname) {
 
-		return StringUtils.containsIgnoreCase(fname, Constants.PREVIEW_CLIENT)
-				|| StringUtils.containsIgnoreCase(fname, Constants.PREVIEW_WEB)
-				|| StringUtils.containsIgnoreCase(fname, Constants.AD);
+		return StringUtils.containsIgnoreCase(fname, Constants.PREVIEW_CLIENT);
+
+	}
+
+	public static boolean isAd(String fname) {
+		return StringUtils.containsIgnoreCase(fname, Constants.AD);
+	}
+
+	public static boolean isPreWeb(String fname) {
+		return StringUtils.containsIgnoreCase(fname, Constants.PREVIEW_WEB);
 	}
 
 	public static boolean isIcon(String fname) {

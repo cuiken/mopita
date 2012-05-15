@@ -5,7 +5,7 @@ use mopita;
 create table f_category(
 	id int not null auto_increment,
 	name varchar(50) not null,
-	value varchar(50) not null,
+	value varchar(50),
 	description varchar(100),
 	parent_id int,
 	dtype varchar(32) not null,
@@ -24,6 +24,9 @@ create table f_file(
 	avail_machine varchar(255),
 	unavail_machine varchar(255),
 	icon_path varchar(255),
+	ad_path varchar(255),
+	pre_web_path varchar(255),
+	pre_client_path varchar(255),
 	market_url varchar(100),
 	create_time timestamp,
 	primary key(id)
@@ -56,14 +59,6 @@ create table f_store_info(
 	store_id int,
 	primary key(id)
 	
-)ENGINE=InnoDB;
-
-create table f_preview(
-	id int not null auto_increment,
-	name varchar(50),
-	pre_path varchar(100),
-	f_id int,
-	primary key(id)
 )ENGINE=InnoDB;
 
 create table f_file_shelf(

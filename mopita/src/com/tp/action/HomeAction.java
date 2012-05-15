@@ -3,6 +3,7 @@ package com.tp.action;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.tp.entity.FileStoreInfo;
 import com.tp.entity.Shelf;
 import com.tp.entity.Store;
 import com.tp.entity.ThemeFile;
@@ -23,6 +24,7 @@ public class HomeAction extends ActionSupport {
 	private Page<ThemeFile> recommendPage = new Page<ThemeFile>();
 
 	private Long id;
+	private FileStoreInfo info;
 
 	@Override
 	public String execute() throws Exception {
@@ -57,8 +59,10 @@ public class HomeAction extends ActionSupport {
 	}
 
 	public String details() throws Exception {
+		Store store = categoryManager.getDefaultStore();
 		ThemeFile theme = fileManager.getThemeFile(id);
-		
+		FileStoreInfo info = fileManager.getStoreInfoBy(store.getId(), theme.getId(), "ZH");
+		this.setInfo(info);
 		return "details";
 	}
 
@@ -86,5 +90,13 @@ public class HomeAction extends ActionSupport {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public FileStoreInfo getInfo() {
+		return info;
+	}
+	
+	public void setInfo(FileStoreInfo info) {
+		this.info = info;
 	}
 }

@@ -39,15 +39,15 @@ public class ThemeFile extends IdEntity {
 	private String unavailMachine;
 	private String marketURL;
 	private String iconPath;
+	private String adPath;
+	private String preWebPath;
+	private String preClientPath;
 	private Date createTime;
 
 	private List<Category> categories = Lists.newArrayList();
-	private List<Preview> previews = Lists.newArrayList();
 	private List<FileMultipleInfo> fileInfo = Lists.newArrayList();
 	private List<FileStoreInfo> infoStore = Lists.newArrayList();
 	private List<ShelfFileLink> shelfFiles = Lists.newArrayList();
-
-	private String previewURL;
 
 	public String getName() {
 		return name;
@@ -121,6 +121,30 @@ public class ThemeFile extends IdEntity {
 		this.iconPath = iconPath;
 	}
 
+	public String getAdPath() {
+		return adPath;
+	}
+
+	public void setAdPath(String adPath) {
+		this.adPath = adPath;
+	}
+
+	public String getPreWebPath() {
+		return preWebPath;
+	}
+
+	public void setPreWebPath(String preWebPath) {
+		this.preWebPath = preWebPath;
+	}
+
+	public String getPreClientPath() {
+		return preClientPath;
+	}
+
+	public void setPreClientPath(String preClientPath) {
+		this.preClientPath = preClientPath;
+	}
+
 	@Column(name = "market_url")
 	public String getMarketURL() {
 		return marketURL;
@@ -136,15 +160,6 @@ public class ThemeFile extends IdEntity {
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
-	}
-
-	@OneToMany(mappedBy = "theme", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
-	public List<Preview> getPreviews() {
-		return previews;
-	}
-
-	public void setPreviews(List<Preview> previews) {
-		this.previews = previews;
 	}
 
 	@OneToMany(mappedBy = "theme", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
@@ -184,15 +199,6 @@ public class ThemeFile extends IdEntity {
 		this.categories = categories;
 	}
 
-	@Transient
-	public String getPreviewURL() {
-		return previewURL;
-	}
-
-	public void setPreviewURL(String previewURL) {
-		this.previewURL = previewURL;
-	}
-
 	@SuppressWarnings("unchecked")
 	@Transient
 	public List<Long> getCheckedCategoryIds() {
@@ -207,7 +213,7 @@ public class ThemeFile extends IdEntity {
 		ThemeFile that = (ThemeFile) obj;
 		return that.getId().equals(this.getId());
 	}
-	
+
 	@Override
 	public int hashCode() {
 		assert false : "hashCode not designed";

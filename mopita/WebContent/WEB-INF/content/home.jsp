@@ -21,7 +21,7 @@
 				
 				<s:iterator value="recommendPage.result">
 					<div class="col1">
-						<a href="${ctx}/wap/wap!details.action?id=${id}">
+						<a href="${ctx}/home!details.action?id=${id}">
 							<img alt="${title}" src="${ctx}/image.action?path=${iconPath}">
 						</a>
 					</div>
@@ -31,7 +31,7 @@
 					<div class="newest col2">
 
 						<div>
-							<a href="${ctx}/wap/wap!details.action?id=${id}">
+							<a href="${ctx}/home!details.action?id=${id}">
 								<img alt="${title}" src="${ctx}/image.action?path=${iconPath}">
 							</a>
 						</div>
@@ -44,7 +44,7 @@
 				
 				<s:iterator value="hottestPage.result">
 					<div class="hottest col1">
-						<a href="${ctx}/wap/wap!details.action?id=${id}">
+						<a href="${ctx}/home!details.action?id=${id}">
 							<img alt="${title}" src="${ctx}/image.action?path=${iconPath}">
 						</a>
 					</div>

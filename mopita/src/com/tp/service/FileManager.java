@@ -10,12 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.collect.Lists;
 import com.tp.dao.FileMultipleInfoDao;
 import com.tp.dao.FileStoreInfoDao;
-import com.tp.dao.PreviewDao;
 import com.tp.dao.ThemeFileDao;
 import com.tp.dto.FileDTO;
 import com.tp.entity.FileMultipleInfo;
 import com.tp.entity.FileStoreInfo;
-import com.tp.entity.Preview;
 import com.tp.entity.Shelf;
 import com.tp.entity.ThemeFile;
 import com.tp.mapper.JsonMapper;
@@ -28,16 +26,11 @@ import com.tp.utils.FileUtils;
 public class FileManager {
 
 	private FileMultipleInfoDao fileMultipleDao;
-	private PreviewDao previewDao;
 	private ThemeFileDao themeFileDao;
 	private FileStoreInfoDao storeInfoDao;
 
 	public FileMultipleInfo getFileInfo(Long id) {
 		return fileMultipleDao.get(id);
-	}
-
-	public Preview getPreview(Long id) {
-		return previewDao.get(id);
 	}
 
 	public List<ThemeFile> getAllThemeFile() {
@@ -46,10 +39,6 @@ public class FileManager {
 
 	public Page<ThemeFile> searchFileByShelf(final Page<ThemeFile> page, Shelf.Type stype, Long sid) {
 		return themeFileDao.searchFileByShelf(page, stype.getValue(), sid);
-	}
-
-	public Preview getAdPreview(Long themeId) {
-		return previewDao.get_ad_preview(themeId);
 	}
 
 	/**
@@ -63,6 +52,10 @@ public class FileManager {
 
 	public List<FileStoreInfo> getStoreInfoByFiId(Long fiId) {
 		return storeInfoDao.getByFileInfo(fiId);
+	}
+
+	public FileStoreInfo getStoreInfoBy(Long sid, Long fid, String language) {
+		return storeInfoDao.get(sid, fid, language);
 	}
 
 	public Page<ThemeFile> searchThemeFile(final Page<ThemeFile> page, final List<PropertyFilter> filters) {
@@ -79,12 +72,15 @@ public class FileManager {
 
 	public ThemeFile saveFiles(List<File> files, ThemeFile fs, FileMultipleInfo info) {
 
-		List<File> previews = Lists.newArrayList();
 		for (File file : files) {
 			String fname = FileUtils.getFileName(file.getName());
 			String extension = FileUtils.getExtension(file.getName());
-			if (FileUtils.isPreview(fname)) {
-				previews.add(file);
+			if (FileUtils.isPreClient(fname)) {
+				fs.setPreClientPath(file.getPath());
+			} else if (FileUtils.isPreWeb(fname)) {
+				fs.setPreWebPath(file.getPath());
+			} else if (FileUtils.isAd(fname)) {
+				fs.setAdPath(file.getPath());
 			} else if (FileUtils.isIcon(fname)) {
 				fs.setIconPath(file.getPath());
 			} else if (FileUtils.isApk(extension)) {
@@ -99,23 +95,12 @@ public class FileManager {
 		}
 		saveThemeFile(fs);
 		saveFileinfo(fs, info);
-		savePreview(previews, fs);
 		return fs;
 	}
 
 	private void saveFileinfo(ThemeFile f, FileMultipleInfo info) {
 		info.setTheme(f);
 		saveFileInfo(info);
-	}
-
-	private void savePreview(List<File> previews, ThemeFile theme) {
-		for (File pre : previews) {
-			Preview preview = new Preview();
-			preview.setPrePath(pre.getPath());
-			preview.setName(pre.getName());
-			preview.setTheme(theme);
-			savePreview(preview);
-		}
 	}
 
 	public void saveFileInfo(FileMultipleInfo file) {
@@ -128,10 +113,6 @@ public class FileManager {
 
 	public void saveThemeFile(ThemeFile entity) {
 		themeFileDao.save(entity);
-	}
-
-	public void savePreview(Preview p) {
-		previewDao.save(p);
 	}
 
 	public void deleteFileInfo(Long id) {
@@ -200,11 +181,9 @@ public class FileManager {
 		}
 		buffer.append("<ads>");
 		for (ThemeFile theme : themes) {
-			Preview pv = this.getAdPreview(theme.getId());
 			buffer.append("<ad>");
 			buffer.append("<fid>" + theme.getId() + "</fid>");
-			buffer.append("<name>" + pv.getName() + "</name>");
-			buffer.append("<path>mopita/image.action?path=" + pv.getPrePath() + "</path>");
+			buffer.append("<path>mopita/image.action?path=" + theme.getAdPath() + "</path>");
 			buffer.append("</ad>");
 		}
 		buffer.append("</ads>");
@@ -214,11 +193,6 @@ public class FileManager {
 	@Autowired
 	public void setFileMultipleDao(FileMultipleInfoDao fileMultipleDao) {
 		this.fileMultipleDao = fileMultipleDao;
-	}
-
-	@Autowired
-	public void setPreviewDao(PreviewDao previewDao) {
-		this.previewDao = previewDao;
 	}
 
 	@Autowired
