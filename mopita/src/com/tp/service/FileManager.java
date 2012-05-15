@@ -41,6 +41,10 @@ public class FileManager {
 		return themeFileDao.searchFileByShelf(page, stype.getValue(), sid);
 	}
 
+	public Page<ThemeFile> searchFileByStoreAndCategory(final Page<ThemeFile> page, Long sid, Long cid) {
+		return themeFileDao.searchFileByStoreAndCategory(page, sid, cid);
+	}
+
 	/**
 	 * 判断该条语言信息是否存在于商店中
 	 * @param fiId 

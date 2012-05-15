@@ -20,9 +20,9 @@
 			<div id="container"> 
 				
 				<s:iterator value="recommendPage.result">
-					<div class="col1">
+					<div>
 						<a href="${ctx}/home!details.action?id=${id}">
-							<img alt="${title}" src="${ctx}/image.action?path=${iconPath}">
+							<img alt="${title}" src="${ctx}/image.action?path=${adPath}">
 						</a>
 					</div>
 				</s:iterator>

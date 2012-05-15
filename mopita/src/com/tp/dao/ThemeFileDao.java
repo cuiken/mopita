@@ -11,6 +11,8 @@ public class ThemeFileDao extends HibernateDao<ThemeFile, Long> {
 	private static final String QUERY_FILE_BY_CATEGORY = "select f from ThemeFile f join f.categories c where c.id=?";
 	private static final String Q_BY_SHELF = "select f from ThemeFile f join f.shelfFiles s where s.shelf.value=? and s.shelf.store.id=? order by s.sort";
 
+	private static final String Q_BY_STORE_AND_CATEGORY = "select distinct f from ThemeFile f join f.shelfFiles s join f.categories c where s.shelf.store.id=? and c.id=? order by s.sort";
+
 	public Page<ThemeFile> searchFileByCategory(final Page<ThemeFile> page, Long categoryId) {
 
 		return findPage(page, QUERY_FILE_BY_CATEGORY, categoryId);
@@ -18,5 +20,9 @@ public class ThemeFileDao extends HibernateDao<ThemeFile, Long> {
 
 	public Page<ThemeFile> searchFileByShelf(final Page<ThemeFile> page, String shelfType, Long sid) {
 		return findPage(page, Q_BY_SHELF, shelfType, sid);
+	}
+
+	public Page<ThemeFile> searchFileByStoreAndCategory(final Page<ThemeFile> page, Long sid, Long cid) {
+		return findPage(page, Q_BY_STORE_AND_CATEGORY, sid, cid);
 	}
 }

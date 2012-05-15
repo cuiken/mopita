@@ -25,9 +25,17 @@
 				<div>
 					${info.shortDescription}
 				</div>
-				<div><input type="button" value="下载" /></div>
+				<div><a href="${ctx}/home!down.action?path=${info.theme.apkPath}">下载</a></div>
 				<div>
 					${info.longDescription}
+				</div>
+				<div>
+				${info.theme.categories[0].name}系列
+				<s:iterator value="hottestPage.result">
+					<div>
+					<img alt="${info.title}" src="${ctx}/image.action?path=${info.theme.iconPath}">
+				</div>
+				</s:iterator>
 				</div>
 			</div>
 

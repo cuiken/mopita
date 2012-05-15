@@ -3,6 +3,7 @@ package com.tp.action;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,7 +16,7 @@ public class ImageAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 
 	private String path;
-	
+
 	@Override
 	public String execute() throws Exception {
 		return getImage();
@@ -34,10 +35,12 @@ public class ImageAction extends ActionSupport {
 		byte[] buffer = new byte[1024];
 		InputStream is = new FileInputStream(file);
 		int len = 0;
+		OutputStream output = response.getOutputStream();
 		while ((len = is.read(buffer)) != -1) {
-			response.getOutputStream().write(buffer, 0, len);
+			output.write(buffer, 0, len);
 		}
-		response.getOutputStream().flush();
+		output.flush();
+		output.close();
 		is.close();
 	}
 

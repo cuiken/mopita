@@ -1,8 +1,16 @@
 package com.tp.action;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.tp.entity.Category;
 import com.tp.entity.FileStoreInfo;
 import com.tp.entity.Shelf;
 import com.tp.entity.Store;
@@ -10,6 +18,8 @@ import com.tp.entity.ThemeFile;
 import com.tp.orm.Page;
 import com.tp.service.CategoryManager;
 import com.tp.service.FileManager;
+import com.tp.utils.Constants;
+import com.tp.utils.Servlets;
 import com.tp.utils.Struts2Utils;
 
 public class HomeAction extends ActionSupport {
@@ -63,7 +73,30 @@ public class HomeAction extends ActionSupport {
 		ThemeFile theme = fileManager.getThemeFile(id);
 		FileStoreInfo info = fileManager.getStoreInfoBy(store.getId(), theme.getId(), "ZH");
 		this.setInfo(info);
+		Category cate = theme.getCategories().get(0);
+		hottestPage = fileManager.searchFileByStoreAndCategory(hottestPage, store.getId(), cate.getId());
 		return "details";
+	}
+
+	public String down() throws Exception {
+
+		String apk = new String(Struts2Utils.getParameter("path").getBytes("iso-8859-1"), "utf-8");
+		File apkFile = new File(Constants.FILE_STORAGE, apk);
+
+		byte[] buffer = new byte[1024];
+		InputStream is = new FileInputStream(apkFile);
+		HttpServletResponse response = Struts2Utils.getResponse();
+		response.reset();
+		Servlets.setFileDownloadHeader(response, apkFile.getName());
+		int len = 0;
+		OutputStream out = response.getOutputStream();
+		while ((len = is.read(buffer)) != -1) {
+			out.write(buffer, 0, len);
+		}
+		out.flush();
+		out.close();
+		is.close();
+		return null;
 	}
 
 	@Autowired
@@ -91,11 +124,11 @@ public class HomeAction extends ActionSupport {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public FileStoreInfo getInfo() {
 		return info;
 	}
-	
+
 	public void setInfo(FileStoreInfo info) {
 		this.info = info;
 	}
