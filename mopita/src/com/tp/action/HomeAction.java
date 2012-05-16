@@ -1,11 +1,6 @@
 package com.tp.action;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,8 +13,6 @@ import com.tp.entity.ThemeFile;
 import com.tp.orm.Page;
 import com.tp.service.CategoryManager;
 import com.tp.service.FileManager;
-import com.tp.utils.Constants;
-import com.tp.utils.Servlets;
 import com.tp.utils.Struts2Utils;
 
 public class HomeAction extends ActionSupport {
@@ -35,6 +28,8 @@ public class HomeAction extends ActionSupport {
 
 	private Long id;
 	private FileStoreInfo info;
+	private List<Category> categories;
+	private Long categoryId;
 
 	@Override
 	public String execute() throws Exception {
@@ -78,25 +73,11 @@ public class HomeAction extends ActionSupport {
 		return "details";
 	}
 
-	public String down() throws Exception {
-
-		String apk = new String(Struts2Utils.getParameter("path").getBytes("iso-8859-1"), "utf-8");
-		File apkFile = new File(Constants.FILE_STORAGE, apk);
-
-		byte[] buffer = new byte[1024];
-		InputStream is = new FileInputStream(apkFile);
-		HttpServletResponse response = Struts2Utils.getResponse();
-		response.reset();
-		Servlets.setFileDownloadHeader(response, apkFile.getName());
-		int len = 0;
-		OutputStream out = response.getOutputStream();
-		while ((len = is.read(buffer)) != -1) {
-			out.write(buffer, 0, len);
-		}
-		out.flush();
-		out.close();
-		is.close();
-		return null;
+	public String more() throws Exception {
+		categoryId = Long.valueOf(Struts2Utils.getParameter("cid"));
+		categories = categoryManager.getCategories();
+		hottestPage = fileManager.searchThemeFile(hottestPage, categoryId);
+		return "more";
 	}
 
 	@Autowired
@@ -131,5 +112,13 @@ public class HomeAction extends ActionSupport {
 
 	public void setInfo(FileStoreInfo info) {
 		this.info = info;
+	}
+
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public Long getCategoryId() {
+		return categoryId;
 	}
 }

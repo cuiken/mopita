@@ -25,7 +25,7 @@
 				<div>
 					${info.shortDescription}
 				</div>
-				<div><a href="${ctx}/home!down.action?path=${info.theme.apkPath}">下载</a></div>
+				<div><a href="${ctx}/file-download.action?inputPath=${info.theme.apkPath}">下载</a></div>
 				<div>
 					${info.longDescription}
 				</div>
@@ -33,10 +33,13 @@
 				${info.theme.categories[0].name}系列
 				<s:iterator value="hottestPage.result">
 					<div>
-					<img alt="${info.title}" src="${ctx}/image.action?path=${info.theme.iconPath}">
-				</div>
+					<a href="${ctx}/home!details.action?id=${id}">
+					<img alt="${title}" src="${ctx}/image.action?path=${iconPath}">
+					</a>
+					</div>
 				</s:iterator>
 				</div>
+				<div><a href="${ctx}/home!more.action?cid=${info.theme.categories[0].id}">更多</a></div>
 			</div>
 
 		</form>
