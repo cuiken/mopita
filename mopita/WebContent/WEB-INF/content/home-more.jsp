@@ -48,20 +48,41 @@
 		  
 		  });
 	</script>
+	<style type="text/css">
+		.guide {
+		    background: none repeat scroll 0 0 rgba(47, 42, 30, 0.8);
+		    bottom: -90px;
+		    display: none;
+		    height: 90px;
+		    position: fixed;
+		    width: 100%;
+		    z-index: 100;
+		    padding: 5px;
+			
+			border-radius: 5px;
+			clear: both;
+			-webkit-border-radius: 5px;
+			     -moz-border-radius: 5px;
+			          border-radius: 5px;
+		}
+		.guide .guide_boby {
+		    height: 90px;
+		    margin: 0 auto;
+		    position: relative;
+		    width: 960px;
+		}
+		.guide .guide_add {
+	    margin: 0 auto;
+	    padding-top: 7px;
+	    width: 750px;
+		}
+
+	</style>
 	</head>
 	<body>
-		<div id="navigater" class="navigater">
-			<s:iterator value="categories">
-				<div class="col_4 navitem ">
-	     			<a href="home!more.action?cid=${id}" >${name}</a>
-		  		</div>
-			</s:iterator>
-	   	</div>		
-		<div class="float_clear"></div>
-		<div class="lineBottom"></div>
-
-		
+	
 		<form action="home.action" method="get">
+			<a href="home.action">首页</a> >> 
 			<div id="container" class="transitions-enabled infinite-scroll clearfix"> 
 				<s:iterator value="hottestPage.result">
 					<div class="box col1">
@@ -79,6 +100,18 @@
 			<nav id="page-nav">
   				<a href="?hottestPage.pageNo=${hottestPage.nextPage}&cid=${categoryId}"></a>
 			</nav>
+			
+			<div class="guide" style="display: block; bottom: 0px;">
+				<div>
+					<div>
+						<s:iterator value="categories">
+							<div class="col_4 navitem">
+				     			<a href="home!more.action?cid=${id}" >${name}</a>
+					  		</div>
+						</s:iterator>
+					</div>
+				</div>
+			</div>
 		</form>
 	
 	</body>

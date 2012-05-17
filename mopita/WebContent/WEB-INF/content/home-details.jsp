@@ -12,6 +12,8 @@
 		<title>商店详细</title>
 		<link rel="stylesheet" href="${ctx}/css/style.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/mobile.css" media="screen"/>
+  		<link rel="stylesheet" href="${ctx}/css/top.css" media="screen"/>
+  		<link rel="stylesheet" href="${ctx}/css/reset.css" media="screen"/>
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
 	</head>
 	<body>
@@ -31,13 +33,15 @@
 				</div>
 				<div>
 				${info.theme.categories[0].name}系列
+				<div class="icon_set">
 				<s:iterator value="hottestPage.result">
-					<div>
+					
 					<a href="${ctx}/home!details.action?id=${id}">
-					<img alt="${title}" src="${ctx}/image.action?path=${iconPath}">
+					<img alt="${title}" src="${ctx}/image.action?path=${iconPath}" width="72" height="72" class="icon">
 					</a>
-					</div>
+					
 				</s:iterator>
+				</div>
 				</div>
 				<div><a href="${ctx}/home!more.action?cid=${info.theme.categories[0].id}">更多</a></div>
 			</div>

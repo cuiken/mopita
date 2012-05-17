@@ -73,6 +73,10 @@ public class FileManager {
 	public Page<FileMultipleInfo> searchFileInfo(final Page<FileMultipleInfo> page, final List<PropertyFilter> filters) {
 		return fileMultipleDao.findPage(page, filters);
 	}
+	
+	public Page<FileStoreInfo> searchStoreInfoInShelf(final Page<FileStoreInfo> page,Shelf.Type newest,Long sid,String language){
+		return storeInfoDao.searchStoreInfoInShelf(page, newest.getValue(),sid, language);
+	}
 
 	public ThemeFile saveFiles(List<File> files, ThemeFile fs, FileMultipleInfo info) {
 

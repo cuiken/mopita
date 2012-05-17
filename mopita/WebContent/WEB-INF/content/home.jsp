@@ -12,6 +12,8 @@
 		<title>商店首页</title>
 		<link rel="stylesheet" href="${ctx}/css/style.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/mobile.css" media="screen"/>
+  		<link rel="stylesheet" href="${ctx}/css/top.css" media="screen"/>
+  		<link rel="stylesheet" href="${ctx}/css/reset.css" media="screen"/>
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
 	</head>
 	<body>
@@ -19,37 +21,33 @@
 		<form action="wap.action" method="get">
 			<div id="container"> 
 				
-				<s:iterator value="recommendPage.result">
-					<div>
-						<a href="${ctx}/home!details.action?id=${id}">
-							<img alt="${title}" src="${ctx}/image.action?path=${adPath}">
-						</a>
-					</div>
-				</s:iterator>
+				<div class="imgCenter">
+					<a href="${ctx}/home!details.action?id=${adFile.id}">
+						<img alt="${adFile.title}" src="${ctx}/image.action?path=${adFile.adPath}" class="max-width_100">
+					</a>
+				</div>
 				
 				<s:iterator value="newestPage.result">
-					<div class="newest col2">
-
-						<div>
-							<a href="${ctx}/home!details.action?id=${id}">
-								<img alt="${title}" src="${ctx}/image.action?path=${iconPath}">
-							</a>
+					<div class="contents_info">
+						<div class="contents_txt">
+							<h2><a>${title}</a></h2>
+							<p>${shortDescription}</p>
 						</div>
-						<div>						
-							${title}				
-							shortdes
+						<div class="contents_image">
+							<a href="${ctx}/home!details.action?id=${theme.id}">
+								<img alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}" width="100" height="100" class="contents_image_middle">
+							</a>
 						</div>
 					</div>								
 				</s:iterator>
 				
-				<s:iterator value="hottestPage.result">
-					<div class="hottest col1">
+				<div class="icon_set">
+					<s:iterator value="hottestPage.result">				
 						<a href="${ctx}/home!details.action?id=${id}">
-							<img alt="${title}" src="${ctx}/image.action?path=${iconPath}">
-						</a>
-					</div>
-				</s:iterator>
-				
+							<img alt="${title}" src="${ctx}/image.action?path=${iconPath}" class="icon" width="72" height="72">
+						</a>		
+					</s:iterator>
+				</div>
 			</div>
 
 		</form>

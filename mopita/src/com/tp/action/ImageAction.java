@@ -23,8 +23,10 @@ public class ImageAction extends ActionSupport {
 	}
 
 	public String getImage() throws Exception {
-		String imgURL = Constants.FILE_STORAGE + new String(path.getBytes("iso-8859-1"), "utf-8");
-		responseImage(imgURL);
+		if (!path.isEmpty()) {
+			String imgURL = Constants.FILE_STORAGE + new String(path.getBytes("iso-8859-1"), "utf-8");
+			responseImage(imgURL);
+		}
 		return null;
 	}
 

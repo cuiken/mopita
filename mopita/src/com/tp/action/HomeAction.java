@@ -1,5 +1,6 @@
 package com.tp.action;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +24,15 @@ public class HomeAction extends ActionSupport {
 	private FileManager fileManager;
 
 	private Page<ThemeFile> hottestPage = new Page<ThemeFile>();
-	private Page<ThemeFile> newestPage = new Page<ThemeFile>();
 	private Page<ThemeFile> recommendPage = new Page<ThemeFile>();
+
+	private Page<FileStoreInfo> newestPage = new Page<FileStoreInfo>();
 
 	private Long id;
 	private FileStoreInfo info;
 	private List<Category> categories;
 	private Long categoryId;
+	private ThemeFile adFile;
 
 	@Override
 	public String execute() throws Exception {
@@ -43,11 +46,31 @@ public class HomeAction extends ActionSupport {
 	 * @throws Exception
 	 */
 	public String list() throws Exception {
+
+		validateLanguage();
+		String language = (String) Struts2Utils.getSession().getAttribute("lan");
 		Store store = categoryManager.getDefaultStore();
 		hottestPage = fileManager.searchFileByShelf(hottestPage, Shelf.Type.HOTTEST, store.getId());
-		newestPage = fileManager.searchFileByShelf(newestPage, Shelf.Type.NEWEST, store.getId());
+
+		newestPage = fileManager.searchStoreInfoInShelf(newestPage, Shelf.Type.NEWEST, store.getId(), language);
+
 		recommendPage = fileManager.searchFileByShelf(recommendPage, Shelf.Type.RECOMMEND, store.getId());
+		List<ThemeFile> recommendFiles = recommendPage.getResult();
+		if (recommendFiles.size() > 0) {
+			Collections.shuffle(recommendFiles);
+			adFile = recommendFiles.get(0);
+		}
 		return SUCCESS;
+	}
+
+	private void validateLanguage() {
+		String language = Struts2Utils.getParameter("l");
+
+		if (language != null) {
+			Struts2Utils.getSession().setAttribute("lan", language.toUpperCase());
+		} else if (language == null && Struts2Utils.getSession().getAttribute("lan") == null) {
+			Struts2Utils.getSession().setAttribute("lan", "ZH");
+		}
 	}
 
 	/**
@@ -64,9 +87,10 @@ public class HomeAction extends ActionSupport {
 	}
 
 	public String details() throws Exception {
+		String language = (String) Struts2Utils.getSession().getAttribute("lan");
 		Store store = categoryManager.getDefaultStore();
 		ThemeFile theme = fileManager.getThemeFile(id);
-		FileStoreInfo info = fileManager.getStoreInfoBy(store.getId(), theme.getId(), "ZH");
+		FileStoreInfo info = fileManager.getStoreInfoBy(store.getId(), theme.getId(), language);
 		this.setInfo(info);
 		Category cate = theme.getCategories().get(0);
 		hottestPage = fileManager.searchFileByStoreAndCategory(hottestPage, store.getId(), cate.getId());
@@ -94,7 +118,7 @@ public class HomeAction extends ActionSupport {
 		return hottestPage;
 	}
 
-	public Page<ThemeFile> getNewestPage() {
+	public Page<FileStoreInfo> getNewestPage() {
 		return newestPage;
 	}
 
@@ -121,4 +145,9 @@ public class HomeAction extends ActionSupport {
 	public Long getCategoryId() {
 		return categoryId;
 	}
+
+	public ThemeFile getAdFile() {
+		return adFile;
+	}
+
 }
