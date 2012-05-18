@@ -12,6 +12,8 @@
 		<title>商店更多</title>
 		<link rel="stylesheet" href="${ctx}/css/style.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/mobile.css" media="screen"/>
+  		<link rel="stylesheet" href="${ctx}/css/top.css" media="screen"/>
+  		<link rel="stylesheet" href="${ctx}/css/reset.css" media="screen"/>
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
 		<script src="${ctx}/js/jquery/jquery.masonry.min.js"></script>
 		<script src="${ctx}/js/jquery/jquery.infinitescroll.min.js"></script>
@@ -82,23 +84,24 @@
 	<body>
 	
 		<form action="home.action" method="get">
-			<a href="home.action">首页</a> >> 
+			<a href="home.action">首页</a>
 			<div id="container" class="transitions-enabled infinite-scroll clearfix"> 
-				<s:iterator value="hottestPage.result">
-					<div class="box col1">
-						<div>
-							<a href="home!details.action?id=${id}">
-								<img alt="${title}" src="${ctx}/image.action?path=${iconPath}">
+				<s:iterator value="catePage.result">
+					<div class="contents_info">
+						<div class="contents_image">
+							<a href="home!details.action?id=${theme.id}">
+								<img alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}">
 							</a>
 						</div>
-						<div class="themeDesc">
-							${title}
+						<div class="contents_txt">
+							<h2><a>${title}</a></h2>
+							<p>${shortDescription}</p>
 						</div>
 					</div>
 				</s:iterator>
 			</div>
 			<nav id="page-nav">
-  				<a href="?hottestPage.pageNo=${hottestPage.nextPage}&cid=${categoryId}"></a>
+  				<a href="?hottestPage.pageNo=${catePage.nextPage}&cid=${categoryId}"></a>
 			</nav>
 			
 			<div class="guide" style="display: block; bottom: 0px;">

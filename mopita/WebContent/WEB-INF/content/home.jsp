@@ -43,8 +43,8 @@
 				
 				<div class="icon_set">
 					<s:iterator value="hottestPage.result">				
-						<a href="${ctx}/home!details.action?id=${id}">
-							<img alt="${title}" src="${ctx}/image.action?path=${iconPath}" class="icon" width="72" height="72">
+						<a href="${ctx}/home!details.action?id=${theme.id}">
+							<img alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}" class="icon" width="72" height="72">
 						</a>		
 					</s:iterator>
 				</div>

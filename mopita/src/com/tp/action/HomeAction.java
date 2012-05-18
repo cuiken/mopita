@@ -14,6 +14,7 @@ import com.tp.entity.ThemeFile;
 import com.tp.orm.Page;
 import com.tp.service.CategoryManager;
 import com.tp.service.FileManager;
+import com.tp.utils.Constants;
 import com.tp.utils.Struts2Utils;
 
 public class HomeAction extends ActionSupport {
@@ -23,10 +24,11 @@ public class HomeAction extends ActionSupport {
 	private CategoryManager categoryManager;
 	private FileManager fileManager;
 
-	private Page<ThemeFile> hottestPage = new Page<ThemeFile>();
-	private Page<ThemeFile> recommendPage = new Page<ThemeFile>();
+	private Page<FileStoreInfo> hottestPage = new Page<FileStoreInfo>();
+	private Page<FileStoreInfo> recommendPage = new Page<FileStoreInfo>();
 
 	private Page<FileStoreInfo> newestPage = new Page<FileStoreInfo>();
+	private Page<FileStoreInfo> catePage = new Page<FileStoreInfo>();
 
 	private Long id;
 	private FileStoreInfo info;
@@ -47,30 +49,20 @@ public class HomeAction extends ActionSupport {
 	 */
 	public String list() throws Exception {
 
-		validateLanguage();
-		String language = (String) Struts2Utils.getSession().getAttribute("lan");
+		String language = Constants.getLanguage();
 		Store store = categoryManager.getDefaultStore();
-		hottestPage = fileManager.searchFileByShelf(hottestPage, Shelf.Type.HOTTEST, store.getId());
+		hottestPage = fileManager.searchStoreInfoInShelf(hottestPage, Shelf.Type.HOTTEST, store.getId(), language);
 
 		newestPage = fileManager.searchStoreInfoInShelf(newestPage, Shelf.Type.NEWEST, store.getId(), language);
 
-		recommendPage = fileManager.searchFileByShelf(recommendPage, Shelf.Type.RECOMMEND, store.getId());
-		List<ThemeFile> recommendFiles = recommendPage.getResult();
+		recommendPage = fileManager
+				.searchStoreInfoInShelf(recommendPage, Shelf.Type.RECOMMEND, store.getId(), language);
+		List<FileStoreInfo> recommendFiles = recommendPage.getResult();
 		if (recommendFiles.size() > 0) {
 			Collections.shuffle(recommendFiles);
-			adFile = recommendFiles.get(0);
+			adFile = recommendFiles.get(0).getTheme();
 		}
 		return SUCCESS;
-	}
-
-	private void validateLanguage() {
-		String language = Struts2Utils.getParameter("l");
-
-		if (language != null) {
-			Struts2Utils.getSession().setAttribute("lan", language.toUpperCase());
-		} else if (language == null && Struts2Utils.getSession().getAttribute("lan") == null) {
-			Struts2Utils.getSession().setAttribute("lan", "ZH");
-		}
 	}
 
 	/**
@@ -80,27 +72,32 @@ public class HomeAction extends ActionSupport {
 	 */
 	public String adXml() throws Exception {
 		Store store = categoryManager.getDefaultStore();
-		recommendPage = fileManager.searchFileByShelf(recommendPage, Shelf.Type.RECOMMEND, store.getId());
-		String xml = fileManager.adXml(recommendPage.getResult());
+		Page<ThemeFile> adPage = new Page<ThemeFile>();
+		adPage = fileManager.searchFileByShelf(adPage, Shelf.Type.RECOMMEND, store.getId());
+		String xml = fileManager.adXml(adPage.getResult());
 		Struts2Utils.renderXml(xml);
 		return null;
 	}
 
 	public String details() throws Exception {
-		String language = (String) Struts2Utils.getSession().getAttribute("lan");
+		String lan = Constants.getLanguage();
 		Store store = categoryManager.getDefaultStore();
 		ThemeFile theme = fileManager.getThemeFile(id);
-		FileStoreInfo info = fileManager.getStoreInfoBy(store.getId(), theme.getId(), language);
+		FileStoreInfo info = fileManager.getStoreInfoBy(store.getId(), theme.getId(), lan);
 		this.setInfo(info);
 		Category cate = theme.getCategories().get(0);
-		hottestPage = fileManager.searchFileByStoreAndCategory(hottestPage, store.getId(), cate.getId());
+		//		hottestPage = fileManager.searchFileByStoreAndCategory(hottestPage, store.getId(), cate.getId());
+		catePage = fileManager.searchInfoByCategoryAndStore(catePage, cate.getId(), store.getId(), lan);
 		return "details";
 	}
 
 	public String more() throws Exception {
+		String lan = Constants.getLanguage();
+		Store store = categoryManager.getDefaultStore();
 		categoryId = Long.valueOf(Struts2Utils.getParameter("cid"));
 		categories = categoryManager.getCategories();
-		hottestPage = fileManager.searchThemeFile(hottestPage, categoryId);
+		catePage = fileManager.searchInfoByCategoryAndStore(catePage, categoryId, store.getId(), lan);
+		//		hottestPage = fileManager.searchThemeFile(hottestPage, categoryId);
 		return "more";
 	}
 
@@ -114,7 +111,7 @@ public class HomeAction extends ActionSupport {
 		this.categoryManager = categoryManager;
 	}
 
-	public Page<ThemeFile> getHottestPage() {
+	public Page<FileStoreInfo> getHottestPage() {
 		return hottestPage;
 	}
 
@@ -122,8 +119,12 @@ public class HomeAction extends ActionSupport {
 		return newestPage;
 	}
 
-	public Page<ThemeFile> getRecommendPage() {
+	public Page<FileStoreInfo> getRecommendPage() {
 		return recommendPage;
+	}
+
+	public Page<FileStoreInfo> getCatePage() {
+		return catePage;
 	}
 
 	public void setId(Long id) {

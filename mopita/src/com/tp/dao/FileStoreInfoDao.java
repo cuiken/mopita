@@ -20,6 +20,7 @@ public class FileStoreInfoDao extends HibernateDao<FileStoreInfo, Long> {
 	private static final String Q_BY_ = "select fsi from FileStoreInfo fsi where fsi.store.id=? and fsi.theme.id=? and fsi.language=?";
 
 	private static final String Q_SHELF_THEME_STORE = "select fsi from FileStoreInfo fsi join fsi.theme.shelfFiles s where s.shelf.value=? and s.shelf.store.id=? and fsi.language=? order by s.sort";
+	private static final String Q_BY_CATEGORY_AND_STORE = "select distinct fsi from FileStoreInfo fsi join fsi.theme.categories c join fsi.theme.shelfFiles s where c.id=? and s.shelf.store.id=? and fsi.language=? order by s.sort";
 
 	public void deleteByThemeAndStore(Long fid, Long sid) {
 		createQuery(DELETE_BY_THEME_AND_STORE, fid, sid).executeUpdate();
@@ -45,13 +46,15 @@ public class FileStoreInfoDao extends HibernateDao<FileStoreInfo, Long> {
 
 	/**
 	 * 查找指定货架上文件的语言信息
-	 * @param page
-	 * @param sid
-	 * @param language
-	 * @return
 	 */
-	public Page<FileStoreInfo> searchStoreInfoInShelf(final Page<FileStoreInfo> page, String st,Long storeId,String language) {
-		return findPage(page, Q_SHELF_THEME_STORE, st,storeId,language);
+	public Page<FileStoreInfo> searchStoreInfoInShelf(final Page<FileStoreInfo> page, String st, Long sid, String lang) {
+		return findPage(page, Q_SHELF_THEME_STORE, st, sid, lang);
 	}
 
+	/**
+	 * 分类查找商店文件语言描述
+	 */
+	public Page<FileStoreInfo> searchByCategoryAndStore(final Page<FileStoreInfo> page, Long cid, Long sid, String lang) {
+		return findPage(page, Q_BY_CATEGORY_AND_STORE, cid, sid, lang);
+	}
 }

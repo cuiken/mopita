@@ -19,20 +19,21 @@ public class FileDownloadAction extends ActionSupport {
 	private String inputPath;
 	private String downloadFileName;
 	private long contentLength;
-	private File file;
+	private InputStream inputStream;
 
 	@Override
 	public String execute() throws Exception {
 		inputPath = Constants.FILE_STORAGE + new String(inputPath.getBytes("iso-8859-1"), "utf-8");
-		file = new File(inputPath);
+		File file = new File(inputPath);
 		downloadFileName = new String(file.getName().getBytes(), "ISO8859-1");
 		contentLength = file.length();
+		inputStream = new FileInputStream(file);
 		return SUCCESS;
 	}
 
-	public InputStream getInputStream() throws Exception {
+	public InputStream getInputStream() {
 
-		return new FileInputStream(file);
+		return inputStream;
 
 	}
 

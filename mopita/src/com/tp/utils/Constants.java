@@ -16,6 +16,19 @@ public class Constants {
 	public static final String ICON = "icon_";
 	public static final String AD = "ad_";
 
+	public static final String LANGUAGE_KEY = "lan";
+	public static final String ZH = "ZH";
+
 	public static final String PREFIX_MARKET_URI = "market://details?id=";
 
+	public static String getLanguage() {
+		String language = Struts2Utils.getParameter("l");
+
+		if (language != null) {
+			Struts2Utils.getSession().setAttribute(Constants.LANGUAGE_KEY, language.toUpperCase());
+		} else if (language == null && Struts2Utils.getSession().getAttribute("lan") == null) {
+			Struts2Utils.getSession().setAttribute(Constants.LANGUAGE_KEY, Constants.ZH);
+		}
+		return (String) Struts2Utils.getSession().getAttribute(Constants.LANGUAGE_KEY);
+	}
 }

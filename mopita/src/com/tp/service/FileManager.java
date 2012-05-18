@@ -41,8 +41,13 @@ public class FileManager {
 		return themeFileDao.searchFileByShelf(page, stype.getValue(), sid);
 	}
 
-	public Page<ThemeFile> searchFileByStoreAndCategory(final Page<ThemeFile> page, Long sid, Long cid) {
-		return themeFileDao.searchFileByStoreAndCategory(page, sid, cid);
+//	public Page<ThemeFile> searchFileByStoreAndCategory(final Page<ThemeFile> page, Long sid, Long cid,String lang) {
+//		return themeFileDao.searchFileByStoreAndCategory(page, sid, cid,lang);
+//	}
+
+	public Page<FileStoreInfo> searchInfoByCategoryAndStore(final Page<FileStoreInfo> page, Long cid, Long sid,
+			String lang) {
+		return storeInfoDao.searchByCategoryAndStore(page, cid, sid, lang);
 	}
 
 	/**
@@ -73,9 +78,10 @@ public class FileManager {
 	public Page<FileMultipleInfo> searchFileInfo(final Page<FileMultipleInfo> page, final List<PropertyFilter> filters) {
 		return fileMultipleDao.findPage(page, filters);
 	}
-	
-	public Page<FileStoreInfo> searchStoreInfoInShelf(final Page<FileStoreInfo> page,Shelf.Type newest,Long sid,String language){
-		return storeInfoDao.searchStoreInfoInShelf(page, newest.getValue(),sid, language);
+
+	public Page<FileStoreInfo> searchStoreInfoInShelf(final Page<FileStoreInfo> page, Shelf.Type newest, Long sid,
+			String language) {
+		return storeInfoDao.searchStoreInfoInShelf(page, newest.getValue(), sid, language);
 	}
 
 	public ThemeFile saveFiles(List<File> files, ThemeFile fs, FileMultipleInfo info) {
@@ -190,7 +196,7 @@ public class FileManager {
 		buffer.append("<ads>");
 		for (ThemeFile theme : themes) {
 			buffer.append("<ad>");
-			buffer.append("<fid>" + theme.getId() + "</fid>");
+			buffer.append("<fid>mopita/home!details.action?id=" + theme.getId() + "</fid>");
 			buffer.append("<path>mopita/image.action?path=" + theme.getAdPath() + "</path>");
 			buffer.append("</ad>");
 		}
