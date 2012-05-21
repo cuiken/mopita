@@ -76,3 +76,25 @@ create table f_category_file(
 	primary key(id)
 )ENGINE=InnoDB;
 
+create table f_fitem(
+	id int not null auto_increment,
+	name varchar(50),
+	path varchar(100),
+	size int ,
+	f_id int,
+	dtype varchar(32) not null,
+	primary key(id)
+
+)ENGINE=InnoDB;
+
+create table f_unlock(
+	id int not null auto_increment,
+	title varchar(50),
+	market_url varchar(100),
+	avail_machine varchar(255),
+	unavail_machine varchar(255),
+	create_time timestamp,
+	primary key(id)
+	
+)ENGINE=InnoDB;
+

@@ -14,8 +14,10 @@ import com.tp.dao.HibernateUtils;
 import com.tp.entity.Category;
 import com.tp.entity.FileInfo;
 import com.tp.entity.ThemeFile;
+import com.tp.entity.unlock.UnlockFile;
 import com.tp.service.CategoryManager;
 import com.tp.service.FileManager;
+import com.tp.service.UnlockFileManager;
 import com.tp.utils.Constants;
 import com.tp.utils.FileUtils;
 
@@ -45,7 +47,8 @@ public class FileUploadAction extends ActionSupport {
 
 	private List<Long> checkedCategoryIds;
 
-	private FileManager fileManager;
+//	private FileManager fileManager;
+	private UnlockFileManager unlockFileManager;
 	private CategoryManager categoryManager;
 
 	private Long id;
@@ -67,14 +70,26 @@ public class FileUploadAction extends ActionSupport {
 			return RELOAD;
 		}
 		List<File> files = FileUtils.unZip(upload);
-		ThemeFile theme = getThemeFile();
+//		ThemeFile theme = getThemeFile();
 		FileInfo info = getFileInfo();
-		theme = fileManager.saveFiles(files, theme, info);
-		this.setId(theme.getId());
+//		theme = fileManager.saveFiles(files, theme, info);
+//		this.setId(theme.getId());
+		UnlockFile file=getUnlockFile();
+		file=unlockFileManager.saveFiles(files, file, info);
 		addActionMessage("上传成功");
 		return EDITINFO;
 	}
 
+	private UnlockFile getUnlockFile(){
+		UnlockFile file=new UnlockFile();
+		file.setTitle(title);
+		file.setAvailMachine(availMachine);
+		file.setUnavailMachine(unavailMachine);
+		file.setMarketURL(marketURL);
+		HibernateUtils.mergeByCheckedIds(file.getCategories(), checkedCategoryIds, Category.class);
+		return file;
+	}
+	
 	private ThemeFile getThemeFile() {
 		ThemeFile theme = new ThemeFile();
 		theme.setName(FileUtils.getFileName(uploadFileName));
@@ -153,9 +168,14 @@ public class FileUploadAction extends ActionSupport {
 		this.checkedCategoryIds = checkedCategoryIds;
 	}
 
+//	@Autowired
+//	public void setFileManager(FileManager fileManager) {
+//		this.fileManager = fileManager;
+//	}
+	
 	@Autowired
-	public void setFileManager(FileManager fileManager) {
-		this.fileManager = fileManager;
+	public void setUnlockFileManager(UnlockFileManager unlockFileManager) {
+		this.unlockFileManager = unlockFileManager;
 	}
 
 	@Autowired
