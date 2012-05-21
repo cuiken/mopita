@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.opensymphony.xwork2.ActionSupport;
 import com.tp.dao.HibernateUtils;
 import com.tp.entity.Category;
-import com.tp.entity.FileMultipleInfo;
+import com.tp.entity.FileInfo;
 import com.tp.entity.ThemeFile;
 import com.tp.service.CategoryManager;
 import com.tp.service.FileManager;
@@ -20,14 +20,15 @@ import com.tp.utils.Constants;
 import com.tp.utils.FileUtils;
 
 @Namespace("/file")
-@Results( { @Result(name = "editinfo", location = "file-info.action", params={"themeId","${id}"}, type = "redirect"),
-			@Result(name = "reupload", location = "file-upload.action", type = "redirect") })
+@Results( {
+		@Result(name = "editinfo", location = "file-info.action", params = { "themeId", "${id}" }, type = "redirect"),
+		@Result(name = "reupload", location = "file-upload.action", type = "redirect") })
 public class FileUploadAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
-	private static final String RELOAD="reupload";
-	private static final String EDITINFO="editinfo";
-	private static final long MAX_SIZE=10000000L;
+	private static final String RELOAD = "reupload";
+	private static final String EDITINFO = "editinfo";
+	private static final long MAX_SIZE = 10000000L;
 
 	private File upload;
 	private String uploadFileName;
@@ -46,7 +47,7 @@ public class FileUploadAction extends ActionSupport {
 
 	private FileManager fileManager;
 	private CategoryManager categoryManager;
-	
+
 	private Long id;
 
 	@Override
@@ -61,13 +62,13 @@ public class FileUploadAction extends ActionSupport {
 			addActionMessage("请上传一个zip文件");
 			return RELOAD;
 		}
-		if(upload.length() > MAX_SIZE){
+		if (upload.length() > MAX_SIZE) {
 			addActionMessage("上传文件过大");
 			return RELOAD;
 		}
 		List<File> files = FileUtils.unZip(upload);
 		ThemeFile theme = getThemeFile();
-		FileMultipleInfo info = getFileInfo();
+		FileInfo info = getFileInfo();
 		theme = fileManager.saveFiles(files, theme, info);
 		this.setId(theme.getId());
 		addActionMessage("上传成功");
@@ -85,8 +86,8 @@ public class FileUploadAction extends ActionSupport {
 		return theme;
 	}
 
-	private FileMultipleInfo getFileInfo() {
-		FileMultipleInfo info = new FileMultipleInfo();
+	private FileInfo getFileInfo() {
+		FileInfo info = new FileInfo();
 		info.setTitle(title);
 		info.setPrice(price);
 		info.setLanguage("ZH");
@@ -119,11 +120,11 @@ public class FileUploadAction extends ActionSupport {
 	public void setLongDescription(String longDescription) {
 		this.longDescription = longDescription;
 	}
-	
+
 	public void setShortDescription(String shortDescription) {
 		this.shortDescription = shortDescription;
 	}
-	
+
 	public void setAuthor(String author) {
 		this.author = author;
 	}
@@ -165,9 +166,9 @@ public class FileUploadAction extends ActionSupport {
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 }

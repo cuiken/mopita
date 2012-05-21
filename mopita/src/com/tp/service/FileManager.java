@@ -8,11 +8,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Lists;
-import com.tp.dao.FileMultipleInfoDao;
+import com.tp.dao.FileInfoDao;
 import com.tp.dao.FileStoreInfoDao;
 import com.tp.dao.ThemeFileDao;
 import com.tp.dto.FileDTO;
-import com.tp.entity.FileMultipleInfo;
+import com.tp.entity.FileInfo;
 import com.tp.entity.FileStoreInfo;
 import com.tp.entity.Shelf;
 import com.tp.entity.ThemeFile;
@@ -25,12 +25,12 @@ import com.tp.utils.FileUtils;
 @Transactional
 public class FileManager {
 
-	private FileMultipleInfoDao fileMultipleDao;
+	private FileInfoDao fileInfoDao;
 	private ThemeFileDao themeFileDao;
 	private FileStoreInfoDao storeInfoDao;
 
-	public FileMultipleInfo getFileInfo(Long id) {
-		return fileMultipleDao.get(id);
+	public FileInfo getFileInfo(Long id) {
+		return fileInfoDao.get(id);
 	}
 
 	public List<ThemeFile> getAllThemeFile() {
@@ -41,9 +41,9 @@ public class FileManager {
 		return themeFileDao.searchFileByShelf(page, stype.getValue(), sid);
 	}
 
-//	public Page<ThemeFile> searchFileByStoreAndCategory(final Page<ThemeFile> page, Long sid, Long cid,String lang) {
-//		return themeFileDao.searchFileByStoreAndCategory(page, sid, cid,lang);
-//	}
+	//	public Page<ThemeFile> searchFileByStoreAndCategory(final Page<ThemeFile> page, Long sid, Long cid,String lang) {
+	//		return themeFileDao.searchFileByStoreAndCategory(page, sid, cid,lang);
+	//	}
 
 	public Page<FileStoreInfo> searchInfoByCategoryAndStore(final Page<FileStoreInfo> page, Long cid, Long sid,
 			String lang) {
@@ -75,8 +75,8 @@ public class FileManager {
 		return themeFileDao.searchFileByCategory(page, categoryId);
 	}
 
-	public Page<FileMultipleInfo> searchFileInfo(final Page<FileMultipleInfo> page, final List<PropertyFilter> filters) {
-		return fileMultipleDao.findPage(page, filters);
+	public Page<FileInfo> searchFileInfo(final Page<FileInfo> page, final List<PropertyFilter> filters) {
+		return fileInfoDao.findPage(page, filters);
 	}
 
 	public Page<FileStoreInfo> searchStoreInfoInShelf(final Page<FileStoreInfo> page, Shelf.Type newest, Long sid,
@@ -84,7 +84,7 @@ public class FileManager {
 		return storeInfoDao.searchStoreInfoInShelf(page, newest.getValue(), sid, language);
 	}
 
-	public ThemeFile saveFiles(List<File> files, ThemeFile fs, FileMultipleInfo info) {
+	public ThemeFile saveFiles(List<File> files, ThemeFile fs, FileInfo info) {
 
 		for (File file : files) {
 			String fname = FileUtils.getFileName(file.getName());
@@ -112,13 +112,13 @@ public class FileManager {
 		return fs;
 	}
 
-	private void saveFileinfo(ThemeFile f, FileMultipleInfo info) {
+	private void saveFileinfo(ThemeFile f, FileInfo info) {
 		info.setTheme(f);
 		saveFileInfo(info);
 	}
 
-	public void saveFileInfo(FileMultipleInfo file) {
-		fileMultipleDao.save(file);
+	public void saveFileInfo(FileInfo file) {
+		fileInfoDao.save(file);
 	}
 
 	public ThemeFile getThemeFile(Long id) {
@@ -130,7 +130,7 @@ public class FileManager {
 	}
 
 	public void deleteFileInfo(Long id) {
-		fileMultipleDao.delete(id);
+		fileInfoDao.delete(id);
 	}
 
 	public void deleteThemeFile(Long id) {
@@ -205,8 +205,8 @@ public class FileManager {
 	}
 
 	@Autowired
-	public void setFileMultipleDao(FileMultipleInfoDao fileMultipleDao) {
-		this.fileMultipleDao = fileMultipleDao;
+	public void setFileInfoDao(FileInfoDao fileInfoDao) {
+		this.fileInfoDao = fileInfoDao;
 	}
 
 	@Autowired

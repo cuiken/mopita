@@ -45,7 +45,7 @@ public class ThemeFile extends IdEntity {
 	private Date createTime;
 
 	private List<Category> categories = Lists.newArrayList();
-	private List<FileMultipleInfo> fileInfo = Lists.newArrayList();
+	private List<FileInfo> fileInfo = Lists.newArrayList();
 	private List<FileStoreInfo> infoStore = Lists.newArrayList();
 	private List<ShelfFileLink> shelfFiles = Lists.newArrayList();
 
@@ -163,11 +163,11 @@ public class ThemeFile extends IdEntity {
 	}
 
 	@OneToMany(mappedBy = "theme", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
-	public List<FileMultipleInfo> getFileInfo() {
+	public List<FileInfo> getFileInfo() {
 		return fileInfo;
 	}
 
-	public void setFileInfo(List<FileMultipleInfo> fileInfo) {
+	public void setFileInfo(List<FileInfo> fileInfo) {
 		this.fileInfo = fileInfo;
 	}
 

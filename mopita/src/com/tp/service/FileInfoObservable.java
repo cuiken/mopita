@@ -5,7 +5,7 @@ import java.util.Observable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.tp.entity.FileMultipleInfo;
+import com.tp.entity.FileInfo;
 
 @Component
 public class FileInfoObservable extends Observable {
@@ -13,7 +13,7 @@ public class FileInfoObservable extends Observable {
 	private FileManager fileManager;
 	private FileStoreInfoObserver observer;
 
-	public void saveFileInfo(FileMultipleInfo info) {
+	public void saveFileInfo(FileInfo info) {
 
 		fileManager.saveFileInfo(info);
 		addObserver(observer);

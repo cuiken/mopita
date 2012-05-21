@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tp.dao.HibernateUtils;
 import com.tp.entity.Category;
-import com.tp.entity.FileMultipleInfo;
+import com.tp.entity.FileInfo;
 import com.tp.entity.ThemeFile;
 import com.tp.orm.Page;
 import com.tp.orm.PropertyFilter;
@@ -28,7 +28,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	private Long id;
 	private List<Long> checkedCategoryId;
 	private Page<ThemeFile> page = new Page<ThemeFile>();
-	private List<FileMultipleInfo> fileInfo;
+	private List<FileInfo> fileInfo;
 	private FileManager fileManager;
 	private CategoryManager categoryManager;
 	private FileInfoObservable observer;
@@ -49,8 +49,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	@Override
 	public String list() throws Exception {
 
-		List<PropertyFilter> filters = PropertyFilter
-				.buildFromHttpRequest(Struts2Utils.getRequest());
+		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(Struts2Utils.getRequest());
 		if (!page.isOrderBySetted()) {
 			page.setOrderBy("createTime");
 			page.setOrderDir(Sort.DESC);
@@ -74,21 +73,21 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	public String save() throws Exception {
 		HibernateUtils.mergeByCheckedIds(entity.getCategories(), checkedCategoryId, Category.class);
 		fileManager.saveThemeFile(entity);
-		for(FileMultipleInfo info :entity.getFileInfo()){
+		for (FileInfo info : entity.getFileInfo()) {
 			info.setTheme(entity);
 			observer.saveFileInfo(info);
 		}
 		addActionMessage("保存成功");
 		return RELOAD;
 	}
-	
-	public String checkTitle() throws Exception{
-		
-		String oldTitle=new String(Struts2Utils.getParameter("oldTitle").getBytes("iso-8859-1"),"utf-8");
-		String newTitle=new String(Struts2Utils.getParameter("title").getBytes("iso-8859-1"),"utf-8");
-		if(fileManager.isFileTitleUnique(newTitle, oldTitle)){
+
+	public String checkTitle() throws Exception {
+
+		String oldTitle = new String(Struts2Utils.getParameter("oldTitle").getBytes("iso-8859-1"), "utf-8");
+		String newTitle = new String(Struts2Utils.getParameter("title").getBytes("iso-8859-1"), "utf-8");
+		if (fileManager.isFileTitleUnique(newTitle, oldTitle)) {
 			Struts2Utils.renderText("true");
-		}else{
+		} else {
 			Struts2Utils.renderText("false");
 		}
 		return null;
@@ -113,7 +112,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	public void setCategoryManager(CategoryManager categoryManager) {
 		this.categoryManager = categoryManager;
 	}
-	
+
 	@Autowired
 	public void setObserver(FileInfoObservable observer) {
 		this.observer = observer;
@@ -135,11 +134,11 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 		this.checkedCategoryId = checkedCategoryId;
 	}
 
-	public List<FileMultipleInfo> getFileInfo() {
+	public List<FileInfo> getFileInfo() {
 		return fileInfo;
 	}
 
-	public void setFileInfo(List<FileMultipleInfo> fileInfo) {
+	public void setFileInfo(List<FileInfo> fileInfo) {
 		this.fileInfo = fileInfo;
 	}
 }

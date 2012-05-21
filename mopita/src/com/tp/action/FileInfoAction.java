@@ -7,7 +7,7 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.tp.entity.FileMultipleInfo;
+import com.tp.entity.FileInfo;
 import com.tp.entity.ThemeFile;
 import com.tp.service.FileInfoObservable;
 import com.tp.service.FileManager;
@@ -15,13 +15,13 @@ import com.tp.service.FileManager;
 @Namespace("/file")
 @Results( { @Result(name = CRUDActionSupport.RELOAD, location = "file-info.action", params = {
 		"themeId", "${themeId}" }, type = "redirect") })
-public class FileInfoAction extends CRUDActionSupport<FileMultipleInfo> {
+public class FileInfoAction extends CRUDActionSupport<FileInfo> {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
 	private Long themeId;
-	private FileMultipleInfo entity;
+	private FileInfo entity;
 
 	private FileManager fileManager;
 	private FileInfoObservable observer;
@@ -47,7 +47,7 @@ public class FileInfoAction extends CRUDActionSupport<FileMultipleInfo> {
 	@Override
 	protected void prepareModel() throws Exception {
 		if (id == null) {
-			entity = new FileMultipleInfo();
+			entity = new FileInfo();
 		} else {
 			entity = fileManager.getFileInfo(id);
 		}
@@ -65,7 +65,7 @@ public class FileInfoAction extends CRUDActionSupport<FileMultipleInfo> {
 	}
 
 	@Override
-	public FileMultipleInfo getModel() {
+	public FileInfo getModel() {
 
 		return entity;
 	}
@@ -91,7 +91,7 @@ public class FileInfoAction extends CRUDActionSupport<FileMultipleInfo> {
 		this.themeId = themeId;
 	}
 
-	public List<FileMultipleInfo> getAllInfo() {
+	public List<FileInfo> getAllInfo() {
 		ThemeFile file = fileManager.getThemeFile(themeId);
 		return file.getFileInfo();
 	}

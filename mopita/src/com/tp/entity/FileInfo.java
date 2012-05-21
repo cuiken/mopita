@@ -16,7 +16,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  */
 @Entity
 @Table(name = "f_file_info")
-public class FileMultipleInfo extends IdEntity {
+public class FileInfo extends IdEntity {
 
 	private String title;
 	private String shortDescription;
@@ -89,8 +89,9 @@ public class FileMultipleInfo extends IdEntity {
 	public boolean equals(Object obj) {
 		if (obj == null)
 			return false;
-		FileMultipleInfo that = (FileMultipleInfo) obj;
-		return that.getLanguage().equals(this.getLanguage());
+		FileInfo that = (FileInfo) obj;
+		return that.getLanguage().equals(this.getLanguage()) && that.getTheme().getId().equals(this.getTheme().getId())
+				|| that.getId().equals(this.getId());
 	}
 
 	@Override

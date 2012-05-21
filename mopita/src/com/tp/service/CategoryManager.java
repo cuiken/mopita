@@ -13,7 +13,7 @@ import com.tp.dao.ShelfFileLinkDao;
 import com.tp.dao.StoreDao;
 import com.tp.dto.ShelfDTO;
 import com.tp.entity.Category;
-import com.tp.entity.FileMultipleInfo;
+import com.tp.entity.FileInfo;
 import com.tp.entity.FileStoreInfo;
 import com.tp.entity.Shelf;
 import com.tp.entity.ShelfFileLink;
@@ -208,8 +208,8 @@ public class CategoryManager {
 	}
 
 	private void copyFileStoreInfo(ThemeFile theme, Store store) {
-		List<FileMultipleInfo> infos = theme.getFileInfo();
-		for (FileMultipleInfo fmi : infos) {
+		List<FileInfo> infos = theme.getFileInfo();
+		for (FileInfo fmi : infos) {
 			FileStoreInfo storeInfo = new FileStoreInfo();
 			storeInfo.setTitle(fmi.getTitle());
 			storeInfo.setShortDescription(fmi.getShortDescription());
