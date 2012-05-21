@@ -16,7 +16,7 @@ import com.tp.utils.ConvertUtils;
 
 @Entity
 @DiscriminatorValue("Store")
-public class Store extends BaseCategory {
+public class Store extends CateItem {
 
 	private List<FileStoreInfo> fileStoreInfo = Lists.newArrayList();;
 

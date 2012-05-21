@@ -19,7 +19,7 @@ import com.tp.utils.ConvertUtils;
 
 @Entity
 @DiscriminatorValue("shelf")
-public class Shelf extends BaseCategory {
+public class Shelf extends CateItem {
 
 	private List<ShelfFileLink> shelfFile = Lists.newArrayList();
 

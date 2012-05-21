@@ -15,7 +15,7 @@ import com.google.common.collect.Lists;
 
 @Entity
 @DiscriminatorValue("market")
-public class Market extends BaseCategory {
+public class Market extends CateItem {
 
 	private List<ThemeFile> themes = Lists.newArrayList();
 

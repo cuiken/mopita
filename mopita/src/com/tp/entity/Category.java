@@ -15,7 +15,7 @@ import com.google.common.collect.Lists;
 
 @Entity
 @DiscriminatorValue("category")
-public class Category extends BaseCategory {
+public class Category extends CateItem {
 
 	private List<ThemeFile> files = Lists.newArrayList();
 

@@ -12,7 +12,7 @@ import org.hibernate.annotations.DiscriminatorOptions;
 @Table(name = "f_category")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorOptions(force = true)
-public abstract class BaseCategory extends IdEntity {
+public abstract class CateItem extends IdEntity {
 
 	protected String name;
 	protected String value;
