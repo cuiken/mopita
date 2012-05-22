@@ -1,5 +1,9 @@
 package com.tp.utils;
 
+import javax.servlet.http.HttpSession;
+
+import com.tp.entity.DownloadType;
+
 public class Constants {
 
 	public final static String FILE_STORAGE = Config.getProperty("file.storage");
@@ -8,27 +12,46 @@ public class Constants {
 
 	public static final String DOT_SEPARATOR = ".";
 
-	public final static String ZIP = "zip";
-	public final static String UX = "ux";
-	public final static String APK = "apk";
-	public final static String PREVIEW_CLIENT = "pre_c";
-	public final static String PREVIEW_WEB = "pre_w";
-	public static final String ICON = "icon_";
-	public static final String AD = "ad_";
+	public static final String SESS_KEY_LANGUAGE = "lan";
+	public static final String SESS_KEY_MARKET = "fm";
+	public static final String SESS_KEY_DT = "dt";
 
-	public static final String LANGUAGE_KEY = "lan";
-	public static final String ZH = "ZH";
+	public static final String PARA_LANGUAGE = "l";
+	public static final String PARA_DOWNLOAD_METHOD = "dm";
+	public static final String PARA_FROM_MARKET = "fm";
 
 	public static final String PREFIX_MARKET_URI = "market://details?id=";
 
-	public static String getLanguage() {
-		String language = Struts2Utils.getParameter("l");
+	enum Language {
+		ZH("ZH");
+		private String value;
 
-		if (language != null) {
-			Struts2Utils.getSession().setAttribute(Constants.LANGUAGE_KEY, language.toUpperCase());
-		} else if (language == null && Struts2Utils.getSession().getAttribute("lan") == null) {
-			Struts2Utils.getSession().setAttribute(Constants.LANGUAGE_KEY, Constants.ZH);
+		Language(String value) {
+			this.value = value;
 		}
-		return (String) Struts2Utils.getSession().getAttribute(Constants.LANGUAGE_KEY);
+
+		public String getValue() {
+			return value;
+		}
+	}
+
+	public static void setParamInSession() {
+		String language = Struts2Utils.getParameter(PARA_LANGUAGE);
+		String fromMarket = Struts2Utils.getParameter(PARA_FROM_MARKET);
+		String downMethod = Struts2Utils.getParameter(PARA_DOWNLOAD_METHOD);
+		HttpSession session = Struts2Utils.getSession();
+		if (language != null) {
+			session.setAttribute(SESS_KEY_LANGUAGE, language.toUpperCase());
+		} else if (language == null && Struts2Utils.getSession().getAttribute(SESS_KEY_LANGUAGE) == null) {
+			session.setAttribute(SESS_KEY_LANGUAGE, Language.ZH.getValue());
+		}
+		if (fromMarket != null) {
+			session.setAttribute(SESS_KEY_MARKET, fromMarket);
+		}
+		if (downMethod != null) {
+			session.setAttribute(SESS_KEY_DT, downMethod);
+		} else {
+			session.setAttribute(SESS_KEY_DT, DownloadType.HTTP.getValue());
+		}
 	}
 }

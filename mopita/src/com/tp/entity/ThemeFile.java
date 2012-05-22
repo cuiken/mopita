@@ -43,6 +43,8 @@ public class ThemeFile extends IdEntity {
 	private String preWebPath;
 	private String preClientPath;
 	private Date createTime;
+	
+	private String downloadURL;
 
 	private List<Category> categories = Lists.newArrayList();
 	private List<FileInfo> fileInfo = Lists.newArrayList();
@@ -162,6 +164,15 @@ public class ThemeFile extends IdEntity {
 		this.createTime = createTime;
 	}
 
+	@Transient
+	public String getDownloadURL() {
+		return downloadURL;
+	}
+	
+	public void setDownloadURL(String downloadURL) {
+		this.downloadURL = downloadURL;
+	}
+	
 	@OneToMany(mappedBy = "theme", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
 	public List<FileInfo> getFileInfo() {
 		return fileInfo;

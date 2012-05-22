@@ -8,8 +8,6 @@ import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import com.tp.entity.unlock.UnlockFile;
-
 /**
  * 文件多语言描述
  * 
@@ -28,7 +26,6 @@ public class FileInfo extends IdEntity {
 	private Long price;
 
 	private ThemeFile theme;
-	private UnlockFile unlockFile;
 
 	public String getTitle() {
 		return title;
@@ -79,7 +76,7 @@ public class FileInfo extends IdEntity {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "f_id",insertable=false,updatable=false)
+	@JoinColumn(name = "f_id", insertable = false, updatable = false)
 	public ThemeFile getTheme() {
 		return theme;
 	}
@@ -88,22 +85,12 @@ public class FileInfo extends IdEntity {
 		this.theme = theme;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "f_id")
-	public UnlockFile getUnlockFile() {
-		return unlockFile;
-	}
-
-	public void setUnlockFile(UnlockFile unlockFile) {
-		this.unlockFile = unlockFile;
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null)
 			return false;
 		FileInfo that = (FileInfo) obj;
-		return that.getLanguage().equals(this.getLanguage()) && that.getUnlockFile().getId().equals(this.getUnlockFile().getId())
+		return that.getLanguage().equals(this.getLanguage()) && that.getTheme().getId().equals(this.getTheme().getId())
 				|| that.getId().equals(this.getId());
 	}
 

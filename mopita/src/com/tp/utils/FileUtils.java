@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
+import com.tp.entity.FileType;
 
 public class FileUtils {
 
@@ -71,28 +72,28 @@ public class FileUtils {
 
 	public static boolean isPreClient(String fname) {
 
-		return StringUtils.containsIgnoreCase(fname, Constants.PREVIEW_CLIENT);
+		return StringUtils.containsIgnoreCase(fname, FileType.PREVIEW_CLIENT.getValue());
 
 	}
 
 	public static boolean isAd(String fname) {
-		return StringUtils.containsIgnoreCase(fname, Constants.AD);
+		return StringUtils.containsIgnoreCase(fname, FileType.AD.getValue());
 	}
 
 	public static boolean isPreWeb(String fname) {
-		return StringUtils.containsIgnoreCase(fname, Constants.PREVIEW_WEB);
+		return StringUtils.containsIgnoreCase(fname, FileType.PREVIEW_WEB.getValue());
 	}
 
 	public static boolean isIcon(String fname) {
-		return StringUtils.containsIgnoreCase(fname, Constants.ICON);
+		return StringUtils.containsIgnoreCase(fname, FileType.ICON.getValue());
 	}
 
 	public static boolean isUx(String ext) {
-		return StringUtils.equalsIgnoreCase(ext, Constants.UX);
+		return StringUtils.equalsIgnoreCase(ext, FileType.UX.getValue());
 	}
 
 	public static boolean isApk(String ext) {
-		return StringUtils.equalsIgnoreCase(ext, Constants.APK);
+		return StringUtils.equalsIgnoreCase(ext, FileType.APK.getValue());
 	}
 
 	private static List<File> outputFile(List<ZipArchiveEntry> entries, ZipFile zipFile, File baseDir) throws Exception {

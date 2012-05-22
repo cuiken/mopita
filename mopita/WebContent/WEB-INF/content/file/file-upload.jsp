@@ -76,7 +76,7 @@
 					<s:radio name="checkedCategoryIds" list="allCategoryList" listKey="id" listValue="name" theme="simple"></s:radio>
 				</div>
 				<div>
-					<label for="marketURL" class="field">Market地址:<font class="red">*</font></label>
+					<label for="marketURL" class="field">apk包名:<font class="red">*</font></label>
 					<input type="text" id="marketURL" name="marketURL" value="${marketURL}" size="25" maxlength="100" class="required">
 				</div>
 				<div>
