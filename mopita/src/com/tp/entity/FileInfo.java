@@ -76,7 +76,7 @@ public class FileInfo extends IdEntity {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "f_id", insertable = false, updatable = false)
+	@JoinColumn(name = "f_id")
 	public ThemeFile getTheme() {
 		return theme;
 	}
