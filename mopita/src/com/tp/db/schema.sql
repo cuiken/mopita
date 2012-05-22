@@ -76,3 +76,12 @@ create table f_category_file(
 	primary key(id)
 )ENGINE=InnoDB;
 
+create table f_market(
+	id int not null auto_increment,
+	name varchar(50),
+	value varchar(50),
+	pk_name varchar(100),
+	market_key varchar(255),
+	primary key(id)
+)ENGINE=InnoDB;
+

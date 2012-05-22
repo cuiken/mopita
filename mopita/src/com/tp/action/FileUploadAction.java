@@ -13,10 +13,10 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.tp.dao.HibernateUtils;
 import com.tp.entity.Category;
 import com.tp.entity.FileInfo;
+import com.tp.entity.FileType;
 import com.tp.entity.ThemeFile;
 import com.tp.service.CategoryManager;
 import com.tp.service.FileManager;
-import com.tp.utils.Constants;
 import com.tp.utils.FileUtils;
 
 @Namespace("/file")
@@ -58,7 +58,7 @@ public class FileUploadAction extends ActionSupport {
 
 	public String upload() throws IOException {
 		String extension = FileUtils.getExtension(uploadFileName);
-		if (!extension.equalsIgnoreCase(Constants.ZIP)) {
+		if (!extension.equalsIgnoreCase(FileType.ZIP.getValue())) {
 			addActionMessage("请上传一个zip文件");
 			return RELOAD;
 		}

@@ -28,7 +28,7 @@
 					<p>${info.shortDescription}</p>
 				</div>
 				<div class="btnTop">
-					<a href="${ctx}/file-download.action?inputPath=${info.theme.apkPath}">下载</a>
+					<a href="${info.theme.downloadURL}">下载</a>
 				</div>
 				<div class="contents_txt">
 					${info.longDescription}
