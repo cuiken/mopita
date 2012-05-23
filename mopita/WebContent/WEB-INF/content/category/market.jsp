@@ -45,7 +45,8 @@
 					</tr>
 				</s:iterator>
 			</table>
-			<a href="market!input.action">创建市场</a>
+			<a href="market!input.action">创建市场</a>&nbsp;
+			<a href="">管理市场</a>
 			</div>
 		</div>
 		</form>

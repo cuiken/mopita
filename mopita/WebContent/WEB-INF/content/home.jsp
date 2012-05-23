@@ -19,14 +19,15 @@
 	<body>
 	
 		<form action="wap.action" method="get">
-			<div id="container"> 
-				
+			<div id="container"> 				
 				<div class="imgCenter">
-					<a href="${ctx}/home!details.action?id=${adFile.id}">
-						<img alt="${adFile.title}" src="${ctx}/image.action?path=${adFile.adPath}" class="max-width_100">
-					</a>
+					<s:if test="adFile!=null">
+						<a href="${ctx}/home!details.action?id=${adFile.id}">
+							<img alt="${adFile.title}" src="${ctx}/image.action?path=${adFile.adPath}" class="max-width_100">
+						</a>
+					</s:if><s:else>商店无内容</s:else>
 				</div>
-				
+			
 				<s:iterator value="newestPage.result">
 					<div class="contents_info">
 						<div class="contents_txt">

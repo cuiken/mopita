@@ -66,6 +66,10 @@ public class MarketAction extends CRUDActionSupport<Market> {
 		return null;
 	}
 
+	public String manage() throws Exception {
+		return "manage";
+	}
+
 	@Override
 	public Market getModel() {
 

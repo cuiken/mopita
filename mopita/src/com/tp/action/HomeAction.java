@@ -6,6 +6,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -23,9 +27,11 @@ import com.tp.service.MarketManager;
 import com.tp.utils.Constants;
 import com.tp.utils.Struts2Utils;
 
+@Results( { @Result(name = "reload", location = "home.action", type = "redirect") })
 public class HomeAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	private CategoryManager categoryManager;
 	private FileManager fileManager;
@@ -55,17 +61,18 @@ public class HomeAction extends ActionSupport {
 	 * @throws Exception
 	 */
 	public String list() throws Exception {
-		Constants.setParamInSession();
+		HttpSession session = Struts2Utils.getSession();
+		Constants.setParamInSession(session);
+		setDefaultStore(session);
 
-		String language = (String) Struts2Utils.getSession().getAttribute(Constants.SESS_KEY_LANGUAGE);
-		Store store = categoryManager.getDefaultStore();
+		String language = (String) session.getAttribute(Constants.SESS_KEY_LANGUAGE);
+		Long storeId = (Long) session.getAttribute(Constants.SESS_DEFAULT_STORE);
 
-		hottestPage = fileManager.searchStoreInfoInShelf(hottestPage, Shelf.Type.HOTTEST, store.getId(), language);
+		hottestPage = fileManager.searchStoreInfoInShelf(hottestPage, Shelf.Type.HOTTEST, storeId, language);
 
-		newestPage = fileManager.searchStoreInfoInShelf(newestPage, Shelf.Type.NEWEST, store.getId(), language);
+		newestPage = fileManager.searchStoreInfoInShelf(newestPage, Shelf.Type.NEWEST, storeId, language);
 
-		recommendPage = fileManager
-				.searchStoreInfoInShelf(recommendPage, Shelf.Type.RECOMMEND, store.getId(), language);
+		recommendPage = fileManager.searchStoreInfoInShelf(recommendPage, Shelf.Type.RECOMMEND, storeId, language);
 		List<FileStoreInfo> recommendFiles = recommendPage.getResult();
 		if (recommendFiles.size() > 0) {
 			Collections.shuffle(recommendFiles);
@@ -74,15 +81,24 @@ public class HomeAction extends ActionSupport {
 		return SUCCESS;
 	}
 
+	private void setDefaultStore(HttpSession session) {
+		try {
+			Store store = categoryManager.getDefaultStore();
+			session.setAttribute(Constants.SESS_DEFAULT_STORE, store.getId());
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+	}
+
 	/**
 	 * 输出5个广告xml
 	 * @return
 	 * @throws Exception
 	 */
 	public String adXml() throws Exception {
-		Store store = categoryManager.getDefaultStore();
+		Long storeId = (Long) Struts2Utils.getSession().getAttribute(Constants.SESS_DEFAULT_STORE);
 		Page<ThemeFile> adPage = new Page<ThemeFile>();
-		adPage = fileManager.searchFileByShelf(adPage, Shelf.Type.RECOMMEND, store.getId());
+		adPage = fileManager.searchFileByShelf(adPage, Shelf.Type.RECOMMEND, storeId);
 		HttpServletRequest request = Struts2Utils.getRequest();
 		String domain = "http://" + request.getLocalAddr() + ":" + request.getLocalPort();
 		String xml = fileManager.adXml(adPage.getResult(), domain);
@@ -91,15 +107,20 @@ public class HomeAction extends ActionSupport {
 	}
 
 	public String details() throws Exception {
-		HttpSession session = Struts2Utils.getSession();
-		String language = (String) session.getAttribute(Constants.SESS_KEY_LANGUAGE);
-
-		Store store = categoryManager.getDefaultStore();
-		ThemeFile theme = fileManager.getThemeFile(id);
-		info = fileManager.getStoreInfoBy(store.getId(), theme.getId(), language);
-		setDownloadType(session);
-		Category cate = theme.getCategories().get(0);
-		catePage = fileManager.searchInfoByCategoryAndStore(catePage, cate.getId(), store.getId(), language);
+		try {
+			HttpSession session = Struts2Utils.getSession();
+			String language = (String) session.getAttribute(Constants.SESS_KEY_LANGUAGE);
+			Long storeId = (Long) session.getAttribute(Constants.SESS_DEFAULT_STORE);
+			info = fileManager.getStoreInfoBy(storeId, id, language);
+			if (info == null)
+				return "reload";
+			setDownloadType(session);
+			Category cate = info.getTheme().getCategories().get(0);
+			catePage = fileManager.searchInfoByCategoryAndStore(catePage, cate.getId(), storeId, language);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return "reload";
+		}
 		return "details";
 	}
 

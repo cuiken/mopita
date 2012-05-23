@@ -15,6 +15,7 @@ public class Constants {
 	public static final String SESS_KEY_LANGUAGE = "lan";
 	public static final String SESS_KEY_MARKET = "fm";
 	public static final String SESS_KEY_DT = "dt";
+	public static final String SESS_DEFAULT_STORE="DEFAULT_STORE";
 
 	public static final String PARA_LANGUAGE = "l";
 	public static final String PARA_DOWNLOAD_METHOD = "dm";
@@ -35,11 +36,11 @@ public class Constants {
 		}
 	}
 
-	public static void setParamInSession() {
+	public static void setParamInSession(HttpSession session) {
 		String language = Struts2Utils.getParameter(PARA_LANGUAGE);
 		String fromMarket = Struts2Utils.getParameter(PARA_FROM_MARKET);
 		String downMethod = Struts2Utils.getParameter(PARA_DOWNLOAD_METHOD);
-		HttpSession session = Struts2Utils.getSession();
+
 		if (language != null) {
 			session.setAttribute(SESS_KEY_LANGUAGE, language.toUpperCase());
 		} else if (language == null && Struts2Utils.getSession().getAttribute(SESS_KEY_LANGUAGE) == null) {
