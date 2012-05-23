@@ -1,8 +1,10 @@
 package com.tp.service;
 
 import java.io.File;
+import java.net.URLEncoder;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,7 @@ import com.tp.entity.ThemeFile;
 import com.tp.mapper.JsonMapper;
 import com.tp.orm.Page;
 import com.tp.orm.PropertyFilter;
+import com.tp.utils.Constants;
 import com.tp.utils.FileUtils;
 
 @Component
@@ -40,10 +43,6 @@ public class FileManager {
 	public Page<ThemeFile> searchFileByShelf(final Page<ThemeFile> page, Shelf.Type stype, Long sid) {
 		return themeFileDao.searchFileByShelf(page, stype.getValue(), sid);
 	}
-
-	//	public Page<ThemeFile> searchFileByStoreAndCategory(final Page<ThemeFile> page, Long sid, Long cid,String lang) {
-	//		return themeFileDao.searchFileByStoreAndCategory(page, sid, cid,lang);
-	//	}
 
 	public Page<FileStoreInfo> searchInfoByCategoryAndStore(final Page<FileStoreInfo> page, Long cid, Long sid,
 			String lang) {
@@ -188,16 +187,26 @@ public class FileManager {
 		return themeFileDao.isPropertyUnique("title", newTitle, oldTitle);
 	}
 
-	public String adXml(List<ThemeFile> themes) {
+	public String adXml(List<ThemeFile> themes, String domain) throws Exception {
 		StringBuilder buffer = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 		if (themes.size() > 5) {
 			themes = themes.subList(0, 5);
 		}
 		buffer.append("<ads>");
 		for (ThemeFile theme : themes) {
-			buffer.append("<ad>");
-			buffer.append("<fid>mopita/home!details.action?id=" + theme.getId() + "</fid>");
-			buffer.append("<path>mopita/image.action?path=" + theme.getAdPath() + "</path>");
+			Long id = theme.getId();
+			String ad = theme.getAdPath();
+			String[] items = StringUtils.split(ad, File.separator);
+			String adName = items[items.length - 1];
+			String[] exts = StringUtils.split(adName, Constants.DOT_SEPARATOR);
+			buffer.append("<ad id=\"" + id + "\"");
+			buffer.append(" fileName=\"" + adName + "\"");
+			buffer.append(" format=\"" + exts[exts.length - 1] + "\"");
+			buffer.append(" version=\"1\"");
+			buffer.append(">");
+			buffer.append("<linkUrl>" + domain + "/mopita/home!details.action?id=" + id + "</linkUrl>");
+			buffer.append("<downloadUrl>" + domain + "/mopita/image.action?path=" + URLEncoder.encode(ad, "UTF-8")
+					+ "</downloadUrl>");
 			buffer.append("</ad>");
 		}
 		buffer.append("</ads>");

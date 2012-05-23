@@ -3,6 +3,7 @@ package com.tp.action;
 import java.util.Collections;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,7 @@ public class HomeAction extends ActionSupport {
 
 		String language = (String) Struts2Utils.getSession().getAttribute(Constants.SESS_KEY_LANGUAGE);
 		Store store = categoryManager.getDefaultStore();
+
 		hottestPage = fileManager.searchStoreInfoInShelf(hottestPage, Shelf.Type.HOTTEST, store.getId(), language);
 
 		newestPage = fileManager.searchStoreInfoInShelf(newestPage, Shelf.Type.NEWEST, store.getId(), language);
@@ -81,7 +83,9 @@ public class HomeAction extends ActionSupport {
 		Store store = categoryManager.getDefaultStore();
 		Page<ThemeFile> adPage = new Page<ThemeFile>();
 		adPage = fileManager.searchFileByShelf(adPage, Shelf.Type.RECOMMEND, store.getId());
-		String xml = fileManager.adXml(adPage.getResult());
+		HttpServletRequest request = Struts2Utils.getRequest();
+		String domain = "http://" + request.getLocalAddr() + ":" + request.getLocalPort();
+		String xml = fileManager.adXml(adPage.getResult(), domain);
 		Struts2Utils.renderXml(xml);
 		return null;
 	}
@@ -95,7 +99,6 @@ public class HomeAction extends ActionSupport {
 		info = fileManager.getStoreInfoBy(store.getId(), theme.getId(), language);
 		setDownloadType(session);
 		Category cate = theme.getCategories().get(0);
-		//		hottestPage = fileManager.searchFileByStoreAndCategory(hottestPage, store.getId(), cate.getId());
 		catePage = fileManager.searchInfoByCategoryAndStore(catePage, cate.getId(), store.getId(), language);
 		return "details";
 	}
@@ -127,7 +130,7 @@ public class HomeAction extends ActionSupport {
 		categoryId = Long.valueOf(Struts2Utils.getParameter("cid"));
 		categories = categoryManager.getCategories();
 		catePage = fileManager.searchInfoByCategoryAndStore(catePage, categoryId, store.getId(), language);
-		//		hottestPage = fileManager.searchThemeFile(hottestPage, categoryId);
+
 		return "more";
 	}
 

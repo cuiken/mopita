@@ -28,7 +28,6 @@ import com.tp.orm.PageRequest.Sort;
 import com.tp.orm.PropertyFilter.MatchType;
 import com.tp.utils.ReflectionUtils;
 
-
 /**
  * 扩展功能的Hibernat DAO泛型基类.
  * 
@@ -210,6 +209,8 @@ public class HibernateDao<T, ID extends Serializable> extends SimpleHibernateDao
 
 		try {
 			Long count = findUnique(countHql, values);
+			if (count == null)
+				count = 0L;
 			return count;
 		} catch (Exception e) {
 			throw new RuntimeException("hql can't be auto count, hql is:" + countHql, e);
@@ -358,8 +359,8 @@ public class HibernateDao<T, ID extends Serializable> extends SimpleHibernateDao
 		List<Criterion> criterionList = new ArrayList<Criterion>();
 		for (PropertyFilter filter : filters) {
 			if (!filter.hasMultiProperties()) { //只有一个属性需要比较的情况.
-				Criterion criterion = buildCriterion(filter.getPropertyName(), filter.getMatchValue(),
-						filter.getMatchType());
+				Criterion criterion = buildCriterion(filter.getPropertyName(), filter.getMatchValue(), filter
+						.getMatchType());
 				criterionList.add(criterion);
 			} else {//包含多个属性需要比较的情况,进行or处理.
 				Disjunction disjunction = Restrictions.disjunction();
