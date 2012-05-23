@@ -56,7 +56,7 @@ public class Market extends IdEntity {
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "f_category_file", joinColumns = { @JoinColumn(name = "category_id") }, inverseJoinColumns = { @JoinColumn(name = "file_id") })
+	@JoinTable(name = "f_market_file", joinColumns = { @JoinColumn(name = "m_id") }, inverseJoinColumns = { @JoinColumn(name = "f_id") })
 	public List<ThemeFile> getThemes() {
 		return themes;
 	}

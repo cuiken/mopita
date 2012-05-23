@@ -28,9 +28,6 @@
 	</style>
 
 	<script>
-	function openwindow(id){
-		window.open("../file/file-store-info.action?themeId="+id+"&storeId="+$("#store").val(),'newwindow');
-	}
 	
 	$(function() {
 		$("#message").fadeOut(3000);
@@ -42,36 +39,15 @@
 			for(var i=0;i<checked.length;i++){
 				$("#cart").append("<input type='hidden' name='checkedFileIds' value="+checked[i].id+">");
 			}
-			$("#cart").append("<input type='hidden' name='selectId' value="+$("#shelf").val()+">");
 			$("#manageForm").submit();
 		});
 		
-		$("#store option[value="+${store.id}+"]").attr("selected",true);
-		var sid=$("#store").val();
-			
-		var getData=function(sid){
-			$.ajax({
-				dataType:"json",
-				url:"shelf!filterShelf.action?checkedStoreId="+sid,
-				success:function(data){	
-					var opt="<option value=0>--请选择--</option>";						
-					$.each(data,function(i,val){
-							
-						opt+="<option value="+val.id+">"+val.name+"</option>";
-								
-					});
-					
-					$("#shelf").append(opt);
-					$("#shelf option[value="+${id}+"]").attr("selected", true);
-				}
-			});
-		};
-			
+		var sid=$("#market").val();			
 		
 		var getRemainFileData=function(sfid){
 			$.ajax({
 				dataType:"json",
-				url:"shelf!getRemainFile.action?id="+sfid,
+				url:"market!remainFile.action?id="+sfid,
 				success:function(data){
 					var li="";
 					$.each(data,function(i,val){
@@ -84,34 +60,26 @@
 		var getShelfFileData=function(sfid){
 			$.ajax({
 				dataType:"json",
-				url:"shelf!getOnShelfFile.action?id="+sfid,
+				url:"market!fileInMarket.action?id="+sfid,
 				success:function(data){
 					var li="";
 					
 					$.each(data,function(i,val){
-						li+="<li id="+val.id+" onclick=openwindow("+val.id+");><a>"+val.name+"</a></li>";
+						li+="<li>"+val.name+"</li>";
 					});
 					$("#sortable2").append(li);
 				}		
 			});
 		};
 		
-		getData(sid);
-		
-		getRemainFileData(${id});
-		getShelfFileData(${id});
-		$("#store").change(function(){
-			$("#shelf option").remove();
-			getData($(this).children('option:selected').val());
+		getRemainFileData(sid);
+		getShelfFileData(sid);
+		$("#market").change(function(){
 			$("#sortable1 li").remove();
 			$("#sortable2 li").remove();
-		});
-		
-		$("#shelf").change(function(){
-			$("#sortable1 li").remove();
-			$("#sortable2 li").remove();
-			getRemainFileData($(this).children('option:selected').val());
-			getShelfFileData($(this).children('option:selected').val());
+			var id=$(this).children('option:selected').val();
+			getRemainFileData(id);
+			getShelfFileData(id);
 		});
 		
 	});
@@ -119,7 +87,7 @@
 	</script>
 </head>
 <body>
-<form id="manageForm" action="shelf!saveFile.action" method="post">
+<form id="manageForm" action="market!appearOnMarket.action" method="post">
 <div class="container">
 <input type="hidden" name="id" value="${id}"/>
 <%@include file="/common/header.jsp" %>
@@ -129,8 +97,8 @@
 	<div id="message" class="success">${actionMessages}</div>	
 </c:if>
 <div>
-商店名称:<s:select list="allStores" listKey="id" listValue="name" name="" id="store" /> &nbsp;
-货架名称:<select id="shelf"></select>
+市场名称:<s:select list="allMarkets" listKey="id" listValue="name" name="checkedMarket" id="market" /> 
+
 </div>
 <div id="products">
 	<h3>仓库文件</h3>	
@@ -142,7 +110,7 @@
 </div>
 
 <div id="cart">
-	<h3>已上架文件</h3>
+	<h3>已上市文件</h3>
 	<div class="ui-widget-content" >
 		<ol id="sortable2" class="connectedSortable" style="min-height: 300px;">
 

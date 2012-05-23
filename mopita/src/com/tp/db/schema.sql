@@ -85,3 +85,11 @@ create table f_market(
 	primary key(id)
 )ENGINE=InnoDB;
 
+create table f_market_file(
+	id int not null auto_increment,
+	m_id int,
+	f_id int,
+	primary key(id)
+
+)ENGINE=InnoDB;
+

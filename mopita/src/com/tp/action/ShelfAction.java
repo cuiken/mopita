@@ -134,11 +134,6 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 		return null;
 	}
 
-	public String file() {
-		checkedFileIds = entity.getCheckedFileIds();
-		return "file";
-	}
-
 	public void prepareFile() throws Exception {
 		prepareModel();
 	}
