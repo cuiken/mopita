@@ -96,7 +96,7 @@ public class HomeAction extends ActionSupport {
 	 * @throws Exception
 	 */
 	public String adXml() throws Exception {
-		Long storeId = (Long) Struts2Utils.getSession().getAttribute(Constants.SESS_DEFAULT_STORE);
+		Long storeId = categoryManager.getDefaultStore().getId();
 		Page<ThemeFile> adPage = new Page<ThemeFile>();
 		adPage = fileManager.searchFileByShelf(adPage, Shelf.Type.RECOMMEND, storeId);
 		HttpServletRequest request = Struts2Utils.getRequest();
