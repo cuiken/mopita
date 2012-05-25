@@ -84,31 +84,34 @@ public class FileManager {
 	}
 
 	public ThemeFile saveFiles(List<File> files, ThemeFile fs, FileInfo info) {
+		saveFiles(files, fs);
+		saveFileinfo(fs, info);
+		return fs;
+	}
 
+	public void saveFiles(List<File> files, ThemeFile theme) {
 		for (File file : files) {
 			String fname = FileUtils.getFileName(file.getName());
 			String extension = FileUtils.getExtension(file.getName());
 			if (FileUtils.isPreClient(fname)) {
-				fs.setPreClientPath(file.getPath());
+				theme.setPreClientPath(file.getPath());
 			} else if (FileUtils.isPreWeb(fname)) {
-				fs.setPreWebPath(file.getPath());
+				theme.setPreWebPath(file.getPath());
 			} else if (FileUtils.isAd(fname)) {
-				fs.setAdPath(file.getPath());
+				theme.setAdPath(file.getPath());
 			} else if (FileUtils.isIcon(fname)) {
-				fs.setIconPath(file.getPath());
+				theme.setIconPath(file.getPath());
 			} else if (FileUtils.isApk(extension)) {
 
-				fs.setApkSize(FileUtils.getFileSize(file.getPath()));
-				fs.setApkPath(file.getPath());
+				theme.setApkSize(FileUtils.getFileSize(file.getPath()));
+				theme.setApkPath(file.getPath());
 			} else if (FileUtils.isUx(extension)) {
 
-				fs.setUxPath(file.getPath());
-				fs.setUxSize(FileUtils.getFileSize(file.getPath()));
+				theme.setUxPath(file.getPath());
+				theme.setUxSize(FileUtils.getFileSize(file.getPath()));
 			}
 		}
-		saveThemeFile(fs);
-		saveFileinfo(fs, info);
-		return fs;
+		saveThemeFile(theme);
 	}
 
 	private void saveFileinfo(ThemeFile f, FileInfo info) {

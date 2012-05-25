@@ -42,7 +42,7 @@
 				</div>
 				<div>
 					<label for="shortDescription" class="field">简要描述:<font class="red">*</font></label>
-					<input id="shortDescription[${info.index}]" name="fileInfo[${info.index}].shortDescription" type="text" size="25" maxlength="11" value="${shortDescription}" class="required"/>
+					<input id="shortDescription[${info.index}]" name="fileInfo[${info.index}].shortDescription" type="text" size="25" maxlength="50" value="${shortDescription}" class="required"/>
 				</div>
 				<div>
 					<label for="longDescription" class="field" style="vertical-align: top">详细描述:<font class="red">*</font></label>

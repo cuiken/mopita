@@ -1,5 +1,6 @@
 package com.tp.action;
 
+import java.io.File;
 import java.util.List;
 
 import org.apache.struts2.convention.annotation.Namespace;
@@ -7,6 +8,7 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.collect.Lists;
 import com.tp.dao.HibernateUtils;
 import com.tp.entity.Category;
 import com.tp.entity.FileInfo;
@@ -17,10 +19,11 @@ import com.tp.orm.PageRequest.Sort;
 import com.tp.service.CategoryManager;
 import com.tp.service.FileInfoObservable;
 import com.tp.service.FileManager;
+import com.tp.utils.FileUtils;
 import com.tp.utils.Struts2Utils;
 
 @Namespace("/file")
-@Results( { @Result(name = CRUDActionSupport.RELOAD, location = "file.action", type = "redirect") })
+@Results({ @Result(name = CRUDActionSupport.RELOAD, location = "file.action", type = "redirect") })
 public class FileAction extends CRUDActionSupport<ThemeFile> {
 
 	private static final long serialVersionUID = 1L;
@@ -32,6 +35,8 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	private FileManager fileManager;
 	private CategoryManager categoryManager;
 	private FileInfoObservable observer;
+
+	private File file;
 
 	@Override
 	public String delete() throws Exception {
@@ -72,7 +77,12 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	@Override
 	public String save() throws Exception {
 		HibernateUtils.mergeByCheckedIds(entity.getCategories(), checkedCategoryId, Category.class);
-		fileManager.saveThemeFile(entity);
+		List<File> files = Lists.newArrayList();
+		if (file != null) {
+			files = FileUtils.unZip(file);
+		}
+
+		fileManager.saveFiles(files, entity);
 		for (FileInfo info : entity.getFileInfo()) {
 			info.setTheme(entity);
 			observer.saveFileInfo(info);
@@ -140,5 +150,9 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 
 	public void setFileInfo(List<FileInfo> fileInfo) {
 		this.fileInfo = fileInfo;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
 	}
 }
