@@ -26,7 +26,7 @@
 					<th>分辨率</th>
 					<th>市场来源</th>
 				</tr>
-				<s:iterator value="logs">
+				<s:iterator value="page.result">
 					<tr>
 						<td>${createTime}</td>
 						<td>${imei}</td>
@@ -40,10 +40,18 @@
 					</tr>
 				</s:iterator>
 				
-			</table>
-		
-			
-		
+			</table>		
+							
+			<div>
+				第${page.pageNo}页, 共${page.totalPages}页
+				<a href="?page.pageNo=1">首页</a>
+				<s:if test="page.prePage"><a href="?page.pageNo=${page.prePage}">上一页</a></s:if>
+				<s:if test="page.nextPage"><a href="?page.pageNo=${page.nextPage}">下一页</a></s:if>
+				<a href="?page.pageNo=${page.totalPages}">末页</a>
+				<s:iterator value="sliders" status="i">
+					<a href="?page.pageNo=${i.index+1}"><s:property/></a>
+				</s:iterator>
+			</div>
 			</div>
 		</div>
 		</form>

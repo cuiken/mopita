@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tp.dao.LogFromClientDao;
 import com.tp.entity.LogFromClient;
+import com.tp.orm.Page;
+import com.tp.orm.PropertyFilter;
 
 @Component
 @Transactional
@@ -21,6 +23,10 @@ public class LogService {
 
 	public void save(LogFromClient entity) {
 		logDao.save(entity);
+	}
+
+	public Page<LogFromClient> searchLog(final Page<LogFromClient> pages, List<PropertyFilter> filters) {
+		return logDao.findPage(pages, filters);
 	}
 
 	@Autowired

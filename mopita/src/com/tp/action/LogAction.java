@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.tp.entity.LogFromClient;
+import com.tp.orm.Page;
+import com.tp.orm.PropertyFilter;
+import com.tp.orm.PageRequest.Sort;
 import com.tp.service.LogService;
 import com.tp.utils.Struts2Utils;
 
@@ -24,11 +27,28 @@ public class LogAction extends ActionSupport {
 	private static final String PARA_RESOLUTION = "r";
 	private static final String PARA_FROM_MARKET = "fm";
 
-	private List<LogFromClient> logs;
+	private Page<LogFromClient> page = new Page<LogFromClient>();
+	private List<Integer> sliders;
 	private LogService logService;
 
 	@Override
 	public String execute() throws Exception {
+
+		return save();
+	}
+
+	public String list() throws Exception {
+		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(Struts2Utils.getRequest());
+		if (!page.isOrderBySetted()) {
+			page.setOrderBy("createTime");
+			page.setOrderDir(Sort.DESC);
+		}
+		page = logService.searchLog(page, filters);
+		sliders = page.getSlider((int) page.getTotalItems());
+		return SUCCESS;
+	}
+
+	public String save() throws Exception {
 		String imei = Struts2Utils.getParameter(PARA_IMEI);
 		String imsi = Struts2Utils.getParameter(PARA_IMSI);
 		String storeType = Struts2Utils.getParameter(PARA_STORE_TYPE);
@@ -50,13 +70,12 @@ public class LogAction extends ActionSupport {
 		return null;
 	}
 
-	public String list() {
-		logs = logService.getAll();
-		return SUCCESS;
+	public Page<LogFromClient> getPage() {
+		return page;
 	}
 
-	public List<LogFromClient> getLogs() {
-		return logs;
+	public List<Integer> getSliders() {
+		return sliders;
 	}
 
 	@Autowired
