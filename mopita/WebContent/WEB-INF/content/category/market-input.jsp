@@ -53,7 +53,7 @@
 				</div>
 				<div>
 					<label for="marketKey" class="field">市场market key:</label>
-					<input type="text" id="marketKey" name="marketKey" size="25" maxlength="50" value="${marketKey}" />
+					<input type="text" id="marketKey" name="marketKey" size="25" maxlength="100" value="${marketKey}" />
 				</div>
 				<!--  
 				<div>

@@ -9,5 +9,6 @@
 	<a href="${ctx}/category/shelf.action">货架列表</a>
 	<a href="${ctx}/category/market.action">市场列表</a>
 	<a href="${ctx}/home.action?l=ZH">商店首页</a>
-	<a href="${ctx}/home!adXml.action">adxml演示</a>
+	<a href="${ctx}/home!adXml.action">广告输出演示</a>
+	<a href="${ctx}/log/log!list.action">日志演示</a>
 </div>

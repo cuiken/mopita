@@ -93,3 +93,17 @@ create table f_market_file(
 
 )ENGINE=InnoDB;
 
+create table log_f_client(
+	id int not null auto_increment,
+	imei varchar(50),
+	imsi varchar(50),
+	store_type varchar(20),
+	down_type varchar(20),
+	language varchar(20),
+	client_version varchar(20),
+	resolution varchar(20),
+	from_market varchar(20),
+	create_time timestamp,
+	primary key(id)
+)ENGINE=InnoDB;
+
