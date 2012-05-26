@@ -138,7 +138,12 @@ public class HomeAction extends ActionSupport {
 
 	private void marketDownload(String fromMarket, String http) {
 		Market market = marketManager.findByPkName(fromMarket);
-		if (market == null || market.getMarketKey().isEmpty()) {
+		List<ThemeFile> files=market.getThemes();
+		boolean fileInMarket=false;
+		if(files.contains(info.getTheme())){
+			fileInMarket=true;
+		}
+		if (market == null || market.getMarketKey().isEmpty()||!fileInMarket) {
 			info.getTheme().setDownloadURL(http);
 		} else {
 			info.getTheme().setDownloadURL(market.getMarketKey() + info.getTheme().getMarketURL());
