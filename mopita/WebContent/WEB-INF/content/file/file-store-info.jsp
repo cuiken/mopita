@@ -33,6 +33,7 @@
 				<input type="hidden" name="fileInfo[${info.index}].theme.id" value="${theme.id}"/>
 				<input type="hidden" name="fileInfo[${info.index}].store.id" value="${store.id}"/>
 				<input type="hidden" name="fileInfo[${info.index}].language" value="${language}"/>
+				<input type="hidden" name="fileInfo[${info.index}].fiId" value="${fiId}"/>
 				<div>
 					<font color="blue">${language}</font>
 				</div>
