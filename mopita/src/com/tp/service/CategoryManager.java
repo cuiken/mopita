@@ -228,6 +228,11 @@ public class CategoryManager {
 		return storeDao.isPropertyUnique("name", newStoreName, oldStoreName);
 	}
 
+	@Transactional(readOnly = true)
+	public boolean isStoreValueUnique(String newValue, String oldValue) {
+		return storeDao.isPropertyUnique("value", newValue, oldValue);
+	}
+
 	public boolean isCategoryUnique(String newName, String oldName) {
 		return categoryDao.isPropertyUnique("name", newName, oldName);
 	}

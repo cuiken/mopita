@@ -16,12 +16,18 @@
 					rules:{
 						name:{
 							remote: "store!checkStoreName.action?oldStoreName=" + encodeURIComponent('${name}')
+						},
+						value:{
+							remote: "store!checkStoreValue.action?oldValue=" +encodeURIComponent('${value}')
 						}
 					},
 					errorContainer: "#messageBox",
 					messages:{
 						name:{
 							remote:"商店名称已存在"
+						},
+						value:{
+							remote:"商店标识也存在"
 						}
 					}
 				
