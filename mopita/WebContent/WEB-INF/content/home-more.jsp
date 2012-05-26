@@ -51,11 +51,18 @@
 		  });
 	</script>
 	<style type="text/css">
+		
+		.contents_info {
+			width:100%;
+			height:75px;
+			margin: 0 auto;
+		}
+		
 		.guide {
-		    background: none repeat scroll 0 0 rgba(47, 42, 30, 0.8);
+		    background: none repeat scroll 0 0 rgba(255, 255, 255, 1);
 		    bottom: -90px;
 		    display: none;
-		    height: 40px;
+		    height: 30px;
 		    position: fixed;
 		    width: 100%;
 		    z-index: 100;
@@ -90,7 +97,7 @@
 					<div class="contents_info">
 						<div class="contents_image">
 							<a href="home!details.action?id=${theme.id}">
-								<img alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}">
+								<img alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72">
 							</a>
 						</div>
 						<div class="contents_txt">
@@ -103,10 +110,12 @@
 			<nav id="page-nav">
   				<a href="?catePage.pageNo=${catePage.nextPage}&cid=${categoryId}"></a>
 			</nav>
-
+		<div id="natigater" class="navigater">
+		
+		</div>
 			<div class="guide" style="display: block; bottom: 0px;">
 				<div>
-					<div>
+					<div class="navigater">
 						<s:iterator value="categories">
 							<div class="col_4 navitem">
 				     			<a href="home!more.action?cid=${id}" >${name}</a>
