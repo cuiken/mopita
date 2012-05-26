@@ -24,7 +24,7 @@
 		    
 		    $container.imagesLoaded(function(){
 		      $container.masonry({
-		        itemSelector: '.box',
+		        itemSelector: '.contents_info',
 		        columnWidth: 100
 		      });
 		    });
@@ -32,10 +32,10 @@
 		    $container.infinitescroll({
 		      navSelector  : '#page-nav',    
 		      nextSelector : '#page-nav a',  
-		      itemSelector : '.box',     
+		      itemSelector : '.contents_info',     
 		      loading: {
 		          finishedMsg: 'No more pages to load.',
-		          img: 'http://i.imgur.com/6RMhx.gif'
+		        //  img: 'http://i.imgur.com/6RMhx.gif'
 		        }
 		      },
 		     
@@ -55,7 +55,7 @@
 		    background: none repeat scroll 0 0 rgba(47, 42, 30, 0.8);
 		    bottom: -90px;
 		    display: none;
-		    height: 90px;
+		    height: 40px;
 		    position: fixed;
 		    width: 100%;
 		    z-index: 100;
@@ -101,9 +101,9 @@
 				</s:iterator>
 			</div>
 			<nav id="page-nav">
-  				<a href="?hottestPage.pageNo=${catePage.nextPage}&cid=${categoryId}"></a>
+  				<a href="?catePage.pageNo=${catePage.nextPage}&cid=${categoryId}"></a>
 			</nav>
-			
+
 			<div class="guide" style="display: block; bottom: 0px;">
 				<div>
 					<div>
