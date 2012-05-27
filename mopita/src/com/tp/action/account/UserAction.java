@@ -13,6 +13,7 @@ import com.tp.dao.HibernateUtils;
 import com.tp.entity.account.Group;
 import com.tp.entity.account.User;
 import com.tp.service.account.AccountManager;
+import com.tp.utils.Struts2Utils;
 
 @Namespace("/account")
 @Results({ @Result(name = CRUDActionSupport.RELOAD, location = "user.action", type = "redirect") })
@@ -60,6 +61,18 @@ public class UserAction extends CRUDActionSupport<User> {
 	public String delete() throws Exception {
 		accountManager.deleteUser(id);
 		return RELOAD;
+	}
+
+	public String checkLoginName() throws Exception {
+		String oldLoginName = Struts2Utils.getParameter("oldLoginName");
+		String loginName = Struts2Utils.getParameter("loginName");
+		if (accountManager.isLoginNameUnique(loginName, oldLoginName)) {
+			Struts2Utils.renderText("true");
+		} else {
+			Struts2Utils.renderText("false");
+		}
+		return null;
+
 	}
 
 	@Override

@@ -4,6 +4,10 @@
 <head>
 	<title>帐号管理</title>
 	<%@include file="/common/script.jsp" %>
+	<link href="${ctx}/js/jquery/validation/milk.css" rel="stylesheet">
+	<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
+	<script src="${ctx}/js/jquery/validation/jquery.validate.min.js"></script>
+	<script src="${ctx}/js/jquery/validation/messages_cn.js"></script>
 	<script>
 		$(document).ready(function() {
 			$("#group-tab").addClass("active");
@@ -18,6 +22,7 @@
 		<%@include file="/common/header.jsp" %>
 		<%@include file="/common/left.jsp" %>
 		<input type="hidden" name="id" value="${id}"/>
+		<div class="span-18 last prepend-top">
 		<fieldset>
 			<legend><small>管理权限组</small></legend>
 			<div class="control-group">
@@ -37,6 +42,7 @@
 					<input id="cancel" class="btn" type="button" value="返回" onclick="history.back()"/>
 			</div>
 		</fieldset>
+		</div>
 		</div>
 	</form>
 </body>

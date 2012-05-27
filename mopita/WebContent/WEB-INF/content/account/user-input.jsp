@@ -4,6 +4,10 @@
 <head>
 	<title>帐号管理</title>
 	<%@include file="/common/script.jsp" %>
+	<link href="${ctx}/js/jquery/validation/milk.css" rel="stylesheet">
+	<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
+	<script src="${ctx}/js/jquery/validation/jquery.validate.min.js"></script>
+	<script src="${ctx}/js/jquery/validation/messages_cn.js"></script>
 	<script>
 		$(document).ready(function() {
 			//聚焦第一个输入框
@@ -14,7 +18,7 @@
 			$("#inputForm").validate({
 				rules: {
 					loginName: {
-						remote: "${ctx}/account/user/checkLoginName?oldLoginName=" + encodeURIComponent('${loginName}')
+						remote: "${ctx}/account/user!checkLoginName.action?oldLoginName=" + encodeURIComponent('${loginName}')
 					},
 					groupList:"required"
 				},
@@ -44,6 +48,7 @@
 		<%@include file="/common/header.jsp" %>
 		<%@include file="/common/left.jsp" %>
 		<input type="hidden" name="id" value="${id}"/>
+		<div class="span-18 last prepend-top">
 		<fieldset>
 			<legend><small>管理用户</small></legend>
 			<div id="messageBox" class="alert alert-error" style="display:none">输入有误，请先更正。</div>
@@ -81,7 +86,7 @@
 			<div class="control-group">
 				<label for="groupList" class="control-label">权限组:</label>
 				<div class="controls">
-					<s:checkboxlist id="checkedGroupIds" name="checkedGroupIds"  list="allGroups" listKey="id" listValue="name"></s:checkboxlist>
+					<s:checkboxlist id="groupList" name="checkedGroupIds"  list="allGroups" listKey="id" listValue="name" theme="simple"></s:checkboxlist>
 				</div>
 			</div>	
 			<div class="form-actions">
@@ -89,6 +94,7 @@
 				<input id="cancel" class="btn" type="button" value="返回" onclick="history.back()"/>
 			</div>
 		</fieldset>
+		</div>
 </div>
 
 	</form>

@@ -62,6 +62,11 @@ public class AccountManager {
 		return userDao.findUniqueBy("loginName", loginName);
 	}
 
+	@Transactional(readOnly = true)
+	public boolean isLoginNameUnique(String newLoginName, String oldLoginName) {
+		return userDao.isPropertyUnique("loginName", newLoginName, oldLoginName);
+	}
+
 	//-- Group Manager --//
 	public Group getGroup(Long id) {
 		return groupDao.get(id);
