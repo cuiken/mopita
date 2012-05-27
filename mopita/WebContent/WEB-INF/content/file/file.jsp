@@ -16,21 +16,21 @@
 	</head>
 	<body>
 		<div class="container">
-		<form id="mainForm" action="file.action" method="post">
-		<input type="hidden" name="page.orderBy" id="orderBy" value="${page.orderBy}"/>
-		<input type="hidden" name="page.orderDir" id="order" value="${page.orderDir}"/>
-		<%@include file="/common/header.jsp" %>
-		<%@include file="/common/left.jsp" %>
-		<div class="span-18 last prepend-top">
+			<form id="mainForm" action="file.action" method="post">
+			<input type="hidden" name="page.orderBy" id="orderBy" value="${page.orderBy}"/>
+			<input type="hidden" name="page.orderDir" id="order" value="${page.orderDir}"/>
+			<%@include file="/common/header.jsp" %>
+			<%@include file="/common/left.jsp" %>
+			<div class="span-18 last prepend-top">
 		
-		<c:if test="${not empty actionMessages}">
-			<div id="message" class="success">${actionMessages}</div>	
-		</c:if>
-		<h3>文件列表</h3>
-		<div id="filter">
-			文件名: <input type="text" name="filter_LIKES_name" value="${param['filter_LIKES_name']}" size="20"/>
-			<input type="button" value="搜索" onclick="search();"/>
-		</div>
+			<c:if test="${not empty actionMessages}">
+				<div id="message" class="success">${actionMessages}</div>	
+			</c:if>
+			<h3>文件列表</h3>
+			<div id="filter">
+				文件名: <input type="text" name="filter_LIKES_name" value="${param['filter_LIKES_name']}" size="20"/>
+				<input type="button" value="搜索" onclick="search();"/>
+			</div>
 			<table>
 				<tr>
 					<th><a href="javascript:sort('title','asc')">标题</a></th>
@@ -53,13 +53,13 @@
 					</tr>
 				</s:iterator>
 			</table>	
-		<div>
-		</div>
-			第${page.pageNo}页, 共${page.totalPages}页
-			<a href="?page.pageNo=1">首页</a>
-			<s:if test="page.prePage"><a href="?page.pageNo=${page.prePage}">上一页</a></s:if>
-			<s:if test="page.nextPage"><a href="?page.pageNo=${page.nextPage}">下一页</a></s:if>
-			<a href="?page.pageNo=${page.totalPages}">末页</a>
+			<div>
+				第${page.pageNo}页, 共${page.totalPages}页
+				<a href="?page.pageNo=1">首页</a>
+				<s:if test="page.prePage"><a href="?page.pageNo=${page.prePage}">上一页</a></s:if>
+				<s:if test="page.nextPage"><a href="?page.pageNo=${page.nextPage}">下一页</a></s:if>
+				<a href="?page.pageNo=${page.totalPages}">末页</a>
+			</div>
 		</div>
 		</form>
 		

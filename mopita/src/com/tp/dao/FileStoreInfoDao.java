@@ -19,7 +19,7 @@ public class FileStoreInfoDao extends HibernateDao<FileStoreInfo, Long> {
 
 	private static final String Q_BY_ = "select fsi from FileStoreInfo fsi where fsi.store.id=? and fsi.theme.id=? and fsi.language=?";
 
-	private static final String Q_SHELF_THEME_STORE = "select distinct fsi from FileStoreInfo fsi join fsi.theme.shelfFiles s where s.shelf.value=? and fsi.store.id=? and fsi.language=?  order by s.sort";
+	private static final String Q_SHELF_THEME_STORE = "select distinct fsi from FileStoreInfo fsi join fsi.theme.shelfFiles s where s.shelf.value=? and s.shelf.store.id=? and fsi.store.id=? and fsi.language=?  order by s.sort";
 	private static final String Q_BY_CATEGORY_AND_STORE = "select distinct fsi from FileStoreInfo fsi join fsi.theme.categories c join fsi.theme.shelfFiles s where c.id=? and fsi.store.id=? and fsi.language=? order by s.sort";
 
 	public void deleteByThemeAndStore(Long fid, Long sid) {
@@ -48,7 +48,7 @@ public class FileStoreInfoDao extends HibernateDao<FileStoreInfo, Long> {
 	 * 查找指定货架上文件的语言信息
 	 */
 	public Page<FileStoreInfo> searchStoreInfoInShelf(final Page<FileStoreInfo> page, String st, Long sid, String lang) {
-		return findPage(page, Q_SHELF_THEME_STORE, st, sid, lang);
+		return findPage(page, Q_SHELF_THEME_STORE, st, sid,sid, lang);
 	}
 
 	/**

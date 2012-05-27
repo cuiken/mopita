@@ -49,7 +49,7 @@
 			</div>
 			<div>
 				<label for="shortDescription" class="field">简要描述:<font class="red">*</font></label>
-				<input type="text" name="shortDescription" class="required" value="${shortDescription}" size="25" maxlength="11">
+				<input type="text" name="shortDescription" class="required" value="${shortDescription}" size="25" maxlength="50">
 			</div>
 			<div>
 				<label for="longDescription" class="field" style="vertical-align: top">详细描述:<font class="red">*</font></label>

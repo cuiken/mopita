@@ -1,6 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <div id="leftbar" class="span-6">
+
 	<shiro:user>
 		<shiro:hasPermission name="user:view">
 			<a href="${ctx}/account/user.action">用户列表</a>

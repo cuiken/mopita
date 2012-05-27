@@ -30,7 +30,7 @@
 	</head>
 	<body>
 	<div class="container">
-		<form id="inputForm" action="file!save.action" method="post">
+		<form id="inputForm" action="file!save.action" method="post" enctype="multipart/form-data">
 		<%@include file="/common/header.jsp" %>
 		<%@include file="/common/left.jsp" %>
 			<div class="span-18 last prepend-top">
@@ -44,7 +44,7 @@
 				</div>
 				<div>
 					<label for="upload" class="field">上传文件:</label>
-					<input type="file" id="upload" name="upload" />(*仅支持zip文件*)
+					<input type="file" id="upload" name="file" />(*仅支持zip文件*)
 				</div>
 				<div>
 					<label for="checkedCategoryId" class="field">文件分类:<font class="red">*</font></label>

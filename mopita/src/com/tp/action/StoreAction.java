@@ -12,7 +12,7 @@ import com.tp.service.CategoryManager;
 import com.tp.utils.Struts2Utils;
 
 @Namespace("/category")
-@Results( { @Result(name = CRUDActionSupport.RELOAD, location = "store.action", type = "redirect") })
+@Results({ @Result(name = CRUDActionSupport.RELOAD, location = "store.action", type = "redirect") })
 public class StoreAction extends CRUDActionSupport<Store> {
 
 	private static final long serialVersionUID = 1L;
@@ -57,7 +57,7 @@ public class StoreAction extends CRUDActionSupport<Store> {
 		categoryManager.saveStore(entity);
 		if (copyId != null)
 			categoryManager.copyAllStore(copyId, entity);
-		if(id==null&&copyId==null)
+		if (id == null && copyId == null)
 			categoryManager.createDefaultShelf(entity);
 		addActionMessage("保存成功");
 		return RELOAD;
@@ -65,9 +65,20 @@ public class StoreAction extends CRUDActionSupport<Store> {
 
 	public String checkStoreName() throws Exception {
 
-		String newStoreName = new String(Struts2Utils.getParameter("name").getBytes("iso-8859-1"),"utf-8");
-		String oldStoreName = new String(Struts2Utils.getParameter("oldStoreName").getBytes("iso-8859-1"),"utf-8");
+		String newStoreName = new String(Struts2Utils.getParameter("name").getBytes("iso-8859-1"), "utf-8");
+		String oldStoreName = new String(Struts2Utils.getParameter("oldStoreName").getBytes("iso-8859-1"), "utf-8");
 		if (categoryManager.isStoreNameUnique(newStoreName, oldStoreName)) {
+			Struts2Utils.renderText("true");
+		} else {
+			Struts2Utils.renderText("false");
+		}
+		return null;
+	}
+
+	public String checkStoreValue() throws Exception {
+		String newValue = Struts2Utils.getParameter("value");
+		String oldValue = Struts2Utils.getParameter("oldValue");
+		if (categoryManager.isStoreValueUnique(newValue, oldValue)) {
 			Struts2Utils.renderText("true");
 		} else {
 			Struts2Utils.renderText("false");
