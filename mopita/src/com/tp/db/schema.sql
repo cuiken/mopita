@@ -2,6 +2,40 @@ create database mopita DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 use mopita;
 
+
+    drop table if exists acct_group;
+
+    drop table if exists acct_group_permission;
+
+    drop table if exists acct_user;
+
+    drop table if exists acct_user_group;
+
+    create table acct_group (
+        id bigint not null auto_increment,
+        name varchar(255) not null unique,
+        primary key (id)
+    ) ENGINE=InnoDB;
+
+    create table acct_group_permission (
+        group_id bigint not null,
+        permission varchar(255) not null
+    ) ENGINE=InnoDB;
+
+    create table acct_user (
+        id bigint not null auto_increment,
+        email varchar(255),
+        login_name varchar(255) not null unique,
+        name varchar(255),
+        password varchar(255),
+        primary key (id)
+    ) ENGINE=InnoDB;
+
+    create table acct_user_group (
+        user_id bigint not null,
+        group_id bigint not null
+    ) ENGINE=InnoDB;
+
 create table f_category(
 	id int not null auto_increment,
 	name varchar(50) not null,

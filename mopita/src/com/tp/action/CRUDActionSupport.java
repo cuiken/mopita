@@ -14,7 +14,7 @@ public abstract class CRUDActionSupport<T> extends ActionSupport implements
 	
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	
-	protected static final String RELOAD = "reload";
+	public static final String RELOAD = "reload";
 
 	@Override
 	public String execute() throws Exception {
