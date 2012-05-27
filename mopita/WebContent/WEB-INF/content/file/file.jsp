@@ -46,9 +46,11 @@
 						<td>${marketURL}</td>
 						<td>${createTime}</td>
 						<td>
-							<a href="file!input.action?id=${id}">修改</a>
-							<a href="file!delete.action?id=${id}">删除</a>
-							<a href="file-info.action?themeId=${id}">语言</a>
+							<shiro:hasPermission name="file:edit">
+								<a href="file!input.action?id=${id}">修改</a>
+								<a href="file!delete.action?id=${id}">删除</a>
+								<a href="file-info.action?themeId=${id}">语言</a>
+							</shiro:hasPermission>
 						</td>
 					</tr>
 				</s:iterator>
