@@ -37,16 +37,18 @@
 						<td>${name}</td>
 						<td>${description}</td>
 						<td>
-							<a href="category!input.action?id=${id}">编辑</a>
-							<a href="category!delete.action?id=${id}">删除</a>
+							<shiro:hasPermission name="category:edit">
+								<a href="category!input.action?id=${id}">编辑</a>
+								<a href="category!delete.action?id=${id}">删除</a>
+							</shiro:hasPermission>
 						</td>
 					</tr>
 				</s:iterator>
 				</tbody>
 			</table>
-		
-			<a href="category!input.action">创建分类</a>
-		
+			<shiro:hasPermission name="category:edit">
+				<a class="btn" href="category!input.action">创建分类</a>
+			</shiro:hasPermission>
 			</div>
 		</div>
 		</form>

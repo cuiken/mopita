@@ -14,7 +14,7 @@
 		</script>
 	</head>
 	<body>
-		<form action="category.action" method="get">
+		<form action="store.action" method="get">
 		<div class="container">
 		<%@include file="/common/header.jsp" %>
 		<%@include file="/common/left.jsp" %>
@@ -41,15 +41,19 @@
 						<td>${description}</td>
 						
 						<td>
-							<a href="store!input.action?copyId=${id}">复制</a>&nbsp;
-							<a href="store!input.action?id=${id}">编辑</a>&nbsp;
-							<a href="store!delete.action?id=${id}">删除</a>
+							<shiro:hasPermission name="store:edit">
+								<a href="store!input.action?copyId=${id}">复制</a>&nbsp;
+								<a href="store!input.action?id=${id}">编辑</a>&nbsp;
+								<a href="store!delete.action?id=${id}">删除</a>
+							</shiro:hasPermission>
 						</td>
 					</tr>
 				</s:iterator>
 				</tbody>
 			</table>
-			<a href="store!input.action">创建商店</a>
+			<shiro:hasPermission name="store:edit">
+				<a class="btn" href="store!input.action">创建商店</a>
+			</shiro:hasPermission>
 			</div>
 		</div>
 		</form>

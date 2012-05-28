@@ -42,15 +42,19 @@
 						<td>${pkName}</td>
 						<td>${marketKey}</td>
 						<td>
-							<a href="market!input.action?id=${id}">编辑</a>&nbsp;
-							<a href="market!delete.action?id=${id}">删除</a>
+							<shiro:hasPermission name="market:edit">
+								<a href="market!input.action?id=${id}">编辑</a>&nbsp;
+								<a href="market!delete.action?id=${id}">删除</a>
+							</shiro:hasPermission>
 						</td>
 					</tr>
 				</s:iterator>
 				</tbody>
 			</table>
-			<a href="market!input.action">创建市场</a>&nbsp;
-			<a href="market!manage.action">管理市场</a>
+			<shiro:hasPermission name="market:edit">
+				<a class="btn" href="market!input.action">创建市场</a>&nbsp;
+				<a class="btn" href="market!manage.action">管理市场</a>
+			</shiro:hasPermission>
 			</div>
 		</div>
 		</form>
