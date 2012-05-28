@@ -2,6 +2,7 @@ package com.tp.action;
 
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
@@ -24,6 +25,7 @@ public class StoreAction extends CRUDActionSupport<Store> {
 	private CategoryManager categoryManager;
 
 	@Override
+	@RequiresPermissions("store:edit")
 	public String delete() throws Exception {
 		categoryManager.deleteStore(id);
 		addActionMessage("删除成功");
@@ -31,12 +33,14 @@ public class StoreAction extends CRUDActionSupport<Store> {
 	}
 
 	@Override
+	@RequiresPermissions("store:edit")
 	public String input() throws Exception {
 
 		return INPUT;
 	}
 
 	@Override
+	@RequiresPermissions("store:view")
 	public String list() throws Exception {
 		stores = categoryManager.getAllStore();
 		return SUCCESS;
@@ -52,6 +56,7 @@ public class StoreAction extends CRUDActionSupport<Store> {
 	}
 
 	@Override
+	@RequiresPermissions("store:edit")
 	public String save() throws Exception {
 
 		categoryManager.saveStore(entity);

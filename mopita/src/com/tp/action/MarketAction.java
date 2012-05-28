@@ -2,6 +2,7 @@ package com.tp.action;
 
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
@@ -16,7 +17,7 @@ import com.tp.service.MarketManager;
 import com.tp.utils.Struts2Utils;
 
 @Namespace("/category")
-@Results( {
+@Results({
 		@Result(name = CRUDActionSupport.RELOAD, location = "market.action", type = "redirect"),
 		@Result(name = "appear", location = "market!manage.action", params = { "id", "${checkedMarket}" }, type = "redirect") })
 public class MarketAction extends CRUDActionSupport<Market> {
@@ -36,18 +37,21 @@ public class MarketAction extends CRUDActionSupport<Market> {
 	private List<ThemeFile> inMarketFiles = Lists.newArrayList();
 
 	@Override
+	@RequiresPermissions("market:edit")
 	public String delete() throws Exception {
 		marketManager.delete(id);
 		return RELOAD;
 	}
 
 	@Override
+	@RequiresPermissions("market:edit")
 	public String input() throws Exception {
 
 		return INPUT;
 	}
 
 	@Override
+	@RequiresPermissions("market:view")
 	public String list() throws Exception {
 		markets = marketManager.getAll();
 		return SUCCESS;
@@ -64,11 +68,13 @@ public class MarketAction extends CRUDActionSupport<Market> {
 	}
 
 	@Override
+	@RequiresPermissions("market:edit")
 	public String save() throws Exception {
 		marketManager.save(entity);
 		return RELOAD;
 	}
 
+	@RequiresPermissions("market:edit")
 	public String appearOnMarket() throws Exception {
 		entity = marketManager.get(checkedMarket);
 		HibernateUtils.mergeByCheckedIds(entity.getThemes(), checkedFileIds, ThemeFile.class);
@@ -89,7 +95,7 @@ public class MarketAction extends CRUDActionSupport<Market> {
 	}
 
 	public String manage() throws Exception {
-		
+
 		return "manage";
 	}
 
@@ -148,7 +154,7 @@ public class MarketAction extends CRUDActionSupport<Market> {
 	public Long getCheckedMarket() {
 		return checkedMarket;
 	}
-	
+
 	public void setCheckedMarket(Long checkedMarket) {
 		this.checkedMarket = checkedMarket;
 	}

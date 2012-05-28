@@ -22,7 +22,7 @@
 					<p>${info.title}</p>
 				</div>
 				<div class="contents_img">
-					<img alt="${info.title}" src="${ctx}/image.action?path=${info.theme.preWebPath}">
+					<img alt="${info.title}" src="${ctx}/image.action?path=${info.theme.preWebPath}" width="180" height="256">
 				</div>
 				<div class="contents_txt">
 					<p>${info.shortDescription}</p>

@@ -2,6 +2,7 @@ package com.tp.action;
 
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
@@ -18,20 +19,19 @@ import com.tp.service.ShelfFileLinkManager;
 import com.tp.utils.Struts2Utils;
 
 @Namespace("/category")
-@Results( {
+@Results({
 		@Result(name = CRUDActionSupport.RELOAD, location = "shelf.action", type = "redirect"),
-		@Result(name = "shelf-manage", location = "shelf!manage.action", params = {
-				"id", "${selectId}" }, type = "redirect") })
+		@Result(name = "shelf-manage", location = "shelf!manage.action", params = { "id", "${selectId}" }, type = "redirect") })
 public class ShelfAction extends CRUDActionSupport<Shelf> {
 
 	private static final long serialVersionUID = 1L;
 	private static final String MANAGE = "manage";
-	private static final long noSelect=0L;
+	private static final long noSelect = 0L;
 	private Long id;
 	private Shelf entity;
 	private Long checkedStoreId;
-	private List<ThemeFile> onShelfFiles=Lists.newArrayList();
-	private List<ThemeFile> remainFiles=Lists.newArrayList();
+	private List<ThemeFile> onShelfFiles = Lists.newArrayList();
+	private List<ThemeFile> remainFiles = Lists.newArrayList();
 	private List<Long> checkedFileIds;
 	private Long selectId;
 	private CategoryManager categoryManager;
@@ -39,6 +39,7 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	private ShelfFileLinkManager linkManager;
 
 	@Override
+	@RequiresPermissions("shelf:edit")
 	public String delete() throws Exception {
 		categoryManager.deleteShelf(id);
 		addActionMessage("删除成功");
@@ -46,14 +47,16 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	}
 
 	@Override
+	@RequiresPermissions("shelf:edit")
 	public String input() throws Exception {
 		checkedStoreId = entity.getCheckedId();
 		return INPUT;
 	}
 
 	@Override
+	@RequiresPermissions("shelf:view")
 	public String list() throws Exception {
-		
+
 		return SUCCESS;
 	}
 
@@ -76,6 +79,7 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	}
 
 	@Override
+	@RequiresPermissions("shelf:edit")
 	public String save() throws Exception {
 		Store store = categoryManager.getStore(checkedStoreId);
 		entity.setStore(store);
@@ -84,6 +88,7 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 		return RELOAD;
 	}
 
+	@RequiresPermissions("shelf:edit")
 	public String saveFile() {
 		if (selectId == noSelect)
 			return "";
@@ -94,7 +99,7 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 		addActionMessage("保存成功");
 		return "shelf-manage";
 	}
-	
+
 	public String manage() throws Exception {
 		getOnshelfThemes(entity);
 		List<ThemeFile> allFiles = fileManager.getAllThemeFile();
@@ -112,15 +117,15 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 		Struts2Utils.renderJson(json);
 		return null;
 	}
-	
-	private void mergedOnShelfFiles(){
+
+	private void mergedOnShelfFiles() {
 		Shelf shelf = categoryManager.getShelf(id);
 		getOnshelfThemes(shelf);
 	}
-	
-	private void getOnshelfThemes(Shelf shelf){
-		List<ShelfFileLink> shelfFiles=shelf.getShelfFile();
-		for(ShelfFileLink sf:shelfFiles){
+
+	private void getOnshelfThemes(Shelf shelf) {
+		List<ShelfFileLink> shelfFiles = shelf.getShelfFile();
+		for (ShelfFileLink sf : shelfFiles) {
 			onShelfFiles.add(sf.getTheme());
 		}
 	}
@@ -157,7 +162,7 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	public void setFileManager(FileManager fileManager) {
 		this.fileManager = fileManager;
 	}
-	
+
 	@Autowired
 	public void setLinkManager(ShelfFileLinkManager linkManager) {
 		this.linkManager = linkManager;
@@ -202,7 +207,7 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	public Long getSelectId() {
 		return selectId;
 	}
-	
+
 	public void setSelectId(Long selectId) {
 		this.selectId = selectId;
 	}

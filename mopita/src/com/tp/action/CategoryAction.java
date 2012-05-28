@@ -2,6 +2,7 @@ package com.tp.action;
 
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
@@ -12,7 +13,7 @@ import com.tp.service.CategoryManager;
 import com.tp.utils.Struts2Utils;
 
 @Namespace("/category")
-@Results( { @Result(name = CRUDActionSupport.RELOAD, location = "category.action", type = "redirect") })
+@Results({ @Result(name = CRUDActionSupport.RELOAD, location = "category.action", type = "redirect") })
 public class CategoryAction extends CRUDActionSupport<Category> {
 
 	private static final long serialVersionUID = 1L;
@@ -23,6 +24,7 @@ public class CategoryAction extends CRUDActionSupport<Category> {
 	private CategoryManager categoryManager;
 
 	@Override
+	@RequiresPermissions("category:edit")
 	public String delete() throws Exception {
 		categoryManager.deleteCategory(id);
 		addActionMessage("删除成功");
@@ -30,12 +32,14 @@ public class CategoryAction extends CRUDActionSupport<Category> {
 	}
 
 	@Override
+	@RequiresPermissions("category:edit")
 	public String input() throws Exception {
 
 		return INPUT;
 	}
 
 	@Override
+	@RequiresPermissions("category:view")
 	public String list() throws Exception {
 		categories = categoryManager.getCategories();
 		return SUCCESS;
@@ -52,19 +56,21 @@ public class CategoryAction extends CRUDActionSupport<Category> {
 	}
 
 	@Override
+	@RequiresPermissions("category:edit")
 	public String save() throws Exception {
 
 		categoryManager.saveCategory(entity);
 		addActionMessage("保存成功");
 		return RELOAD;
 	}
-	
-	public String checkCategoryName() throws Exception{
-		String newCategoryName = new String(Struts2Utils.getParameter("name").getBytes("iso-8859-1"),"utf-8");
-		String oldCategoryName = new String(Struts2Utils.getParameter("oldCategoryName").getBytes("iso-8859-1"),"utf-8");
-		if(categoryManager.isCategoryUnique(newCategoryName, oldCategoryName)){
+
+	public String checkCategoryName() throws Exception {
+		String newCategoryName = new String(Struts2Utils.getParameter("name").getBytes("iso-8859-1"), "utf-8");
+		String oldCategoryName = new String(Struts2Utils.getParameter("oldCategoryName").getBytes("iso-8859-1"),
+				"utf-8");
+		if (categoryManager.isCategoryUnique(newCategoryName, oldCategoryName)) {
 			Struts2Utils.renderText("true");
-		}else{
+		} else {
 			Struts2Utils.renderText("false");
 		}
 		return null;

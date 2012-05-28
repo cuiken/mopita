@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
@@ -20,7 +21,7 @@ import com.tp.service.FileManager;
 import com.tp.utils.FileUtils;
 
 @Namespace("/file")
-@Results( {
+@Results({
 		@Result(name = "editinfo", location = "file-info.action", params = { "themeId", "${id}" }, type = "redirect"),
 		@Result(name = "reupload", location = "file-upload.action", type = "redirect") })
 public class FileUploadAction extends ActionSupport {
@@ -56,6 +57,7 @@ public class FileUploadAction extends ActionSupport {
 		return SUCCESS;
 	}
 
+	@RequiresPermissions("file:edit")
 	public String upload() throws IOException {
 		String extension = FileUtils.getExtension(uploadFileName);
 		if (!extension.equalsIgnoreCase(FileType.ZIP.getValue())) {
