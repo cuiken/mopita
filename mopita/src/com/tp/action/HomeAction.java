@@ -27,7 +27,7 @@ import com.tp.service.MarketManager;
 import com.tp.utils.Constants;
 import com.tp.utils.Struts2Utils;
 
-@Results( { @Result(name = "reload", location = "home.action", type = "redirect") })
+@Results({ @Result(name = "reload", location = "home.action", type = "redirect") })
 public class HomeAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
@@ -138,15 +138,15 @@ public class HomeAction extends ActionSupport {
 
 	private void marketDownload(String fromMarket, String http) {
 		Market market = marketManager.findByPkName(fromMarket);
-		List<ThemeFile> files=market.getThemes();
-		boolean fileInMarket=false;
-		if(files.contains(info.getTheme())){
-			fileInMarket=true;
-		}
-		if (market == null || market.getMarketKey().isEmpty()||!fileInMarket) {
+		if (market == null || market.getMarketKey().isEmpty()) {
 			info.getTheme().setDownloadURL(http);
 		} else {
-			info.getTheme().setDownloadURL(market.getMarketKey() + info.getTheme().getMarketURL());
+			List<ThemeFile> files = market.getThemes();
+			if (files.contains(info.getTheme())) {
+				info.getTheme().setDownloadURL(market.getMarketKey() + info.getTheme().getMarketURL());
+			} else {
+				info.getTheme().setDownloadURL(http);
+			}
 		}
 	}
 

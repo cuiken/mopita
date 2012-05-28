@@ -13,8 +13,7 @@ import com.tp.service.FileInfoObservable;
 import com.tp.service.FileManager;
 
 @Namespace("/file")
-@Results( { @Result(name = CRUDActionSupport.RELOAD, location = "file-info.action", params = {
-		"themeId", "${themeId}" }, type = "redirect") })
+@Results({ @Result(name = CRUDActionSupport.RELOAD, location = "file-info.action", params = { "themeId", "${themeId}" }, type = "redirect") })
 public class FileInfoAction extends CRUDActionSupport<FileInfo> {
 
 	private static final long serialVersionUID = 1L;
@@ -57,10 +56,14 @@ public class FileInfoAction extends CRUDActionSupport<FileInfo> {
 	@Override
 	public String save() throws Exception {
 		ThemeFile file = fileManager.getThemeFile(themeId);
-		entity.setTheme(file);
-		observer.saveFileInfo(entity);
-		addActionMessage("保存成功");
-		
+		if (fileManager.isFileInfoUnique(themeId, entity.getLanguage())) {
+			entity.setTheme(file);
+			observer.saveFileInfo(entity);
+			addActionMessage("保存成功");
+		} else {
+			addActionMessage("改语言信息已存在");
+		}
+
 		return RELOAD;
 	}
 
@@ -79,6 +82,7 @@ public class FileInfoAction extends CRUDActionSupport<FileInfo> {
 	public void setObserver(FileInfoObservable observer) {
 		this.observer = observer;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}

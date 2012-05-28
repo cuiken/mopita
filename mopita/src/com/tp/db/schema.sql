@@ -135,8 +135,8 @@ create table log_f_client(
 	down_type varchar(20),
 	language varchar(20),
 	client_version varchar(20),
-	resolution varchar(20),
-	from_market varchar(20),
+	resolution varchar(50),
+	from_market varchar(50),
 	create_time timestamp,
 	primary key(id)
 )ENGINE=InnoDB;

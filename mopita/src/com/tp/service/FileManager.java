@@ -62,6 +62,14 @@ public class FileManager {
 		return storeInfoDao.getByFileInfo(fiId);
 	}
 
+	public boolean isFileInfoUnique(Long fid, String language) {
+		FileInfo info = fileInfoDao.findByFileIdAndLanguage(fid, language);
+		if (info == null)
+			return true;
+		else
+			return false;
+	}
+
 	public FileStoreInfo getStoreInfoBy(Long sid, Long fid, String language) {
 		return storeInfoDao.get(sid, fid, language);
 	}
