@@ -15,6 +15,7 @@
 			<div class="span-18 last prepend-top">
 			<h3>日志演示</h3>
 			<table>
+				<thead>
 				<tr>
 					<th>日期</th>
 					<th>IMEI</th>
@@ -26,6 +27,8 @@
 					<th>分辨率</th>
 					<th>市场来源</th>
 				</tr>
+				</thead>
+				<tbody>
 				<s:iterator value="page.result">
 					<tr>
 						<td>${createTime}</td>
@@ -39,7 +42,7 @@
 						<td>${fromMarket}</td>
 					</tr>
 				</s:iterator>
-				
+				</tbody>
 			</table>		
 							
 			<div>

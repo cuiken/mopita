@@ -32,6 +32,7 @@
 				<input type="button" value="搜索" onclick="search();"/>
 			</div>
 			<table>
+				<thead>
 				<tr>
 					<th><a href="javascript:sort('title','asc')">标题</a></th>
 					<th><a href="javascript:sort('name','asc')">文件名</a></th>					
@@ -39,6 +40,8 @@
 					<th><a href="javascript:sort('createTime','asc')">添加时间</a></th>
 					<th>操作</th>
 				</tr>
+				</thead>
+				<tbody>
 				<s:iterator value="page.result">
 					<tr>
 						<td>${title}</td>
@@ -54,6 +57,7 @@
 						</td>
 					</tr>
 				</s:iterator>
+				</tbody>
 			</table>	
 			<div>
 				第${page.pageNo}页, 共${page.totalPages}页

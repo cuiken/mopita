@@ -24,6 +24,7 @@
 			</c:if>
 			<h3>商店列表</h3>
 			<table>
+				<thead>
 				<tr>
 					<th>商店名称</th>
 					<th>商店标识</th>
@@ -31,6 +32,8 @@
 					<!--  <th>所有货架</th>-->
 					<th>操作</th>
 				</tr>
+				</thead>
+				<tbody>
 				<s:iterator value="stores">
 					<tr>
 						<td>${name}</td>
@@ -44,6 +47,7 @@
 						</td>
 					</tr>
 				</s:iterator>
+				</tbody>
 			</table>
 			<a href="store!input.action">创建商店</a>
 			</div>

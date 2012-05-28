@@ -24,7 +24,8 @@
 	</c:if>
 	
 	<table>
-		<tr><th>名称</th><th>授权</th><th>操作</th></tr>
+		<thead><tr><th>名称</th><th>授权</th><th>操作</th></tr></thead>
+		<tbody>
 		<c:forEach items="${groups}" var="group">
 			<tr>
 				<td>${group.name}</td>
@@ -36,6 +37,7 @@
 				</td>
 			</tr>
 		</c:forEach>
+		</tbody>
 	</table>
 
 	<shiro:hasPermission name="group:edit">

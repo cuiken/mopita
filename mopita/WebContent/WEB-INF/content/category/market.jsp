@@ -24,6 +24,7 @@
 			</c:if>
 			<h3>市场列表</h3>
 			<table>
+				<thead>
 				<tr>
 					<th>市场名称</th>
 					<th>商店标识</th>
@@ -32,6 +33,8 @@
 					<!--  <th>所有货架</th>-->
 					<th>操作</th>
 				</tr>
+				</thead>
+				<tbody>
 				<s:iterator value="markets">
 					<tr>
 						<td>${name}</td>
@@ -44,6 +47,7 @@
 						</td>
 					</tr>
 				</s:iterator>
+				</tbody>
 			</table>
 			<a href="market!input.action">创建市场</a>&nbsp;
 			<a href="market!manage.action">管理市场</a>

@@ -26,7 +26,8 @@
 									+val.id+">管理</a></td></tr>";
 								
 								});
-								$("#content tr").after(html);
+								
+								$("#content tbody").append(html);
 								
 							}
 						});
@@ -52,12 +53,16 @@
 			<h3>货架列表</h3>
 			商店:<s:select list="allStores" listKey="id" listValue="name" name="" id="store"/>
 			<table id="content">
+				<thead>
 				<tr>
 					<th>货架名称</th>
 					<th>货架标识</th>
 					<th>货架描述</th>
 					<th>操作</th>
 				</tr>	
+				</thead>
+				<tbody>
+				</tbody>
 				<!--  		
 				<tr>
 						<td>${name}</td>

@@ -24,11 +24,14 @@
 			</c:if>
 			<h3>文件分类</h3>
 			<table>
+				<thead>
 				<tr>
 					<th>分类名称</th>
 					<th>分类描述</th>
 					<th>操作</th>
 				</tr>
+				</thead>
+				<tbody>
 				<s:iterator value="categories">
 					<tr>
 						<td>${name}</td>
@@ -39,7 +42,7 @@
 						</td>
 					</tr>
 				</s:iterator>
-				
+				</tbody>
 			</table>
 		
 			<a href="category!input.action">创建分类</a>

@@ -17,7 +17,7 @@
 				$("#submitBtn").click(function(){
 					$("#inputForm").submit();
 				});
-			
+				
 			})
 		</script>
 	</head>
