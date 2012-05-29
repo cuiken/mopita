@@ -27,21 +27,21 @@ public class FileInfoAction extends CRUDActionSupport<FileInfo> {
 	private FileInfoObservable observer;
 
 	@Override
-	@RequiresPermissions("file:edit")
+//	@RequiresPermissions("file:edit")
 	public String delete() throws Exception {
 		observer.deleteFileInfo(id);
 		return RELOAD;
 	}
 
 	@Override
-	@RequiresPermissions("file:edit")
+//	@RequiresPermissions("file:edit")
 	public String input() throws Exception {
 
 		return INPUT;
 	}
 
 	@Override
-	@RequiresPermissions("file:view")
+//	@RequiresPermissions("file:view")
 	public String list() throws Exception {
 
 		return SUCCESS;
@@ -58,7 +58,7 @@ public class FileInfoAction extends CRUDActionSupport<FileInfo> {
 	}
 
 	@Override
-	@RequiresPermissions("file:edit")
+//	@RequiresPermissions("file:edit")
 	public String save() throws Exception {
 		ThemeFile file = fileManager.getThemeFile(themeId);
 		if (fileManager.isFileInfoUnique(themeId, entity.getLanguage())) {

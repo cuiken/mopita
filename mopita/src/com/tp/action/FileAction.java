@@ -40,7 +40,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	private File file;
 
 	@Override
-	@RequiresPermissions("file:edit")
+//	@RequiresPermissions("file:edit")
 	public String delete() throws Exception {
 		fileManager.deleteThemeFile(id);
 		addActionMessage("删除成功");
@@ -48,14 +48,14 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	}
 
 	@Override
-	@RequiresPermissions("file:edit")
+//	@RequiresPermissions("file:edit")
 	public String input() throws Exception {
 		checkedCategoryId = entity.getCheckedCategoryIds();
 		return INPUT;
 	}
 
 	@Override
-	@RequiresPermissions("file:view")
+//	@RequiresPermissions("file:view")
 	public String list() throws Exception {
 
 		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(Struts2Utils.getRequest());
@@ -79,7 +79,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	}
 
 	@Override
-	@RequiresPermissions("file:edit")
+//	@RequiresPermissions("file:edit")
 	public String save() throws Exception {
 		HibernateUtils.mergeByCheckedIds(entity.getCategories(), checkedCategoryId, Category.class);
 		List<File> files = Lists.newArrayList();

@@ -39,7 +39,7 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	private ShelfFileLinkManager linkManager;
 
 	@Override
-	@RequiresPermissions("shelf:edit")
+//	@RequiresPermissions("shelf:edit")
 	public String delete() throws Exception {
 		categoryManager.deleteShelf(id);
 		addActionMessage("删除成功");
@@ -47,14 +47,14 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	}
 
 	@Override
-	@RequiresPermissions("shelf:edit")
+//	@RequiresPermissions("shelf:edit")
 	public String input() throws Exception {
 		checkedStoreId = entity.getCheckedId();
 		return INPUT;
 	}
 
 	@Override
-	@RequiresPermissions("shelf:view")
+//	@RequiresPermissions("shelf:view")
 	public String list() throws Exception {
 
 		return SUCCESS;
@@ -79,7 +79,7 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 	}
 
 	@Override
-	@RequiresPermissions("shelf:edit")
+//	@RequiresPermissions("shelf:edit")
 	public String save() throws Exception {
 		Store store = categoryManager.getStore(checkedStoreId);
 		entity.setStore(store);
@@ -88,7 +88,7 @@ public class ShelfAction extends CRUDActionSupport<Shelf> {
 		return RELOAD;
 	}
 
-	@RequiresPermissions("shelf:edit")
+//	@RequiresPermissions("shelf:edit")
 	public String saveFile() {
 		if (selectId == noSelect)
 			return "";

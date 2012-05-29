@@ -65,7 +65,7 @@
 					var li="";
 					
 					$.each(data,function(i,val){
-						li+="<li>"+val.name+"</li>";
+						li+="<li id="+val.id+">"+val.name+"</li>";
 					});
 					$("#sortable2").append(li);
 				}		
