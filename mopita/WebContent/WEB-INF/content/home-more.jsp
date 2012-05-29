@@ -19,7 +19,9 @@
 		<script src="${ctx}/js/jquery/jquery.infinitescroll.min.js"></script>
   		<script>
 		  $(function(){
-		
+			 $("#content1").live("click",function(){ 
+				$(this).css("backgroundColor","#e7e6c8");
+			});
 		    var $container = $('#container');
 		    
 		    $container.imagesLoaded(function(){
@@ -94,11 +96,9 @@
 			<a href="home.action">首页</a>
 			<div id="container" class="transitions-enabled infinite-scroll clearfix"> 
 				<s:iterator value="catePage.result">
-					<div class="contents_info">
-						<div class="contents_image">
-							<a href="home!details.action?id=${theme.id}">
-								<img alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72">
-							</a>
+					<div class="contents_info" id="content1" onclick="location.href='home!details.action?id=${theme.id}';">
+						<div class="contents_image">						
+							<img alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72">							
 						</div>
 						<div class="contents_txt">
 							<h2><a>${title}</a></h2>
