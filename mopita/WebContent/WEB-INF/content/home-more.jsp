@@ -93,11 +93,14 @@
 	<body>
 	
 		<form action="home.action" method="get">
-			<a href="home.action">首页</a>
+			
+			<div id="natigater" class="navigater">
+				<div class="col_4 navitem"><a href="home.action">首页</a></div>
+			</div>
 			<div id="container" class="transitions-enabled infinite-scroll clearfix"> 
 				<s:iterator value="catePage.result">
 					<div class="contents_info" id="content1" onclick="location.href='home!details.action?id=${theme.id}';">
-						<div class="contents_image">						
+						<div class="contents_image" style="margin-top: 2px;margin-bottom: 2px;">						
 							<img alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72">							
 						</div>
 						<div class="contents_txt">

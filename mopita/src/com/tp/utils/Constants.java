@@ -15,7 +15,7 @@ public class Constants {
 	public static final String SESS_KEY_LANGUAGE = "lan";
 	public static final String SESS_KEY_MARKET = "fm";
 	public static final String SESS_KEY_DT = "dt";
-	public static final String SESS_DEFAULT_STORE="DEFAULT_STORE";
+	public static final String SESS_DEFAULT_STORE = "DEFAULT_STORE";
 
 	public static final String PARA_LANGUAGE = "l";
 	public static final String PARA_DOWNLOAD_METHOD = "dm";
@@ -51,7 +51,7 @@ public class Constants {
 		}
 		if (downMethod != null) {
 			session.setAttribute(SESS_KEY_DT, downMethod);
-		} else {
+		} else if (downMethod == null && Struts2Utils.getSession().getAttribute(SESS_KEY_DT) == null) {
 			session.setAttribute(SESS_KEY_DT, DownloadType.HTTP.getValue());
 		}
 	}

@@ -119,6 +119,7 @@ public class HomeAction extends ActionSupport {
 				return "reload";
 			setDownloadType(session);
 			Category cate = info.getTheme().getCategories().get(0);
+			catePage.setPageSize(3);
 			catePage = fileManager.searchInfoByCategoryAndStore(catePage, cate.getId(), storeId, language);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
