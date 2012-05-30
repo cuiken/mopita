@@ -109,6 +109,9 @@ public class HomeAction extends ActionSupport {
 	public String details() throws Exception {
 		try {
 			HttpSession session = Struts2Utils.getSession();
+			Constants.setParamInSession(session);
+			setDefaultStore(session);
+
 			String language = (String) session.getAttribute(Constants.SESS_KEY_LANGUAGE);
 			Long storeId = (Long) session.getAttribute(Constants.SESS_DEFAULT_STORE);
 			info = fileManager.getStoreInfoBy(storeId, id, language);

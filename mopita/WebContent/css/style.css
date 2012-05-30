@@ -654,6 +654,7 @@ text-decoration: none;
   -webkit-border-radius: 5px;
      -moz-border-radius: 5px;
           border-radius: 5px;
+  height: 30px;        
 }
 .col_2 {
 WIDTH: 40%;

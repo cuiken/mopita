@@ -23,7 +23,7 @@ public class Constants {
 
 	public static final String PREFIX_MARKET_URI = "market://details?id=";
 
-	enum Language {
+	public enum Language {
 		ZH("ZH");
 		private String value;
 

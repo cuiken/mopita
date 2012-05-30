@@ -64,7 +64,7 @@
 		    background: none repeat scroll 0 0 rgba(255, 255, 255, 1);
 		    bottom: -90px;
 		    display: none;
-		    height: 30px;
+		    height: 35px;
 		    position: fixed;
 		    width: 100%;
 		    z-index: 100;

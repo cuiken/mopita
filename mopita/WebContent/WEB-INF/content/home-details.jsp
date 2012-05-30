@@ -11,6 +11,25 @@
 		<title>商店详细</title>
   		<link rel="stylesheet" href="${ctx}/css/details.css" media="screen"/>
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
+		<script>
+		$(function() {
+            var $link = $("#desc a");
+            var $hide = $("#more");
+            var $symbol= $("#symbol");
+            $link.click(function() {
+                if ($(this).html() == "更多") {
+                    $(this).html("收起");
+                    $hide.show();
+                    $symbol.hide();
+                } else {
+                    $(this).html("更多");
+                    $hide.hide();
+                    $symbol.show();
+                }
+            })
+        })
+
+		</script>
 	</head>
 	<body>
 	
@@ -35,8 +54,19 @@
 					大小: ${fn:substring(info.theme.apkSize/1024/1024, 0, 4)}M
 					
 				</div>
-				<div class="contents_txt">
-					简介:${info.longDescription}
+				<div class="contents_txt" id="desc">
+					简介:
+					<c:choose>
+						<c:when test="${fn:length(info.longDescription)>70}">
+							<span>${fn:substring(info.longDescription,0,70)}</span>
+							<span id="more" style="display: none;">${fn:substring(info.longDescription,70,-1)}</span>
+							<span id="symbol">....</span>
+							 &nbsp;<a href="javascript:void(0)">更多</a>							
+						</c:when>
+						<c:otherwise>
+							<span>${info.longDescription}</span>
+						</c:otherwise>
+					</c:choose>	
 				</div>
 				<div>
 					<div class="title_bar">${info.theme.categories[0].name}系列</div>
@@ -44,14 +74,14 @@
 						<s:iterator value="catePage.result">
 							
 							<a href="${ctx}/home!details.action?id=${theme.id}">
-							<img alt="${theme.title}" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" class="icon">
+								<img alt="${theme.title}" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" class="icon"/>
 							</a>
 							
 						</s:iterator>
-						<a href="${ctx}/home!more.action?cid=${info.theme.categories[0].id}">							
-							更多...
-						</a>
 						
+						<a href="${ctx}/home!more.action?cid=${info.theme.categories[0].id}">							
+							<img alt="更多" src="${ctx}/images/more.png" width="72" height="72" class="icon" />
+						</a>
 					</div>
 				</div>
 			</div>
