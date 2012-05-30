@@ -37,8 +37,8 @@
 				<s:iterator value="newestPage.result">
 					<div class="contents_info" id="content1" onclick="location.href='${ctx}/home!details.action?id=${theme.id}';">			
 						<div class="contents_txt">
-							<h2><a>${title}</a></h2>
-							<p>${shortDescription}</p>
+							<font color="#666666">${title}</font>
+							<p><font color="#aeaea6">${shortDescription}</font></p>
 						</div>
 						<div class="contents_image">						
 							<img alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}" width="100" height="100" class="contents_image_middle">						

@@ -95,7 +95,11 @@
 		<form action="home.action" method="get">
 			
 			<div id="natigater" class="navigater">
-				<div class="col_4 navitem"><a href="home.action">首页</a></div>
+				<div class="col_4 navitem">
+					<a href="home.action">
+						<img alt="gohome" src="${ctx}/images/home.png">
+					</a>
+				</div>
 			</div>
 			<div id="container" class="transitions-enabled infinite-scroll clearfix"> 
 				<s:iterator value="catePage.result">
@@ -104,8 +108,8 @@
 							<img alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72">							
 						</div>
 						<div class="contents_txt">
-							<h2><a>${title}</a></h2>
-							<p>${shortDescription}</p>
+							<font color="#666666">${title}</font>
+							<p><font color="#aeaea6">${shortDescription}</font></p>
 						</div>
 					</div>
 				</s:iterator>

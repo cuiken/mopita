@@ -181,6 +181,11 @@ td.unsupport{
 	text-shadow: -1px -1px 0 rgba(150, 150, 150, 0.3);
 }
 
+.category{
+	background-image: url(../images/split.png);
+	margin-top: 15px;
+}
+
 /* タイトルバー背景色
 .title_bar { background-color: #718692; }
  */

@@ -19,7 +19,7 @@ import com.tp.utils.Struts2Utils;
 @Namespace("/category")
 @Results({
 		@Result(name = CRUDActionSupport.RELOAD, location = "market.action", type = "redirect"),
-		@Result(name = "appear", location = "market!manage.action", params = { "id", "${checkedMarket}" }, type = "redirect") })
+		@Result(name = "appear", location = "market!manage.action", params = { "checkedMarket", "${checkedMarket}" }, type = "redirect") })
 public class MarketAction extends CRUDActionSupport<Market> {
 
 	private static final long serialVersionUID = 1L;

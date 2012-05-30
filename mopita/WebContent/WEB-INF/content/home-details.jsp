@@ -17,12 +17,12 @@
             var $hide = $("#more");
             var $symbol= $("#symbol");
             $link.click(function() {
-                if ($(this).html() == "更多") {
-                    $(this).html("收起");
+                if ($("#silder").attr("alt") == "更多") {
+                    $(this).html("<img id='silder' alt='收起' src='${ctx}/images/up.png'>");
                     $hide.show();
                     $symbol.hide();
                 } else {
-                    $(this).html("更多");
+                    $(this).html("<img id='silder' alt='更多' src='${ctx}/images/down.png'>");
                     $hide.hide();
                     $symbol.show();
                 }
@@ -44,31 +44,34 @@
 				<div class="short_des">
 					<p>${info.shortDescription}</p>
 				</div>
-				<div class="btnTop">
-					<a href="${info.theme.downloadURL}">下载</a>
+				<div align="center">
+					<a href="${info.theme.downloadURL}">
+						<img alt="下载" src="${ctx}/images/dt.png">
+					</a>
 				</div>
-				<div class="contents_txt">
+				<div class="contents_txt" style="float: left;margin-right: 30px;">
 					设计师:${info.author}
 				</div>
 				<div class="contents_txt">
 					大小: ${fn:substring(info.theme.apkSize/1024/1024, 0, 4)}M
 					
 				</div>
-				<div class="contents_txt" id="desc">
+				<div class="contents_txt" id="desc" style="margin-top: 5px;">
 					简介:
 					<c:choose>
 						<c:when test="${fn:length(info.longDescription)>70}">
 							<span>${fn:substring(info.longDescription,0,70)}</span>
 							<span id="more" style="display: none;">${fn:substring(info.longDescription,70,-1)}</span>
 							<span id="symbol">....</span>
-							 &nbsp;<a href="javascript:void(0)">更多</a>							
+							<div style="margin: 0; float: right;">
+							 &nbsp;<a href="javascript:void(0)"><img id="silder" alt="更多" src="${ctx}/images/down.png"></a>		</div>					
 						</c:when>
 						<c:otherwise>
 							<span>${info.longDescription}</span>
 						</c:otherwise>
 					</c:choose>	
 				</div>
-				<div>
+				<div class="category">
 					<div class="title_bar">${info.theme.categories[0].name}系列</div>
 					<div class="icon_set">
 						<s:iterator value="catePage.result">
