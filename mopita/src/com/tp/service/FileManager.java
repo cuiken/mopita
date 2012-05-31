@@ -207,6 +207,9 @@ public class FileManager {
 		for (ThemeFile theme : themes) {
 			Long id = theme.getId();
 			String ad = theme.getAdPath();
+			if(ad==null||ad.isEmpty()){
+				continue;
+			}
 			String[] items = StringUtils.split(ad, File.separator);
 			String adName = items[items.length - 1];
 			String[] exts = StringUtils.split(adName, Constants.DOT_SEPARATOR);
