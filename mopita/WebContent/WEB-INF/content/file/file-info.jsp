@@ -10,7 +10,11 @@
 			$(document).ready(function(){
 				$("#message").fadeOut(3000);
 			});
-		
+			function deleteThis(id,tid){
+				if(confirm("确定要删除吗?")){
+					window.location="file-info!delete.action?id="+id+"&themeId="+tid;
+				}
+			}
 		</script>
 	</head>
 	<body>
@@ -24,6 +28,7 @@
 		</c:if>
 		<h4 class="prepend-top">多语言信息</h4>
 			<table>
+				<thead>
 				<tr>			
 					<th>标题</th>
 					<th>语言</th>
@@ -31,6 +36,8 @@
 					<th>单价</th>			
 					<th>操作</th>
 				</tr>
+				</thead>
+				<tbody>
 				<s:iterator value="allInfo">
 					<tr>
 						
@@ -41,10 +48,11 @@
 						<td>
 							<a href="file-info!input.action?id=${id}&themeId=${themeId}">修改</a>
 						
-							<a href="file-info!delete.action?id=${id}&themeId=${themeId}">删除</a>
+							<a href="#" onclick="deleteThis(${id},${themeId})">删除</a>
 						</td>
 					</tr>
 				</s:iterator>
+				</tbody>
 			</table>	
 			<div>
 				<a href="file-info!input.action?themeId=${themeId}">add</a>&nbsp;

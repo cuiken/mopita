@@ -41,7 +41,7 @@
 							<p><font color="#aeaea6">${shortDescription}</font></p>
 						</div>
 						<div class="contents_image">						
-							<img style="margin: 5px;" alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" class="contents_image_middle">						
+							<img style="margin: 4px;" alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" class="contents_image_middle">						
 						</div>
 					</div>								
 				</s:iterator>

@@ -8,9 +8,13 @@
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
 		<script>
 			$(document).ready(function(){
-				$("#message").fadeOut(3000);
-				
+				$("#message").fadeOut(3000);		
 			});
+			function deleteThis(id){
+				if(confirm("确定要删除吗?")){
+					window.location="category!delete.action?id="+id;
+				}
+			}
 		</script>
 	</head>
 	<body>
@@ -39,7 +43,7 @@
 						<td>
 							<shiro:hasPermission name="category:edit">
 								<a href="category!input.action?id=${id}">编辑</a>
-								<a href="category!delete.action?id=${id}">删除</a>
+								<a href="#" onclick="deleteThis(${id})">删除</a>
 							</shiro:hasPermission>
 						</td>
 					</tr>

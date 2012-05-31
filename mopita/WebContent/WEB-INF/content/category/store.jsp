@@ -11,6 +11,11 @@
 				$("#message").fadeOut(3000);
 				
 			});
+			function deleteThis(id){
+				if(confirm("该操作会删除所有关联货架!确定要删除吗?")){
+					window.location="store!delete.action?id="+id;
+				}
+			}
 		</script>
 	</head>
 	<body>
@@ -44,7 +49,7 @@
 							<shiro:hasPermission name="store:edit">
 								<a href="store!input.action?copyId=${id}">复制</a>&nbsp;
 								<a href="store!input.action?id=${id}">编辑</a>&nbsp;
-								<a href="store!delete.action?id=${id}">删除</a>
+								<a href="#" onclick="deleteThis(${id})">删除</a>
 							</shiro:hasPermission>
 						</td>
 					</tr>

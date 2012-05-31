@@ -55,7 +55,7 @@
 	<style type="text/css">
 		
 		.guide {
-		    background: none repeat scroll 0 0 rgba(255, 255, 255, 1);
+		    background: none repeat scroll 0 0 #7c7c7c;
 		    bottom: -90px;
 		    display: none;
 		    height: 35px;
@@ -88,18 +88,11 @@
 	
 		<form action="home.action" method="get">
 			
-			<div id="natigater" class="navigater">
-				<div class="col_4 navitem">
-					<a href="home.action">
-						<img alt="gohome" src="${ctx}/images/home.png">
-					</a>
-				</div>
-			</div>
 			<div id="container" class="transitions-enabled infinite-scroll clearfix"> 
 				<s:iterator value="catePage.result">
 					<div class="contents_info" id="content1" onclick="location.href='home!details.action?id=${theme.id}';">
 						<div class="contents_image">						
-							<img alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" style="margin: 5px;">							
+							<img alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" style="margin: 4px;">							
 						</div>
 						<div class="contents_txt">
 							<font color="#666666">${title}</font>
@@ -111,7 +104,7 @@
 			<nav id="page-nav">
   				<a href="?catePage.pageNo=${catePage.nextPage}&cid=${categoryId}"></a>
 			</nav>
-		<div id="natigater" class="navigater">
+		<div id="natigater" class="navigater_w">
 		
 		</div>
 			<div class="guide" style="display: block; bottom: 0px;">
@@ -122,6 +115,11 @@
 				     			<a href="home!more.action?cid=${id}" >${name}</a>
 					  		</div>
 						</s:iterator>
+						<div class="col_4 navitem" style="float: right;">
+							<a href="home.action">
+								<img alt="gohome" src="${ctx}/images/home.png" height="28">
+							</a>
+						</div>	
 					</div>
 				</div>
 			</div>

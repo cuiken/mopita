@@ -654,8 +654,22 @@ text-decoration: none;
   -webkit-border-radius: 5px;
      -moz-border-radius: 5px;
           border-radius: 5px;
-  height: 30px;        
+  height: 20px;      
+  background-color: #7c7c7c;  
 }
+
+.navigater_w {
+  padding: 5px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  clear: both;
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+  height: 20px;      
+  background-color: white;  
+}
+
 .col_2 {
 WIDTH: 40%;
 }
@@ -664,7 +678,7 @@ WIDTH: 22%;
 }
 .navitem{
 float:left;
-background: #FFF;
+background: #7c7c7c;
 LINE-HEIGHT: 31px;
 HEIGHT: 31px;
 TEXT-ALIGN: center;
@@ -697,8 +711,9 @@ DISPLAY: block;
 }
 .navitem a {
 FONT-WEIGHT: bolder;
-COLOR: blue;
+COLOR: white;
 DISPLAY: block;
+height: 28px;
 }
 .level2{
   padding: 5px;

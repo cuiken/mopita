@@ -11,6 +11,11 @@
 				$("#message").fadeOut(3000);
 				
 			});
+			function deleteThis(id){
+				if(confirm("该操作会删除所有上市文件!确定要删除吗?")){
+					window.location="market!delete.action?id="+id;
+				}
+			}
 		</script>
 	</head>
 	<body>
@@ -62,7 +67,7 @@
 						<td>
 							<shiro:hasPermission name="market:edit">
 								<a href="market!input.action?id=${id}">编辑</a>&nbsp;
-								<a href="market!delete.action?id=${id}">删除</a>
+								<a href="#" onclick="deleteThis(${id})">删除</a>
 							</shiro:hasPermission>
 						</td>
 					</tr>
