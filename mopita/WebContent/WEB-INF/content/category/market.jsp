@@ -39,8 +39,26 @@
 					<tr>
 						<td>${name}</td>
 						<td>${value}</td>
-						<td>${pkName}</td>
-						<td>${marketKey}</td>
+						<td>
+							<c:choose>
+								<c:when test="${fn:length(pkName)>30}">
+									${fn:substring(pkName,0,30)}....
+								</c:when>
+								<c:otherwise>
+									${pkName}
+								</c:otherwise>
+							</c:choose>	
+						</td>
+						<td>
+							<c:choose>
+								<c:when test="${fn:length(marketKey)>30}">
+									${fn:substring(marketKey,0,30)}....
+								</c:when>
+								<c:otherwise>
+									${marketKey}
+								</c:otherwise>
+							</c:choose>						
+						</td>
 						<td>
 							<shiro:hasPermission name="market:edit">
 								<a href="market!input.action?id=${id}">编辑</a>&nbsp;

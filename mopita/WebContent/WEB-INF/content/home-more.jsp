@@ -54,12 +54,6 @@
 	</script>
 	<style type="text/css">
 		
-		.contents_info {
-			width:100%;
-			height:75px;
-			margin: 0 auto;
-		}
-		
 		.guide {
 		    background: none repeat scroll 0 0 rgba(255, 255, 255, 1);
 		    bottom: -90px;
@@ -104,8 +98,8 @@
 			<div id="container" class="transitions-enabled infinite-scroll clearfix"> 
 				<s:iterator value="catePage.result">
 					<div class="contents_info" id="content1" onclick="location.href='home!details.action?id=${theme.id}';">
-						<div class="contents_image" style="margin-top: 2px;margin-bottom: 2px;">						
-							<img alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72">							
+						<div class="contents_image">						
+							<img alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" style="margin: 5px;">							
 						</div>
 						<div class="contents_txt">
 							<font color="#666666">${title}</font>

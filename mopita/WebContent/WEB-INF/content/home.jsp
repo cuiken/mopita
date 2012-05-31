@@ -26,14 +26,14 @@
 	
 		<form action="wap.action" method="get">
 			<div id="container"> 				
-				<div class="imgCenter">
+				<!-- <div class="imgCenter">
 					<s:if test="adFile!=null">
 						<a href="${ctx}/home!details.action?id=${adFile.id}">
 							<img alt="${adFile.title}" src="${ctx}/image.action?path=${adFile.adPath}" class="max-width_100">
 						</a>
 					</s:if><s:else>商店无内容</s:else>
 				</div>
-			
+			 -->
 				<s:iterator value="newestPage.result">
 					<div class="contents_info" id="content1" onclick="location.href='${ctx}/home!details.action?id=${theme.id}';">			
 						<div class="contents_txt">
@@ -41,7 +41,7 @@
 							<p><font color="#aeaea6">${shortDescription}</font></p>
 						</div>
 						<div class="contents_image">						
-							<img alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}" width="100" height="100" class="contents_image_middle">						
+							<img style="margin: 5px;" alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" class="contents_image_middle">						
 						</div>
 					</div>								
 				</s:iterator>
