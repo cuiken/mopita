@@ -19,7 +19,7 @@ import com.tp.entity.account.User;
 
 /**
  * 自实现用户与权限查询.
- * 演示关系，密码用明文存储，因此使用默认 的SimpleCredentialsMatcher.
+ * 密码用明文存储，因此使用默认 的SimpleCredentialsMatcher.
  */
 public class ShiroDbRealm extends AuthorizingRealm {
 

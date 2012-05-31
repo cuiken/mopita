@@ -91,7 +91,7 @@
 					</div>
 					<div>
 						<label for="author" class="field">作者:</label>
-						<input type="text" id="author[${info.index}]" name="fileInfo[${info.index}].author" value="${author}" size="25" maxlength="25" />
+						<input type="text" id="author[${info.index}]" name="fileInfo[${info.index}].author" value="${author}" size="25" maxlength="25" class="required"/>
 					</div>
 					<div>
 						<label for="price" class="field">单价:</label>
