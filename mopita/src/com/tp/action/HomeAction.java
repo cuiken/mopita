@@ -16,6 +16,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.tp.entity.Category;
 import com.tp.entity.DownloadType;
 import com.tp.entity.FileStoreInfo;
+import com.tp.entity.LogInHome;
 import com.tp.entity.Market;
 import com.tp.entity.Shelf;
 import com.tp.entity.Store;
@@ -23,6 +24,7 @@ import com.tp.entity.ThemeFile;
 import com.tp.orm.Page;
 import com.tp.service.CategoryManager;
 import com.tp.service.FileManager;
+import com.tp.service.LogService;
 import com.tp.service.MarketManager;
 import com.tp.utils.Constants;
 import com.tp.utils.Struts2Utils;
@@ -36,6 +38,7 @@ public class HomeAction extends ActionSupport {
 	private CategoryManager categoryManager;
 	private FileManager fileManager;
 	private MarketManager marketManager;
+	private LogService logService;
 
 	private Page<FileStoreInfo> hottestPage = new Page<FileStoreInfo>();
 	private Page<FileStoreInfo> recommendPage = new Page<FileStoreInfo>();
@@ -64,20 +67,20 @@ public class HomeAction extends ActionSupport {
 		HttpSession session = Struts2Utils.getSession();
 		Constants.setParamInSession(session);
 		setDefaultStore(session);
-
-		String language = (String) session.getAttribute(Constants.SESS_KEY_LANGUAGE);
+		writeLog();
+		String language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
 		Long storeId = (Long) session.getAttribute(Constants.SESS_DEFAULT_STORE);
 
 		hottestPage = fileManager.searchStoreInfoInShelf(hottestPage, Shelf.Type.HOTTEST, storeId, language);
 
 		newestPage = fileManager.searchStoreInfoInShelf(newestPage, Shelf.Type.NEWEST, storeId, language);
 
-		recommendPage = fileManager.searchStoreInfoInShelf(recommendPage, Shelf.Type.RECOMMEND, storeId, language);
-		List<FileStoreInfo> recommendFiles = recommendPage.getResult();
-		if (recommendFiles.size() > 0) {
-			Collections.shuffle(recommendFiles);
-			adFile = recommendFiles.get(0).getTheme();
-		}
+//		recommendPage = fileManager.searchStoreInfoInShelf(recommendPage, Shelf.Type.RECOMMEND, storeId, language);
+//		List<FileStoreInfo> recommendFiles = recommendPage.getResult();
+//		if (recommendFiles.size() > 0) {
+//			Collections.shuffle(recommendFiles);
+//			adFile = recommendFiles.get(0).getTheme();
+//		}
 		return SUCCESS;
 	}
 
@@ -88,6 +91,29 @@ public class HomeAction extends ActionSupport {
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
+	}
+	
+	private void writeLog(){
+		HttpServletRequest request = Struts2Utils.getRequest();
+		HttpSession session=Struts2Utils.getSession();
+		LogInHome log=new LogInHome();
+		String requestLink=request.getServletPath()+"?"+request.getQueryString();
+		String imei=(String)session.getAttribute(Constants.PARA_IMEI);
+		String imsi=(String)session.getAttribute(Constants.PARA_IMSI);
+		String lang=(String)session.getAttribute(Constants.PARA_LANGUAGE);
+		String fromMarket=(String)session.getAttribute(Constants.PARA_FROM_MARKET);
+		String downType=(String)session.getAttribute(Constants.PARA_DOWNLOAD_METHOD);
+		String clientVersion=(String)session.getAttribute(Constants.PARA_CLIENT_VERSION);
+		String reso=(String)session.getAttribute(Constants.PARA_RESOLUTION);
+		log.setRequestLink(requestLink);
+		log.setClientVersion(clientVersion);
+		log.setDownType(downType);
+		log.setFromMarket(fromMarket);
+		log.setResolution(reso);
+		log.setImei(imei);
+		log.setImsi(imsi);
+		log.setLanguage(lang);
+		logService.saveLogInHome(log);
 	}
 
 	/**
@@ -111,8 +137,8 @@ public class HomeAction extends ActionSupport {
 			HttpSession session = Struts2Utils.getSession();
 			Constants.setParamInSession(session);
 			setDefaultStore(session);
-
-			String language = (String) session.getAttribute(Constants.SESS_KEY_LANGUAGE);
+			writeLog();
+			String language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
 			Long storeId = (Long) session.getAttribute(Constants.SESS_DEFAULT_STORE);
 			info = fileManager.getStoreInfoBy(storeId, id, language);
 			if (info == null)
@@ -130,8 +156,8 @@ public class HomeAction extends ActionSupport {
 
 	private void setDownloadType(HttpSession session) {
 
-		String fromMarket = (String) session.getAttribute(Constants.SESS_KEY_MARKET);
-		String downType = (String) session.getAttribute(Constants.SESS_KEY_DT);
+		String fromMarket = (String) session.getAttribute(Constants.PARA_FROM_MARKET);
+		String downType = (String) session.getAttribute(Constants.PARA_DOWNLOAD_METHOD);
 		String http = "file-download.action?inputPath=" + info.getTheme().getApkPath();
 		if (downType.equals(DownloadType.MARKET.getValue())) {
 			marketDownload(fromMarket, http);
@@ -155,7 +181,8 @@ public class HomeAction extends ActionSupport {
 	}
 
 	public String more() throws Exception {
-		String language = (String) Struts2Utils.getSession().getAttribute(Constants.SESS_KEY_LANGUAGE);
+		writeLog();
+		String language = (String) Struts2Utils.getSession().getAttribute(Constants.PARA_LANGUAGE);
 		Store store = categoryManager.getDefaultStore();
 		categoryId = Long.valueOf(Struts2Utils.getParameter("cid"));
 		categories = categoryManager.getCategories();
@@ -179,6 +206,11 @@ public class HomeAction extends ActionSupport {
 		this.marketManager = marketManager;
 	}
 
+	@Autowired
+	public void setLogService(LogService logService) {
+		this.logService = logService;
+	}
+	
 	public Page<FileStoreInfo> getHottestPage() {
 		return hottestPage;
 	}

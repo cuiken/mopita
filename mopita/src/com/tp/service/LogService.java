@@ -7,7 +7,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tp.dao.LogFromClientDao;
+import com.tp.dao.LogInHomeDao;
 import com.tp.entity.LogFromClient;
+import com.tp.entity.LogInHome;
 import com.tp.orm.Page;
 import com.tp.orm.PropertyFilter;
 
@@ -15,22 +17,32 @@ import com.tp.orm.PropertyFilter;
 @Transactional
 public class LogService {
 
-	private LogFromClientDao logDao;
+	private LogFromClientDao logClientDao;
+	private LogInHomeDao logHomeDao;
 
-	public List<LogFromClient> getAll() {
-		return logDao.getAll();
+	public void saveLogFromClent(LogFromClient entity) {
+		logClientDao.save(entity);
 	}
 
-	public void save(LogFromClient entity) {
-		logDao.save(entity);
+	public Page<LogFromClient> searchLogFromClient(final Page<LogFromClient> pages, List<PropertyFilter> filters) {
+		return logClientDao.findPage(pages, filters);
 	}
 
-	public Page<LogFromClient> searchLog(final Page<LogFromClient> pages, List<PropertyFilter> filters) {
-		return logDao.findPage(pages, filters);
+	public void saveLogInHome(LogInHome entity) {
+		logHomeDao.save(entity);
+	}
+
+	public Page<LogInHome> searchLogInHome(final Page<LogInHome> pages, List<PropertyFilter> filters) {
+		return logHomeDao.findPage(pages, filters);
 	}
 
 	@Autowired
-	public void setLogDao(LogFromClientDao logDao) {
-		this.logDao = logDao;
+	public void setLogClientDao(LogFromClientDao logClientDao) {
+		this.logClientDao = logClientDao;
+	}
+
+	@Autowired
+	public void setLogHomeDao(LogInHomeDao logHomeDao) {
+		this.logHomeDao = logHomeDao;
 	}
 }

@@ -12,19 +12,21 @@ public class Constants {
 
 	public static final String DOT_SEPARATOR = ".";
 
-	public static final String SESS_KEY_LANGUAGE = "lan";
-	public static final String SESS_KEY_MARKET = "fm";
-	public static final String SESS_KEY_DT = "dt";
 	public static final String SESS_DEFAULT_STORE = "DEFAULT_STORE";
 
 	public static final String PARA_LANGUAGE = "l";
 	public static final String PARA_DOWNLOAD_METHOD = "dm";
 	public static final String PARA_FROM_MARKET = "fm";
+	public static final String PARA_IMEI = "imei";
+	public static final String PARA_IMSI = "imsi";
+	public static final String PARA_STORE_TYPE = "st";
+	public static final String PARA_CLIENT_VERSION = "v";
+	public static final String PARA_RESOLUTION = "r";
 
 	public static final String PREFIX_MARKET_URI = "market://details?id=";
 
 	public enum Language {
-		ZH("ZH");
+		ZH("ZH"), EN("EN"), JP("JP");
 		private String value;
 
 		Language(String value) {
@@ -40,19 +42,39 @@ public class Constants {
 		String language = Struts2Utils.getParameter(PARA_LANGUAGE);
 		String fromMarket = Struts2Utils.getParameter(PARA_FROM_MARKET);
 		String downMethod = Struts2Utils.getParameter(PARA_DOWNLOAD_METHOD);
+		String imei = Struts2Utils.getParameter(PARA_IMEI);
+		String imsi = Struts2Utils.getParameter(PARA_IMSI);
+		String client_version = Struts2Utils.getParameter(PARA_CLIENT_VERSION);
+		String resolution = Struts2Utils.getParameter(PARA_RESOLUTION);
+		String store_type = Struts2Utils.getParameter(PARA_STORE_TYPE);
 
+		if (imei != null) {
+			session.setAttribute(PARA_IMEI, imei);
+		}
+		if (imsi != null) {
+			session.setAttribute(PARA_IMSI, imsi);
+		}
+		if (client_version != null) {
+			session.setAttribute(PARA_CLIENT_VERSION, client_version);
+		}
+		if (resolution != null) {
+			session.setAttribute(PARA_RESOLUTION, resolution);
+		}
+		if (store_type != null) {
+			session.setAttribute(PARA_STORE_TYPE, store_type);
+		}
 		if (language != null) {
-			session.setAttribute(SESS_KEY_LANGUAGE, language.toUpperCase());
-		} else if (language == null && Struts2Utils.getSession().getAttribute(SESS_KEY_LANGUAGE) == null) {
-			session.setAttribute(SESS_KEY_LANGUAGE, Language.ZH.getValue());
+			session.setAttribute(PARA_LANGUAGE, language.toUpperCase());
+		} else if (language == null && Struts2Utils.getSession().getAttribute(PARA_LANGUAGE) == null) {
+			session.setAttribute(PARA_LANGUAGE, Language.ZH.getValue());
 		}
 		if (fromMarket != null) {
-			session.setAttribute(SESS_KEY_MARKET, fromMarket);
+			session.setAttribute(PARA_FROM_MARKET, fromMarket);
 		}
 		if (downMethod != null) {
-			session.setAttribute(SESS_KEY_DT, downMethod);
-		} else if (downMethod == null && Struts2Utils.getSession().getAttribute(SESS_KEY_DT) == null) {
-			session.setAttribute(SESS_KEY_DT, DownloadType.HTTP.getValue());
+			session.setAttribute(PARA_DOWNLOAD_METHOD, downMethod);
+		} else if (downMethod == null && Struts2Utils.getSession().getAttribute(PARA_DOWNLOAD_METHOD) == null) {
+			session.setAttribute(PARA_DOWNLOAD_METHOD, DownloadType.HTTP.getValue());
 		}
 	}
 }

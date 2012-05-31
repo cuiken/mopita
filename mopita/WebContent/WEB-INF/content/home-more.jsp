@@ -55,15 +55,14 @@
 	<style type="text/css">
 		
 		.guide {
-		    background: none repeat scroll 0 0 #7c7c7c;
+		    background: -webkit-gradient(linear, left top, left bottom, from(#00abeb), to(#fff));
 		    bottom: -90px;
 		    display: none;
 		    height: 35px;
 		    position: fixed;
 		    width: 100%;
 		    z-index: 100;
-		    padding: 5px;
-			
+		    padding: 5px;	
 			border-radius: 5px;
 			clear: both;
 			-webkit-border-radius: 5px;

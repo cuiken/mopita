@@ -655,7 +655,6 @@ text-decoration: none;
      -moz-border-radius: 5px;
           border-radius: 5px;
   height: 20px;      
-  background-color: #7c7c7c;  
 }
 
 .navigater_w {
@@ -666,7 +665,7 @@ text-decoration: none;
   -webkit-border-radius: 5px;
      -moz-border-radius: 5px;
           border-radius: 5px;
-  height: 20px;      
+  height: 15px;      
   background-color: white;  
 }
 
@@ -678,7 +677,6 @@ WIDTH: 22%;
 }
 .navitem{
 float:left;
-background: #7c7c7c;
 LINE-HEIGHT: 31px;
 HEIGHT: 31px;
 TEXT-ALIGN: center;

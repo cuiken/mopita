@@ -141,3 +141,18 @@ create table log_f_client(
 	primary key(id)
 )ENGINE=InnoDB;
 
+create table log_f_home(
+	id int not null auto_increment,
+	imei varchar(50),
+	imsi varchar(50),
+	store_type varchar(20),
+	down_type varchar(20),
+	language varchar(20),
+	client_version varchar(20),
+	resolution varchar(50),
+	from_market varchar(50),
+	request_link varchar(100),
+	create_time timestamp,
+	primary key(id)
+)ENGINE=InnoDB;
+

@@ -11,6 +11,7 @@ import com.tp.orm.Page;
 import com.tp.orm.PropertyFilter;
 import com.tp.orm.PageRequest.Sort;
 import com.tp.service.LogService;
+import com.tp.utils.Constants;
 import com.tp.utils.Struts2Utils;
 
 @Namespace("/log")
@@ -18,14 +19,14 @@ public class LogAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final String PARA_IMEI = "imei";
-	private static final String PARA_IMSI = "imsi";
-	private static final String PARA_STORE_TYPE = "st";
-	private static final String PARA_DOWNLOAD_TYPE = "dm";
-	private static final String PARA_LANGUAGE = "l";
-	private static final String PARA_CLIENT_VERSION = "v";
-	private static final String PARA_RESOLUTION = "r";
-	private static final String PARA_FROM_MARKET = "fm";
+	private static final String PARA_IMEI = Constants.PARA_IMEI;
+	private static final String PARA_IMSI = Constants.PARA_IMSI;
+	private static final String PARA_STORE_TYPE = Constants.PARA_STORE_TYPE;
+	private static final String PARA_DOWNLOAD_TYPE = Constants.PARA_DOWNLOAD_METHOD;
+	private static final String PARA_LANGUAGE = Constants.PARA_LANGUAGE;
+	private static final String PARA_CLIENT_VERSION = Constants.PARA_CLIENT_VERSION;
+	private static final String PARA_RESOLUTION = Constants.PARA_RESOLUTION;
+	private static final String PARA_FROM_MARKET = Constants.PARA_FROM_MARKET;
 
 	private Page<LogFromClient> page = new Page<LogFromClient>();
 	private List<Integer> sliders;
@@ -43,7 +44,7 @@ public class LogAction extends ActionSupport {
 			page.setOrderBy("createTime");
 			page.setOrderDir(Sort.DESC);
 		}
-		page = logService.searchLog(page, filters);
+		page = logService.searchLogFromClient(page, filters);
 		sliders = page.getSlider((int) page.getTotalItems());
 		return SUCCESS;
 	}
@@ -66,7 +67,7 @@ public class LogAction extends ActionSupport {
 		entity.setClientVersion(clientVersion);
 		entity.setResolution(resolution);
 		entity.setFromMarket(fromMarket);
-		logService.save(entity);
+		logService.saveLogFromClent(entity);
 		return null;
 	}
 
