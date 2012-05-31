@@ -713,6 +713,35 @@ COLOR: white;
 DISPLAY: block;
 height: 28px;
 }
+
+.guide {
+	 background:-webkit-gradient(linear, left top, left bottom, from(#fff), to(#00abeb));; 
+	 bottom: -90px;
+	 display: none;
+	 height: 35px;
+	 position: fixed;
+	 width: 100%;
+	 z-index: 100;
+	 padding: 5px;	
+	 border-radius: 5px;
+	 clear: both;
+	 -webkit-border-radius: 5px;
+			   -moz-border-radius: 5px;
+			   border-radius: 5px;
+}
+.guide .guide_boby {
+	 height: 90px;
+	 margin: 0 auto;
+	 position: relative;
+	 width: 960px;
+}
+
+.guide .guide_add {
+	 margin: 0 auto;
+	 padding-top: 7px;
+	 width: 750px;
+}
+
 .level2{
   padding: 5px;
   margin-bottom: 20px;

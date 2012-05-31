@@ -52,36 +52,6 @@
 		  
 		  });
 	</script>
-	<style type="text/css">
-		
-		.guide {
-		    background: -webkit-gradient(linear, left top, left bottom, from(#00abeb), to(#fff));
-		    bottom: -90px;
-		    display: none;
-		    height: 35px;
-		    position: fixed;
-		    width: 100%;
-		    z-index: 100;
-		    padding: 5px;	
-			border-radius: 5px;
-			clear: both;
-			-webkit-border-radius: 5px;
-			     -moz-border-radius: 5px;
-			          border-radius: 5px;
-		}
-		.guide .guide_boby {
-		    height: 90px;
-		    margin: 0 auto;
-		    position: relative;
-		    width: 960px;
-		}
-		.guide .guide_add {
-	    margin: 0 auto;
-	    padding-top: 7px;
-	    width: 750px;
-		}
-
-	</style>
 	</head>
 	<body>
 	

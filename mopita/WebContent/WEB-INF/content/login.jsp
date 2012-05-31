@@ -9,6 +9,12 @@
 <html>
 <head>
 	<title>登录页</title>
+	<link href="${ctx}/js/jquery/validation/milk.css" rel="stylesheet">
+	<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
+	<script src="${ctx}/js/jquery/validation/jquery.validate.min.js"></script>
+	<script src="${ctx}/js/jquery/validation/messages_cn.js"></script>
+	<link href="${ctx}/css/bootstrap/2.0.3/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+	<link href="${ctx}/css/mini-web.css" type="text/css" rel="stylesheet" />
 	<script>
 		$(document).ready(function() {
 			$("#loginForm").validate();
@@ -17,23 +23,26 @@
 </head>
 
 <body>
+	<div class="container">
+	<div id="content" class="span12">
 	<form:form id="loginForm" action="${ctx}/login.action" method="post" class="form-horizontal">
-	<%
-	String error = (String) request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
-	if(error != null){
-	%>
-		<div class="control-group">
-		<div class="controls ">
-		<div class="alert alert-error">
-		<button class="close" data-dismiss="alert">×</button>
-		登录失败，请重试.</div>
-		</div>
-		</div>
-		
-	<%
-	}
-	%>
-
+	<fieldset>
+		<legend>登录页面</legend>
+		<%
+		String error = (String) request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
+		if(error != null){
+		%>
+			<div class="control-group">
+			<div class="controls ">
+			<div class="alert alert-error">
+			<button class="close" data-dismiss="alert">×</button>
+			登录失败，请重试.</div>
+			</div>
+			</div>
+			
+		<%
+		}
+		%>
 			<div class="control-group">
 				<label for="username" class="control-label">名称:</label>
 				<div class="controls">
@@ -50,10 +59,12 @@
 				<div class="controls">
 				<label class="checkbox inline" for="rememberMe"> <input type="checkbox" id="rememberMe" name="rememberMe"/> 记住我</label>
 				<input id="submit" class="btn" type="submit" value="登录"/>
-				<p class="help-block">(管理员<b>admin/admin</b>, 普通用户<b>user/user</b>)</p>
 				</div>
 			</div>
-		</div>
+	</fieldset>			
 	</form:form>
+	</div>
+	</div>
+	<script src="${ctx}/css/bootstrap/2.0.3/js/bootstrap.min.js" type="text/javascript"></script>
 </body>
 </html>
