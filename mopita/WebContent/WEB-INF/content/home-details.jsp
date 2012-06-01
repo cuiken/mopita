@@ -42,10 +42,10 @@
 		<form action="home!details.action" method="get">
 			<div> 
 				<div class="title_bar">
-					<p>${info.title}</p>
+					${info.title}
 				</div>
 				<div class="contents_img">
-					<img alt="${info.title}" src="${ctx}/image.action?path=${info.theme.preWebPath}" width="180" height="256">
+					<img alt="${info.title}" src="${ctx}/image.action?path=${info.theme.preWebPath}" width="180" height="300">
 				</div>
 				<div class="short_des">
 					<p>${info.shortDescription}</p>
