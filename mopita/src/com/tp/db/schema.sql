@@ -149,9 +149,9 @@ create table log_f_home(
 	down_type varchar(20),
 	language varchar(20),
 	client_version varchar(20),
-	resolution varchar(50),
-	from_market varchar(50),
-	request_link varchar(100),
+	resolution varchar(100),
+	from_market varchar(255),
+	request_link varchar(255),
 	create_time timestamp,
 	primary key(id)
 )ENGINE=InnoDB;
