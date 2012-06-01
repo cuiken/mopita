@@ -65,8 +65,9 @@ line-height:20px;
 body
 {
 
-  border: #ddd 1px solid;
+  /*border: #ddd 1px solid;*/
   height:auto;
+  padding-top: 15px;
 }
 .theme_img {
     TEXT-ALIGN: center

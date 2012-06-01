@@ -36,7 +36,8 @@
 		      nextSelector : '#page-nav a',  
 		      itemSelector : '.contents_info',     
 		      loading: {
-		          finishedMsg: 'No more pages to load.',
+		         	finishedMsg:'加载完成',
+		         	msgText: "<em>加载中...</em>",
 		        //  img: 'http://i.imgur.com/6RMhx.gif'
 		        }
 		      },
@@ -64,6 +65,7 @@
 							<img alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" style="margin: 4px;">							
 						</div>
 						<div class="contents_txt">
+							<br/>
 							<font color="#666666">${title}</font>
 							<p><font color="#aeaea6">${shortDescription}</font></p>
 						</div>
@@ -73,9 +75,9 @@
 			<nav id="page-nav">
   				<a href="?catePage.pageNo=${catePage.nextPage}&cid=${categoryId}"></a>
 			</nav>
-		<div id="natigater" class="navigater_w">
+			<div id="natigater" class="navigater_w">
 		
-		</div>
+			</div>
 			<div class="guide" style="display: block; bottom: 0px;">
 				<div>
 					<div class="navigater">

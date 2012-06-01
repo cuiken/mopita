@@ -332,8 +332,9 @@ table a {/* リンク領域指定 */
 
 
 .icon_set{
-width: 96%;
-padding:5px 2% 5px 2%;
+width: 98%;
+padding:0;
+margin: 4px;
 }
 
 .notes {
@@ -410,8 +411,8 @@ p.info_title{
 	height:75px;
 /*	background-color: #ffffff;
 	background: -webkit-gradient(linear, left top, right top, from(#ffb6c1), to(#ffffff));*/
-	width:62%;
-	padding:3px 3%;
+	width:70%;
+	padding:3px 2%;
 }
 .contents_txt p {
 	font-size: 80%;
@@ -419,15 +420,15 @@ p.info_title{
 }
 
 .contents_image {
-	text-align:center;
+	text-align:left;
 	font-size: 80%;
 	float:left;
-	width:32%;
+	width:20%;
 	height:80px;
 	/*background-color:#ffb6c1;*/
 	color:#ffffff;
 	margin:0;
-	padding:0;
+	padding:1px;
 }
 .contents_image a {
 	color:#ffffff;

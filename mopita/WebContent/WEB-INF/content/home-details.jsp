@@ -11,6 +11,12 @@
 		<title>商店详细</title>
   		<link rel="stylesheet" href="${ctx}/css/details.css" media="screen"/>
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
+		<style type="text/css">
+			body{
+				margin: 0;
+				padding: 0;
+			}
+		</style>
 		<script>
 		$(function() {
             var $link = $("#desc a");
@@ -49,14 +55,14 @@
 						<img alt="下载" src="${ctx}/images/dt.png">
 					</a>
 				</div>
-				<div class="contents_txt" style="float: left;margin-right: 30px;">
+				<div class="contents_txt" style="float: left;margin: 10px;">
 					设计师:${info.author}
 				</div>
-				<div class="contents_txt">
+				<div class="contents_txt" style="margin: 10px;">
 					大小: ${fn:substring(info.theme.apkSize/1024/1024, 0, 4)}M
 					
 				</div>
-				<div class="contents_txt" id="desc" style="margin-top: 5px;">
+				<div class="contents_txt" id="desc">
 					简介:
 					<c:choose>
 						<c:when test="${fn:length(info.longDescription)>70}">
@@ -77,13 +83,13 @@
 						<s:iterator value="catePage.result">
 							
 							<a href="${ctx}/home!details.action?id=${theme.id}">
-								<img alt="${theme.title}" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" class="icon"/>
+								<img alt="${theme.title}" src="${ctx}/image.action?path=${theme.iconPath}" style="margin: 2px;" width="72" height="72" class="icon"/>
 							</a>
 							
 						</s:iterator>
 						
 						<a href="${ctx}/home!more.action?cid=${info.theme.categories[0].id}">							
-							<img alt="更多" src="${ctx}/images/more.png" width="72" height="72" class="icon" />
+							<img alt="更多" src="${ctx}/images/more.png" width="72" height="72" style="margin: 2px;" class="icon" />
 						</a>
 					</div>
 				</div>

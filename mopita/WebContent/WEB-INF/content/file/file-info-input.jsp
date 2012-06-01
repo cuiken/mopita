@@ -56,8 +56,8 @@
 				<textarea  id="longDescription" name="longDescription" class="required">${longDescription}</textarea>
 			</div>
 			<div>
-				<label for="author" class="field">作者:</label>
-				<input type="text" id="author" name="author" value="${author}" size="25" maxlength="25" />
+				<label for="author" class="field">作者:<font class="red">*</font></label>
+				<input type="text" id="author" name="author" value="${author}" size="25" maxlength="25" class="required" />
 			</div>
 			<div>
 				<label for="price" class="field">单价:</label>

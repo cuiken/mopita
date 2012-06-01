@@ -709,13 +709,14 @@ DISPLAY: block;
 }
 .navitem a {
 FONT-WEIGHT: bolder;
-COLOR: white;
+COLOR: #8c8c8c;
 DISPLAY: block;
 height: 28px;
 }
 
 .guide {
-	 background:-webkit-gradient(linear, left top, left bottom, from(#fff), to(#00abeb));; 
+	/* background:-webkit-gradient(linear, left top, left bottom, from(#fff), to(#00abeb)); */
+	 background:#d7d7d7;
 	 bottom: -90px;
 	 display: none;
 	 height: 35px;

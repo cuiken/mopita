@@ -37,6 +37,7 @@
 				<s:iterator value="newestPage.result">
 					<div class="contents_info" id="content1" onclick="location.href='${ctx}/home!details.action?id=${theme.id}';">			
 						<div class="contents_txt">
+							<br/>
 							<font color="#666666">${title}</font>
 							<p><font color="#aeaea6">${shortDescription}</font></p>
 						</div>
@@ -49,7 +50,7 @@
 				<div class="icon_set">
 					<s:iterator value="hottestPage.result">				
 						<a href="${ctx}/home!details.action?id=${theme.id}">
-							<img alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}" class="icon" width="72" height="72">
+							<img alt="${title}" style="padding: 1px;" src="${ctx}/image.action?path=${theme.iconPath}" class="icon" width="72" height="72">
 						</a>		
 					</s:iterator>
 				</div>

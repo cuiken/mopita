@@ -90,7 +90,7 @@
 						<textarea  id="longDescription[${info.index}]" name="fileInfo[${info.index}].longDescription" class="required">${longDescription}</textarea>
 					</div>
 					<div>
-						<label for="author" class="field">作者:</label>
+						<label for="author" class="field">作者:<font class="red">*</font></label>
 						<input type="text" id="author[${info.index}]" name="fileInfo[${info.index}].author" value="${author}" size="25" maxlength="25" class="required"/>
 					</div>
 					<div>
