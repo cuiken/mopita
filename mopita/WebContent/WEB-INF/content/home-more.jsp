@@ -14,9 +14,15 @@
   		<link rel="stylesheet" href="${ctx}/css/mobile.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/top.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/reset.css" media="screen"/>
+  		<link rel="stylesheet" href="${ctx}/css/home.css" media="screen"/>
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
 		<script src="${ctx}/js/jquery/jquery.masonry.min.js"></script>
 		<script src="${ctx}/js/jquery/jquery.infinitescroll.min.js"></script>
+		<style type="text/css">
+			font{
+				font-family: DFPShaoNvW;
+			}
+		</style>
   		<script>
 		  $(function(){
 			 $("#content1").live("click",function(){ 

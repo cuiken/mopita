@@ -10,11 +10,13 @@
   		<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 		<title>商店详细</title>
   		<link rel="stylesheet" href="${ctx}/css/details.css" media="screen"/>
+  		<link rel="stylesheet" href="${ctx}/css/home.css" media="screen"/>
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
 		<style type="text/css">
 			body{
 				margin: 0;
 				padding: 0;
+				font-family:DFPShaoNvW;			
 			}
 		</style>
 		<script>
