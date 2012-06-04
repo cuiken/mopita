@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@include file="/common/taglibs.jsp" %>
+<% response.setHeader("remember", "true"); %>
 <!DOCTYPE HTML>
 <html lang="en">
 	<head>
@@ -62,10 +63,7 @@
 					</s:iterator>
 				</div>
 				
-				<div style="text-align: center; width: 98%;font-family: DFPShaoNvW">
-					<br>
-					Copyright &copy; 2012 千机解锁<br/>苏州天平.All Rights Reserved.
-				</div>
+			<%@include file="/common/footer.jsp" %>
 				 
 			</div>
 

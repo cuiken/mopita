@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@include file="/common/taglibs.jsp" %>
+<% response.setHeader("remember", "true"); %>
 <!DOCTYPE HTML>
 <html lang="en">
 	<head>
