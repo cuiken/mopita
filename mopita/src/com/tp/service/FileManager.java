@@ -204,6 +204,7 @@ public class FileManager {
 			themes = themes.subList(0, 5);
 		}
 		String servletPath = domain + "/home!details.action";
+		String downImage = domain + "/image.action";
 		buffer.append("<ads>");
 		for (ThemeFile theme : themes) {
 			Long id = theme.getId();
@@ -220,7 +221,7 @@ public class FileManager {
 			buffer.append(" version=\"1\"");
 			buffer.append(">");
 			buffer.append("<linkUrl>" + servletPath + "?id=" + id + "&amp;f=ad</linkUrl>");
-			buffer.append("<downloadUrl>" + servletPath + "?path=" + URLEncoder.encode(ad, "UTF-8") + "</downloadUrl>");
+			buffer.append("<downloadUrl>" + downImage + "?path=" + URLEncoder.encode(ad, "UTF-8") + "</downloadUrl>");
 			buffer.append("</ad>");
 		}
 		buffer.append("</ads>");
