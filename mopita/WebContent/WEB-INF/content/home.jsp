@@ -31,15 +31,16 @@
 	<body>
 	
 		<form action="wap.action" method="get">
-			<div id="container"> 				
-				<!-- <div class="imgCenter">
+			<div id="container"> 		
+				<s:if test="adFile!=null">		
+				 <div class="imgCenter">
 					<s:if test="adFile!=null">
 						<a href="${ctx}/home!details.action?id=${adFile.id}">
 							<img alt="${adFile.title}" src="${ctx}/image.action?path=${adFile.adPath}" class="max-width_100">
 						</a>
 					</s:if><s:else>商店无内容</s:else>
 				</div>
-			 -->
+			  </s:if>
 				<s:iterator value="newestPage.result">
 					<div class="contents_info" id="content1" onclick="location.href='${ctx}/home!details.action?id=${theme.id}';">			
 						<div class="contents_txt">
@@ -48,7 +49,7 @@
 							<p><font color="#aeaea6">${shortDescription}</font></p>
 						</div>
 						<div class="contents_image">						
-							<img style="margin: 4px;" alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" class="contents_image_middle">						
+							<img style="margin: 3px;" alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" class="contents_image_middle">						
 						</div>
 					</div>								
 				</s:iterator>
@@ -60,6 +61,12 @@
 						</a>		
 					</s:iterator>
 				</div>
+				
+				<div style="text-align: center; width: 98%;font-family: DFPShaoNvW">
+					<br>
+					Copyright &copy; 2012 千机解锁<br/>苏州天平.All Rights Reserved.
+				</div>
+				 
 			</div>
 
 		</form>

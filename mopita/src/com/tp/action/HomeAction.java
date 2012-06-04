@@ -67,44 +67,47 @@ public class HomeAction extends ActionSupport {
 		HttpSession session = Struts2Utils.getSession();
 		Constants.setParamInSession(session);
 		setDefaultStore(session);
-		writeLog();
+		writeLog(session);
 		String language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
 		Long storeId = (Long) session.getAttribute(Constants.SESS_DEFAULT_STORE);
-
+		String resolution = (String) session.getAttribute(Constants.PARA_RESOLUTION);
+		hottestPage.setPageSize(12);
 		hottestPage = fileManager.searchStoreInfoInShelf(hottestPage, Shelf.Type.HOTTEST, storeId, language);
 
 		newestPage = fileManager.searchStoreInfoInShelf(newestPage, Shelf.Type.NEWEST, storeId, language);
-
-//		recommendPage = fileManager.searchStoreInfoInShelf(recommendPage, Shelf.Type.RECOMMEND, storeId, language);
-//		List<FileStoreInfo> recommendFiles = recommendPage.getResult();
-//		if (recommendFiles.size() > 0) {
-//			Collections.shuffle(recommendFiles);
-//			adFile = recommendFiles.get(0).getTheme();
-//		}
+		if (resolution == null) {
+			recommendPage = fileManager.searchStoreInfoInShelf(recommendPage, Shelf.Type.RECOMMEND, storeId, language);
+			List<FileStoreInfo> recommendFiles = recommendPage.getResult();
+			if (recommendFiles.size() > 0) {
+				Collections.shuffle(recommendFiles);
+				adFile = recommendFiles.get(0).getTheme();
+			}
+		}
 		return SUCCESS;
 	}
 
 	private void setDefaultStore(HttpSession session) {
 		try {
-			Store store = categoryManager.getDefaultStore();
+			String storeType = (String) session.getAttribute(Constants.PARA_STORE_TYPE);
+			Store store = categoryManager.getStoreByValue(storeType);
 			session.setAttribute(Constants.SESS_DEFAULT_STORE, store.getId());
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
 	}
-	
-	private void writeLog(){
+
+	private void writeLog(HttpSession session) {
 		HttpServletRequest request = Struts2Utils.getRequest();
-		HttpSession session=Struts2Utils.getSession();
-		LogInHome log=new LogInHome();
-		String requestLink=request.getServletPath()+"?"+request.getQueryString();
-		String imei=(String)session.getAttribute(Constants.PARA_IMEI);
-		String imsi=(String)session.getAttribute(Constants.PARA_IMSI);
-		String lang=(String)session.getAttribute(Constants.PARA_LANGUAGE);
-		String fromMarket=(String)session.getAttribute(Constants.PARA_FROM_MARKET);
-		String downType=(String)session.getAttribute(Constants.PARA_DOWNLOAD_METHOD);
-		String clientVersion=(String)session.getAttribute(Constants.PARA_CLIENT_VERSION);
-		String reso=(String)session.getAttribute(Constants.PARA_RESOLUTION);
+
+		LogInHome log = new LogInHome();
+		String requestLink = request.getServletPath() + "?" + request.getQueryString();
+		String imei = (String) session.getAttribute(Constants.PARA_IMEI);
+		String imsi = (String) session.getAttribute(Constants.PARA_IMSI);
+		String lang = (String) session.getAttribute(Constants.PARA_LANGUAGE);
+		String fromMarket = (String) session.getAttribute(Constants.PARA_FROM_MARKET);
+		String downType = (String) session.getAttribute(Constants.PARA_DOWNLOAD_METHOD);
+		String clientVersion = (String) session.getAttribute(Constants.PARA_CLIENT_VERSION);
+		String reso = (String) session.getAttribute(Constants.PARA_RESOLUTION);
 		log.setRequestLink(requestLink);
 		log.setClientVersion(clientVersion);
 		log.setDownType(downType);
@@ -122,11 +125,11 @@ public class HomeAction extends ActionSupport {
 	 * @throws Exception
 	 */
 	public String adXml() throws Exception {
-		Long storeId = categoryManager.getDefaultStore().getId();
+		Long storeId = categoryManager.getStoreByValue(Constants.LOCK_STORE).getId();
 		Page<ThemeFile> adPage = new Page<ThemeFile>();
 		adPage = fileManager.searchFileByShelf(adPage, Shelf.Type.RECOMMEND, storeId);
 		HttpServletRequest request = Struts2Utils.getRequest();
-		String domain = "http://" + request.getLocalAddr() + ":" + request.getLocalPort();
+		String domain = "http://" + request.getLocalAddr() + ":" + request.getLocalPort() + request.getContextPath();
 		String xml = fileManager.adXml(adPage.getResult(), domain);
 		Struts2Utils.renderXml(xml);
 		return null;
@@ -137,7 +140,7 @@ public class HomeAction extends ActionSupport {
 			HttpSession session = Struts2Utils.getSession();
 			Constants.setParamInSession(session);
 			setDefaultStore(session);
-			writeLog();
+			writeLog(session);
 			String language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
 			Long storeId = (Long) session.getAttribute(Constants.SESS_DEFAULT_STORE);
 			info = fileManager.getStoreInfoBy(storeId, id, language);
@@ -181,9 +184,13 @@ public class HomeAction extends ActionSupport {
 	}
 
 	public String more() throws Exception {
-		writeLog();
-		String language = (String) Struts2Utils.getSession().getAttribute(Constants.PARA_LANGUAGE);
-		Store store = categoryManager.getDefaultStore();
+		HttpSession session=Struts2Utils.getSession();
+		Constants.setParamInSession(session);
+		setDefaultStore(session);
+		writeLog(session);
+		String language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
+		String storeType = (String) session.getAttribute(Constants.PARA_STORE_TYPE);
+		Store store = categoryManager.getStoreByValue(storeType);
 		categoryId = Long.valueOf(Struts2Utils.getParameter("cid"));
 		categories = categoryManager.getCategories();
 		catePage = fileManager.searchInfoByCategoryAndStore(catePage, categoryId, store.getId(), language);
@@ -210,7 +217,7 @@ public class HomeAction extends ActionSupport {
 	public void setLogService(LogService logService) {
 		this.logService = logService;
 	}
-	
+
 	public Page<FileStoreInfo> getHottestPage() {
 		return hottestPage;
 	}

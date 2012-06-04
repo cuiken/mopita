@@ -19,7 +19,7 @@
 		<script src="${ctx}/js/jquery/jquery.masonry.min.js"></script>
 		<script src="${ctx}/js/jquery/jquery.infinitescroll.min.js"></script>
 		<style type="text/css">
-			font{
+			body{
 				font-family: DFPShaoNvW;
 			}
 		</style>
@@ -68,7 +68,7 @@
 				<s:iterator value="catePage.result">
 					<div class="contents_info" id="content1" onclick="location.href='home!details.action?id=${theme.id}';">
 						<div class="contents_image">						
-							<img alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" style="margin: 4px;">							
+							<img alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" style="margin: 3px;">							
 						</div>
 						<div class="contents_txt">
 							<br/>

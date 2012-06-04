@@ -13,6 +13,7 @@ public class Constants {
 	public static final String DOT_SEPARATOR = ".";
 
 	public static final String SESS_DEFAULT_STORE = "DEFAULT_STORE";
+	public static final String LOCK_STORE = "lock";
 
 	public static final String PARA_LANGUAGE = "l";
 	public static final String PARA_DOWNLOAD_METHOD = "dm";
@@ -62,10 +63,12 @@ public class Constants {
 		}
 		if (store_type != null) {
 			session.setAttribute(PARA_STORE_TYPE, store_type);
+		} else if (store_type == null && session.getAttribute(PARA_STORE_TYPE) == null) {
+			session.setAttribute(PARA_STORE_TYPE, LOCK_STORE);
 		}
 		if (language != null) {
 			session.setAttribute(PARA_LANGUAGE, language.toUpperCase());
-		} else if (language == null && Struts2Utils.getSession().getAttribute(PARA_LANGUAGE) == null) {
+		} else if (language == null && session.getAttribute(PARA_LANGUAGE) == null) {
 			session.setAttribute(PARA_LANGUAGE, Language.ZH.getValue());
 		}
 		if (fromMarket != null) {
@@ -73,7 +76,7 @@ public class Constants {
 		}
 		if (downMethod != null) {
 			session.setAttribute(PARA_DOWNLOAD_METHOD, downMethod);
-		} else if (downMethod == null && Struts2Utils.getSession().getAttribute(PARA_DOWNLOAD_METHOD) == null) {
+		} else if (downMethod == null && session.getAttribute(PARA_DOWNLOAD_METHOD) == null) {
 			session.setAttribute(PARA_DOWNLOAD_METHOD, DownloadType.HTTP.getValue());
 		}
 	}

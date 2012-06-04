@@ -203,11 +203,12 @@ public class FileManager {
 		if (themes.size() > 5) {
 			themes = themes.subList(0, 5);
 		}
+		String servletPath = domain + "/home!details.action";
 		buffer.append("<ads>");
 		for (ThemeFile theme : themes) {
 			Long id = theme.getId();
 			String ad = theme.getAdPath();
-			if(ad==null||ad.isEmpty()){
+			if (ad == null || ad.isEmpty()) {
 				continue;
 			}
 			String[] items = StringUtils.split(ad, File.separator);
@@ -218,9 +219,8 @@ public class FileManager {
 			buffer.append(" format=\"" + exts[exts.length - 1] + "\"");
 			buffer.append(" version=\"1\"");
 			buffer.append(">");
-			buffer.append("<linkUrl>" + domain + "/mopita/home!details.action?id=" + id + "&amp;f=ad</linkUrl>");
-			buffer.append("<downloadUrl>" + domain + "/mopita/image.action?path=" + URLEncoder.encode(ad, "UTF-8")
-					+ "</downloadUrl>");
+			buffer.append("<linkUrl>" + servletPath + "?id=" + id + "&amp;f=ad</linkUrl>");
+			buffer.append("<downloadUrl>" + servletPath + "?path=" + URLEncoder.encode(ad, "UTF-8") + "</downloadUrl>");
 			buffer.append("</ad>");
 		}
 		buffer.append("</ads>");

@@ -95,6 +95,10 @@
 						</a>
 					</div>
 				</div>
+				<div style="text-align: center;">
+					<br>
+					Copyright &copy; 2012 千机解锁<br/>苏州天平.All Rights Reserved.
+				</div>
 			</div>
 
 		</form>
