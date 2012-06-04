@@ -70,12 +70,12 @@ public class HomeAction extends ActionSupport {
 		writeLog(session);
 		String language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
 		Long storeId = (Long) session.getAttribute(Constants.SESS_DEFAULT_STORE);
-		String resolution = (String) session.getAttribute(Constants.PARA_RESOLUTION);
+
 		hottestPage.setPageSize(12);
 		hottestPage = fileManager.searchStoreInfoInShelf(hottestPage, Shelf.Type.HOTTEST, storeId, language);
 
 		newestPage = fileManager.searchStoreInfoInShelf(newestPage, Shelf.Type.NEWEST, storeId, language);
-		if (resolution == null) {
+		if (visitByBrowse(session)) {
 			recommendPage = fileManager.searchStoreInfoInShelf(recommendPage, Shelf.Type.RECOMMEND, storeId, language);
 			List<FileStoreInfo> recommendFiles = recommendPage.getResult();
 			if (recommendFiles.size() > 0) {
@@ -84,6 +84,11 @@ public class HomeAction extends ActionSupport {
 			}
 		}
 		return SUCCESS;
+	}
+
+	private boolean visitByBrowse(HttpSession session) {
+
+		return (String) session.getAttribute(Constants.PARA_RESOLUTION) == null;
 	}
 
 	private void setDefaultStore(HttpSession session) {
@@ -184,7 +189,7 @@ public class HomeAction extends ActionSupport {
 	}
 
 	public String more() throws Exception {
-		HttpSession session=Struts2Utils.getSession();
+		HttpSession session = Struts2Utils.getSession();
 		Constants.setParamInSession(session);
 		setDefaultStore(session);
 		writeLog(session);
