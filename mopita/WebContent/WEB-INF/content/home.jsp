@@ -36,14 +36,14 @@
 				<s:if test="adFile!=null">		
 				 <div class="imgCenter">
 					<s:if test="adFile!=null">
-						<a href="${ctx}/home!details.action?id=${adFile.id}">
+						<a href="${ctx}/home!details.action?id=${adFile.id}&queryString=${queryString}">
 							<img alt="${adFile.title}" src="${ctx}/image.action?path=${adFile.adPath}" class="max-width_100">
 						</a>
 					</s:if><s:else>商店无内容</s:else>
 				</div>
 			  </s:if>
 				<s:iterator value="newestPage.result">
-					<div class="contents_info" id="content1" onclick="location.href='${ctx}/home!details.action?id=${theme.id}';">			
+					<div class="contents_info" id="content1" onclick="location.href='${ctx}/home!details.action?id=${theme.id}&queryString=${queryString}';">			
 						<div class="contents_txt">
 							<br/>
 							<font color="#666666">${title}</font>
@@ -57,7 +57,7 @@
 				
 				<div class="icon_set">
 					<s:iterator value="hottestPage.result">				
-						<a href="${ctx}/home!details.action?id=${theme.id}">
+						<a href="${ctx}/home!details.action?id=${theme.id}&queryString=${queryString}">
 							<img alt="${title}" style="padding: 1px;" src="${ctx}/image.action?path=${theme.iconPath}" class="icon" width="72" height="72">
 						</a>		
 					</s:iterator>

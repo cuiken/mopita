@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.slf4j.Logger;
@@ -51,6 +52,7 @@ public class HomeAction extends ActionSupport {
 	private List<Category> categories;
 	private Long categoryId;
 	private ThemeFile adFile;
+	private String queryString;
 
 	@Override
 	public String execute() throws Exception {
@@ -64,10 +66,10 @@ public class HomeAction extends ActionSupport {
 	 * @throws Exception
 	 */
 	public String list() throws Exception {
+		HttpServletRequest request = Struts2Utils.getRequest();
+		this.setQueryString(request.getQueryString());
 		HttpSession session = Struts2Utils.getSession();
-		Constants.setParamInSession(session);
-		setDefaultStore(session);
-		writeLog(session);
+		prepareInStore(session);
 		String language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
 		Long storeId = (Long) session.getAttribute(Constants.SESS_DEFAULT_STORE);
 
@@ -142,10 +144,10 @@ public class HomeAction extends ActionSupport {
 
 	public String details() throws Exception {
 		try {
+
+			doQueryString();
 			HttpSession session = Struts2Utils.getSession();
-			Constants.setParamInSession(session);
-			setDefaultStore(session);
-			writeLog(session);
+			prepareInStore(session);
 			String language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
 			Long storeId = (Long) session.getAttribute(Constants.SESS_DEFAULT_STORE);
 			info = fileManager.getStoreInfoBy(storeId, id, language);
@@ -160,6 +162,13 @@ public class HomeAction extends ActionSupport {
 			return "reload";
 		}
 		return "details";
+	}
+
+	private void doQueryString() {
+		HttpServletRequest request = Struts2Utils.getRequest();
+		String queryString = request.getQueryString();
+		int index = StringUtils.indexOf(queryString, Constants.QUERY_STRING);
+		this.setQueryString(StringUtils.substring(queryString, index+Constants.QUERY_STRING.length()+1));
 	}
 
 	private void setDownloadType(HttpSession session) {
@@ -189,10 +198,9 @@ public class HomeAction extends ActionSupport {
 	}
 
 	public String more() throws Exception {
+		doQueryString();
 		HttpSession session = Struts2Utils.getSession();
-		Constants.setParamInSession(session);
-		setDefaultStore(session);
-		writeLog(session);
+		prepareInStore(session);
 		String language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
 		String storeType = (String) session.getAttribute(Constants.PARA_STORE_TYPE);
 		Store store = categoryManager.getStoreByValue(storeType);
@@ -201,6 +209,13 @@ public class HomeAction extends ActionSupport {
 		catePage = fileManager.searchInfoByCategoryAndStore(catePage, categoryId, store.getId(), language);
 
 		return "more";
+	}
+	
+	private void prepareInStore(HttpSession session){
+		
+		Constants.setParamInSession(session);
+		setDefaultStore(session);
+		writeLog(session);
 	}
 
 	@Autowired
@@ -263,4 +278,11 @@ public class HomeAction extends ActionSupport {
 		return adFile;
 	}
 
+	public String getQueryString() {
+		return queryString;
+	}
+
+	public void setQueryString(String queryString) {
+		this.queryString = queryString;
+	}
 }

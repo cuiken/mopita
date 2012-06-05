@@ -23,6 +23,8 @@ public class Constants {
 	public static final String PARA_STORE_TYPE = "st";
 	public static final String PARA_CLIENT_VERSION = "v";
 	public static final String PARA_RESOLUTION = "r";
+	
+	public static final String QUERY_STRING="queryString";
 
 	public static final String PREFIX_MARKET_URI = "market://details?id=";
 
