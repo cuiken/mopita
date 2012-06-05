@@ -58,28 +58,21 @@
 						<img alt="下载" src="${ctx}/images/dt.png">
 					</a>
 				</div>
-				<div class="contents_txt" style="float: left;margin: 10px;">
-					设计师:${info.author}
+				<div  class="contents_txt">
+					<div style="float: left; width: 50%; margin-bottom: 15px;margin-top: 15px;">
+						设计师:${info.author}
+					</div>				
+					<div style="float:right;  width: 50%;margin-bottom: 15px;margin-top: 15px;">
+						大小: ${fn:substring(info.theme.apkSize/1024/1024, 0, 4)}M
+						
+					</div>
 				</div>
-				<div class="contents_txt" style="margin: 10px;">
-					大小: ${fn:substring(info.theme.apkSize/1024/1024, 0, 4)}M
-					
-				</div>
-				<div class="contents_txt" id="desc">
-					简介:
-					<c:choose>
-						<c:when test="${fn:length(info.longDescription)>70}">
-							<span>${fn:substring(info.longDescription,0,70)}</span>
-							<span id="more" style="display: none;">${fn:substring(info.longDescription,70,-1)}</span>
-							<span id="symbol">....</span>
-							<div style="margin: 0; float: right;">
-							 &nbsp;<a href="javascript:void(0)"><img id="silder" alt="更多" src="${ctx}/images/down.png"></a>		</div>					
-						</c:when>
-						<c:otherwise>
-							<span>${info.longDescription}</span>
-						</c:otherwise>
-					</c:choose>	
-				</div>
+				<div class="contents_txt" id="desc" style="line-height: 120%;">
+					简介:${info.longDescription}					
+				</div>		
+				<div style="float: right;margin: 10px;">
+					<a href="home.action"><img alt="gohome" src="${ctx}/images/dhome.png"></a>
+				</div>	
 				<div class="category">
 					<div class="title_bar">${info.theme.categories[0].name}系列</div>
 					<div class="icon_set">
