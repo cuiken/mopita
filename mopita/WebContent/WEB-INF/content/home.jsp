@@ -62,9 +62,9 @@
 						</a>		
 					</s:iterator>
 				</div>
-				
-			<%@include file="/common/footer.jsp" %>
-				 
+				<div style="font-size: 85%;">
+					<%@include file="/common/footer.jsp" %>
+				 </div>
 			</div>
 
 		</form>

@@ -67,10 +67,10 @@
 						
 					</div>
 				</div>
-				<div class="contents_txt" id="desc" style="line-height: 120%;">
+				<div class="contents_txt" id="desc" style="line-height: 130%;">
 					简介:${info.longDescription}					
 				</div>		
-				<div style="float: right;margin: 10px;">
+				<div style="float: right;margin: 15px;">
 					<a href="home.action?${queryString}"><img alt="gohome" src="${ctx}/images/dhome.png"></a>
 				</div>	
 				<div class="category">
@@ -89,7 +89,9 @@
 						</a>
 					</div>
 				</div>
+				
 				<%@include file="/common/footer.jsp" %>
+
 			</div>
 
 		</form>
