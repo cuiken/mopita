@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.tp.entity.Category;
+import com.tp.entity.CategoryInfo;
 import com.tp.entity.DownloadType;
 import com.tp.entity.FileStoreInfo;
 import com.tp.entity.LogInHome;
@@ -23,6 +24,7 @@ import com.tp.entity.Shelf;
 import com.tp.entity.Store;
 import com.tp.entity.ThemeFile;
 import com.tp.orm.Page;
+import com.tp.service.CategoryInfoManager;
 import com.tp.service.CategoryManager;
 import com.tp.service.FileManager;
 import com.tp.service.LogService;
@@ -37,6 +39,7 @@ public class HomeAction extends ActionSupport {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	private CategoryManager categoryManager;
+	private CategoryInfoManager categoryInfoManager;
 	private FileManager fileManager;
 	private MarketManager marketManager;
 	private LogService logService;
@@ -49,10 +52,13 @@ public class HomeAction extends ActionSupport {
 
 	private Long id;
 	private FileStoreInfo info;
-	private List<Category> categories;
+
+	private List<CategoryInfo> cateInfos;
 	private Long categoryId;
 	private ThemeFile adFile;
 	private String queryString;
+
+	private String categoryName;
 
 	@Override
 	public String execute() throws Exception {
@@ -155,6 +161,14 @@ public class HomeAction extends ActionSupport {
 				return "reload";
 			setDownloadType(session);
 			Category cate = info.getTheme().getCategories().get(0);
+			List<CategoryInfo> cateInfos = cate.getInfos();
+			for (CategoryInfo ci : cateInfos) {
+				if (ci.getDescription().equals(language)) {
+					categoryName = ci.getName();
+					break;
+				}
+			}
+
 			catePage.setPageSize(3);
 			catePage = fileManager.searchInfoByCategoryAndStore(catePage, cate.getId(), storeId, language);
 		} catch (Exception e) {
@@ -168,7 +182,7 @@ public class HomeAction extends ActionSupport {
 		HttpServletRequest request = Struts2Utils.getRequest();
 		String queryString = request.getQueryString();
 		int index = StringUtils.indexOf(queryString, Constants.QUERY_STRING);
-		this.setQueryString(StringUtils.substring(queryString, index+Constants.QUERY_STRING.length()+1));
+		this.setQueryString(StringUtils.substring(queryString, index + Constants.QUERY_STRING.length() + 1));
 	}
 
 	private void setDownloadType(HttpSession session) {
@@ -205,14 +219,15 @@ public class HomeAction extends ActionSupport {
 		String storeType = (String) session.getAttribute(Constants.PARA_STORE_TYPE);
 		Store store = categoryManager.getStoreByValue(storeType);
 		categoryId = Long.valueOf(Struts2Utils.getParameter("cid"));
-		categories = categoryManager.getCategories();
+
+		cateInfos = categoryInfoManager.getInfosBylanguage(language);
 		catePage = fileManager.searchInfoByCategoryAndStore(catePage, categoryId, store.getId(), language);
 
 		return "more";
 	}
-	
-	private void prepareInStore(HttpSession session){
-		
+
+	private void prepareInStore(HttpSession session) {
+
 		Constants.setParamInSession(session);
 		setDefaultStore(session);
 		writeLog(session);
@@ -236,6 +251,11 @@ public class HomeAction extends ActionSupport {
 	@Autowired
 	public void setLogService(LogService logService) {
 		this.logService = logService;
+	}
+
+	@Autowired
+	public void setCategoryInfoManager(CategoryInfoManager categoryInfoManager) {
+		this.categoryInfoManager = categoryInfoManager;
 	}
 
 	public Page<FileStoreInfo> getHottestPage() {
@@ -266,8 +286,8 @@ public class HomeAction extends ActionSupport {
 		this.info = info;
 	}
 
-	public List<Category> getCategories() {
-		return categories;
+	public List<CategoryInfo> getCateInfos() {
+		return cateInfos;
 	}
 
 	public Long getCategoryId() {
@@ -284,5 +304,9 @@ public class HomeAction extends ActionSupport {
 
 	public void setQueryString(String queryString) {
 		this.queryString = queryString;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
 	}
 }

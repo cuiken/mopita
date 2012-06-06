@@ -17,26 +17,26 @@
 			body{
 				margin: 0;
 				padding: 0;
-				font-family:DFPShaoNvW;			
+				font-family:girl;			
 			}
 		</style>
 		<script>
-		$(function() {
-            var $link = $("#desc a");
-            var $hide = $("#more");
-            var $symbol= $("#symbol");
-            $link.click(function() {
-                if ($("#silder").attr("alt") == "更多") {
-                    $(this).html("<img id='silder' alt='收起' src='${ctx}/images/up.png'>");
-                    $hide.show();
-                    $symbol.hide();
-                } else {
-                    $(this).html("<img id='silder' alt='更多' src='${ctx}/images/down.png'>");
-                    $hide.hide();
-                    $symbol.show();
-                }
-            })
-        })
+			$(function() {
+				var language = window.navigator.language;
+				if(!language){
+					language = window.navigator.browserLanguage;
+				}
+				language = language.toLowerCase();
+				if(language=='zh-cn'){
+					$("#download").attr("src","${ctx}/images/dt.png");
+					$("#gohome").attr("src","${ctx}/images/dhome.png");
+					$("#more").attr("src","${ctx}/images/more.png");
+				}else{
+					$("#download").attr("src","${ctx}/images/en/dt.png");
+					$("#gohome").attr("src","${ctx}/images/en/dhome.png");
+					$("#more").attr("src","${ctx}/images/en/more.png");
+				}
+	        })
 
 		</script>
 	</head>
@@ -55,7 +55,7 @@
 				</div>
 				<div align="center">
 					<a href="${info.theme.downloadURL}">
-						<img alt="download" src="${ctx}/images/dt.png">
+						<img id="download" alt="download" src="${ctx}/images/dt.png">
 					</a>
 				</div>
 				<div  class="contents_txt">
@@ -71,25 +71,25 @@
 					<s:text name="home.desc"/> : ${info.longDescription}					
 				</div>		
 				<div style="float: right;margin: 15px;">
-					<a href="home.action?${queryString}"><img alt="gohome" src="${ctx}/images/dhome.png"></a>
+					<a href="home.action?${queryString}"><img id="gohome" alt="gohome" src="${ctx}/images/dhome.png"></a>
 				</div>	
 				<div class="category">
 					<div class="title_bar">
 						<s:text name="home.category" >
-							<s:param name="category" value="info.theme.categories[0].name"/>
+							<s:param name="category" value="categoryName"/>
 						</s:text>
 					</div>
 					<div class="icon_set">
 						<s:iterator value="catePage.result">
 							
 							<a href="${ctx}/home!details.action?id=${theme.id}&queryString=${queryString}">
-								<img alt="${theme.title}" src="${ctx}/image.action?path=${theme.iconPath}" style="margin: 2px;" width="72" height="72" class="icon"/>
+								<img alt="${theme.title}" onerror="this.src='${ctx}/images/default.png'" src="${ctx}/image.action?path=${theme.iconPath}" style="margin: 2px;" width="72" height="72" class="icon"/>
 							</a>
 							
 						</s:iterator>
 						
 						<a href="${ctx}/home!more.action?cid=${info.theme.categories[0].id}&queryString=${queryString}">							
-							<img alt="更多" src="${ctx}/images/more.png" width="72" height="72" style="margin: 2px;" class="icon" />
+							<img id="more" alt="更多" src="${ctx}/images/more.png" width="72" height="72" style="margin: 2px;" class="icon" />
 						</a>
 					</div>
 				</div>

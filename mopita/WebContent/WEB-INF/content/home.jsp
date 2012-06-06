@@ -45,12 +45,11 @@
 				<s:iterator value="newestPage.result">
 					<div class="contents_info" id="content1" onclick="location.href='${ctx}/home!details.action?id=${theme.id}&queryString=${queryString}';">			
 						<div class="contents_txt">
-							<br/>
 							<font color="#666666">${title}</font>
 							<p><font color="#aeaea6">${shortDescription}</font></p>
 						</div>
 						<div class="contents_image">						
-							<img style="margin: 3px;" alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" class="contents_image_middle">						
+							<img style="margin: 3px;" alt="${title}" onerror="this.src='${ctx}/images/default.png'" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" class="contents_image_middle">						
 						</div>
 					</div>								
 				</s:iterator>
@@ -58,7 +57,7 @@
 				<div class="icon_set">
 					<s:iterator value="hottestPage.result">				
 						<a href="${ctx}/home!details.action?id=${theme.id}&queryString=${queryString}">
-							<img alt="${title}" style="padding: 1px;" src="${ctx}/image.action?path=${theme.iconPath}" class="icon" width="72" height="72">
+							<img alt="${title}" style="padding: 1px;" onerror="this.src='${ctx}/images/default.png'" src="${ctx}/image.action?path=${theme.iconPath}" class="icon" width="72" height="72">
 						</a>		
 					</s:iterator>
 				</div>

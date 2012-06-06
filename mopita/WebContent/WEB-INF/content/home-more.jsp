@@ -21,11 +21,27 @@
 		<script src="${ctx}/js/jquery/jquery.infinitescroll.min.js"></script>
 		<style type="text/css">
 			body{
-				font-family: DFPShaoNvW;
+				font-family: girl;
 			}
 		</style>
   		<script>
 		  $(function(){
+			  
+			  var language = window.navigator.language;
+				if(!language){
+					language = window.navigator.browserLanguage;
+				}
+				language = language.toLowerCase();
+				if(language=='zh-cn'){
+					
+					$("#gohome").attr("src","${ctx}/images/home.png");
+					
+				}else{
+					
+					$("#gohome").attr("src","${ctx}/images/en/home.png");
+					
+				};
+			  
 			 $("#content1").live("click",function(){ 
 				$(this).css("backgroundColor","#e7e6c8");
 			});
@@ -43,8 +59,8 @@
 		      nextSelector : '#page-nav a',  
 		      itemSelector : '.contents_info',     
 		      loading: {
-		         	finishedMsg:'加载完成',
-		         	msgText: "<em>加载中...</em>",
+		         	finishedMsg:'No more pages to load.',
+		         	//msgText: "<em>加载中...</em>",
 		        //  img: 'http://i.imgur.com/6RMhx.gif'
 		        }
 		      },
@@ -69,10 +85,9 @@
 				<s:iterator value="catePage.result">
 					<div class="contents_info" id="content1" onclick="location.href='home!details.action?id=${theme.id}&queryString=${queryString}';">
 						<div class="contents_image">						
-							<img alt="${title}" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" style="margin: 3px;">							
+							<img alt="${title}" onerror="this.src='${ctx}/images/default.png'" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" style="margin: 3px;">							
 						</div>
 						<div class="contents_txt">
-							<br/>
 							<font color="#666666">${title}</font>
 							<p><font color="#aeaea6">${shortDescription}</font></p>
 						</div>
@@ -88,14 +103,14 @@
 			<div class="guide" style="display: block; bottom: 0px;">
 				<div>
 					<div class="navigater">
-						<s:iterator value="categories">
+						<s:iterator value="cateInfos">
 							<div class="col_4 navitem">
-				     			<a href="home!more.action?cid=${id}&queryString=${queryString}" >${name}</a>
+				     			<a href="home!more.action?cid=${category.id}&queryString=${queryString}" >${name}</a>
 					  		</div>
 						</s:iterator>
 						<div class="col_4 navitem" style="float: right;">
 							<a href="home.action?${queryString}">
-								<img alt="gohome" src="${ctx}/images/home.png" height="28">
+								<img id="gohome" alt="gohome" src="${ctx}/images/home.png" height="28">
 							</a>
 						</div>	
 					</div>
