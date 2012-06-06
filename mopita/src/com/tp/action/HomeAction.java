@@ -2,11 +2,13 @@ package com.tp.action;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.slf4j.Logger;
@@ -238,6 +240,8 @@ public class HomeAction extends ActionSupport {
 		Constants.setParamInSession(session);
 		setDefaultStore(session);
 		writeLog(session);
+		Locale local=new Locale((String) session.getAttribute(Constants.PARA_LANGUAGE));
+		ServletActionContext.getContext().setLocale(local);
 	}
 
 	@Autowired

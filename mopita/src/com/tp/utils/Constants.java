@@ -1,7 +1,10 @@
 package com.tp.utils;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
+import com.google.common.collect.Lists;
 import com.tp.entity.DownloadType;
 
 public class Constants {
@@ -23,13 +26,13 @@ public class Constants {
 	public static final String PARA_STORE_TYPE = "st";
 	public static final String PARA_CLIENT_VERSION = "v";
 	public static final String PARA_RESOLUTION = "r";
-	
-	public static final String QUERY_STRING="queryString";
+
+	public static final String QUERY_STRING = "queryString";
 
 	public static final String PREFIX_MARKET_URI = "market://details?id=";
 
 	public enum Language {
-		ZH("ZH"), EN("EN"), JP("JP");
+		ZH("zh"), EN("en"), JP("jp");
 		private String value;
 
 		Language(String value) {
@@ -68,10 +71,10 @@ public class Constants {
 		} else if (store_type == null && session.getAttribute(PARA_STORE_TYPE) == null) {
 			session.setAttribute(PARA_STORE_TYPE, LOCK_STORE);
 		}
-		if (language != null) {
-			session.setAttribute(PARA_LANGUAGE, language.toUpperCase());
-		} else if (language == null && session.getAttribute(PARA_LANGUAGE) == null) {
-			session.setAttribute(PARA_LANGUAGE, Language.ZH.getValue());
+		if (language != null && defaultLanguage().contains(language.toLowerCase())) {
+			session.setAttribute(PARA_LANGUAGE, language.toLowerCase());
+		} else {
+			session.setAttribute(PARA_LANGUAGE, Language.EN.getValue());
 		}
 		if (fromMarket != null) {
 			session.setAttribute(PARA_FROM_MARKET, fromMarket);
@@ -81,5 +84,13 @@ public class Constants {
 		} else if (downMethod == null && session.getAttribute(PARA_DOWNLOAD_METHOD) == null) {
 			session.setAttribute(PARA_DOWNLOAD_METHOD, DownloadType.HTTP.getValue());
 		}
+	}
+
+	private static List<String> defaultLanguage() {
+		List<String> languages = Lists.newArrayList();
+		languages.add("zh");
+		languages.add("en");
+		languages.add("jp");
+		return languages;
 	}
 }
