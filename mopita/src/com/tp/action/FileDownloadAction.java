@@ -30,6 +30,12 @@ public class FileDownloadAction extends ActionSupport {
 		inputStream = new FileInputStream(file);
 		return SUCCESS;
 	}
+	
+	public String getClient() throws Exception{
+		
+		this.setInputPath("/client/FunlockerClientV2.0.0.apk");
+		return execute();
+	}
 
 	public InputStream getInputStream() {
 
