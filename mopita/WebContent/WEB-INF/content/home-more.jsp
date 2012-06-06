@@ -89,8 +89,10 @@
 							<img alt="${title}" onerror="this.src='${ctx}/images/default.png'" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" style="margin: 3px;">							
 						</div>
 						<div class="contents_txt">
-							<font color="#666666">${title}</font>
-							<p><font color="#aeaea6">${shortDescription}</font></p>
+							<div style="margin-top: 10px;">
+								<font color="#666666">${title}</font>
+								<p><font color="#aeaea6">${shortDescription}</font></p>
+							</div>
 						</div>
 					</div>
 				</s:iterator>

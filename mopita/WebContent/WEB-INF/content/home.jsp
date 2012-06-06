@@ -45,8 +45,10 @@
 				<s:iterator value="newestPage.result">
 					<div class="contents_info" id="content1" onclick="location.href='${ctx}/home!details.action?id=${theme.id}&queryString=${queryString}';">			
 						<div class="contents_txt">
-							<font color="#666666">${title}</font>
-							<p><font color="#aeaea6">${shortDescription}</font></p>
+							<div style="margin-top: 10px;">
+								<font color="#666666">${title}</font>
+								<p><font color="#aeaea6">${shortDescription}</font></p>
+							</div>
 						</div>
 						<div class="contents_image">						
 							<img style="margin: 3px;" alt="${title}" onerror="this.src='${ctx}/images/default.png'" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" class="contents_image_middle">						
