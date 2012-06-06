@@ -571,9 +571,9 @@ button {
   bottom: 40px;
   width: 200px;
   padding: 10px;
-  background: #000; 
+  background: #E5E5E5; 
   opacity: 0.8;
-  color: #FFF;
+  color: #666666;
   -webkit-border-radius: 10px;
      -moz-border-radius: 10px;
           border-radius: 10px;

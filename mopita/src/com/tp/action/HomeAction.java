@@ -59,6 +59,7 @@ public class HomeAction extends ActionSupport {
 	private String queryString;
 
 	private String categoryName;
+	private String language;
 
 	@Override
 	public String execute() throws Exception {
@@ -154,7 +155,7 @@ public class HomeAction extends ActionSupport {
 			doQueryString();
 			HttpSession session = Struts2Utils.getSession();
 			prepareInStore(session);
-			String language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
+			language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
 			Long storeId = (Long) session.getAttribute(Constants.SESS_DEFAULT_STORE);
 			info = fileManager.getStoreInfoBy(storeId, id, language);
 			if (info == null)
@@ -169,8 +170,14 @@ public class HomeAction extends ActionSupport {
 				}
 			}
 
-			catePage.setPageSize(3);
 			catePage = fileManager.searchInfoByCategoryAndStore(catePage, cate.getId(), storeId, language);
+			List<FileStoreInfo> fileinfos = catePage.getResult();
+			fileinfos.remove(info);
+			Collections.shuffle(fileinfos);
+			if (fileinfos.size() > 3) {
+				fileinfos = fileinfos.subList(0, 3);
+			}
+			catePage.setResult(fileinfos);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			return "reload";
@@ -215,7 +222,7 @@ public class HomeAction extends ActionSupport {
 		doQueryString();
 		HttpSession session = Struts2Utils.getSession();
 		prepareInStore(session);
-		String language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
+		language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
 		String storeType = (String) session.getAttribute(Constants.PARA_STORE_TYPE);
 		Store store = categoryManager.getStoreByValue(storeType);
 		categoryId = Long.valueOf(Struts2Utils.getParameter("cid"));
@@ -308,5 +315,9 @@ public class HomeAction extends ActionSupport {
 
 	public String getCategoryName() {
 		return categoryName;
+	}
+	
+	public String getLanguage() {
+		return language;
 	}
 }

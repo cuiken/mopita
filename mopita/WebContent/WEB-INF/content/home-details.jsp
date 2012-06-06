@@ -2,7 +2,7 @@
 <%@include file="/common/taglibs.jsp" %>
 <% response.setHeader("remember", "true"); %>
 <!DOCTYPE HTML>
-<html lang="en">
+<html>
 	<head>
 	 	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=2.0; user-scalable=0;">
 	 	<meta name="apple-mobile-web-app-capable" content="yes"> 
@@ -22,12 +22,16 @@
 		</style>
 		<script>
 			$(function() {
-				var language = window.navigator.language;
+				/**
+				var language = navigator.language;
 				if(!language){
-					language = window.navigator.browserLanguage;
+					language = navigator.browserLanguage;
 				}
+
 				language = language.toLowerCase();
-				if(language=='zh-cn'){
+				alert(language);
+				*/
+				if('${language}'=='ZH'){
 					$("#download").attr("src","${ctx}/images/dt.png");
 					$("#gohome").attr("src","${ctx}/images/dhome.png");
 					$("#more").attr("src","${ctx}/images/more.png");

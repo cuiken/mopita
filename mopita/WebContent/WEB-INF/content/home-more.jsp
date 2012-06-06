@@ -26,13 +26,14 @@
 		</style>
   		<script>
 		  $(function(){
-			  
+			  /**
 			  var language = window.navigator.language;
 				if(!language){
 					language = window.navigator.browserLanguage;
 				}
 				language = language.toLowerCase();
-				if(language=='zh-cn'){
+				*/
+				if('${language}'=='ZH'){
 					
 					$("#gohome").attr("src","${ctx}/images/home.png");
 					
