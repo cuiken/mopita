@@ -55,26 +55,30 @@
 				</div>
 				<div align="center">
 					<a href="${info.theme.downloadURL}">
-						<img alt="下载" src="${ctx}/images/dt.png">
+						<img alt="download" src="${ctx}/images/dt.png">
 					</a>
 				</div>
 				<div  class="contents_txt">
 					<div style="float: left; width: 50%; margin-bottom: 15px;margin-top: 15px;">
-						设计师:${info.author}
+						<s:text name="home.author"/> : ${info.author}
 					</div>				
 					<div style="float:right;  width: 50%;margin-bottom: 15px;margin-top: 15px;">
-						大小: ${fn:substring(info.theme.apkSize/1024/1024, 0, 4)}M
+						<s:text name="home.size"/> : ${fn:substring(info.theme.apkSize/1024/1024, 0, 4)}M
 						
 					</div>
 				</div>
 				<div class="contents_txt" id="desc" style="line-height: 130%;">
-					简介:${info.longDescription}					
+					<s:text name="home.desc"/> : ${info.longDescription}					
 				</div>		
 				<div style="float: right;margin: 15px;">
 					<a href="home.action?${queryString}"><img alt="gohome" src="${ctx}/images/dhome.png"></a>
 				</div>	
 				<div class="category">
-					<div class="title_bar">${info.theme.categories[0].name}系列</div>
+					<div class="title_bar">
+						<s:text name="home.category" >
+							<s:param name="category" value="info.theme.categories[0].name"/>
+						</s:text>
+					</div>
 					<div class="icon_set">
 						<s:iterator value="catePage.result">
 							
