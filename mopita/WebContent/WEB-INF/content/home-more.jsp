@@ -33,7 +33,7 @@
 				}
 				language = language.toLowerCase();
 				*/
-				if('${language}'=='ZH'){
+				if('${language}'=='zh'){
 					
 					$("#gohome").attr("src","${ctx}/images/home.png");
 					

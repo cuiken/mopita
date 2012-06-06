@@ -79,7 +79,7 @@ public class HomeAction extends ActionSupport {
 		this.setQueryString(request.getQueryString());
 		HttpSession session = Struts2Utils.getSession();
 		prepareInStore(session);
-		String language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
+		language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
 		Long storeId = (Long) session.getAttribute(Constants.SESS_DEFAULT_STORE);
 
 		hottestPage.setPageSize(12);

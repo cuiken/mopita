@@ -31,7 +31,7 @@
 				language = language.toLowerCase();
 				alert(language);
 				*/
-				if('${language}'=='ZH'){
+				if('${language}'=='zh'){
 					$("#download").attr("src","${ctx}/images/dt.png");
 					$("#gohome").attr("src","${ctx}/images/dhome.png");
 					$("#more").attr("src","${ctx}/images/more.png");

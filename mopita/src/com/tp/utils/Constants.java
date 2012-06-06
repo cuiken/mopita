@@ -71,11 +71,18 @@ public class Constants {
 		} else if (store_type == null && session.getAttribute(PARA_STORE_TYPE) == null) {
 			session.setAttribute(PARA_STORE_TYPE, LOCK_STORE);
 		}
-		if (language != null && defaultLanguage().contains(language.toLowerCase())) {
-			session.setAttribute(PARA_LANGUAGE, language.toLowerCase());
-		} else {
+
+		if (language != null) {
+			if(defaultLanguage().contains(language.toLowerCase())){
+				session.setAttribute(PARA_LANGUAGE, language.toLowerCase());
+			}else{
+				session.setAttribute(PARA_LANGUAGE, Language.EN.getValue());
+			}
+			
+		} else if (language == null && session.getAttribute(PARA_LANGUAGE) == null) {
 			session.setAttribute(PARA_LANGUAGE, Language.EN.getValue());
 		}
+		
 		if (fromMarket != null) {
 			session.setAttribute(PARA_FROM_MARKET, fromMarket);
 		}
