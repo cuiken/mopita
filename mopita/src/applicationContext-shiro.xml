@@ -26,6 +26,7 @@
 				/login.action = authc
 				/home*.action= anon
 				/image* = anon
+				/log/** = anon
 				/file-download* = anon
 				/logout.action = logout
 				/static/** = anon
