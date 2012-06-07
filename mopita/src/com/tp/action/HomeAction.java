@@ -215,7 +215,7 @@ public class HomeAction extends ActionSupport {
 		} else {
 			List<ThemeFile> files = market.getThemes();
 			if (files.contains(info.getTheme())) {
-				info.getTheme().setDownloadURL(market.getMarketKey() + info.getTheme().getMarketURL());
+				info.getTheme().setDownloadURL(market.getMarketKey() + info.getTheme().getMarketURL()+"&versioncode="+info.getTheme().getVersion());
 			} else {
 				info.getTheme().setDownloadURL(http);
 			}

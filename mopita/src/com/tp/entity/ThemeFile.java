@@ -38,6 +38,7 @@ public class ThemeFile extends IdEntity {
 	private String availMachine;
 	private String unavailMachine;
 	private String marketURL;
+	private String version;
 	private String iconPath;
 	private String adPath;
 	private String preWebPath;
@@ -156,6 +157,14 @@ public class ThemeFile extends IdEntity {
 		this.marketURL = marketURL;
 	}
 
+	public String getVersion() {
+		return version;
+	}
+	
+	public void setVersion(String version) {
+		this.version = version;
+	}
+	
 	public Date getCreateTime() {
 		return createTime;
 	}

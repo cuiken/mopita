@@ -1,8 +1,11 @@
 package com.tp.utils;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
+
+import org.apache.struts2.ServletActionContext;
 
 import com.google.common.collect.Lists;
 import com.tp.entity.DownloadType;
@@ -79,10 +82,11 @@ public class Constants {
 				session.setAttribute(PARA_LANGUAGE, Language.EN.getValue());
 			}
 			
-		} else if (language == null && session.getAttribute(PARA_LANGUAGE) == null) {
-			session.setAttribute(PARA_LANGUAGE, Language.EN.getValue());
+		} else {
+
+			session.setAttribute(PARA_LANGUAGE, getLocal());
 		}
-		
+		getLocal();
 		if (fromMarket != null) {
 			session.setAttribute(PARA_FROM_MARKET, fromMarket);
 		}
@@ -99,5 +103,10 @@ public class Constants {
 		languages.add("en");
 		languages.add("jp");
 		return languages;
+	}
+	
+	private static String  getLocal(){
+		Locale local=ServletActionContext.getContext().getLocale();
+		return local.getLanguage();
 	}
 }

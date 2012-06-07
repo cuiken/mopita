@@ -39,9 +39,9 @@
 			<table>
 				<thead>
 				<tr>
-					<th><a href="javascript:sort('title','asc')">标题</a></th>
-									
-					<th><a>apk包名</a></th>					
+					<th><a href="javascript:sort('title','asc')">标题</a></th>									
+					<th>apk包名</th>		
+					<th>版本</th>				
 					<th><a href="javascript:sort('createTime','asc')">添加时间</a></th>
 					<th>操作</th>
 				</tr>
@@ -49,9 +49,9 @@
 				<tbody>
 				<s:iterator value="page.result">
 					<tr>
-						<td>${title}</td>
-												
+						<td>${title}</td>											
 						<td>${marketURL}</td>
+						<td>${version}</td>
 						<td>${createTime}</td>
 						<td>
 							<shiro:hasPermission name="file:edit">

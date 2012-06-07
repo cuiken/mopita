@@ -56,8 +56,13 @@
 				</div>
 				
 				<div>
-					<label for="marketURL" class="field">Market地址:<font class="red">*</font></label>
+					<label for="marketURL" class="field">apk包名:<font class="red">*</font></label>
 					<input type="text" id="marketURL" name="marketURL" value="${marketURL}" size="25" maxlength="100" class="required">
+				</div>
+				
+				<div>
+					<label for="version" class="field">文件版本:<font class="red">*</font></label>
+					<input type="text" id="version" name="version" value="${version}" size="25" maxlength="10" class="required">
 				</div>
 				
 				<div>

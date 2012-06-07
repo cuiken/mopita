@@ -62,6 +62,7 @@ create table f_file(
 	pre_web_path varchar(255),
 	pre_client_path varchar(255),
 	market_url varchar(100),
+	version varchar(10),
 	create_time timestamp,
 	primary key(id)
 
