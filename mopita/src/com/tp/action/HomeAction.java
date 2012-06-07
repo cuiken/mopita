@@ -124,8 +124,10 @@ public class HomeAction extends ActionSupport {
 		String downType = (String) session.getAttribute(Constants.PARA_DOWNLOAD_METHOD);
 		String clientVersion = (String) session.getAttribute(Constants.PARA_CLIENT_VERSION);
 		String reso = (String) session.getAttribute(Constants.PARA_RESOLUTION);
+		String storeType = (String) session.getAttribute(Constants.PARA_STORE_TYPE);
 		log.setRequestLink(requestLink);
 		log.setClientVersion(clientVersion);
+		log.setStoreType(storeType);
 		log.setDownType(downType);
 		log.setFromMarket(fromMarket);
 		log.setResolution(reso);
@@ -240,7 +242,7 @@ public class HomeAction extends ActionSupport {
 		Constants.setParamInSession(session);
 		setDefaultStore(session);
 		writeLog(session);
-		Locale local=new Locale((String) session.getAttribute(Constants.PARA_LANGUAGE));
+		Locale local = new Locale((String) session.getAttribute(Constants.PARA_LANGUAGE));
 		ServletActionContext.getContext().setLocale(local);
 	}
 
@@ -320,7 +322,7 @@ public class HomeAction extends ActionSupport {
 	public String getCategoryName() {
 		return categoryName;
 	}
-	
+
 	public String getLanguage() {
 		return language;
 	}
