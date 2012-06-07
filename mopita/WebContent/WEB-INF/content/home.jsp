@@ -43,7 +43,7 @@
 				</div>
 			  </s:if>
 				<s:iterator value="newestPage.result">
-					<div class="contents_info" id="content1" onclick="location.href='${ctx}/home!details.action?id=${theme.id}&queryString=${queryString}';">			
+					<div class="contents_info" id="content1" onclick="location.href='${ctx}/home!details.action?id=${theme.id}&l=${language}&queryString=${queryString}';">			
 						<div class="contents_txt">
 							<div style="margin-top: 10px;">
 								<font color="#666666">${title}</font>
@@ -58,7 +58,7 @@
 				
 				<div class="icon_set">
 					<s:iterator value="hottestPage.result">				
-						<a href="${ctx}/home!details.action?id=${theme.id}&queryString=${queryString}">
+						<a href="${ctx}/home!details.action?id=${theme.id}&l=${language}&queryString=${queryString}">
 							<img alt="${title}" style="padding: 1px;" onerror="this.src='${ctx}/images/default.png'" src="${ctx}/image.action?path=${theme.iconPath}" class="icon" width="72" height="72">
 						</a>		
 					</s:iterator>

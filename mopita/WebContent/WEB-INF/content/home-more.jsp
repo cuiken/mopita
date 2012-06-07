@@ -108,7 +108,7 @@
 					<div class="navigater">
 						<s:iterator value="cateInfos">
 							<div class="col_4 navitem">
-				     			<a href="home!more.action?cid=${category.id}&queryString=${queryString}" >${name}</a>
+				     			<a href="home!more.action?cid=${category.id}&l=${language}&queryString=${queryString}" >${name}</a>
 					  		</div>
 						</s:iterator>
 						<div class="col_4 navitem" style="float: right;">
