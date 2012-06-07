@@ -32,20 +32,20 @@ body {
   color: #222;
   line-height: 1.6em;*/
 }
-
-a {
-  color: #A2C;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-a:hover {
-  color: #D26;
+.navitem a {
+	
+	COLOR: #8c8c8c;
+	DISPLAY: block;
+	height: 28px;
+	text-decoration: none;
 }
 
 a:active {
   background: hsla( 0, 100%, 100%, 0.5 );
 }
+
+
+
 
 h1, h2 {
   font-weight: 100;
@@ -640,12 +640,7 @@ code .nd { color: #9FAD7E; } /* CSS pseudo selector */
 .clearfix:before, .clearfix:after { content: ""; display: table; }
 .clearfix:after { clear: both; }
 .clearfix { zoom: 1; }
-a, a:active, a:visited, a:focus {
-color: #105CB6;
--moz-outline: none;
-outline: none;
-text-decoration: none;
-}
+
 .navigater {
   padding: 5px;
   margin-bottom: 20px;
@@ -706,12 +701,6 @@ display:block;
 FONT-WEIGHT: bolder;
 COLOR: blue;
 DISPLAY: block;
-}
-.navitem a {
-FONT-WEIGHT: bolder;
-COLOR: #8c8c8c;
-DISPLAY: block;
-height: 28px;
 }
 
 .guide {

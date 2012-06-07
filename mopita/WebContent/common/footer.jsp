@@ -6,5 +6,5 @@
 		<br>
 		<font>Copyright 2012 </font>
 		<br/>
-		<font><s:text name="right.company"/></font>
+		&nbsp;&nbsp;&nbsp;<font><s:text name="right.company"/></font>
 	</div>

@@ -26,13 +26,8 @@
 		</style>
   		<script>
 		  $(function(){
-			  /**
-			  var language = window.navigator.language;
-				if(!language){
-					language = window.navigator.browserLanguage;
-				}
-				language = language.toLowerCase();
-				*/
+
+				$("#${categoryId}").css("font-weight","900").css("font-size","130%");
 				if('${language}'=='zh'){
 					
 					$("#gohome").attr("src","${ctx}/images/home.png");
@@ -108,7 +103,7 @@
 					<div class="navigater">
 						<s:iterator value="cateInfos">
 							<div class="col_4 navitem">
-				     			<a href="home!more.action?cid=${category.id}&l=${language}&queryString=${queryString}" >${name}</a>
+				     			<a id="${category.id}" href="home!more.action?cid=${category.id}&l=${language}&queryString=${queryString}" >${name}</a>
 					  		</div>
 						</s:iterator>
 						<div class="col_4 navitem" style="float: right;">
