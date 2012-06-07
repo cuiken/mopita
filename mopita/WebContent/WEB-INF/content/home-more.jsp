@@ -84,7 +84,7 @@
 			
 			<div id="container" class="transitions-enabled infinite-scroll clearfix"> 
 				<s:iterator value="catePage.result">
-					<div class="contents_info" id="content1" onclick="location.href='home!details.action?id=${theme.id}&queryString=${queryString}';">
+					<div class="contents_info" id="content1" onclick="location.href='home!details.action?id=${theme.id}&l=${language}&queryString=${queryString}';">
 						<div class="contents_image">						
 							<img alt="${title}" onerror="this.src='${ctx}/images/default.png'" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" style="margin: 3px;">							
 						</div>

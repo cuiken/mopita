@@ -40,7 +40,7 @@
 				<thead>
 				<tr>
 					<th><a href="javascript:sort('title','asc')">标题</a></th>
-					<th><a href="javascript:sort('name','asc')">文件名</a></th>					
+									
 					<th><a>apk包名</a></th>					
 					<th><a href="javascript:sort('createTime','asc')">添加时间</a></th>
 					<th>操作</th>
@@ -50,7 +50,7 @@
 				<s:iterator value="page.result">
 					<tr>
 						<td>${title}</td>
-						<td>${name}</td>						
+												
 						<td>${marketURL}</td>
 						<td>${createTime}</td>
 						<td>

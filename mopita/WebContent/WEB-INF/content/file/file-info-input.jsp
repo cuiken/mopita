@@ -37,9 +37,9 @@
 				${language}
 				<s:if test="id==null">
 					<select name="language">
-						<option value="ZH">中文</option>
-						<option value="EN">英文</option>
-						<option value="JP">日文</option>
+						<option value="zh">中文</option>
+						<option value="en">英文</option>
+						<option value="jp">日文</option>
 					</select>
 				</s:if>
 			</div>
