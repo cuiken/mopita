@@ -2,3 +2,7 @@
 	font-family: DFPShaoNvW;
 	src:url(font/girl.ttf);
 }
+
+img{
+	border: 0;
+}

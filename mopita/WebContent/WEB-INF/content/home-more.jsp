@@ -60,8 +60,8 @@
 		      nextSelector : '#page-nav a',  
 		      itemSelector : '.contents_info',     
 		      loading: {
-		         	finishedMsg:'No more pages to load.',
-		         	//msgText: "<em>加载中...</em>",
+		         	finishedMsg:"<s:text name='home.finishedMsg'/>",
+		         	msgText: "<s:text name='home.msgText'/>",
 		        //  img: 'http://i.imgur.com/6RMhx.gif'
 		        }
 		      },

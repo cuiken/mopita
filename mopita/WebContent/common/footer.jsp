@@ -2,7 +2,9 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 	<div style="text-align: center; width: 98%;line-height: 130% ;margin-bottom: 20px;">
 		<br>
-		<font>Copyright 2012 <s:text name="right.product"/></font>
+		&copy; <s:text name="right.product"/>
+		<br>
+		<font>Copyright 2012 </font>
 		<br/>
-		<font><s:text name="right.company"/>.All Rights Reserved.</font>
+		<font><s:text name="right.company"/></font>
 	</div>
