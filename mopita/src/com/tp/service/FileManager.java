@@ -59,7 +59,7 @@ public class FileManager {
 	}
 
 	public List<FileStoreInfo> getStoreInfoByFiId(Long fiId) {
-		return storeInfoDao.getByFileInfo(fiId);
+		return storeInfoDao.findBy("fiId", fiId);
 	}
 
 	public boolean isFileInfoUnique(Long fid, String language) {

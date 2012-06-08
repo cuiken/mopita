@@ -7,6 +7,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * 文件在市场上的信息实体
@@ -16,6 +18,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  */
 @Entity
 @Table(name = "f_store_info")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class FileStoreInfo extends IdEntity {
 
 	private String title;
@@ -80,6 +83,7 @@ public class FileStoreInfo extends IdEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "f_id")
+	@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 	public ThemeFile getTheme() {
 		return theme;
 	}
@@ -118,8 +122,7 @@ public class FileStoreInfo extends IdEntity {
 			return false;
 
 		FileStoreInfo that = (FileStoreInfo) obj;
-		return that.getId().equals(this.getId())
-				&& that.getLanguage().equals(this.getLanguage());
+		return that.getId().equals(this.getId()) && that.getLanguage().equals(this.getLanguage());
 	}
 
 	@Override

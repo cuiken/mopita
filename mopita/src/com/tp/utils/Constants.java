@@ -33,6 +33,7 @@ public class Constants {
 	public static final String QUERY_STRING = "queryString";
 
 	public static final String PREFIX_MARKET_URI = "market://details?id=";
+	public static final String LENVOL_STORE="com.lenovo.leos.appstore";
 
 	public enum Language {
 		ZH("zh"), EN("en"), JP("jp");

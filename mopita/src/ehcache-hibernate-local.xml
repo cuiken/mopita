@@ -16,5 +16,12 @@
 		maxEntriesLocalDisk="1000" />
 	<cache name="com.tp.entity.account.Group.permissionList" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"
 		maxEntriesLocalDisk="1000" />
+	<cache name="com.tp.entity.FileStoreInfo" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"
+		maxEntriesLocalDisk="1000"></cache>
+	<cache name="com.tp.entity.FileStoreInfo.theme" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"
+		maxEntriesLocalDisk="1000"></cache>
 
+	<cache name="SimplePageCachingFilter" maxElementsInMemory="10" maxElementsOnDisk="10" eternal="false"
+		overflowToDisk="true" diskSpoolBufferSizeMB="20" timeToIdleSeconds="120" timeToLiveSeconds="120"
+		memoryStoreEvictionPolicy="LFU" />
 </ehcache>

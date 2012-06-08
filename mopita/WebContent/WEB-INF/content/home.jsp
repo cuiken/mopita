@@ -23,11 +23,6 @@
 				});
 			});
 		</script>
-		<style type="text/css">
-			font{
-				font-family: DFPShaoNvW;
-			}
-		</style>
 	</head>
 	<body>
 	

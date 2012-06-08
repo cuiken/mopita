@@ -1,5 +1,7 @@
 package com.tp.action;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -196,15 +198,24 @@ public class HomeAction extends ActionSupport {
 		this.setQueryString(StringUtils.substring(queryString, index + Constants.QUERY_STRING.length() + 1));
 	}
 
-	private void setDownloadType(HttpSession session) {
+	private void setDownloadType(HttpSession session) throws UnsupportedEncodingException {
 
 		String fromMarket = (String) session.getAttribute(Constants.PARA_FROM_MARKET);
 		String downType = (String) session.getAttribute(Constants.PARA_DOWNLOAD_METHOD);
-		String http = "file-download.action?inputPath=" + info.getTheme().getApkPath();
+		StringBuilder httpBuffer = new StringBuilder();
+		httpBuffer.append("file-download.action?id=");
+		httpBuffer.append(info.getTheme().getId());
+		httpBuffer.append("&inputPath=");
+		httpBuffer.append(URLEncoder.encode(info.getTheme().getApkPath(),"utf-8"));
+		httpBuffer.append("&title="+URLEncoder.encode(info.getTitle(),"utf-8"));
+		if (!queryString.isEmpty()) {
+			httpBuffer.append("&");
+			httpBuffer.append(queryString);
+		}
 		if (downType.equals(DownloadType.MARKET.getValue())) {
-			marketDownload(fromMarket, http);
+			marketDownload(fromMarket, httpBuffer.toString());
 		} else {
-			info.getTheme().setDownloadURL(http);
+			info.getTheme().setDownloadURL(httpBuffer.toString());
 		}
 	}
 
@@ -213,12 +224,20 @@ public class HomeAction extends ActionSupport {
 		if (market == null || market.getMarketKey().isEmpty()) {
 			info.getTheme().setDownloadURL(http);
 		} else {
-			List<ThemeFile> files = market.getThemes();
-			if (files.contains(info.getTheme())) {
-				info.getTheme().setDownloadURL(market.getMarketKey() + info.getTheme().getMarketURL()+"&versioncode="+info.getTheme().getVersion());
-			} else {
-				info.getTheme().setDownloadURL(http);
+			fileInMarket(market, http);
+		}
+	}
+
+	private void fileInMarket(Market market, String http) {
+		List<ThemeFile> files = market.getThemes();
+		if (files.contains(info.getTheme())) {
+			String uri = market.getMarketKey() + info.getTheme().getMarketURL();
+			if (market.getPkName().equals(Constants.LENVOL_STORE)) {
+				uri += ("&versioncode=" + info.getTheme().getVersion());
 			}
+			info.getTheme().setDownloadURL(uri);
+		} else {
+			info.getTheme().setDownloadURL(http);
 		}
 	}
 
