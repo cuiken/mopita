@@ -42,17 +42,28 @@
 		<%
 		String error = (String) request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
 		if(error != null){
+			if(error.contains("DisabledAccountException")){
 		%>
 			<div class="control-group">
 			<div class="controls ">
 			<div class="alert alert-error">
 			<button class="close" data-dismiss="alert">×</button>
-			登录失败，请重试.</div>
+			用户已被屏蔽,请登录其他用户.</div>
+			</div>
+			</div>
+		<%
+			}else{
+		%>	
+			<div class="control-group">
+			<div class="controls ">
+			<div class="alert alert-error">
+			<button class="close" data-dismiss="alert">×</button>
+				登录失败，请重试.</div>
 			</div>
 			</div>
 			
 		<%
-		}
+		}}
 		%>
 			<div class="control-group">
 				<label for="username" class="control-label">名称:</label>

@@ -2,26 +2,36 @@ package com.tp.service.account;
 
 import java.io.Serializable;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.DisabledAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.tp.entity.account.Group;
 import com.tp.entity.account.User;
+import com.tp.utils.Digests;
+import com.tp.utils.Encodes;
 
 /**
  * 自实现用户与权限查询.
- * 密码用明文存储，因此使用默认 的SimpleCredentialsMatcher.
  */
 public class ShiroDbRealm extends AuthorizingRealm {
+
+	private static final int INTERATIONS = 1024;
+	private static final int SALT_SIZE = 8;
+	private static final String ALGORITHM = "SHA-1";
 
 	private AccountManager accountManager;
 
@@ -33,8 +43,12 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
 		User user = accountManager.findUserByLoginName(token.getUsername());
 		if (user != null) {
+			if (user.getStatus().equals("disabled")) {
+				throw new DisabledAccountException();
+			}
+			byte[] salt = Encodes.decodeHex(user.getSalt());
 			return new SimpleAuthenticationInfo(new ShiroUser(user.getLoginName(), user.getName()), user.getPassword(),
-					getName());
+					ByteSource.Util.bytes(salt), getName());
 		} else {
 			return null;
 		}
@@ -63,8 +77,19 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	 * 更新用户授权信息缓存.
 	 */
 	public void clearCachedAuthorizationInfo(String principal) {
-		SimplePrincipalCollection principals = new SimplePrincipalCollection(principal, getName());
+		SimplePrincipalCollection principals = new SimplePrincipalCollection(new ShiroUser(principal, null), getName());
 		clearCachedAuthorizationInfo(principals);
+	}
+
+	public HashPassword encrypt(String plainText) {
+		HashPassword result = new HashPassword();
+		byte[] salt = Digests.generateSalt(SALT_SIZE);
+		result.salt = Encodes.encodeHex(salt);
+
+		byte[] hashPassword = Digests.sha1(plainText.getBytes(), salt, INTERATIONS);
+		result.password = Encodes.encodeHex(hashPassword);
+		return result;
+
 	}
 
 	/**
@@ -77,6 +102,14 @@ public class ShiroDbRealm extends AuthorizingRealm {
 				cache.remove(key);
 			}
 		}
+	}
+
+	@PostConstruct
+	public void initCredentialsMatcher() {
+		HashedCredentialsMatcher matcher = new HashedCredentialsMatcher(ALGORITHM);
+		matcher.setHashIterations(INTERATIONS);
+
+		setCredentialsMatcher(matcher);
 	}
 
 	@Autowired
@@ -113,5 +146,10 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		public String getName() {
 			return name;
 		}
+	}
+
+	public static class HashPassword {
+		public String salt;
+		public String password;
 	}
 }

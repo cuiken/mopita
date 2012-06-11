@@ -26,9 +26,12 @@ import com.tp.utils.ConvertUtils;
 public class User extends IdEntity {
 
 	private String loginName;
+	private String plainPassword;
 	private String password;
+	private String salt;
 	private String name;
 	private String email;
+	private String status;
 	private List<Group> groupList = Lists.newArrayList();
 
 	public String getLoginName() {
@@ -39,12 +42,29 @@ public class User extends IdEntity {
 		this.loginName = loginName;
 	}
 
+	@Transient
+	public String getPlainPassword() {
+		return plainPassword;
+	}
+
+	public void setPlainPassword(String plainPassword) {
+		this.plainPassword = plainPassword;
+	}
+
 	public String getPassword() {
 		return password;
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 
 	public String getName() {
@@ -61,6 +81,14 @@ public class User extends IdEntity {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	@ManyToMany

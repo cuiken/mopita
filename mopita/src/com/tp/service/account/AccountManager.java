@@ -2,6 +2,7 @@ package com.tp.service.account;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import com.tp.dao.account.UserDao;
 import com.tp.entity.account.Group;
 import com.tp.entity.account.User;
 import com.tp.service.ServiceException;
+import com.tp.service.account.ShiroDbRealm.HashPassword;
 
 @Component
 @Transactional(readOnly = true)
@@ -30,28 +32,28 @@ public class AccountManager {
 	}
 
 	@Transactional(readOnly = false)
-	public void saveUser(User entity) {
-		userDao.save(entity);
-		shiroRealm.clearCachedAuthorizationInfo(entity.getLoginName());
-	}
-
-	/**
-	 * 删除用户,如果尝试删除超级管理员将抛出异常.
-	 */
-	@Transactional(readOnly = false)
-	public void deleteUser(Long id) {
-		if (isSupervisor(id)) {
-			logger.warn("操作员{}尝试删除超级管理员用户", SecurityUtils.getSubject().getPrincipal());
-			throw new ServiceException("不能删除超级管理员用户");
+	public void saveUser(User user) {
+		if (isSupervisor(user)) {
+			logger.warn("操作员{}尝试修改超级管理员用户", SecurityUtils.getSubject().getPrincipal());
+			throw new ServiceException("不能修改超级管理员用户");
 		}
-		userDao.delete(id);
+
+		if (StringUtils.isNotBlank(user.getPlainPassword()) && shiroRealm != null) {
+			HashPassword hashPassword = shiroRealm.encrypt(user.getPlainPassword());
+			user.setSalt(hashPassword.salt);
+			user.setPassword(hashPassword.password);
+		}
+		userDao.save(user);
+		if (shiroRealm != null) {
+			shiroRealm.clearCachedAuthorizationInfo(user.getLoginName());
+		}
 	}
 
 	/**
 	 * 判断是否超级管理员.
 	 */
-	private boolean isSupervisor(Long id) {
-		return id == 1;
+	private boolean isSupervisor(User user) {
+		return (user.getId() != null && user.getId() == 1L);
 	}
 
 	public List<User> getAllUser() {

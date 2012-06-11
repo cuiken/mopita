@@ -59,7 +59,7 @@ public class UserAction extends CRUDActionSupport<User> {
 	@Override
 	@RequiresPermissions("user:edit")
 	public String delete() throws Exception {
-		accountManager.deleteUser(id);
+		
 		return RELOAD;
 	}
 

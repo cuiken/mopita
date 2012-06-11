@@ -66,15 +66,15 @@
 				</div>
 			</div>
 			<div class="control-group">
-				<label for="password" class="control-label">密码:</label>
+				<label for="plainPassword" class="control-label">密码:</label>
 				<div class="controls">
-					<input type="password" id="password" name="password" size="50" value="${password}" class="required" minlength="3"/>
+					<input type="password" id="plainPassword" name="plainPassword" size="50" class="required" minlength="3"/>
 				</div>
 			</div>
 			<div class="control-group">
 				<label for="passwordConfirm" class="control-label">确认密码:</label>
 				<div class="controls">
-					<input type="password" id="passwordConfirm" name="passwordConfirm" size="50" value="${password}" equalTo="#password"/>
+					<input type="password" id="passwordConfirm" name="passwordConfirm" size="50" equalTo="#plainPassword"/>
 				</div>
 			</div>
 			<div class="control-group">
@@ -89,6 +89,12 @@
 					<s:checkboxlist id="groupList" name="checkedGroupIds"  list="allGroups" listKey="id" listValue="name" theme="simple"></s:checkboxlist>
 				</div>
 			</div>	
+			<div class="control-group">
+				<label for="status" class="control-label">状态:</label>
+				<div class="controls">
+					<s:select name="status" list="#{'enabled':'enabled','disabled':'disabled'}" listKey="key" listValue="value"></s:select>				
+				</div>
+			</div>
 			<div class="form-actions">
 				<input id="submit" class="btn btn-primary" type="submit" value="提交"/>&nbsp;	
 				<input id="cancel" class="btn" type="button" value="返回" onclick="history.back()"/>
