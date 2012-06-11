@@ -65,18 +65,27 @@
 					<input type="text" id="name" name="name" size="50" value="${name}" class="required"/>
 				</div>
 			</div>
-			<div class="control-group">
-				<label for="plainPassword" class="control-label">密码:</label>
-				<div class="controls">
-					<input type="password" id="plainPassword" name="plainPassword" size="50" class="required" minlength="3"/>
+			<s:if test="id==null">
+				<div class="control-group">
+					<label for="plainPassword" class="control-label">密码:</label>
+					<div class="controls">
+						<input type="password" id="plainPassword" name="plainPassword" size="50" class="required" minlength="3"/>
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<label for="passwordConfirm" class="control-label">确认密码:</label>
-				<div class="controls">
-					<input type="password" id="passwordConfirm" name="passwordConfirm" size="50" equalTo="#plainPassword"/>
+				<div class="control-group">
+					<label for="passwordConfirm" class="control-label">确认密码:</label>
+					<div class="controls">
+						<input type="password" id="passwordConfirm" name="passwordConfirm" size="50" equalTo="#plainPassword"/>
+					</div>
 				</div>
-			</div>
+			</s:if><s:else>
+				<div class="control-group">
+					<label for="plainPassword" class="control-label">密码:</label>
+					<div class="controls">
+						<input type="password" id="plainPassword" name="plainPassword" size="50" minlength="3"/>
+					</div>
+				</div>
+			</s:else>
 			<div class="control-group">
 				<label for="email" class="control-label">邮箱:</label>
 				<div class="controls">
