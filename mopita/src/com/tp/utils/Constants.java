@@ -33,7 +33,8 @@ public class Constants {
 	public static final String QUERY_STRING = "queryString";
 
 	public static final String PREFIX_MARKET_URI = "market://details?id=";
-	public static final String LENVOL_STORE="com.lenovo.leos.appstore";
+	public static final String LENVOL_STORE = "com.lenovo.leos.appstore";
+	public static final String OPPO_NEARME = "com.oppo.market";
 
 	public enum Language {
 		ZH("zh"), EN("en"), JP("jp");
@@ -77,12 +78,12 @@ public class Constants {
 		}
 
 		if (language != null) {
-			if(defaultLanguage().contains(language.toLowerCase())){
+			if (defaultLanguage().contains(language.toLowerCase())) {
 				session.setAttribute(PARA_LANGUAGE, language.toLowerCase());
-			}else{
+			} else {
 				session.setAttribute(PARA_LANGUAGE, Language.EN.getValue());
 			}
-			
+
 		} else {
 
 			session.setAttribute(PARA_LANGUAGE, getLocal());
@@ -105,9 +106,9 @@ public class Constants {
 		languages.add("jp");
 		return languages;
 	}
-	
-	private static String  getLocal(){
-		Locale local=ServletActionContext.getContext().getLocale();
+
+	private static String getLocal() {
+		Locale local = ServletActionContext.getContext().getLocale();
 		return local.getLanguage();
 	}
 }

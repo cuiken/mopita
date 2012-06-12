@@ -44,13 +44,14 @@ public class ThemeFile extends IdEntity {
 	private String preWebPath;
 	private String preClientPath;
 	private Date createTime;
-	
+
 	private String downloadURL;
 
 	private List<Category> categories = Lists.newArrayList();
 	private List<FileInfo> fileInfo = Lists.newArrayList();
 	private List<FileStoreInfo> infoStore = Lists.newArrayList();
 	private List<ShelfFileLink> shelfFiles = Lists.newArrayList();
+	private List<FileMarketValue> marketValues = Lists.newArrayList();
 
 	public String getName() {
 		return name;
@@ -160,11 +161,11 @@ public class ThemeFile extends IdEntity {
 	public String getVersion() {
 		return version;
 	}
-	
+
 	public void setVersion(String version) {
 		this.version = version;
 	}
-	
+
 	public Date getCreateTime() {
 		return createTime;
 	}
@@ -177,11 +178,11 @@ public class ThemeFile extends IdEntity {
 	public String getDownloadURL() {
 		return downloadURL;
 	}
-	
+
 	public void setDownloadURL(String downloadURL) {
 		this.downloadURL = downloadURL;
 	}
-	
+
 	@OneToMany(mappedBy = "theme", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
 	public List<FileInfo> getFileInfo() {
 		return fileInfo;
@@ -207,6 +208,15 @@ public class ThemeFile extends IdEntity {
 
 	public void setShelfFiles(List<ShelfFileLink> shelfFiles) {
 		this.shelfFiles = shelfFiles;
+	}
+
+	@OneToMany(mappedBy = "theme", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
+	public List<FileMarketValue> getMarketValues() {
+		return marketValues;
+	}
+
+	public void setMarketValues(List<FileMarketValue> marketValues) {
+		this.marketValues = marketValues;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)

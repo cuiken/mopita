@@ -159,3 +159,12 @@ create table log_f_home(
 	primary key(id)
 )ENGINE=InnoDB;
 
+create table f_market_info(
+	id int not null auto_increment,
+	key_name varchar(30),
+	key_value varchar(30),
+	theme_id int,
+	market_id int,
+	primary key(id)
+)ENGINE=InnoDB;
+

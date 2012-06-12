@@ -21,6 +21,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.tp.entity.Category;
 import com.tp.entity.CategoryInfo;
 import com.tp.entity.DownloadType;
+import com.tp.entity.FileMarketValue;
 import com.tp.entity.FileStoreInfo;
 import com.tp.entity.LogInHome;
 import com.tp.entity.Market;
@@ -206,8 +207,8 @@ public class HomeAction extends ActionSupport {
 		httpBuffer.append("file-download.action?id=");
 		httpBuffer.append(info.getTheme().getId());
 		httpBuffer.append("&inputPath=");
-		httpBuffer.append(URLEncoder.encode(info.getTheme().getApkPath(),"utf-8"));
-		httpBuffer.append("&title="+URLEncoder.encode(info.getTitle(),"utf-8"));
+		httpBuffer.append(URLEncoder.encode(info.getTheme().getApkPath(), "utf-8"));
+		httpBuffer.append("&title=" + URLEncoder.encode(info.getTitle(), "utf-8"));
 		if (!queryString.isEmpty()) {
 			httpBuffer.append("&");
 			httpBuffer.append(queryString);
@@ -234,6 +235,12 @@ public class HomeAction extends ActionSupport {
 			String uri = market.getMarketKey() + info.getTheme().getMarketURL();
 			if (market.getPkName().equals(Constants.LENVOL_STORE)) {
 				uri += ("&versioncode=" + info.getTheme().getVersion());
+			}
+			if (market.getPkName().equals(Constants.OPPO_NEARME)) {
+				List<FileMarketValue> fvs = info.getTheme().getMarketValues();
+				for (FileMarketValue fm : fvs) {
+					uri += (fm.getKeyName() + "=" + fm.getKeyValue());
+				}
 			}
 			info.getTheme().setDownloadURL(uri);
 		} else {

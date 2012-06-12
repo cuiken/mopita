@@ -28,7 +28,9 @@
 	</style>
 
 	<script>
-	
+	function openwindow(id){
+		window.open("../category/file-market.action?themeId="+id+"&marketId="+$("#market").val(),'newwindow');
+	}
 	$(function() {
 		$("#message").fadeOut(3000);
 		$( "#sortable1, #sortable2" ).sortable({
@@ -65,7 +67,7 @@
 					var li="";
 					
 					$.each(data,function(i,val){
-						li+="<li id="+val.id+">"+val.name+"</li>";
+						li+="<li id="+val.id+" onclick=openwindow("+val.id+");><a>"+val.name+"</a></li>";
 					});
 					$("#sortable2").append(li);
 				}		

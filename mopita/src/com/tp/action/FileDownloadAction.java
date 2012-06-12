@@ -3,12 +3,12 @@ package com.tp.action;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.struts2.convention.annotation.Result;
-import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -17,16 +17,12 @@ import com.tp.service.LogService;
 import com.tp.utils.Constants;
 import com.tp.utils.Struts2Utils;
 
-@Results({ @Result(name = "success", params = { "inputName", "inputStream", "contentDisposition",
-		"attachment; filename=\"${downloadFileName}\"", "bufferSize", "4096", "contentType",
-		"application/vnd.android.package-archive", "contentLength", "${contentLength}" }, type = "stream") })
 public class FileDownloadAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
 	private String inputPath;
 	private String downloadFileName;
 	private long contentLength;
-	private InputStream inputStream;
 
 	private LogService logService;
 
@@ -36,10 +32,42 @@ public class FileDownloadAction extends ActionSupport {
 		logService.saveLogInHome(log);
 		inputPath = Constants.FILE_STORAGE + new String(inputPath.getBytes("iso-8859-1"), "utf-8");
 		File file = new File(inputPath);
-		downloadFileName = new String(file.getName().getBytes(), "ISO8859-1");
-		contentLength = file.length();
-		inputStream = new FileInputStream(file);
-		return SUCCESS;
+		if (file.exists()) {
+			long p = 0;
+			long fileLength = file.length();
+			downloadFileName = new String(file.getName().getBytes(), "ISO8859-1");
+
+			InputStream inputStream = new FileInputStream(file);
+			HttpServletResponse response = Struts2Utils.getResponse();
+			HttpServletRequest request = Struts2Utils.getRequest();
+			response.reset();
+			response.setHeader("Accept-Ranges", "bytes");
+
+			if (request.getHeader("Range") != null) {
+				response.setStatus(HttpServletResponse.SC_PARTIAL_CONTENT);
+				p = Long.parseLong(request.getHeader("Range").replaceAll("bytes=", "").replaceAll("-", ""));
+			}
+			response.setHeader("content-Length", String.valueOf(fileLength - p));
+			if (p != 0) {
+				String contentRange = new StringBuffer("bytes").append(new Long(p).toString()).append("-")
+						.append(new Long(fileLength - 1).toString()).append("/")
+						.append(new Long(fileLength).toString()).toString();
+				response.setHeader("Content-Range", contentRange);
+				inputStream.skip(p);
+			}
+			response.addHeader("Content-Disposition", "attachment; filename=" + downloadFileName);
+			response.setContentType("application/vnd.android.package-archive");
+			byte[] buffer = new byte[1024];
+			int len = 0;
+			OutputStream output = response.getOutputStream();
+			while ((len = inputStream.read(buffer)) != -1) {
+				output.write(buffer, 0, len);
+			}
+			output.flush();
+			output.close();
+			inputStream.close();
+		}
+		return null;
 	}
 
 	public String getClient() throws Exception {
@@ -80,12 +108,6 @@ public class FileDownloadAction extends ActionSupport {
 	@Autowired
 	public void setLogService(LogService logService) {
 		this.logService = logService;
-	}
-
-	public InputStream getInputStream() {
-
-		return inputStream;
-
 	}
 
 	public void setInputPath(String inputPath) {
