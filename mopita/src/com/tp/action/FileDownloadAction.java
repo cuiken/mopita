@@ -28,8 +28,8 @@ public class FileDownloadAction extends ActionSupport {
 
 	@Override
 	public String execute() throws Exception {
-		LogInHome log = getLog();
-		logService.saveLogInHome(log);
+		LogInHome logHome = getLog();
+		logService.saveLogInHome(logHome);
 		inputPath = Constants.FILE_STORAGE + new String(inputPath.getBytes("iso-8859-1"), "utf-8");
 		File file = new File(inputPath);
 		if (file.exists()) {
@@ -42,12 +42,15 @@ public class FileDownloadAction extends ActionSupport {
 			HttpServletRequest request = Struts2Utils.getRequest();
 			response.reset();
 			response.setHeader("Accept-Ranges", "bytes");
-
-			if (request.getHeader("Range") != null) {
+			String range = request.getHeader("Range");
+			if (range != null) {
 				response.setStatus(HttpServletResponse.SC_PARTIAL_CONTENT);
-				p = Long.parseLong(request.getHeader("Range").replaceAll("bytes=", "").replaceAll("-", ""));
+				String r = range.replaceAll("bytes=", "");
+				String[] rs = r.split("-");
+
+				p = Long.parseLong(rs[0]);
 			}
-			response.setHeader("content-Length", String.valueOf(fileLength - p));
+			response.setHeader("content-Length", String.valueOf(fileLength));
 			if (p != 0) {
 				String contentRange = new StringBuffer("bytes").append(new Long(p).toString()).append("-")
 						.append(new Long(fileLength - 1).toString()).append("/")
