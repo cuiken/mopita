@@ -58,7 +58,7 @@ public class FileDownloadAction extends ActionSupport {
 				response.setHeader("Content-Range", contentRange);
 				inputStream.skip(p);
 			}
-			response.addHeader("Content-Disposition", "attachment; filename=" + downloadFileName);
+			response.addHeader("Content-Disposition", "attachment; filename=" + "\""+downloadFileName+"\"");
 			response.setContentType("application/vnd.android.package-archive");
 			byte[] buffer = new byte[1024];
 			int len = 0;
