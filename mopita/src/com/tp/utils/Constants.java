@@ -88,7 +88,7 @@ public class Constants {
 
 			session.setAttribute(PARA_LANGUAGE, getLocal());
 		}
-		getLocal();
+
 		if (fromMarket != null) {
 			session.setAttribute(PARA_FROM_MARKET, fromMarket);
 		}

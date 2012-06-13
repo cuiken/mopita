@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.tp.utils.Constants;
+import com.tp.utils.Servlets;
 import com.tp.utils.Struts2Utils;
 
 public class ImageAction extends ActionSupport {
@@ -33,6 +34,8 @@ public class ImageAction extends ActionSupport {
 	private void responseImage(String imgURL) throws Exception {
 		HttpServletResponse response = Struts2Utils.getResponse();
 		response.setContentType("image/*");
+		Servlets.setExpiresHeader(response, 315360000L);
+		Servlets.setLastModifiedHeader(response, System.currentTimeMillis());
 		File file = new File(imgURL);
 		byte[] buffer = new byte[1024];
 		InputStream is = new FileInputStream(file);
