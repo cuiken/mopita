@@ -2,11 +2,13 @@ package com.tp.action;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.tp.entity.LogFromClient;
+import com.tp.entity.LogInHome;
 import com.tp.orm.Page;
 import com.tp.orm.PageRequest.Sort;
 import com.tp.orm.PropertyFilter;
@@ -68,6 +70,29 @@ public class LogAction extends ActionSupport {
 		entity.setResolution(resolution);
 		entity.setFromMarket(fromMarket);
 		logService.saveLogFromClent(entity);
+		return null;
+	}
+
+	public String saveDownload() throws Exception {
+		LogInHome log = new LogInHome();
+		String queryStr = Struts2Utils.getParameter("queryString");
+		int index = StringUtils.indexOf(queryStr, "inputPath");
+		String downPare = "";
+		String clientParam = "";
+		if (index != -1) {
+			downPare = StringUtils.substring(queryStr, 0, index);
+			int paramIndex = StringUtils.indexOf(queryStr, "param=");
+			if (paramIndex != -1) {
+				clientParam = StringUtils.substring(queryStr, paramIndex+("param=").length());
+			}
+
+			log.setRequestLink(downPare + clientParam);
+		} else {
+			log.setRequestLink(queryStr);
+		}
+
+		logService.saveLogInHome(log);
+		Struts2Utils.renderText("success");
 		return null;
 	}
 

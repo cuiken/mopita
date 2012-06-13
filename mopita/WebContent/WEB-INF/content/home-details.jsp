@@ -33,6 +33,16 @@
 					$("#gohome").attr("src","${ctx}/images/en/dhome.png");
 					$("#more").attr("src","${ctx}/images/en/more.png");
 				}
+				$("#downfree").click(function(){
+					$.ajax({
+						type:"POST",
+						url:"log/log!saveDownload.action",
+						dataType:"text",
+						data:{queryString:'${info.theme.downloadURL}'}
+					});
+					location.href='${info.theme.downloadURL}';
+					
+				});
 	        })
 
 		</script>
@@ -51,7 +61,7 @@
 					<p>${info.shortDescription}</p>
 				</div>
 				<div align="center">
-					<a href="${info.theme.downloadURL}">
+					<a href="#" id="downfree">
 						<img id="download" alt="download" src="${ctx}/images/dt.png">
 					</a>
 				</div>
