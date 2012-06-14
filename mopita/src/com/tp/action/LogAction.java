@@ -70,6 +70,7 @@ public class LogAction extends ActionSupport {
 		entity.setResolution(resolution);
 		entity.setFromMarket(fromMarket);
 		logService.saveLogFromClent(entity);
+
 		return null;
 	}
 
@@ -83,7 +84,7 @@ public class LogAction extends ActionSupport {
 			downPare = StringUtils.substring(queryStr, 0, index);
 			int paramIndex = StringUtils.indexOf(queryStr, "param=");
 			if (paramIndex != -1) {
-				clientParam = StringUtils.substring(queryStr, paramIndex+("param=").length());
+				clientParam = StringUtils.substring(queryStr, paramIndex + ("param=").length());
 			}
 
 			log.setRequestLink(downPare + clientParam);
@@ -108,4 +109,5 @@ public class LogAction extends ActionSupport {
 	public void setLogService(LogService logService) {
 		this.logService = logService;
 	}
+
 }

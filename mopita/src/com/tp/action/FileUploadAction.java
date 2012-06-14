@@ -2,8 +2,10 @@ package com.tp.action;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
@@ -13,17 +15,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.opensymphony.xwork2.ActionSupport;
 import com.tp.dao.HibernateUtils;
 import com.tp.entity.Category;
+import com.tp.entity.ClientFile;
 import com.tp.entity.FileInfo;
 import com.tp.entity.FileType;
 import com.tp.entity.ThemeFile;
 import com.tp.service.CategoryManager;
+import com.tp.service.ClientFileManager;
 import com.tp.service.FileManager;
+import com.tp.utils.Constants;
+import com.tp.utils.DateFormatUtils;
 import com.tp.utils.FileUtils;
 
 @Namespace("/file")
 @Results({
 		@Result(name = "editinfo", location = "file-info.action", params = { "themeId", "${id}" }, type = "redirect"),
-		@Result(name = "reupload", location = "file-upload.action", type = "redirect") })
+		@Result(name = "reupload", location = "file-upload!client.action", type = "redirect") })
 public class FileUploadAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
@@ -48,6 +54,7 @@ public class FileUploadAction extends ActionSupport {
 
 	private FileManager fileManager;
 	private CategoryManager categoryManager;
+	private ClientFileManager clientFileManager;
 
 	private Long id;
 
@@ -75,6 +82,34 @@ public class FileUploadAction extends ActionSupport {
 		this.setId(theme.getId());
 		addActionMessage("上传成功");
 		return EDITINFO;
+	}
+
+	public String client() throws Exception {
+		return "client";
+	}
+
+	public String saveClient() throws Exception {
+		String fileName = FileUtils.getFileName(uploadFileName);
+		int indexOfVersion = StringUtils.lastIndexOfIgnoreCase(fileName, "v");
+		String version = StringUtils.substring(fileName, indexOfVersion + 1);
+		File targetDir = new File(Constants.FILE_STORAGE, "client");
+		File targetFile = new File(targetDir, uploadFileName);
+		org.apache.commons.io.FileUtils.copyFile(upload, targetFile);
+		ClientFile clientFile = clientFileManager.getClientByVersion(version);
+		if (clientFile == null) {
+			clientFile = new ClientFile();
+			clientFile.setCreateTime(DateFormatUtils.convert(new Date()));
+		}else{
+			clientFile.setModifyTime(DateFormatUtils.convert(new Date()));
+		}
+
+		clientFile.setName(fileName);
+		clientFile.setVersion(version);
+		clientFile.setSize(targetFile.length());
+		clientFile.setPath("client" + File.separator + uploadFileName);
+		clientFileManager.save(clientFile);
+		addActionMessage("上传成功");
+		return "reupload";
 	}
 
 	private ThemeFile getThemeFile() {
@@ -163,6 +198,11 @@ public class FileUploadAction extends ActionSupport {
 	@Autowired
 	public void setCategoryManager(CategoryManager categoryManager) {
 		this.categoryManager = categoryManager;
+	}
+
+	@Autowired
+	public void setClientFileManager(ClientFileManager clientFileManager) {
+		this.clientFileManager = clientFileManager;
 	}
 
 	public Long getId() {

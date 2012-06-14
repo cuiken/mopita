@@ -168,3 +168,14 @@ create table f_market_info(
 	primary key(id)
 )ENGINE=InnoDB;
 
+create table f_client(
+	id int not null auto_increment,
+	name varchar(50),
+	size int,
+	path varchar(255),
+	version varchar(35),
+	create_time varchar(35),
+	modify_time varchar(35),
+	primary key(id)
+)ENGINE=InnoDB;
+

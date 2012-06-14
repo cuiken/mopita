@@ -8,10 +8,14 @@ import java.io.OutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.tp.entity.ClientFile;
+import com.tp.entity.LogFromClient;
 import com.tp.entity.LogInHome;
+import com.tp.service.ClientFileManager;
 import com.tp.service.LogService;
 import com.tp.utils.Constants;
 import com.tp.utils.Struts2Utils;
@@ -19,11 +23,20 @@ import com.tp.utils.Struts2Utils;
 public class FileDownloadAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
+	private static final String PARA_IMEI = Constants.PARA_IMEI;
+	private static final String PARA_IMSI = Constants.PARA_IMSI;
+	private static final String PARA_STORE_TYPE = Constants.PARA_STORE_TYPE;
+	private static final String PARA_DOWNLOAD_TYPE = Constants.PARA_DOWNLOAD_METHOD;
+	private static final String PARA_LANGUAGE = Constants.PARA_LANGUAGE;
+	private static final String PARA_CLIENT_VERSION = Constants.PARA_CLIENT_VERSION;
+	private static final String PARA_RESOLUTION = Constants.PARA_RESOLUTION;
+	private static final String PARA_FROM_MARKET = Constants.PARA_FROM_MARKET;
 	private String inputPath;
 	private String downloadFileName;
 	private long contentLength;
 
 	private LogService logService;
+	private ClientFileManager clientFileManager;
 
 	@Override
 	public String execute() throws Exception {
@@ -74,8 +87,55 @@ public class FileDownloadAction extends ActionSupport {
 	public String getClient() throws Exception {
 		LogInHome logHome = getLog();
 		logService.saveLogInHome(logHome);
-		this.setInputPath("/client/FunlockerClientV2.0.0.apk");
+		String path = save();
+		if(path.equals(""))
+			return null;
+		this.setInputPath("/" + path);
 		return execute();
+	}
+
+	public String save() throws Exception {
+		String imei = Struts2Utils.getParameter(PARA_IMEI);
+		String imsi = Struts2Utils.getParameter(PARA_IMSI);
+		String storeType = Struts2Utils.getParameter(PARA_STORE_TYPE);
+		String downType = Struts2Utils.getParameter(PARA_DOWNLOAD_TYPE);
+		String language = Struts2Utils.getParameter(PARA_LANGUAGE);
+		String clientVersion = Struts2Utils.getParameter(PARA_CLIENT_VERSION);
+		String resolution = Struts2Utils.getParameter(PARA_RESOLUTION);
+		String fromMarket = Struts2Utils.getParameter(PARA_FROM_MARKET);
+		LogFromClient entity = new LogFromClient();
+		entity.setImei(imei);
+		entity.setImsi(imsi);
+		entity.setStoreType(storeType);
+		entity.setDownType(downType);
+		entity.setLanguage(language);
+		entity.setClientVersion(clientVersion);
+		entity.setResolution(resolution);
+		entity.setFromMarket(fromMarket);
+		logService.saveLogFromClent(entity);
+		return getNewestClient(clientVersion);
+
+	}
+
+	public String getNewestClient(String versionFromClient) {
+		if (versionFromClient == null)
+			return "";
+		String[] vs = StringUtils.split(versionFromClient, Constants.DOT_SEPARATOR);
+		if (vs.length > 2) {
+			String oldHeader = vs[0];
+			String newVersion = clientFileManager.getNewest(oldHeader);
+			String[] newvs = StringUtils.split(newVersion, Constants.DOT_SEPARATOR);
+			String newHeader = newvs[0];
+			String newUse = newvs[1];
+			String oldUse = vs[1];
+			if (oldHeader.equals(newHeader)) {
+				if (Integer.valueOf(oldUse) < Integer.valueOf(newUse)) {
+					ClientFile newClient = clientFileManager.getClientByVersion(newVersion);
+					return newClient.getPath();
+				}
+			}
+		}
+		return "";
 	}
 
 	private LogInHome getLog() {
@@ -92,6 +152,11 @@ public class FileDownloadAction extends ActionSupport {
 	@Autowired
 	public void setLogService(LogService logService) {
 		this.logService = logService;
+	}
+
+	@Autowired
+	public void setClientFileManager(ClientFileManager clientFileManager) {
+		this.clientFileManager = clientFileManager;
 	}
 
 	public void setInputPath(String inputPath) {

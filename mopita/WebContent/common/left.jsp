@@ -19,6 +19,10 @@
 			<a href="${ctx}/file/file-upload.action">文件上传</a>
 		</shiro:hasPermission>
 		
+		<shiro:hasPermission name="file:edit">
+			<a href="${ctx}/file/file-upload!client.action">客户端上传</a>
+		</shiro:hasPermission>
+		
 		<shiro:hasPermission name="category:view">
 			<a href="${ctx}/category/category.action">文件分类</a>
 		</shiro:hasPermission>
