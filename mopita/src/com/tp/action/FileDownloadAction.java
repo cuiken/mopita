@@ -8,12 +8,10 @@ import java.io.OutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.tp.entity.ClientFile;
-import com.tp.entity.LogFromClient;
 import com.tp.entity.LogInHome;
 import com.tp.service.ClientFileManager;
 import com.tp.service.LogService;
@@ -23,14 +21,7 @@ import com.tp.utils.Struts2Utils;
 public class FileDownloadAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
-	private static final String PARA_IMEI = Constants.PARA_IMEI;
-	private static final String PARA_IMSI = Constants.PARA_IMSI;
-	private static final String PARA_STORE_TYPE = Constants.PARA_STORE_TYPE;
-	private static final String PARA_DOWNLOAD_TYPE = Constants.PARA_DOWNLOAD_METHOD;
-	private static final String PARA_LANGUAGE = Constants.PARA_LANGUAGE;
-	private static final String PARA_CLIENT_VERSION = Constants.PARA_CLIENT_VERSION;
-	private static final String PARA_RESOLUTION = Constants.PARA_RESOLUTION;
-	private static final String PARA_FROM_MARKET = Constants.PARA_FROM_MARKET;
+
 	private String inputPath;
 	private String downloadFileName;
 	private long contentLength;
@@ -87,59 +78,19 @@ public class FileDownloadAction extends ActionSupport {
 	public String getClient() throws Exception {
 		LogInHome logHome = getLog();
 		logService.saveLogInHome(logHome);
-		String path = save();
-		if (path.equals(""))
-			return null;
-		this.setInputPath("/" + path);
-		return execute();
-	}
-
-	public String save() throws Exception {
-		String imei = Struts2Utils.getParameter(PARA_IMEI);
-		String imsi = Struts2Utils.getParameter(PARA_IMSI);
-		String storeType = Struts2Utils.getParameter(PARA_STORE_TYPE);
-		String downType = Struts2Utils.getParameter(PARA_DOWNLOAD_TYPE);
-		String language = Struts2Utils.getParameter(PARA_LANGUAGE);
-		String clientVersion = Struts2Utils.getParameter(PARA_CLIENT_VERSION);
-		String resolution = Struts2Utils.getParameter(PARA_RESOLUTION);
-		String fromMarket = Struts2Utils.getParameter(PARA_FROM_MARKET);
-		LogFromClient entity = new LogFromClient();
-		entity.setImei(imei);
-		entity.setImsi(imsi);
-		entity.setStoreType(storeType);
-		entity.setDownType(downType);
-		entity.setLanguage(language);
-		entity.setClientVersion(clientVersion);
-		entity.setResolution(resolution);
-		entity.setFromMarket(fromMarket);
-		logService.saveLogFromClent(entity);
-		return getNewestClient(clientVersion);
-
-	}
-
-	public String getNewestClient(String versionFromClient) {
-		if (versionFromClient == null) {
+		String version = Struts2Utils.getParameter("v");
+		ClientFile newClient;
+		if (version == null || version.isEmpty()) {
 			String newestVersion = clientFileManager.getNewestVersionCode();
-			ClientFile newClient = clientFileManager.getClientByVersion(newestVersion);
-			return newClient.getPath();
+			newClient = clientFileManager.getClientByVersion(newestVersion);
+
+		} else {
+			newClient = clientFileManager.getClientByVersion(version);
+
 		}
 
-		String[] vs = StringUtils.split(versionFromClient, Constants.DOT_SEPARATOR);
-		if (vs.length > 2) {
-			String oldHeader = vs[0];
-			String newVersion = clientFileManager.getMaxByVersion(oldHeader);
-			String[] newvs = StringUtils.split(newVersion, Constants.DOT_SEPARATOR);
-			String newHeader = newvs[0];
-			String newUse = newvs[1];
-			String oldUse = vs[1];
-			if (oldHeader.equals(newHeader)) {
-				if (Integer.valueOf(oldUse) < Integer.valueOf(newUse)) {
-					ClientFile newClient = clientFileManager.getClientByVersion(newVersion);
-					return newClient.getPath();
-				}
-			}
-		}
-		return "";
+		this.setInputPath("/" + newClient.getPath());
+		return execute();
 	}
 
 	private LogInHome getLog() {
@@ -147,9 +98,23 @@ public class FileDownloadAction extends ActionSupport {
 
 		LogInHome log = new LogInHome();
 		String requestLink = request.getServletPath() + "?" + request.getQueryString();
-
+		String language = Struts2Utils.getParameter(Constants.PARA_LANGUAGE);
+		String fromMarket = Struts2Utils.getParameter(Constants.PARA_FROM_MARKET);
+		String downMethod = Struts2Utils.getParameter(Constants.PARA_DOWNLOAD_METHOD);
+		String imei = Struts2Utils.getParameter(Constants.PARA_IMEI);
+		String imsi = Struts2Utils.getParameter(Constants.PARA_IMSI);
+		String clientVersion = Struts2Utils.getParameter(Constants.PARA_CLIENT_VERSION);
+		String resolution = Struts2Utils.getParameter(Constants.PARA_RESOLUTION);
+		String storeType = Struts2Utils.getParameter(Constants.PARA_STORE_TYPE);
 		log.setRequestLink(requestLink);
-
+		log.setClientVersion(clientVersion);
+		log.setStoreType(storeType);
+		log.setDownType(downMethod);
+		log.setFromMarket(fromMarket);
+		log.setResolution(resolution);
+		log.setImei(imei);
+		log.setImsi(imsi);
+		log.setLanguage(language);
 		return log;
 	}
 

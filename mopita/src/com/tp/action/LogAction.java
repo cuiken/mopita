@@ -12,6 +12,7 @@ import com.tp.entity.LogInHome;
 import com.tp.orm.Page;
 import com.tp.orm.PageRequest.Sort;
 import com.tp.orm.PropertyFilter;
+import com.tp.service.ClientFileManager;
 import com.tp.service.LogService;
 import com.tp.utils.Constants;
 import com.tp.utils.Struts2Utils;
@@ -21,23 +22,24 @@ public class LogAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
 
-//	private static final String PARA_IMEI = Constants.PARA_IMEI;
-//	private static final String PARA_IMSI = Constants.PARA_IMSI;
-//	private static final String PARA_STORE_TYPE = Constants.PARA_STORE_TYPE;
-//	private static final String PARA_DOWNLOAD_TYPE = Constants.PARA_DOWNLOAD_METHOD;
-//	private static final String PARA_LANGUAGE = Constants.PARA_LANGUAGE;
-//	private static final String PARA_CLIENT_VERSION = Constants.PARA_CLIENT_VERSION;
-//	private static final String PARA_RESOLUTION = Constants.PARA_RESOLUTION;
-//	private static final String PARA_FROM_MARKET = Constants.PARA_FROM_MARKET;
+	private static final String PARA_IMEI = Constants.PARA_IMEI;
+	private static final String PARA_IMSI = Constants.PARA_IMSI;
+	private static final String PARA_STORE_TYPE = Constants.PARA_STORE_TYPE;
+	private static final String PARA_DOWNLOAD_TYPE = Constants.PARA_DOWNLOAD_METHOD;
+	private static final String PARA_LANGUAGE = Constants.PARA_LANGUAGE;
+	private static final String PARA_CLIENT_VERSION = Constants.PARA_CLIENT_VERSION;
+	private static final String PARA_RESOLUTION = Constants.PARA_RESOLUTION;
+	private static final String PARA_FROM_MARKET = Constants.PARA_FROM_MARKET;
 
 	private Page<LogFromClient> page = new Page<LogFromClient>();
 	private List<Integer> sliders;
 	private LogService logService;
+	private ClientFileManager clientFileManager;
 
 	@Override
 	public String execute() throws Exception {
 
-		return list();
+		return save();
 	}
 
 	public String list() throws Exception {
@@ -51,28 +53,51 @@ public class LogAction extends ActionSupport {
 		return SUCCESS;
 	}
 
-//	public String save() throws Exception {
-//		String imei = Struts2Utils.getParameter(PARA_IMEI);
-//		String imsi = Struts2Utils.getParameter(PARA_IMSI);
-//		String storeType = Struts2Utils.getParameter(PARA_STORE_TYPE);
-//		String downType = Struts2Utils.getParameter(PARA_DOWNLOAD_TYPE);
-//		String language = Struts2Utils.getParameter(PARA_LANGUAGE);
-//		String clientVersion = Struts2Utils.getParameter(PARA_CLIENT_VERSION);
-//		String resolution = Struts2Utils.getParameter(PARA_RESOLUTION);
-//		String fromMarket = Struts2Utils.getParameter(PARA_FROM_MARKET);
-//		LogFromClient entity = new LogFromClient();
-//		entity.setImei(imei);
-//		entity.setImsi(imsi);
-//		entity.setStoreType(storeType);
-//		entity.setDownType(downType);
-//		entity.setLanguage(language);
-//		entity.setClientVersion(clientVersion);
-//		entity.setResolution(resolution);
-//		entity.setFromMarket(fromMarket);
-//		logService.saveLogFromClent(entity);
-//
-//		return null;
-//	}
+	public String save() throws Exception {
+		String imei = Struts2Utils.getParameter(PARA_IMEI);
+		String imsi = Struts2Utils.getParameter(PARA_IMSI);
+		String storeType = Struts2Utils.getParameter(PARA_STORE_TYPE);
+		String downType = Struts2Utils.getParameter(PARA_DOWNLOAD_TYPE);
+		String language = Struts2Utils.getParameter(PARA_LANGUAGE);
+		String clientVersion = Struts2Utils.getParameter(PARA_CLIENT_VERSION);
+		String resolution = Struts2Utils.getParameter(PARA_RESOLUTION);
+		String fromMarket = Struts2Utils.getParameter(PARA_FROM_MARKET);
+		LogFromClient entity = new LogFromClient();
+		entity.setImei(imei);
+		entity.setImsi(imsi);
+		entity.setStoreType(storeType);
+		entity.setDownType(downType);
+		entity.setLanguage(language);
+		entity.setClientVersion(clientVersion);
+		entity.setResolution(resolution);
+		entity.setFromMarket(fromMarket);
+		logService.saveLogFromClent(entity);
+		String version = getNewestClient(clientVersion);
+		Struts2Utils.renderText(version);
+		return null;
+	}
+
+	private String getNewestClient(String versionFromClient) {
+		if (versionFromClient == null || versionFromClient.isEmpty()) {
+			return "";
+		}
+		String[] vs = StringUtils.split(versionFromClient, Constants.DOT_SEPARATOR);
+		if (vs.length > 2) {
+			String oldHeader = vs[0];
+			String newVersion = clientFileManager.getMaxByVersion(oldHeader);
+			String[] newvs = StringUtils.split(newVersion, Constants.DOT_SEPARATOR);
+			String newHeader = newvs[0];
+			String newUse = newvs[1];
+			String oldUse = vs[1];
+			if (oldHeader.equals(newHeader)) {
+				if (Integer.valueOf(oldUse) < Integer.valueOf(newUse)) {
+
+					return newVersion;
+				}
+			}
+		}
+		return "";
+	}
 
 	public String saveDownload() throws Exception {
 		LogInHome log = new LogInHome();
@@ -110,4 +135,8 @@ public class LogAction extends ActionSupport {
 		this.logService = logService;
 	}
 
+	@Autowired
+	public void setClientFileManager(ClientFileManager clientFileManager) {
+		this.clientFileManager = clientFileManager;
+	}
 }
