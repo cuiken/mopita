@@ -88,7 +88,7 @@ public class FileDownloadAction extends ActionSupport {
 		LogInHome logHome = getLog();
 		logService.saveLogInHome(logHome);
 		String path = save();
-		if(path.equals(""))
+		if (path.equals(""))
 			return null;
 		this.setInputPath("/" + path);
 		return execute();
@@ -118,12 +118,16 @@ public class FileDownloadAction extends ActionSupport {
 	}
 
 	public String getNewestClient(String versionFromClient) {
-		if (versionFromClient == null)
-			return "";
+		if (versionFromClient == null) {
+			String newestVersion = clientFileManager.getNewestVersionCode();
+			ClientFile newClient = clientFileManager.getClientByVersion(newestVersion);
+			return newClient.getPath();
+		}
+
 		String[] vs = StringUtils.split(versionFromClient, Constants.DOT_SEPARATOR);
 		if (vs.length > 2) {
 			String oldHeader = vs[0];
-			String newVersion = clientFileManager.getNewest(oldHeader);
+			String newVersion = clientFileManager.getMaxByVersion(oldHeader);
 			String[] newvs = StringUtils.split(newVersion, Constants.DOT_SEPARATOR);
 			String newHeader = newvs[0];
 			String newUse = newvs[1];

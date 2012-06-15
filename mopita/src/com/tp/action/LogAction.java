@@ -21,14 +21,14 @@ public class LogAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final String PARA_IMEI = Constants.PARA_IMEI;
-	private static final String PARA_IMSI = Constants.PARA_IMSI;
-	private static final String PARA_STORE_TYPE = Constants.PARA_STORE_TYPE;
-	private static final String PARA_DOWNLOAD_TYPE = Constants.PARA_DOWNLOAD_METHOD;
-	private static final String PARA_LANGUAGE = Constants.PARA_LANGUAGE;
-	private static final String PARA_CLIENT_VERSION = Constants.PARA_CLIENT_VERSION;
-	private static final String PARA_RESOLUTION = Constants.PARA_RESOLUTION;
-	private static final String PARA_FROM_MARKET = Constants.PARA_FROM_MARKET;
+//	private static final String PARA_IMEI = Constants.PARA_IMEI;
+//	private static final String PARA_IMSI = Constants.PARA_IMSI;
+//	private static final String PARA_STORE_TYPE = Constants.PARA_STORE_TYPE;
+//	private static final String PARA_DOWNLOAD_TYPE = Constants.PARA_DOWNLOAD_METHOD;
+//	private static final String PARA_LANGUAGE = Constants.PARA_LANGUAGE;
+//	private static final String PARA_CLIENT_VERSION = Constants.PARA_CLIENT_VERSION;
+//	private static final String PARA_RESOLUTION = Constants.PARA_RESOLUTION;
+//	private static final String PARA_FROM_MARKET = Constants.PARA_FROM_MARKET;
 
 	private Page<LogFromClient> page = new Page<LogFromClient>();
 	private List<Integer> sliders;
@@ -37,7 +37,7 @@ public class LogAction extends ActionSupport {
 	@Override
 	public String execute() throws Exception {
 
-		return save();
+		return list();
 	}
 
 	public String list() throws Exception {
@@ -47,32 +47,32 @@ public class LogAction extends ActionSupport {
 			page.setOrderDir(Sort.DESC);
 		}
 		page = logService.searchLogFromClient(page, filters);
-		sliders = page.getSlider((int) page.getTotalItems());
+		sliders = page.getSlider((int) page.getTotalPages());
 		return SUCCESS;
 	}
 
-	public String save() throws Exception {
-		String imei = Struts2Utils.getParameter(PARA_IMEI);
-		String imsi = Struts2Utils.getParameter(PARA_IMSI);
-		String storeType = Struts2Utils.getParameter(PARA_STORE_TYPE);
-		String downType = Struts2Utils.getParameter(PARA_DOWNLOAD_TYPE);
-		String language = Struts2Utils.getParameter(PARA_LANGUAGE);
-		String clientVersion = Struts2Utils.getParameter(PARA_CLIENT_VERSION);
-		String resolution = Struts2Utils.getParameter(PARA_RESOLUTION);
-		String fromMarket = Struts2Utils.getParameter(PARA_FROM_MARKET);
-		LogFromClient entity = new LogFromClient();
-		entity.setImei(imei);
-		entity.setImsi(imsi);
-		entity.setStoreType(storeType);
-		entity.setDownType(downType);
-		entity.setLanguage(language);
-		entity.setClientVersion(clientVersion);
-		entity.setResolution(resolution);
-		entity.setFromMarket(fromMarket);
-		logService.saveLogFromClent(entity);
-
-		return null;
-	}
+//	public String save() throws Exception {
+//		String imei = Struts2Utils.getParameter(PARA_IMEI);
+//		String imsi = Struts2Utils.getParameter(PARA_IMSI);
+//		String storeType = Struts2Utils.getParameter(PARA_STORE_TYPE);
+//		String downType = Struts2Utils.getParameter(PARA_DOWNLOAD_TYPE);
+//		String language = Struts2Utils.getParameter(PARA_LANGUAGE);
+//		String clientVersion = Struts2Utils.getParameter(PARA_CLIENT_VERSION);
+//		String resolution = Struts2Utils.getParameter(PARA_RESOLUTION);
+//		String fromMarket = Struts2Utils.getParameter(PARA_FROM_MARKET);
+//		LogFromClient entity = new LogFromClient();
+//		entity.setImei(imei);
+//		entity.setImsi(imsi);
+//		entity.setStoreType(storeType);
+//		entity.setDownType(downType);
+//		entity.setLanguage(language);
+//		entity.setClientVersion(clientVersion);
+//		entity.setResolution(resolution);
+//		entity.setFromMarket(fromMarket);
+//		logService.saveLogFromClent(entity);
+//
+//		return null;
+//	}
 
 	public String saveDownload() throws Exception {
 		LogInHome log = new LogInHome();

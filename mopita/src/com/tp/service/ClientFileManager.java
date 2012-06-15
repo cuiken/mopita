@@ -31,10 +31,14 @@ public class ClientFileManager {
 		return clientFileDao.findUniqueBy("version", version);
 	}
 
-	public String getNewest(String v){
-		return clientFileDao.getNewest(v);
+	public String getMaxByVersion(String v) {
+		return clientFileDao.getMaxByVersion(v);
 	}
-	
+
+	public String getNewestVersionCode() {
+		return clientFileDao.getNewestVersionCode();
+	}
+
 	@Autowired
 	public void setClientFileDao(ClientFileDao clientFileDao) {
 		this.clientFileDao = clientFileDao;
