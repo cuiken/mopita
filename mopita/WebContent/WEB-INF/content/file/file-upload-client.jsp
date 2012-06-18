@@ -29,6 +29,7 @@
 			<c:if test="${not empty actionMessages}">
 				<div id="message" class="notice">${actionMessages}</div>	
 			</c:if>
+			
 			<fieldset>
 				<legend>文件上传</legend>
 				<div>
@@ -42,6 +43,31 @@
 				<input type="submit" class="submit" value="上传">
 				
 			</div>	
+			<fieldset>
+				<legend>客户端文件列表</legend>
+				<table>
+					<thead>
+						<tr>
+							<th>文件名</th>
+							<th>大小</th>
+							<th>版本号</th>
+							<th>上传时间</th>
+							<th>更新时间</th>
+						</tr>
+					</thead>
+					<tbody>
+						<s:iterator value="clientFiles">
+							<tr>
+								<td>${name}</td>
+								<td>${size}</td>
+								<td>${version}</td>
+								<td>${createTime}</td>
+								<td>${modifyTime}</td>
+							</tr>
+						</s:iterator>
+					</tbody>
+				</table>
+			</fieldset>
 			</div>
 		</form>
 		</div>

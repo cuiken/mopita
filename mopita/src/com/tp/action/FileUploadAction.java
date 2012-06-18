@@ -51,7 +51,8 @@ public class FileUploadAction extends ActionSupport {
 	private String author;
 
 	private List<Long> checkedCategoryIds;
-
+	private List<ClientFile> clientFiles;
+	
 	private FileManager fileManager;
 	private CategoryManager categoryManager;
 	private ClientFileManager clientFileManager;
@@ -85,6 +86,7 @@ public class FileUploadAction extends ActionSupport {
 	}
 
 	public String client() throws Exception {
+		clientFiles=clientFileManager.getAll();
 		return "client";
 	}
 
@@ -211,6 +213,10 @@ public class FileUploadAction extends ActionSupport {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public List<ClientFile> getClientFiles() {
+		return clientFiles;
 	}
 
 }

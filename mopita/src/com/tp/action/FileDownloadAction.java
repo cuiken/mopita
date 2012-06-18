@@ -79,8 +79,10 @@ public class FileDownloadAction extends ActionSupport {
 		LogInHome logHome = getLog();
 		logService.saveLogInHome(logHome);
 		String version = Struts2Utils.getParameter("v");
+		String app = Struts2Utils.getParameter("app");
+
 		ClientFile newClient;
-		if (version == null || version.isEmpty()) {
+		if (version == null || version.isEmpty() || (!app.isEmpty() && !app.equals("千机解锁") && !app.equals("Funlocker"))) {
 			String newestVersion = clientFileManager.getNewestVersionCode();
 			newClient = clientFileManager.getClientByVersion(newestVersion);
 
@@ -88,7 +90,7 @@ public class FileDownloadAction extends ActionSupport {
 			newClient = clientFileManager.getClientByVersion(version);
 
 		}
-
+		
 		this.setInputPath("/" + newClient.getPath());
 		return execute();
 	}

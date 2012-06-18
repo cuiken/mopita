@@ -81,14 +81,16 @@ public class LogAction extends ActionSupport {
 		if (versionFromClient == null || versionFromClient.isEmpty()) {
 			return "";
 		}
-		String[] vs = StringUtils.split(versionFromClient, Constants.DOT_SEPARATOR);
-		if (vs.length > 2) {
-			String oldHeader = vs[0];
+		String[] versions = StringUtils.split(versionFromClient, Constants.DOT_SEPARATOR);
+		if (versions.length > 2) {
+			String oldHeader = versions[0];
 			String newVersion = clientFileManager.getMaxByVersion(oldHeader);
+			if (newVersion == null)
+				return "";
 			String[] newvs = StringUtils.split(newVersion, Constants.DOT_SEPARATOR);
 			String newHeader = newvs[0];
 			String newUse = newvs[1];
-			String oldUse = vs[1];
+			String oldUse = versions[1];
 			if (oldHeader.equals(newHeader)) {
 				if (Integer.valueOf(oldUse) < Integer.valueOf(newUse)) {
 
