@@ -13,11 +13,13 @@
 			interceptor保证actionMessage在redirect后不会丢失
 		-->
 		<interceptors>
+			<interceptor name="homeInterceptor" class="com.tp.action.HomeInterceptor"/>
 			<interceptor-stack name="crudStack">
 				<interceptor-ref name="store">
 					<param name="operationMode">AUTOMATIC</param>
 				</interceptor-ref>
 				<interceptor-ref name="paramsPrepareParamsStack" />
+				<interceptor-ref name="homeInterceptor"/>
 			</interceptor-stack>
 		</interceptors>
 
