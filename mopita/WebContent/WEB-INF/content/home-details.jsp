@@ -13,7 +13,7 @@
   		<link rel="stylesheet" href="${ctx}/css/details.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/home.css" media="screen"/>
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
-		<!-- <script src="${ctx}/js/jquery/jquery.lazyload.min.js"></script> -->
+		<script src="${ctx}/js/jquery/jquery.lazyload.min.js"></script>
 		<style type="text/css">
 			body{
 				margin: 0;
@@ -23,7 +23,7 @@
 		</style>
 		<script>
 			$(function() {
-				//$("img").lazyload();
+				$("img").lazyload();
 				if('${language}'=='zh'){
 					$("#download").attr("src","${ctx}/images/dt.png");
 					$("#gohome").attr("src","${ctx}/images/dhome.png");
@@ -90,7 +90,7 @@
 						<s:iterator value="catePage.result">
 							
 							<a href="${ctx}/home!details.action?id=${theme.id}&l=${language}&queryString=${queryString}">
-								<img alt="${theme.title}" src="${ctx}/image.action?path=${theme.iconPath}" style="margin: 2px;" width="72" height="72" class="icon"/>
+								<img alt="${theme.title}" data-original="${ctx}/image.action?path=${theme.iconPath}" src="${ctx}/images/default.png" style="margin: 2px;" width="72" height="72" class="icon"/>
 							</a>
 							
 						</s:iterator>
