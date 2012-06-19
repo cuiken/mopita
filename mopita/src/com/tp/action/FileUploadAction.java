@@ -121,6 +121,7 @@ public class FileUploadAction extends ActionSupport {
 		theme.setAvailMachine(availMachine);
 		theme.setUnavailMachine(unavailMachine);
 		theme.setMarketURL(marketURL);
+		theme.setCreateTime(DateFormatUtils.convert(new Date()));
 		HibernateUtils.mergeByCheckedIds(theme.getCategories(), checkedCategoryIds, Category.class);
 		return theme;
 	}

@@ -27,6 +27,7 @@
 				/home*.action= anon
 				/image* = anon
 				/log/** = anon
+				/service/**=anon
 				/file-download* = anon
 				/logout.action = logout
 				/static/** = anon

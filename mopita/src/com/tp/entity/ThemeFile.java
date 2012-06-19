@@ -1,6 +1,5 @@
 package com.tp.entity;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -43,7 +42,8 @@ public class ThemeFile extends IdEntity {
 	private String adPath;
 	private String preWebPath;
 	private String preClientPath;
-	private Date createTime;
+	private String createTime;
+	private String modifyTime;
 
 	private String downloadURL;
 
@@ -166,12 +166,20 @@ public class ThemeFile extends IdEntity {
 		this.version = version;
 	}
 
-	public Date getCreateTime() {
+	public String getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Date createTime) {
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
+	}
+
+	public String getModifyTime() {
+		return modifyTime;
+	}
+
+	public void setModifyTime(String modifyTime) {
+		this.modifyTime = modifyTime;
 	}
 
 	@Transient

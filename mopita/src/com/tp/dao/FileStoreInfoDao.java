@@ -20,6 +20,7 @@ public class FileStoreInfoDao extends HibernateDao<FileStoreInfo, Long> {
 
 	private static final String Q_SHELF_THEME_STORE = "select distinct fsi from FileStoreInfo fsi join fsi.theme.shelfFiles s where s.shelf.value=? and s.shelf.store.id=? and fsi.store.id=? and fsi.language=?  order by s.sort";
 	private static final String Q_BY_CATEGORY_AND_STORE = "select distinct fsi from FileStoreInfo fsi join fsi.theme.categories c join fsi.theme.shelfFiles s where c.id=? and fsi.store.id=? and fsi.language=? order by s.sort";
+	private static final String Q_BY_STORE_AND_LANGUAGE = "select fsi from FileStoreInfo fsi where fsi.store.id=? and fsi.language=?";
 
 	public void deleteByThemeAndStore(Long fid, Long sid) {
 		createQuery(DELETE_BY_THEME_AND_STORE, fid, sid).executeUpdate();
@@ -38,11 +39,16 @@ public class FileStoreInfoDao extends HibernateDao<FileStoreInfo, Long> {
 		return findUnique(Q_BY_, sid, fid, language);
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<FileStoreInfo> getFileInfoByStoreAndLanguage(Long sid, String language) {
+		return createQuery(Q_BY_STORE_AND_LANGUAGE, sid, language).list();
+	}
+
 	/**
 	 * 查找指定货架上文件的语言信息
 	 */
 	public Page<FileStoreInfo> searchStoreInfoInShelf(final Page<FileStoreInfo> page, String st, Long sid, String lang) {
-		return findPage(page, Q_SHELF_THEME_STORE, st, sid,sid, lang);
+		return findPage(page, Q_SHELF_THEME_STORE, st, sid, sid, lang);
 	}
 
 	/**

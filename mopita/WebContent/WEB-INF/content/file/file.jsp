@@ -43,6 +43,7 @@
 					<th>apk包名</th>		
 					<th>版本</th>				
 					<th><a href="javascript:sort('createTime','asc')">添加时间</a></th>
+					<th><a href="javascript:sort('modifyTime','asc')">修改时间</a></th>
 					<th>操作</th>
 				</tr>
 				</thead>
@@ -50,9 +51,20 @@
 				<s:iterator value="page.result">
 					<tr>
 						<td>${title}</td>											
-						<td>${marketURL}</td>
+						<td>
+							
+							<c:choose>
+								<c:when test="${fn:length(marketURL)>30}">
+									${fn:substring(marketURL,0,30)}....
+								</c:when>
+								<c:otherwise>
+									${marketURL}
+								</c:otherwise>
+							</c:choose>	
+						</td>
 						<td>${version}</td>
 						<td>${createTime}</td>
+						<td>${modifyTime}</td>
 						<td>
 							<shiro:hasPermission name="file:edit">
 								<a href="file!input.action?id=${id}">修改</a>

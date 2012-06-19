@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URLDecoder;
 
 import javax.activation.MimetypesFileTypeMap;
 import javax.annotation.PostConstruct;
@@ -38,6 +39,7 @@ public class ImageAction extends ActionSupport {
 
 	public String getImage() throws Exception {
 		if (!path.isEmpty()) {
+			path=URLDecoder.decode(path, "UTF-8");
 			String imgURL = Constants.FILE_STORAGE + new String(path.getBytes("iso-8859-1"), "utf-8");
 			responseImage(imgURL);
 		}

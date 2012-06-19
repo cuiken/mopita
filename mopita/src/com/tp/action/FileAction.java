@@ -1,6 +1,7 @@
 package com.tp.action;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -20,6 +21,7 @@ import com.tp.orm.PageRequest.Sort;
 import com.tp.service.CategoryManager;
 import com.tp.service.FileInfoObservable;
 import com.tp.service.FileManager;
+import com.tp.utils.DateFormatUtils;
 import com.tp.utils.FileUtils;
 import com.tp.utils.Struts2Utils;
 
@@ -86,7 +88,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 		if (file != null) {
 			files = FileUtils.unZip(file);
 		}
-
+		entity.setModifyTime(DateFormatUtils.convert(new Date()));
 		fileManager.saveFiles(files, entity);
 		for (FileInfo info : entity.getFileInfo()) {
 			info.setTheme(entity);

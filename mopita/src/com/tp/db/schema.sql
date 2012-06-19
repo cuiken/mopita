@@ -65,7 +65,8 @@ create table f_file(
 	pre_client_path varchar(255),
 	market_url varchar(100),
 	version varchar(10),
-	create_time timestamp,
+	create_time varchar(30),
+	modify_time varchar(30),
 	primary key(id)
 
 )ENGINE=InnoDB;
