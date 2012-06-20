@@ -1,14 +1,6 @@
 package com.tp.utils;
 
-import java.util.List;
-import java.util.Locale;
-
-import javax.servlet.http.HttpSession;
-
-import org.apache.struts2.ServletActionContext;
-
-import com.google.common.collect.Lists;
-import com.tp.entity.DownloadType;
+import javax.servlet.http.HttpServletRequest;
 
 public class Constants {
 
@@ -49,66 +41,12 @@ public class Constants {
 		}
 	}
 
-	public static void setParamInSession(HttpSession session) {
-		String language = Struts2Utils.getParameter(PARA_LANGUAGE);
-		String fromMarket = Struts2Utils.getParameter(PARA_FROM_MARKET);
-		String downMethod = Struts2Utils.getParameter(PARA_DOWNLOAD_METHOD);
-		String imei = Struts2Utils.getParameter(PARA_IMEI);
-		String imsi = Struts2Utils.getParameter(PARA_IMSI);
-		String client_version = Struts2Utils.getParameter(PARA_CLIENT_VERSION);
-		String resolution = Struts2Utils.getParameter(PARA_RESOLUTION);
-		String store_type = Struts2Utils.getParameter(PARA_STORE_TYPE);
-
-		if (imei != null) {
-			session.setAttribute(PARA_IMEI, imei);
-		}
-		if (imsi != null) {
-			session.setAttribute(PARA_IMSI, imsi);
-		}
-		if (client_version != null) {
-			session.setAttribute(PARA_CLIENT_VERSION, client_version);
-		}
-		if (resolution != null) {
-			session.setAttribute(PARA_RESOLUTION, resolution);
-		}
-		if (store_type != null) {
-			session.setAttribute(PARA_STORE_TYPE, store_type);
-		} else if (store_type == null && session.getAttribute(PARA_STORE_TYPE) == null) {
-			session.setAttribute(PARA_STORE_TYPE, LOCK_STORE);
-		}
-
-		if (language != null) {
-			if (defaultLanguage().contains(language.toLowerCase())) {
-				session.setAttribute(PARA_LANGUAGE, language.toLowerCase());
-			} else {
-				session.setAttribute(PARA_LANGUAGE, Language.EN.getValue());
-			}
-
-		} else {
-
-			session.setAttribute(PARA_LANGUAGE, getLocal());
-		}
-
-		if (fromMarket != null) {
-			session.setAttribute(PARA_FROM_MARKET, fromMarket);
-		}
-		if (downMethod != null) {
-			session.setAttribute(PARA_DOWNLOAD_METHOD, downMethod);
-		} else if (downMethod == null && session.getAttribute(PARA_DOWNLOAD_METHOD) == null) {
-			session.setAttribute(PARA_DOWNLOAD_METHOD, DownloadType.HTTP.getValue());
-		}
+	public static String getDomain() {
+		HttpServletRequest request = Struts2Utils.getRequest();
+		StringBuilder buffer = new StringBuilder();
+		buffer.append("http://").append(request.getServerName()).append(":").append(request.getLocalPort())
+				.append(request.getContextPath());
+		return buffer.toString();
 	}
 
-	private static List<String> defaultLanguage() {
-		List<String> languages = Lists.newArrayList();
-		languages.add("zh");
-		languages.add("en");
-		languages.add("jp");
-		return languages;
-	}
-
-	private static String getLocal() {
-		Locale local = ServletActionContext.getContext().getLocale();
-		return local.getLanguage();
-	}
 }

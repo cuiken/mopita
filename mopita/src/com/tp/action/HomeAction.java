@@ -4,13 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.slf4j.Logger;
@@ -23,7 +19,6 @@ import com.tp.entity.CategoryInfo;
 import com.tp.entity.DownloadType;
 import com.tp.entity.FileMarketValue;
 import com.tp.entity.FileStoreInfo;
-import com.tp.entity.LogInHome;
 import com.tp.entity.Market;
 import com.tp.entity.Shelf;
 import com.tp.entity.Store;
@@ -32,7 +27,6 @@ import com.tp.orm.Page;
 import com.tp.service.CategoryInfoManager;
 import com.tp.service.CategoryManager;
 import com.tp.service.FileManager;
-import com.tp.service.LogService;
 import com.tp.service.MarketManager;
 import com.tp.utils.Constants;
 import com.tp.utils.Struts2Utils;
@@ -47,7 +41,6 @@ public class HomeAction extends ActionSupport {
 	private CategoryInfoManager categoryInfoManager;
 	private FileManager fileManager;
 	private MarketManager marketManager;
-	private LogService logService;
 
 	private Page<FileStoreInfo> hottestPage = new Page<FileStoreInfo>();
 	private Page<FileStoreInfo> recommendPage = new Page<FileStoreInfo>();
@@ -61,7 +54,6 @@ public class HomeAction extends ActionSupport {
 	private List<CategoryInfo> cateInfos;
 	private Long categoryId;
 	private ThemeFile adFile;
-	private String queryString;
 
 	private String categoryName;
 	private String language;
@@ -78,10 +70,9 @@ public class HomeAction extends ActionSupport {
 	 * @throws Exception
 	 */
 	public String list() throws Exception {
-		HttpServletRequest request = Struts2Utils.getRequest();
-		this.setQueryString(request.getQueryString());
+
 		HttpSession session = Struts2Utils.getSession();
-		prepareInStore(session);
+
 		language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
 		Long storeId = (Long) session.getAttribute(Constants.SESS_DEFAULT_STORE);
 
@@ -105,41 +96,6 @@ public class HomeAction extends ActionSupport {
 		return (String) session.getAttribute(Constants.PARA_RESOLUTION) == null;
 	}
 
-	private void setDefaultStore(HttpSession session) {
-		try {
-			String storeType = (String) session.getAttribute(Constants.PARA_STORE_TYPE);
-			Store store = categoryManager.getStoreByValue(storeType);
-			session.setAttribute(Constants.SESS_DEFAULT_STORE, store.getId());
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-		}
-	}
-
-	private void writeLog(HttpSession session) {
-		HttpServletRequest request = Struts2Utils.getRequest();
-
-		LogInHome log = new LogInHome();
-		String requestLink = request.getServletPath() + "?" + request.getQueryString();
-		String imei = (String) session.getAttribute(Constants.PARA_IMEI);
-		String imsi = (String) session.getAttribute(Constants.PARA_IMSI);
-		String lang = (String) session.getAttribute(Constants.PARA_LANGUAGE);
-		String fromMarket = (String) session.getAttribute(Constants.PARA_FROM_MARKET);
-		String downType = (String) session.getAttribute(Constants.PARA_DOWNLOAD_METHOD);
-		String clientVersion = (String) session.getAttribute(Constants.PARA_CLIENT_VERSION);
-		String reso = (String) session.getAttribute(Constants.PARA_RESOLUTION);
-		String storeType = (String) session.getAttribute(Constants.PARA_STORE_TYPE);
-		log.setRequestLink(requestLink);
-		log.setClientVersion(clientVersion);
-		log.setStoreType(storeType);
-		log.setDownType(downType);
-		log.setFromMarket(fromMarket);
-		log.setResolution(reso);
-		log.setImei(imei);
-		log.setImsi(imsi);
-		log.setLanguage(lang);
-		logService.saveLogInHome(log);
-	}
-
 	/**
 	 * 输出5个广告xml
 	 * @return
@@ -149,8 +105,8 @@ public class HomeAction extends ActionSupport {
 		Long storeId = categoryManager.getStoreByValue(Constants.LOCK_STORE).getId();
 		Page<ThemeFile> adPage = new Page<ThemeFile>();
 		adPage = fileManager.searchFileByShelf(adPage, Shelf.Type.RECOMMEND, storeId);
-		HttpServletRequest request = Struts2Utils.getRequest();
-		String domain = "http://" + request.getLocalAddr() + ":" + request.getLocalPort() + request.getContextPath();
+		String domain = Constants.getDomain();
+
 		String xml = fileManager.adXml(adPage.getResult(), domain);
 		Struts2Utils.renderXml(xml);
 		return null;
@@ -159,9 +115,8 @@ public class HomeAction extends ActionSupport {
 	public String details() throws Exception {
 		try {
 
-			doQueryString();
 			HttpSession session = Struts2Utils.getSession();
-			prepareInStore(session);
+
 			language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
 			Long storeId = (Long) session.getAttribute(Constants.SESS_DEFAULT_STORE);
 			info = fileManager.getStoreInfoBy(storeId, id, language);
@@ -192,13 +147,6 @@ public class HomeAction extends ActionSupport {
 		return "details";
 	}
 
-	private void doQueryString() {
-		HttpServletRequest request = Struts2Utils.getRequest();
-		String queryString = request.getQueryString();
-		int index = StringUtils.indexOf(queryString, Constants.QUERY_STRING);
-		this.setQueryString(StringUtils.substring(queryString, index + Constants.QUERY_STRING.length() + 1));
-	}
-
 	private void setDownloadType(HttpSession session) throws UnsupportedEncodingException {
 
 		String fromMarket = (String) session.getAttribute(Constants.PARA_FROM_MARKET);
@@ -209,10 +157,7 @@ public class HomeAction extends ActionSupport {
 		httpBuffer.append("&inputPath=");
 		httpBuffer.append(URLEncoder.encode(info.getTheme().getApkPath(), "utf-8"));
 		httpBuffer.append("&title=" + URLEncoder.encode(info.getTitle(), "utf-8"));
-		if (!queryString.isEmpty()) {
-			httpBuffer.append("&param=");
-			httpBuffer.append(queryString);
-		}
+
 		if (downType.equals(DownloadType.MARKET.getValue())) {
 			marketDownload(fromMarket, httpBuffer.toString());
 		} else {
@@ -249,9 +194,9 @@ public class HomeAction extends ActionSupport {
 	}
 
 	public String more() throws Exception {
-		doQueryString();
+
 		HttpSession session = Struts2Utils.getSession();
-		prepareInStore(session);
+
 		language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
 		String storeType = (String) session.getAttribute(Constants.PARA_STORE_TYPE);
 		Store store = categoryManager.getStoreByValue(storeType);
@@ -261,15 +206,6 @@ public class HomeAction extends ActionSupport {
 		catePage = fileManager.searchInfoByCategoryAndStore(catePage, categoryId, store.getId(), language);
 
 		return "more";
-	}
-
-	private void prepareInStore(HttpSession session) {
-
-		Constants.setParamInSession(session);
-		setDefaultStore(session);
-		writeLog(session);
-		Locale local = new Locale((String) session.getAttribute(Constants.PARA_LANGUAGE));
-		ServletActionContext.getContext().setLocale(local);
 	}
 
 	@Autowired
@@ -285,11 +221,6 @@ public class HomeAction extends ActionSupport {
 	@Autowired
 	public void setMarketManager(MarketManager marketManager) {
 		this.marketManager = marketManager;
-	}
-
-	@Autowired
-	public void setLogService(LogService logService) {
-		this.logService = logService;
 	}
 
 	@Autowired
@@ -335,14 +266,6 @@ public class HomeAction extends ActionSupport {
 
 	public ThemeFile getAdFile() {
 		return adFile;
-	}
-
-	public String getQueryString() {
-		return queryString;
-	}
-
-	public void setQueryString(String queryString) {
-		this.queryString = queryString;
 	}
 
 	public String getCategoryName() {

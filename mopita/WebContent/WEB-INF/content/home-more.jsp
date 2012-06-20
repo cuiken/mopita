@@ -75,7 +75,7 @@
 			
 			<div id="container" class="transitions-enabled infinite-scroll clearfix"> 
 				<s:iterator value="catePage.result">
-					<div class="contents_info" id="content1" onclick="location.href='home!details.action?id=${theme.id}&l=${language}&queryString=${queryString}';">
+					<div class="contents_info" id="content1" onclick="location.href='home!details.action?id=${theme.id}&${queryString}';">
 						<div class="contents_image">						
 							<img alt="${title}" onerror="this.src='${ctx}/images/default.png'" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" style="margin: 3px;">							
 						</div>
@@ -99,7 +99,7 @@
 					<div class="navigater">
 						<s:iterator value="cateInfos">
 							<div class="col_4 navitem">
-				     			<a id="${category.id}" href="home!more.action?cid=${category.id}&l=${language}&queryString=${queryString}" >${name}</a>
+				     			<a id="${category.id}" href="home!more.action?cid=${category.id}&${queryString}" >${name}</a>
 					  		</div>
 						</s:iterator>
 						<div class="col_4 navitem" style="float: right;">

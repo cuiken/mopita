@@ -12,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.tp.entity.ClientFile;
-import com.tp.entity.LogInHome;
 import com.tp.service.ClientFileManager;
-import com.tp.service.LogService;
 import com.tp.utils.Constants;
 import com.tp.utils.Struts2Utils;
 
@@ -25,8 +23,6 @@ public class FileDownloadAction extends ActionSupport {
 	private String inputPath;
 	private String downloadFileName;
 	private long contentLength;
-
-	private LogService logService;
 	private ClientFileManager clientFileManager;
 
 	@Override
@@ -76,8 +72,7 @@ public class FileDownloadAction extends ActionSupport {
 	}
 
 	public String getClient() throws Exception {
-		LogInHome logHome = getLog();
-		logService.saveLogInHome(logHome);
+
 		String version = Struts2Utils.getParameter("v");
 		String app = Struts2Utils.getParameter("app");
 
@@ -90,39 +85,9 @@ public class FileDownloadAction extends ActionSupport {
 			newClient = clientFileManager.getClientByVersion(version);
 
 		}
-		
+
 		this.setInputPath("/" + newClient.getPath());
 		return execute();
-	}
-
-	private LogInHome getLog() {
-		HttpServletRequest request = Struts2Utils.getRequest();
-
-		LogInHome log = new LogInHome();
-		String requestLink = request.getServletPath() + "?" + request.getQueryString();
-		String language = Struts2Utils.getParameter(Constants.PARA_LANGUAGE);
-		String fromMarket = Struts2Utils.getParameter(Constants.PARA_FROM_MARKET);
-		String downMethod = Struts2Utils.getParameter(Constants.PARA_DOWNLOAD_METHOD);
-		String imei = Struts2Utils.getParameter(Constants.PARA_IMEI);
-		String imsi = Struts2Utils.getParameter(Constants.PARA_IMSI);
-		String clientVersion = Struts2Utils.getParameter(Constants.PARA_CLIENT_VERSION);
-		String resolution = Struts2Utils.getParameter(Constants.PARA_RESOLUTION);
-		String storeType = Struts2Utils.getParameter(Constants.PARA_STORE_TYPE);
-		log.setRequestLink(requestLink);
-		log.setClientVersion(clientVersion);
-		log.setStoreType(storeType);
-		log.setDownType(downMethod);
-		log.setFromMarket(fromMarket);
-		log.setResolution(resolution);
-		log.setImei(imei);
-		log.setImsi(imsi);
-		log.setLanguage(language);
-		return log;
-	}
-
-	@Autowired
-	public void setLogService(LogService logService) {
-		this.logService = logService;
 	}
 
 	@Autowired

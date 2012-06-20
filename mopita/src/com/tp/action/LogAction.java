@@ -103,20 +103,18 @@ public class LogAction extends ActionSupport {
 
 	public String saveDownload() throws Exception {
 		LogInHome log = new LogInHome();
-		String queryStr = Struts2Utils.getParameter("queryString");
-		int index = StringUtils.indexOf(queryStr, "inputPath");
-		String downPare = "";
-		String clientParam = "";
+		String queryStr = Struts2Utils.getParameter(Constants.QUERY_STRING);
+		int index = StringUtils.indexOf(queryStr, "&inputPath");
+		int ques = StringUtils.indexOf(queryStr, "?");
+		if (ques != -1) {
+			log.setRequestMethod(StringUtils.substring(queryStr, 0, ques));
+		}
 		if (index != -1) {
-			downPare = StringUtils.substring(queryStr, 0, index);
-			int paramIndex = StringUtils.indexOf(queryStr, "param=");
-			if (paramIndex != -1) {
-				clientParam = StringUtils.substring(queryStr, paramIndex + ("param=").length());
-			}
-
-			log.setRequestLink(downPare + clientParam);
+			queryStr = StringUtils.substring(queryStr, ques + 1, index);
+			String[] qs = StringUtils.split(queryStr, "=");
+			log.setRequestParams(qs[0] + ":" + qs[1]);
 		} else {
-			log.setRequestLink(queryStr);
+			log.setRequestParams(queryStr);
 		}
 
 		logService.saveLogInHome(log);

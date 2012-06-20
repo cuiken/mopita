@@ -1,12 +1,11 @@
 package com.tp.action;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.tp.service.XmlService;
+import com.tp.utils.Constants;
 import com.tp.utils.Encodes;
 import com.tp.utils.Struts2Utils;
 
@@ -18,8 +17,8 @@ public class XmlServiceAction extends ActionSupport {
 
 	@Override
 	public String execute() throws Exception {
-		HttpServletRequest request = Struts2Utils.getRequest();
-		String domain = "http://" + request.getLocalAddr() + ":" + request.getLocalPort() + request.getContextPath();
+
+		String domain = Constants.getDomain();
 		String store = Struts2Utils.getParameter("st");
 		String language = Struts2Utils.getParameter("l");
 		String xml = xmlService.getXml(store, language, domain);
@@ -29,8 +28,8 @@ public class XmlServiceAction extends ActionSupport {
 	}
 
 	public String getXml() throws Exception {
-		HttpServletRequest request = Struts2Utils.getRequest();
-		String domain = "http://" + request.getLocalAddr() + ":" + request.getLocalPort() + request.getContextPath();
+
+		String domain = Constants.getDomain();
 		String store = Struts2Utils.getParameter("st");
 		String language = Struts2Utils.getParameter("l");
 		String xml = xmlService.getXml(store, language, domain);

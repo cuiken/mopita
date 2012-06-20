@@ -89,13 +89,13 @@
 					<div class="icon_set">
 						<s:iterator value="catePage.result">
 							
-							<a href="${ctx}/home!details.action?id=${theme.id}&l=${language}&queryString=${queryString}">
+							<a href="${ctx}/home!details.action?id=${theme.id}&${queryString}">
 								<img alt="${theme.title}" data-original="${ctx}/image.action?path=${theme.iconPath}" src="${ctx}/images/default.png" style="margin: 2px;" width="72" height="72" class="icon"/>
 							</a>
 							
 						</s:iterator>
 						
-						<a href="${ctx}/home!more.action?cid=${info.theme.categories[0].id}&l=${language}&queryString=${queryString}">							
+						<a href="${ctx}/home!more.action?cid=${info.theme.categories[0].id}&${queryString}">							
 							<img id="more" alt="更多" src="${ctx}/images/more.png" width="72" height="72" style="margin: 2px;" class="icon" />
 						</a>
 					</div>

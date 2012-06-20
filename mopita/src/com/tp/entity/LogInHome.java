@@ -19,7 +19,8 @@ public class LogInHome extends IdEntity {
 	private String clientVersion;
 	private String resolution;
 	private String fromMarket;
-	private String requestLink;
+	private String requestMethod;
+	private String requestParams;
 	private Date createTime;
 
 	public String getImei() {
@@ -86,12 +87,20 @@ public class LogInHome extends IdEntity {
 		this.fromMarket = fromMarket;
 	}
 
-	public String getRequestLink() {
-		return requestLink;
+	public String getRequestMethod() {
+		return requestMethod;
 	}
 
-	public void setRequestLink(String requestLink) {
-		this.requestLink = requestLink;
+	public void setRequestMethod(String requestMethod) {
+		this.requestMethod = requestMethod;
+	}
+
+	public String getRequestParams() {
+		return requestParams;
+	}
+
+	public void setRequestParams(String requestParams) {
+		this.requestParams = requestParams;
 	}
 
 	public Date getCreateTime() {
