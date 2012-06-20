@@ -11,13 +11,7 @@
 		<script src="${ctx}/js/jquery/validation/messages_cn.js"></script>
 		<script>
 			$(document).ready(function(){
-				$("#inputForm").validate({
-					rules:{
-						longDescription:{
-							maxlength:200
-						}
-					}
-				});
+				$("#inputForm").validate();
 			});
 		</script>
 	</head>
@@ -53,7 +47,7 @@
 			</div>
 			<div>
 				<label for="longDescription" class="field" style="vertical-align: top">详细描述:<font class="red">*</font></label>
-				<textarea  id="longDescription" name="longDescription" class="required">${longDescription}</textarea>
+				<textarea  id="longDescription" name="longDescription" class="required" maxlength="500">${longDescription}</textarea>
 			</div>
 			<div>
 				<label for="author" class="field">作者:<font class="red">*</font></label>

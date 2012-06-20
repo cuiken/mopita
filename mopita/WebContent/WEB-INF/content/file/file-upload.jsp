@@ -19,7 +19,7 @@
 						checkedCategoryIds:"required",
 						longDescription:{
 							required:true,
-							maxlength:200
+							maxlength:500
 						}
 					},
 					messages:{

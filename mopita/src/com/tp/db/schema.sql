@@ -77,7 +77,7 @@ create table f_file_info(
 	language varchar(10),
 	author varchar(50),
 	short_description varchar(255),
-	long_description varchar(255),
+	long_description varchar(500),
 	price float,
 	f_id int,
 	primary key(id)
@@ -90,7 +90,7 @@ create table f_store_info(
 	language varchar(10),
 	author varchar(50),
 	short_description varchar(255),
-	long_description varchar(255),
+	long_description varchar(500),
 	price float,
 	f_id int,
 	fi_id int,

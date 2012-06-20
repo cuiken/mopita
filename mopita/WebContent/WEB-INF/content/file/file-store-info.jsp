@@ -47,7 +47,7 @@
 				</div>
 				<div>
 					<label for="longDescription" class="field" style="vertical-align: top">详细描述:<font class="red">*</font></label>
-					<textarea  id="longDescription[${info.index}]" name="fileInfo[${info.index}].longDescription" class="required">${longDescription}</textarea>
+					<textarea  id="longDescription[${info.index}]" name="fileInfo[${info.index}].longDescription" class="required" maxlength="500">${longDescription}</textarea>
 				</div>
 				<div>
 					<label for="author" class="field">作者:<font class="red">*</font></label>
