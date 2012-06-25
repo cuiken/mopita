@@ -1,5 +1,7 @@
 package com.tp.action;
 
+import static com.tp.utils.Constants.AD_XML;
+import static com.tp.utils.Constants.GET_CLIENT;
 import static com.tp.utils.Constants.LOCK_STORE;
 import static com.tp.utils.Constants.PARA_CLIENT_VERSION;
 import static com.tp.utils.Constants.PARA_DOWNLOAD_METHOD;
@@ -48,15 +50,15 @@ public class HomeInterceptor extends AbstractInterceptor {
 
 	@Override
 	public String intercept(ActionInvocation invocation) throws Exception {
-		Object action=invocation.getAction();
+		Object action = invocation.getAction();
 		String method = invocation.getProxy().getMethod();
 		Map<String, Object> paramMap = invocation.getInvocationContext().getParameters();
-		if (action instanceof HomeAction) {		
+		if (action instanceof HomeAction) {
 			saveLog(method, paramMap);
 			setParamInSession(method);
 		}
-		if(action instanceof FileDownloadAction){
-			if(method.equals("getClient")){
+		if (action instanceof FileDownloadAction) {
+			if (method.equals(GET_CLIENT)) {
 				saveLog(method, paramMap);
 			}
 		}
@@ -64,6 +66,9 @@ public class HomeInterceptor extends AbstractInterceptor {
 	}
 
 	private void saveLog(String requestMethod, Map<String, Object> requestParam) {
+		if (requestMethod.equals(AD_XML)) {
+			return;
+		}
 		StringBuilder buffer = new StringBuilder();
 		LogInHome log = new LogInHome();
 		log.setRequestMethod(requestMethod);

@@ -23,6 +23,8 @@ public class Constants {
 	public static final String PARA_RESOLUTION = "r";
 
 	public static final String QUERY_STRING = "queryString";
+	public static final String AD_XML = "adXml";
+	public static final String GET_CLIENT = "getClient";
 
 	public static final String PREFIX_MARKET_URI = "market://details?id=";
 	public static final String LENVOL_STORE = "com.lenovo.leos.appstore";
