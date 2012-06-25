@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.google.common.collect.Lists;
 import com.tp.utils.ConvertUtils;
@@ -26,6 +28,7 @@ import com.tp.utils.ConvertUtils;
  */
 @Entity
 @Table(name = "f_file")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class ThemeFile extends IdEntity {
 
 	private String name;
@@ -192,6 +195,7 @@ public class ThemeFile extends IdEntity {
 	}
 
 	@OneToMany(mappedBy = "theme", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	public List<FileInfo> getFileInfo() {
 		return fileInfo;
 	}
@@ -210,6 +214,7 @@ public class ThemeFile extends IdEntity {
 	}
 
 	@OneToMany(mappedBy = "theme", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	public List<ShelfFileLink> getShelfFiles() {
 		return shelfFiles;
 	}
@@ -229,6 +234,7 @@ public class ThemeFile extends IdEntity {
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "f_category_file", joinColumns = { @JoinColumn(name = "file_id") }, inverseJoinColumns = { @JoinColumn(name = "category_id") })
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	public List<Category> getCategories() {
 		return categories;
 	}

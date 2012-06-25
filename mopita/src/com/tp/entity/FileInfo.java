@@ -7,6 +7,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * 文件多语言描述
@@ -16,6 +18,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  */
 @Entity
 @Table(name = "f_file_info")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class FileInfo extends IdEntity {
 
 	private String title;
@@ -77,6 +80,7 @@ public class FileInfo extends IdEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "f_id")
+	@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 	public ThemeFile getTheme() {
 		return theme;
 	}

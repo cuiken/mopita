@@ -44,12 +44,12 @@ public class Store extends CateItem {
 	public String getCategoryNames() {
 		return ConvertUtils.convertElementPropertyToString(shelfs, "name", ",");
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		if(obj==null)
+		if (obj == null)
 			return false;
-		Store that=(Store)obj;
+		Store that = (Store) obj;
 		return that.getName().equals(this.getName());
 	}
 
@@ -58,7 +58,7 @@ public class Store extends CateItem {
 		assert false : "hashCode not designed";
 		return 42; // any arbitrary constant will do
 	}
-	
+
 	@Override
 	public String toString() {
 

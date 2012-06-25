@@ -16,9 +16,24 @@
 		maxEntriesLocalDisk="1000" />
 	<cache name="com.tp.entity.account.Group.permissionList" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"
 		maxEntriesLocalDisk="1000" />
+
 	<cache name="com.tp.entity.FileStoreInfo" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"
 		maxEntriesLocalDisk="1000"></cache>
 	<cache name="com.tp.entity.FileStoreInfo.theme" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"
+		maxEntriesLocalDisk="1000"></cache>
+
+	<cache name="com.tp.entity.ThemeFile" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"
+		maxEntriesLocalDisk="1000"></cache>
+	<cache name="com.tp.entity.ThemeFile.categories" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"
+		maxEntriesLocalDisk="1000"></cache>
+	<cache name="com.tp.entity.ThemeFile.fileInfo" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"
+		maxEntriesLocalDisk="1000"></cache>
+	<cache name="com.tp.entity.ThemeFile.shelfFiles" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"
+		maxEntriesLocalDisk="1000"></cache>
+
+	<cache name="com.tp.entity.FileInfo" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"
+		maxEntriesLocalDisk="1000"></cache>
+	<cache name="com.tp.entity.FileInfo.theme" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"
 		maxEntriesLocalDisk="1000"></cache>
 
 	<cache name="SimplePageCachingFilter" maxElementsInMemory="10" maxElementsOnDisk="10" eternal="false"
