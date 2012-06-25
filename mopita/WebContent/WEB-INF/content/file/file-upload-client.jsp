@@ -31,9 +31,9 @@
 			</c:if>
 			
 			<fieldset>
-				<legend>文件上传</legend>
+				<legend>客户端文件上传</legend>
 				<div>
-					<label for="upload" class="field">上传客户端文件:<font class="red">*</font></label>
+					<label for="upload" class="field">客户端文件:<font class="red">*</font></label>
 					<input type="file" id="upload" name="upload" class="required"/>
 				</div>
 				
@@ -43,8 +43,8 @@
 				<input type="submit" class="submit" value="上传">
 				
 			</div>	
-			<fieldset>
-				<legend>客户端文件列表</legend>
+			<div>
+				<small>客户端文件列表</small>
 				<table>
 					<thead>
 						<tr>
@@ -67,7 +67,7 @@
 						</s:iterator>
 					</tbody>
 				</table>
-			</fieldset>
+			</div>
 			</div>
 		</form>
 		</div>

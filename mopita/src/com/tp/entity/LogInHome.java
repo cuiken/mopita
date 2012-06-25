@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Entity
-@Table(name = "log_f_home")
+@Table(name = "log_f_store")
 public class LogInHome extends IdEntity {
 
 	private String imei;

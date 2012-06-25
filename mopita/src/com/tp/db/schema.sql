@@ -161,6 +161,22 @@ create table log_f_home(
 	primary key(id)
 )ENGINE=InnoDB;
 
+create table log_f_store(
+	id int not null auto_increment,
+	imei varchar(50),
+	imsi varchar(50),
+	store_type varchar(20),
+	down_type varchar(20),
+	language varchar(20),
+	client_version varchar(20),
+	resolution varchar(100),
+	from_market varchar(255),
+	request_method varchar(50),
+	request_params varchar(255),
+	create_time timestamp,
+	primary key(id)
+)ENGINE=InnoDB;
+
 create table f_market_info(
 	id int not null auto_increment,
 	key_name varchar(30),
