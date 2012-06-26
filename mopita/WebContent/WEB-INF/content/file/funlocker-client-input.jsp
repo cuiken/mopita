@@ -22,25 +22,30 @@
 	</head>
 	<body>
 	<div class="container">
-		<form id="inputForm" action="file-upload!uploadClient.action" method="post" enctype="multipart/form-data">
+		<form id="inputForm" action="funlocker-client!save.action" method="post">
 		<%@include file="/common/header.jsp" %>
 		<%@include file="/common/left.jsp" %>
 			<div class="span-18 last prepend-top">
 			<c:if test="${not empty actionMessages}">
-				<div id="message" class="success">${actionMessages}</div>	
+				<div id="message" class="notice">${actionMessages}</div>	
 			</c:if>
 			
 			<fieldset>
-				<legend>客户端上传</legend>
+				<legend>文件编辑</legend>
+				<input type="hidden" name="id" value="${id}">
 				<div>
-					<label for="file" class="field">客户端文件:<font class="red">*</font></label>
-					<input type="file" id="file" name="upload" class="required"/>
+					<label for="pkName" class="field">文件包名:<font class="red">*</font></label>
+					<input type="text" id="pkName" name="pkName" value="${pkName}" class="required"/>
 				</div>
 				
+				<div>
+					<label for="checkedMarketIds" class="field">市场:</label>
+					<s:checkboxlist id="marketList" name="checkedMarketIds" list="allMarkets" listKey="id" listValue="name" theme="simple"></s:checkboxlist>
+				</div>
 			</fieldset>
 			<div>
-				<input type="submit" class="submit" value="上传">
-				
+				<input type="submit" class="submit" value="保存">
+				<input type="button" class="btn" value="返回" onclick="javascript:history.back();">
 			</div>	
 			
 			</div>

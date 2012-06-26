@@ -190,10 +190,16 @@ create table f_client(
 	id int not null auto_increment,
 	name varchar(50),
 	size int,
+	pk_name varchar(255),
 	path varchar(255),
 	version varchar(35),
 	create_time varchar(35),
 	modify_time varchar(35),
 	primary key(id)
+)ENGINE=InnoDB;
+
+create table f_client_market(
+	client_id int not null,
+	market_id int not null
 )ENGINE=InnoDB;
 

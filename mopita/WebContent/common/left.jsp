@@ -20,6 +20,7 @@
 		</shiro:hasPermission>
 		
 		<shiro:hasPermission name="file:edit">
+			<a href="${ctx}/file/funlocker-client.action">客户端列表</a>
 			<a href="${ctx}/file/file-upload!client.action">客户端上传</a>
 		</shiro:hasPermission>
 		

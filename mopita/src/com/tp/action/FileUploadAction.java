@@ -29,12 +29,14 @@ import com.tp.utils.FileUtils;
 @Namespace("/file")
 @Results({
 		@Result(name = "editinfo", location = "file-info.action", params = { "themeId", "${id}" }, type = "redirect"),
-		@Result(name = "reupload", location = "file-upload!client.action", type = "redirect") })
+		@Result(name = "reupload", location = "file-upload.action", type = "redirect"),
+		@Result(name = "reuploadClient", location = "file-upload!client.action", type = "redirect") })
 public class FileUploadAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
 	private static final String RELOAD = "reupload";
 	private static final String EDITINFO = "editinfo";
+	private static final String RELOAD_CLIENT = "reuploadClient";
 	private static final long MAX_SIZE = 10000000L;
 
 	private File upload;
@@ -51,8 +53,7 @@ public class FileUploadAction extends ActionSupport {
 	private String author;
 
 	private List<Long> checkedCategoryIds;
-	private List<ClientFile> clientFiles;
-	
+
 	private FileManager fileManager;
 	private CategoryManager categoryManager;
 	private ClientFileManager clientFileManager;
@@ -86,11 +87,10 @@ public class FileUploadAction extends ActionSupport {
 	}
 
 	public String client() throws Exception {
-		clientFiles=clientFileManager.getAll();
 		return "client";
 	}
 
-	public String saveClient() throws Exception {
+	public String uploadClient() throws Exception {
 		String fileName = FileUtils.getFileName(uploadFileName);
 		int indexOfVersion = StringUtils.lastIndexOfIgnoreCase(fileName, "v");
 		String version = StringUtils.substring(fileName, indexOfVersion + 1);
@@ -101,7 +101,7 @@ public class FileUploadAction extends ActionSupport {
 		if (clientFile == null) {
 			clientFile = new ClientFile();
 			clientFile.setCreateTime(DateFormatUtils.convert(new Date()));
-		}else{
+		} else {
 			clientFile.setModifyTime(DateFormatUtils.convert(new Date()));
 		}
 
@@ -111,7 +111,7 @@ public class FileUploadAction extends ActionSupport {
 		clientFile.setPath("client" + File.separator + uploadFileName);
 		clientFileManager.save(clientFile);
 		addActionMessage("上传成功");
-		return "reupload";
+		return RELOAD_CLIENT;
 	}
 
 	private ThemeFile getThemeFile() {
@@ -214,10 +214,6 @@ public class FileUploadAction extends ActionSupport {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-	
-	public List<ClientFile> getClientFiles() {
-		return clientFiles;
 	}
 
 }
