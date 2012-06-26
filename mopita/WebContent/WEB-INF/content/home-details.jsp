@@ -38,7 +38,7 @@
 						type:"POST",
 						url:"log/log!saveDownload.action",
 						dataType:"text",
-						data:{queryString:'${info.theme.downloadURL}'}
+						data:{queryString:'${info.theme.downloadURL}',cs:'${queryString}'}
 					});
 					location.href='${info.theme.downloadURL}';
 					

@@ -72,38 +72,16 @@ public class LogAction extends ActionSupport {
 		entity.setResolution(resolution);
 		entity.setFromMarket(fromMarket);
 		logService.saveLogFromClent(entity);
-		String version = getNewestClient(clientVersion);
+		String version = clientFileManager.getNewestClient(clientVersion);
 		Struts2Utils.renderText(version);
 		return null;
-	}
-
-	private String getNewestClient(String versionFromClient) {
-		if (versionFromClient == null || versionFromClient.isEmpty()) {
-			return "";
-		}
-		String[] versions = StringUtils.split(versionFromClient, Constants.DOT_SEPARATOR);
-		if (versions.length > 2) {
-			String oldHeader = versions[0];
-			String newVersion = clientFileManager.getMaxByVersion(oldHeader);
-			if (newVersion == null)
-				return "";
-			String[] newvs = StringUtils.split(newVersion, Constants.DOT_SEPARATOR);
-			String newHeader = newvs[0];
-			String newUse = newvs[1];
-			String oldUse = versions[1];
-			if (oldHeader.equals(newHeader)) {
-				if (Integer.valueOf(oldUse) < Integer.valueOf(newUse)) {
-
-					return newVersion;
-				}
-			}
-		}
-		return "";
 	}
 
 	public String saveDownload() throws Exception {
 		LogInHome log = new LogInHome();
 		String queryStr = Struts2Utils.getParameter(Constants.QUERY_STRING);
+		String clientStr = Struts2Utils.getParameter("cs");
+		splitClientStr(clientStr, log);
 		int index = StringUtils.indexOf(queryStr, "&inputPath");
 		int ques = StringUtils.indexOf(queryStr, "?");
 		if (ques != -1) {
@@ -120,6 +98,43 @@ public class LogAction extends ActionSupport {
 		logService.saveLogInHome(log);
 		Struts2Utils.renderText("success");
 		return null;
+	}
+
+	private void splitClientStr(String requetParam, LogInHome log) {
+		String[] params = StringUtils.split(requetParam, "&");
+		for (int i = 0; i < params.length; i++) {
+			String param = params[i];
+			String[] keyValue = StringUtils.split(param, "=");
+			if (keyValue.length > 1) {
+				String key = keyValue[0];
+				String value = keyValue[1];
+				if (key.equals(Constants.PARA_CLIENT_VERSION)) {
+					log.setClientVersion(value);
+				}
+				if (key.equals(Constants.PARA_DOWNLOAD_METHOD)) {
+					log.setDownType(value);
+				}
+				if (key.equals(Constants.PARA_FROM_MARKET)) {
+					log.setFromMarket(value);
+				}
+				if (key.equals(Constants.PARA_IMEI)) {
+					log.setImei(value);
+				}
+				if (key.equals(Constants.PARA_IMSI)) {
+					log.setImsi(value);
+				}
+				if (key.equals(Constants.PARA_LANGUAGE)) {
+					log.setLanguage(value);
+				}
+				if (key.equals(Constants.PARA_RESOLUTION)) {
+					log.setResolution(value);
+				}
+				if (key.equals(Constants.PARA_STORE_TYPE)) {
+					log.setStoreType(value);
+				}
+			}
+		}
+
 	}
 
 	public Page<LogFromClient> getPage() {
