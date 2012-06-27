@@ -59,7 +59,7 @@
 				<s:iterator value="newestPage.result">
 					<div class="contents_info" id="content1" sid="${theme.id}">			
 						<div class="contents_txt">
-							<div style="margin-top: 10px;">
+							<div>
 								<font color="#666666">${title}</font>
 								<p><font color="#aeaea6">${shortDescription}</font></p>
 								 <div class="icon-paid" id="btn_down" pay="${theme.downloadURL}">
