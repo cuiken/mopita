@@ -10,7 +10,7 @@
 	  	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   		<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
  
-		<title>商店更多</title>
+		<title>more</title>
 		<link rel="stylesheet" href="${ctx}/css/style.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/mobile.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/top.css" media="screen"/>

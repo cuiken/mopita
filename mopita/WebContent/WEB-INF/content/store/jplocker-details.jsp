@@ -9,7 +9,7 @@
 	  	<meta name="apple-mobile-web-app-status-bar-style" content="black">  
 	  	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   		<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-		<title>商店详细</title>
+		<title>details</title>
   		<link rel="stylesheet" href="${ctx}/css/details.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/home.css" media="screen"/>
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
@@ -24,16 +24,16 @@
 		<script>
 			$(function() {
 				$("img").lazyload();
-				/*
+				
 				if('${language}'=='zh'){
-					$("#download").attr("src","${ctx}/images/dt.png");
+					
 					$("#gohome").attr("src","${ctx}/images/dhome.png");
 					$("#more").attr("src","${ctx}/images/more.png");
 				}else{
-					$("#download").attr("src","${ctx}/images/en/dt.png");
+				
 					$("#gohome").attr("src","${ctx}/images/en/dhome.png");
 					$("#more").attr("src","${ctx}/images/en/more.png");
-				}*/
+				}
 				$("#downfree").click(function(){
 					$.ajax({
 						type:"POST",
