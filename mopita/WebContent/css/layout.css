@@ -1,4 +1,6 @@
-
+a{
+	text-decoration: none;
+}
 .app-title{
 background: rgb(255,93,177); /* Old browsers */
 background: -moz-linear-gradient(top,  rgba(255,93,177,1) 0%, rgba(239,1,124,1) 100%); /* FF3.6+ */

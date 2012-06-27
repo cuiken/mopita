@@ -29,6 +29,7 @@
 				/log/** = anon
 				/service/**=anon
 				/file-download* = anon
+				/store/** = anon
 				/logout.action = logout
 				/static/** = anon
 		    	/** = user

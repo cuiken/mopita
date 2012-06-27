@@ -53,7 +53,7 @@ public class HomeInterceptor extends AbstractInterceptor {
 		Object action = invocation.getAction();
 		String method = invocation.getProxy().getMethod();
 		Map<String, Object> paramMap = invocation.getInvocationContext().getParameters();
-		if (action instanceof HomeAction) {
+		if (action instanceof HomeAction || action instanceof JplockerAction) {
 			saveLog(method, paramMap);
 			setParamInSession(method);
 		}

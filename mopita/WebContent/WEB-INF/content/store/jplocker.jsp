@@ -20,32 +20,37 @@
 		<script src="${ctx}/js/jquery/jquery.lazyload.min.js"></script>
 
 		<script>
-
 			$(document).ready(function(){
-
 				$("img").lazyload();
-
 				$("#content1").live("click",function(){ 
-
 					$(this).css("backgroundColor","#e7e6c8");
-
+					var id=$(this).attr("sid");
+					location.href="${ctx}/store/jplocker!details.action?id="+id+"&${queryString}";
+					return false;
 				});
-
+				$("#btn_down").live("click",function(){ 
+					var uri=$(this).attr("pay");
+					$.ajax({
+						type:"POST",
+						url:"${ctx}/log/log!saveDownload.action",
+						dataType:"text",
+						data:{queryString:uri,cs:'${queryString}'}
+					});
+					location.href=uri;
+					return false;
+				});
+				
 			});
-
 		</script>
-
 	</head>
-
 	<body>
-
-		<form action="home.action" method="get">
+		<form action="jplocker.action" method="get">
 
 			<div id="container"> 		
 				<s:if test="adFile!=null">		
 					 <div class="imgCenter">
 						<s:if test="adFile!=null">
-							<a href="${ctx}/home!details.action?id=${adFile.id}&${queryString}">
+							<a href="${ctx}/store/jplocker!details.action?id=${adFile.id}&${queryString}">
 								<img alt="${adFile.title}" src="${ctx}/image.action?path=${adFile.adPath}" class="max-width_100">
 							</a>
 						</s:if><s:else>商店无内容</s:else>
@@ -54,12 +59,19 @@
 		  
 				<h1 class="app-title">最新アプリ</h1>		
 				<s:iterator value="newestPage.result">
-					<div class="contents_info" id="content1" onclick="location.href='${ctx}/home!details.action?id=${theme.id}&${queryString}';">			
+					<div class="contents_info" id="content1" sid="${theme.id}">			
 						<div class="contents_txt">
 							<div style="margin-top: 10px;">
 								<font color="#666666">${title}</font>
 								<p><font color="#aeaea6">${shortDescription}</font></p>
-								 <div class="icon-paid">FREE</div>
+								 <div class="icon-paid" id="btn_down" pay="${theme.downloadURL}">
+								 	<s:if test="price==null">
+								 		FREE
+								 	</s:if>
+								 	<s:else>
+								 		PAID
+								 	</s:else>
+								 </div>
 							</div>
 						</div>
 						<div class="contents_image">						
@@ -68,48 +80,19 @@
 					</div>								
 				</s:iterator>		
 				<div class="icon_set">
-				<h1 class="app-title">アプリ一覧</h1>	
+					<h1 class="app-title">アプリ一覧</h1>	
 					<s:iterator value="hottestPage.result">				
-						<a href="${ctx}/home!details.action?id=${theme.id}&${queryString}">
+						<a href="${ctx}/store/jplocker!details.action?id=${theme.id}&${queryString}">
 							<img alt="${title}" style="padding: 1px;" data-original="${ctx}/image.action?path=${theme.iconPath}" src="${ctx}/images/default.png" class="icon" width="72" height="72">
 						</a>		
 					</s:iterator>
-				</div>			
-
-				</div>
+				</div>						
 
 				<div style="font-size: 85%;">
-
-					
-
-
-
-	<div style="text-align: center; width: 98%;line-height: 130% ;margin-bottom: 20px; background:rgb(255,93,177);">
-
-		<br>
-
-		&copy; Funlocker
-
-		<br>
-
-		<font>Copyright 2012 </font>
-
-		<br/>
-
-		&nbsp;&nbsp;&nbsp;<font>by TPAD.</font>
-
-	</div>
-
-				 </div>
-
+					<%@include file="/common/jp-footer.jsp" %>
+				</div>
 			</div>
-
-
-
 		</form>
-
-	
-
 	</body>
 
 </html>

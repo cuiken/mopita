@@ -12,6 +12,7 @@ public class Constants {
 
 	public static final String SESS_DEFAULT_STORE = "DEFAULT_STORE";
 	public static final String LOCK_STORE = "lock";
+	public static final String JP_LOCKER = "jplocker";
 
 	public static final String PARA_LANGUAGE = "l";
 	public static final String PARA_DOWNLOAD_METHOD = "dm";
