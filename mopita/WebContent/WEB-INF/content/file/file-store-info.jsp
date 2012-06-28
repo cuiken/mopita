@@ -38,7 +38,7 @@
 					<font color="blue">${language}</font>
 				</div>
 				<div>
-					<label for="title" class="field">标题:<font class="red">*</font></label>
+					<label for="title" class="field">文件别名:<font class="red">*</font></label>
 					<input type="text" id="title[${info.index}]" name="fileInfo[${info.index}].title" value="${title}" size="25" maxlength="50" class="required"/>
 				</div>
 				<div>

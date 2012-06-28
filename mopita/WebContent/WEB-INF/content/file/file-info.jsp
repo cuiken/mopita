@@ -30,7 +30,7 @@
 			<table>
 				<thead>
 				<tr>			
-					<th>标题</th>
+					<th>文件别名</th>
 					<th>语言</th>
 					<th>作者</th>
 					<th>单价</th>			

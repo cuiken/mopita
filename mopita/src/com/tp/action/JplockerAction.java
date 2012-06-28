@@ -173,6 +173,7 @@ public class JplockerAction extends ActionSupport {
 		httpBuffer.append("&inputPath=");
 		httpBuffer.append(URLEncoder.encode(info.getTheme().getApkPath(), "utf-8"));
 		httpBuffer.append("&title=" + URLEncoder.encode(info.getTitle(), "utf-8"));
+		httpBuffer.append("|").append(URLEncoder.encode(info.getTheme().getTitle(), "utf-8"));
 
 		if (info.getPrice() != null || downType.equals(DownloadType.MARKET.getValue())) {
 			marketDownload(fromMarket, httpBuffer.toString(), info);

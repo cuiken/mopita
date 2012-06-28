@@ -38,7 +38,7 @@
 				</s:if>
 			</div>
 			<div>
-				<label for="title" class="field">标题:<font class="red">*</font></label>
+				<label for="title" class="field">文件别名:<font class="red">*</font></label>
 				<input type="text" name="title" class="required" value="${title}" size="25" maxlength="25">
 			</div>
 			<div>

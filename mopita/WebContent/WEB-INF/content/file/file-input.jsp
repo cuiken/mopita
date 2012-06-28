@@ -14,7 +14,15 @@
 				$("textarea").css("height","150px");
 				$("#inputForm").validate({
 					rules:{
+						title:{
+							remote:"file!checkTitle.action?oldTitle="+encodeURIComponent('${title}')							
+						},
 						checkedCategoryId:"required"						
+					},
+					messages:{
+						title:{
+							remote:"文件已存在"
+						}						
 					},
 					errorPlacement: function(error, element) {
 						if (element.is(":checkbox") )
@@ -41,6 +49,10 @@
 				<div>
 					<label for="name" class="field">文件名:</label>
 					${name}
+				</div>
+				<div>
+					<label for="title" class="field">标题:<font class="red">*</font></label>
+					<input type="text" id="title" name="title" size="25" maxlength="30" value="${title}" class="required">
 				</div>
 				<div>
 					<label for="upload" class="field">上传文件:</label>
@@ -79,7 +91,7 @@
 						<font color="blue">${language}</font>
 					</div>
 					<div>
-						<label for="title" class="field">标题:<font class="red">*</font></label>
+						<label for="title" class="field">文件别名:<font class="red">*</font></label>
 						<input type="text" id="title[${info.index}]" name="fileInfo[${info.index}].title" value="${title}" size="25" maxlength="50" class="required"/>
 					</div>
 					<div>

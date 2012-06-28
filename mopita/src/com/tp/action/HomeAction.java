@@ -157,7 +157,7 @@ public class HomeAction extends ActionSupport {
 		httpBuffer.append("&inputPath=");
 		httpBuffer.append(URLEncoder.encode(info.getTheme().getApkPath(), "utf-8"));
 		httpBuffer.append("&title=" + URLEncoder.encode(info.getTitle(), "utf-8"));
-
+		httpBuffer.append("|").append(URLEncoder.encode(info.getTheme().getTitle(), "utf-8"));
 		if (downType.equals(DownloadType.MARKET.getValue())) {
 			marketDownload(fromMarket, httpBuffer.toString());
 		} else {
