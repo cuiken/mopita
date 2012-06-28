@@ -24,7 +24,7 @@
 	/* style the list to maximize the droppable hitarea */
 	
 	#sortable1 li, #sortable2 li { margin: 0 5px 0px 15px; padding: 0px; font-size: 1.2em; width: 150px; }
-	
+	#sortable2 li a{color: #0066CC;}
 	</style>
 
 	<script>
@@ -35,6 +35,8 @@
 	$(function() {
 		$("#message").fadeOut(3000);
 		$( "#sortable1, #sortable2" ).sortable({
+			//revert: true, //缓冲效果 
+	        cursor: 'move', //拖动的时候鼠标样式 
 			connectWith: ".connectedSortable"
 		}).disableSelection();
 		$("#btn").click(function(){

@@ -50,7 +50,9 @@
 				<tbody>
 				<s:iterator value="page.result">
 					<tr>
-						<td>${title}</td>											
+						<td>
+							<a href="file!input.action?id=${id}">${title}</a>
+						</td>											
 						<td>
 							
 							<c:choose>
@@ -67,9 +69,9 @@
 						<td>${modifyTime}</td>
 						<td>
 							<shiro:hasPermission name="file:edit">
-								<a href="file!input.action?id=${id}">修改</a>
-								<a href="#" onclick="deleteThis(${id})">删除</a>
+								<!-- <a href="file!input.action?id=${id}">修改</a> -->
 								<a href="file-info.action?themeId=${id}">语言</a>
+								<a href="#" onclick="deleteThis(${id})">删除</a>								
 							</shiro:hasPermission>
 						</td>
 					</tr>

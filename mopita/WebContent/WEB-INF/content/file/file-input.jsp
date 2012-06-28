@@ -114,7 +114,9 @@
 				</s:iterator>
 			</fieldset>
 			<div>
+			<shiro:hasPermission name="file:edit">
 				<input type="submit" value="保存">&nbsp;
+			</shiro:hasPermission>	
 				<input class="button" type="button" value="返回" onclick="history.back();">
 			</div>
 
