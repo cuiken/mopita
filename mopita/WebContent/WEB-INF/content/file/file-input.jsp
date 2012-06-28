@@ -56,7 +56,7 @@
 				</div>
 				<div>
 					<label for="upload" class="field">上传文件:</label>
-					<input type="file" id="upload" name="file" />(*仅支持zip文件*)
+					<input type="file" id="upload" name="file" />(*仅支持zip文件,最大28M*)
 				</div>
 				<div>
 					<label for="checkedCategoryId" class="field">文件分类:<font class="red">*</font></label>

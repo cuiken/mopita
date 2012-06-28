@@ -63,7 +63,7 @@
 				<legend>文件上传</legend>
 				<div>
 					<label for="upload" class="field">上传文件:<font class="red">*</font></label>
-					<input type="file" id="upload" name="upload" class="required"/>(*仅支持zip文件*)
+					<input type="file" id="upload" name="upload" class="required"/>(*仅支持zip文件,最大28M*)
 				</div>
 				
 				<div>

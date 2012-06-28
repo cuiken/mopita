@@ -37,7 +37,6 @@ public class FileUploadAction extends ActionSupport {
 	private static final String RELOAD = "reupload";
 	private static final String EDITINFO = "editinfo";
 	private static final String RELOAD_CLIENT = "reuploadClient";
-	private static final long MAX_SIZE = 10000000L;
 
 	private File upload;
 	private String uploadFileName;
@@ -73,10 +72,7 @@ public class FileUploadAction extends ActionSupport {
 			addActionMessage("请上传一个zip文件");
 			return RELOAD;
 		}
-		if (upload.length() > MAX_SIZE) {
-			addActionMessage("上传文件过大");
-			return RELOAD;
-		}
+
 		List<File> files = FileUtils.unZip(upload);
 		ThemeFile theme = getThemeFile();
 		FileInfo info = getFileInfo();
