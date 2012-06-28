@@ -144,8 +144,10 @@ public class HomeInterceptor extends AbstractInterceptor {
 		} else if (store_type == null && session.getAttribute(PARA_STORE_TYPE) == null) {
 			session.setAttribute(PARA_STORE_TYPE, LOCK_STORE);
 		}
+		if (session.getAttribute(Constants.SESS_DEFAULT_STORE) == null) {
+			setDefaultStore(session);
+		}
 
-		setDefaultStore(session);
 		if (language != null) {
 
 			if (defaultLanguage().contains(language.toLowerCase())) {

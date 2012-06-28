@@ -21,7 +21,6 @@ import com.tp.entity.FileMarketValue;
 import com.tp.entity.FileStoreInfo;
 import com.tp.entity.Market;
 import com.tp.entity.Shelf;
-import com.tp.entity.Store;
 import com.tp.entity.ThemeFile;
 import com.tp.orm.Page;
 import com.tp.service.CategoryInfoManager;
@@ -198,12 +197,12 @@ public class HomeAction extends ActionSupport {
 		HttpSession session = Struts2Utils.getSession();
 
 		language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
-		String storeType = (String) session.getAttribute(Constants.PARA_STORE_TYPE);
-		Store store = categoryManager.getStoreByValue(storeType);
+
+		Long storeId = (Long) session.getAttribute(Constants.SESS_DEFAULT_STORE);
 		categoryId = Long.valueOf(Struts2Utils.getParameter("cid"));
 
 		cateInfos = categoryInfoManager.getInfosBylanguage(language);
-		catePage = fileManager.searchInfoByCategoryAndStore(catePage, categoryId, store.getId(), language);
+		catePage = fileManager.searchInfoByCategoryAndStore(catePage, categoryId, storeId, language);
 
 		return "more";
 	}
