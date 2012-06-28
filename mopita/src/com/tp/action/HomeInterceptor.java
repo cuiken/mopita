@@ -56,6 +56,10 @@ public class HomeInterceptor extends AbstractInterceptor {
 		if (action instanceof HomeAction || action instanceof JplockerAction) {
 			saveLog(method, paramMap);
 			setParamInSession(method);
+			String language = (String) Struts2Utils.getSessionAttribute(Constants.PARA_LANGUAGE);
+			if (language.equalsIgnoreCase("ja")) {
+				Struts2Utils.getSession().setAttribute(Constants.PARA_LANGUAGE, Language.JP.getValue());
+			}
 		}
 		if (action instanceof FileDownloadAction) {
 			if (method.equals(GET_CLIENT)) {

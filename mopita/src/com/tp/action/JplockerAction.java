@@ -182,17 +182,20 @@ public class JplockerAction extends ActionSupport {
 	}
 
 	private void marketDownload(String fromMarket, String http, FileStoreInfo info) {
+		if (fromMarket == null || fromMarket.isEmpty()) {
+			fromMarket = "com.android.vending";
+		}
 		Market market = marketManager.findByPkName(fromMarket);
 		if (info.getPrice() != null) {
-			fileInMarket(market, http,info);
+			fileInMarket(market, http, info);
 		} else if (market == null || market.getMarketKey().isEmpty()) {
 			info.getTheme().setDownloadURL(http);
 		} else {
-			fileInMarket(market, http,info);
+			fileInMarket(market, http, info);
 		}
 	}
 
-	private void fileInMarket(Market market, String http,FileStoreInfo info) {
+	private void fileInMarket(Market market, String http, FileStoreInfo info) {
 		List<ThemeFile> files = market.getThemes();
 		if (files.contains(info.getTheme())) {
 			String uri = market.getMarketKey() + info.getTheme().getMarketURL();
@@ -206,6 +209,8 @@ public class JplockerAction extends ActionSupport {
 				}
 			}
 			info.getTheme().setDownloadURL(uri);
+		} else if (info.getPrice() != null) {
+			info.getTheme().setDownloadURL("");
 		} else {
 			info.getTheme().setDownloadURL(http);
 		}

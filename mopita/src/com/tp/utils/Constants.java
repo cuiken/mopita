@@ -32,7 +32,7 @@ public class Constants {
 	public static final String OPPO_NEARME = "com.oppo.market";
 
 	public enum Language {
-		ZH("zh"), EN("en"), JP("jp");
+		ZH("zh"), EN("en"), JP("jp"), JA("ja");
 		private String value;
 
 		Language(String value) {

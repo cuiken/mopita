@@ -26,8 +26,6 @@
 		maxEntriesLocalDisk="1000"></cache>
 	<cache name="com.tp.entity.ThemeFile.categories" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"
 		maxEntriesLocalDisk="1000"></cache>
-	<cache name="com.tp.entity.ThemeFile.fileInfo" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"
-		maxEntriesLocalDisk="1000"></cache>
 	<cache name="com.tp.entity.ThemeFile.shelfFiles" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"
 		maxEntriesLocalDisk="1000"></cache>
 
