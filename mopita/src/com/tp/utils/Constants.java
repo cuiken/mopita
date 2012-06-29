@@ -11,7 +11,7 @@ public class Constants {
 	public static final String DOT_SEPARATOR = ".";
 
 	public static final String SESS_DEFAULT_STORE = "DEFAULT_STORE";
-	public static final String LOCK_STORE = "lock";
+	public static final String ST_LOCK = "lock";
 	public static final String JP_LOCKER = "jplocker";
 
 	public static final String PARA_LANGUAGE = "l";
@@ -27,9 +27,13 @@ public class Constants {
 	public static final String AD_XML = "adXml";
 	public static final String GET_CLIENT = "getClient";
 
+	public static final String LOCKER_STANDARD = "st";
+	public static final String LOCKER_JP = "jp";
+
 	public static final String PREFIX_MARKET_URI = "market://details?id=";
 	public static final String LENVOL_STORE = "com.lenovo.leos.appstore";
 	public static final String OPPO_NEARME = "com.oppo.market";
+	public static final String MARKET_GOOGLE = "com.android.vending";
 
 	public enum Language {
 		ZH("zh"), EN("en"), JP("jp"), JA("ja");

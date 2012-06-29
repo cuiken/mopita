@@ -58,9 +58,7 @@
 				<div class="contents_img">
 					<img alt="${info.title}" src="${ctx}/image.action?path=${info.theme.preWebPath}" width="180" height="300">
 				</div>
-				<div class="short_des">
-					<p>${info.shortDescription}</p>
-				</div>
+				
 				<div class="btnTop">
 					<a href="#" id="downfree">
 						<s:if test="info.price==null">
@@ -72,13 +70,10 @@
 					</a>
 				</div>
 				<div  class="contents_txt">
-					<div style="float: left; width: 50%; margin-bottom: 15px;margin-top: 15px;">
+					<div style="width: 50%; margin-bottom: 15px;margin-top: 15px;">
 						<s:text name="home.author"/> : ${info.author}
 					</div>				
-					<div style="float:right;  width: 50%;margin-bottom: 15px;margin-top: 15px;">
-						<s:text name="home.size"/> : ${fn:substring(info.theme.apkSize/1024/1024, 0, 4)}M
-						
-					</div>
+					
 				</div>
 				<div class="contents_txt" id="desc" style="line-height: 130%;">
 					<s:text name="home.desc"/> : ${info.longDescription}					

@@ -26,6 +26,7 @@ public class ClientFile extends IdEntity {
 	private String version;
 	private String createTime;
 	private String modifyTime;
+	private String dtype;
 
 	private List<Market> markets = Lists.newArrayList();
 
@@ -83,6 +84,14 @@ public class ClientFile extends IdEntity {
 
 	public void setModifyTime(String modifyTime) {
 		this.modifyTime = modifyTime;
+	}
+
+	public String getDtype() {
+		return dtype;
+	}
+
+	public void setDtype(String dtype) {
+		this.dtype = dtype;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)

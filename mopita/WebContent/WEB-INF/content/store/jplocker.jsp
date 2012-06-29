@@ -57,7 +57,7 @@
 		  
 				<h1 class="app-title">最新アプリ</h1>		
 				<s:iterator value="newestPage.result">
-					<div class="contents_info" id="content1" sid="${theme.id}">			
+					<div class="contents_info" style="height: 105px;" id="content1" sid="${theme.id}">			
 						<div class="contents_txt">
 							<div>
 								<font color="#666666">${title}</font>

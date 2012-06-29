@@ -101,7 +101,7 @@ public class HomeAction extends ActionSupport {
 	 * @throws Exception
 	 */
 	public String adXml() throws Exception {
-		Long storeId = categoryManager.getStoreByValue(Constants.LOCK_STORE).getId();
+		Long storeId = categoryManager.getStoreByValue(Constants.ST_LOCK).getId();
 		Page<ThemeFile> adPage = new Page<ThemeFile>();
 		adPage = fileManager.searchFileByShelf(adPage, Shelf.Type.RECOMMEND, storeId);
 		String domain = Constants.getDomain();

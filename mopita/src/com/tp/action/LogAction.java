@@ -7,6 +7,7 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.tp.entity.ClientFile;
 import com.tp.entity.LogFromClient;
 import com.tp.entity.LogInHome;
 import com.tp.orm.Page;
@@ -72,7 +73,10 @@ public class LogAction extends ActionSupport {
 		entity.setResolution(resolution);
 		entity.setFromMarket(fromMarket);
 		logService.saveLogFromClent(entity);
-		String version = clientFileManager.getNewestClient(clientVersion);
+
+		ClientFile client = clientFileManager.getByVersion(clientVersion);
+
+		String version = clientFileManager.getNewestClient(clientVersion, client.getDtype());
 		Struts2Utils.renderText(version);
 		return null;
 	}

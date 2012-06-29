@@ -2,7 +2,7 @@ package com.tp.action;
 
 import static com.tp.utils.Constants.AD_XML;
 import static com.tp.utils.Constants.GET_CLIENT;
-import static com.tp.utils.Constants.LOCK_STORE;
+import static com.tp.utils.Constants.ST_LOCK;
 import static com.tp.utils.Constants.PARA_CLIENT_VERSION;
 import static com.tp.utils.Constants.PARA_DOWNLOAD_METHOD;
 import static com.tp.utils.Constants.PARA_FROM_MARKET;
@@ -142,7 +142,7 @@ public class HomeInterceptor extends AbstractInterceptor {
 		if (store_type != null) {
 			session.setAttribute(PARA_STORE_TYPE, store_type);
 		} else if (store_type == null && session.getAttribute(PARA_STORE_TYPE) == null) {
-			session.setAttribute(PARA_STORE_TYPE, LOCK_STORE);
+			session.setAttribute(PARA_STORE_TYPE, ST_LOCK);
 		}
 		if (session.getAttribute(Constants.SESS_DEFAULT_STORE) == null) {
 			setDefaultStore(session);

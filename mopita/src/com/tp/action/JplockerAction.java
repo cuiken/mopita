@@ -166,37 +166,37 @@ public class JplockerAction extends ActionSupport {
 	private void setDownloadType(HttpSession session, FileStoreInfo info) throws UnsupportedEncodingException {
 
 		String fromMarket = (String) session.getAttribute(Constants.PARA_FROM_MARKET);
-		String downType = (String) session.getAttribute(Constants.PARA_DOWNLOAD_METHOD);
-		StringBuilder httpBuffer = new StringBuilder();
-		httpBuffer.append("file-download.action?id=");
-		httpBuffer.append(info.getTheme().getId());
-		httpBuffer.append("&inputPath=");
-		httpBuffer.append(URLEncoder.encode(info.getTheme().getApkPath(), "utf-8"));
-		httpBuffer.append("&title=" + URLEncoder.encode(info.getTitle(), "utf-8"));
-		httpBuffer.append("|").append(URLEncoder.encode(info.getTheme().getTitle(), "utf-8"));
+//		String downType = (String) session.getAttribute(Constants.PARA_DOWNLOAD_METHOD);
+//		StringBuilder httpBuffer = new StringBuilder();
+//		httpBuffer.append("file-download.action?id=");
+//		httpBuffer.append(info.getTheme().getId());
+//		httpBuffer.append("&inputPath=");
+//		httpBuffer.append(URLEncoder.encode(info.getTheme().getApkPath(), "utf-8"));
+//		httpBuffer.append("&title=" + URLEncoder.encode(info.getTitle(), "utf-8"));
+//		httpBuffer.append("|").append(URLEncoder.encode(info.getTheme().getTitle(), "utf-8"));
 
-		if (info.getPrice() != null || downType.equals(DownloadType.MARKET.getValue())) {
-			marketDownload(fromMarket, httpBuffer.toString(), info);
-		} else {
-			info.getTheme().setDownloadURL(httpBuffer.toString());
-		}
+//		if (info.getPrice() != null || downType.equals(DownloadType.MARKET.getValue())) {
+			marketDownload(fromMarket, info);
+//		} else {
+//			info.getTheme().setDownloadURL(httpBuffer.toString());
+//		}
 	}
 
-	private void marketDownload(String fromMarket, String http, FileStoreInfo info) {
+	private void marketDownload(String fromMarket, FileStoreInfo info) {
 		if (fromMarket == null || fromMarket.isEmpty()) {
-			fromMarket = "com.android.vending";
+			fromMarket = Constants.MARKET_GOOGLE;
 		}
 		Market market = marketManager.findByPkName(fromMarket);
-		if (info.getPrice() != null) {
-			fileInMarket(market, http, info);
-		} else if (market == null || market.getMarketKey().isEmpty()) {
-			info.getTheme().setDownloadURL(http);
-		} else {
-			fileInMarket(market, http, info);
-		}
+//		if (info.getPrice() != null) {
+			fileInMarket(market, info);
+//		} else if (market == null || market.getMarketKey().isEmpty()) {
+//			info.getTheme().setDownloadURL(http);
+//		} else {
+//			fileInMarket(market, http, info);
+//		}
 	}
 
-	private void fileInMarket(Market market, String http, FileStoreInfo info) {
+	private void fileInMarket(Market market, FileStoreInfo info) {
 		List<ThemeFile> files = market.getThemes();
 		if (files.contains(info.getTheme())) {
 			String uri = market.getMarketKey() + info.getTheme().getMarketURL();
@@ -212,9 +212,10 @@ public class JplockerAction extends ActionSupport {
 			info.getTheme().setDownloadURL(uri);
 		} else if (info.getPrice() != null) {
 			info.getTheme().setDownloadURL("");
-		} else {
-			info.getTheme().setDownloadURL(http);
-		}
+		} 
+//		else {
+//			info.getTheme().setDownloadURL(http);
+//		}
 	}
 
 	public String more() throws Exception {

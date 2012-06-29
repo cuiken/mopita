@@ -11,7 +11,17 @@
 		<script src="${ctx}/js/jquery/validation/messages_cn.js"></script>
 		<script>
 			$(document).ready(function(){
-				$("#inputForm").validate();
+				$("#inputForm").validate({
+					rules:{
+						dtype:"required"
+					},
+					errorPlacement: function(error, element) {
+						if (element.is(":radio") )
+							error.appendTo (element.parent());
+						else
+							error.insertAfter( element );
+					}	
+				});
 			
 				$("#message").fadeOut(3000);
 				
@@ -37,7 +47,10 @@
 					<label for="pkName" class="field">文件包名:<font class="red">*</font></label>
 					<input type="text" id="pkName" name="pkName" value="${pkName}" class="required"/>
 				</div>
-				
+				<div>
+					<label for="dtype" class="field">客户端类型:</label>
+					<s:radio id="dtype" name="dtype" list="#{'st':'标准版','jp':'日本版'}" theme="simple"></s:radio>
+				</div>
 				<div>
 					<label for="checkedMarketIds" class="field">市场:</label>
 					<s:checkboxlist id="marketList" name="checkedMarketIds" list="allMarkets" listKey="id" listValue="name" theme="simple"></s:checkboxlist>

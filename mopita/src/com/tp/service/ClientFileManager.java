@@ -33,22 +33,26 @@ public class ClientFileManager {
 		return clientFileDao.findUniqueBy("version", version);
 	}
 
-	public String getMaxByVersion(String v) {
-		return clientFileDao.getMaxByVersion(v);
+	public String getMaxByVersion(String v, String dtype) {
+		return clientFileDao.getMaxByVersion(v, dtype);
 	}
 
-	public String getNewestVersionCode() {
-		return clientFileDao.getNewestVersionCode();
+	public String getNewestVersionCode(String dtype) {
+		return clientFileDao.getNewestVersionCode(dtype);
 	}
 
-	public String getNewestClient(String versionFromClient) {
+	public ClientFile getByVersion(String version) {
+		return clientFileDao.findUniqueBy("version", version);
+	}
+
+	public String getNewestClient(String versionFromClient, String dtype) {
 		if (versionFromClient == null || versionFromClient.isEmpty()) {
 			return "";
 		}
 		String[] versions = StringUtils.split(versionFromClient, Constants.DOT_SEPARATOR);
 		if (versions.length > 2) {
 			String oldHeader = versions[0];
-			String newVersion = this.getMaxByVersion(oldHeader);
+			String newVersion = this.getMaxByVersion(oldHeader, dtype);
 			if (newVersion == null)
 				return "";
 			String[] newvs = StringUtils.split(newVersion, Constants.DOT_SEPARATOR);

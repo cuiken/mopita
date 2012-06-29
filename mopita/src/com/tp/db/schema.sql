@@ -195,6 +195,7 @@ create table f_client(
 	version varchar(35),
 	create_time varchar(35),
 	modify_time varchar(35),
+	dtype varchar(32) not null,
 	primary key(id)
 )ENGINE=InnoDB;
 

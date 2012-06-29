@@ -73,13 +73,22 @@ public class FileDownloadAction extends ActionSupport {
 
 	public String getClient() throws Exception {
 
-		String version = Struts2Utils.getParameter("v");
+		String version = Struts2Utils.getParameter(Constants.PARA_CLIENT_VERSION);
 		String app = Struts2Utils.getParameter("app"); //兼容老版本内容下载参数v 重复混乱的情况
+		String market = Struts2Utils.getParameter(Constants.PARA_FROM_MARKET);
+		if (market != null && market.equals(Constants.MARKET_GOOGLE)) {
+			return getLockerClient(version, app, Constants.LOCKER_JP);
+		} else {
+			return getLockerClient(version, app, Constants.LOCKER_STANDARD);
+		}
+	}
+
+	private String getLockerClient(String version, String app, String dtype) throws Exception {
 		if (version == null || version.isEmpty()) {
-			version = clientFileManager.getNewestVersionCode();
+			version = clientFileManager.getNewestVersionCode(dtype);
 		}
 		if (version != null && app != null && !app.equals("千机解锁") && !app.equals("Funlocker")) {//内容下客户端,兼容老版本客户端v参数值的错误
-			version = clientFileManager.getNewestVersionCode();
+			version = clientFileManager.getNewestVersionCode(dtype);
 		}
 		ClientFile newClient = clientFileManager.getClientByVersion(version);
 
