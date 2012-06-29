@@ -74,20 +74,21 @@ public class FileDownloadAction extends ActionSupport {
 	public String getClient() throws Exception {
 
 		String version = Struts2Utils.getParameter("v");
-		String app = Struts2Utils.getParameter("app");
-
-		ClientFile newClient;
-		if (version == null || version.isEmpty() || (!app.isEmpty() && !app.equals("千机解锁") && !app.equals("Funlocker"))) {
-			String newestVersion = clientFileManager.getNewestVersionCode();
-			newClient = clientFileManager.getClientByVersion(newestVersion);
-
-		} else {
-			newClient = clientFileManager.getClientByVersion(version);
-
+		String app = Struts2Utils.getParameter("app"); //兼容老版本内容下载参数v 重复混乱的情况
+		if (version == null || version.isEmpty()) {
+			version = clientFileManager.getNewestVersionCode();
 		}
+		if (version != null && app != null && !app.equals("千机解锁") && !app.equals("Funlocker")) {//内容下客户端,兼容老版本客户端v参数值的错误
+			version = clientFileManager.getNewestVersionCode();
+		}
+		ClientFile newClient = clientFileManager.getClientByVersion(version);
 
-		this.setInputPath("/" + newClient.getPath());
-		return execute();
+		if (newClient != null) {
+			this.setInputPath("/" + newClient.getPath());
+			return execute();
+		} else {
+			return null;
+		}
 	}
 
 	@Autowired
