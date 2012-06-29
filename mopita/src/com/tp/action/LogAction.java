@@ -75,7 +75,10 @@ public class LogAction extends ActionSupport {
 		logService.saveLogFromClent(entity);
 
 		ClientFile client = clientFileManager.getByVersion(clientVersion);
-
+		if(client==null){
+			Struts2Utils.renderText("");
+			return null;
+		}
 		String version = clientFileManager.getNewestClient(clientVersion, client.getDtype());
 		Struts2Utils.renderText(version);
 		return null;
