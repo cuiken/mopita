@@ -102,7 +102,7 @@
 					</div>
 				</div>
 				
-				<%@include file="/common/footer.jsp" %>
+				<%@include file="/common/jp-footer.jsp" %>
 
 			</div>
 

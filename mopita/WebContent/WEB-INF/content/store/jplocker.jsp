@@ -58,27 +58,26 @@
 				<h1 class="app-title">最新アプリ</h1>		
 				<s:iterator value="newestPage.result">
 					<div class="contents_info" style="height: 105px;" id="content1" sid="${theme.id}">			
-						<div class="contents_txt">
-							<div>
+						<div class="contents_txt" style="height: 100px;">
+							<div style="margin-top: 15px;">
 								<font color="#666666">${title}</font>
 								<p><font color="#aeaea6">${shortDescription}</font></p>
+									<s:if test="price==null">
 								 <div class="icon-paid" id="btn_down" pay="${theme.downloadURL}">
-								 	<s:if test="price==null">
+								 
 								 		FREE
-								 	</s:if>
-								 	<s:else>
-								 		PAID
-								 	</s:else>
+								 	
 								 </div>
+								 </s:if>
 							</div>
 						</div>
-						<div class="contents_image">						
-							<img style="margin: 3px;" alt="${title}" data-original="${ctx}/image.action?path=${theme.iconPath}" src="${ctx}/images/default.png" width="72" height="72" class="contents_image_middle">						
+						<div class="contents_image" style="height: 100px;">						
+							<img style="margin: 3px;margin-top: 16px;" alt="${title}" data-original="${ctx}/image.action?path=${theme.iconPath}" src="${ctx}/images/default.png" width="72" height="72" class="contents_image_middle">						
 						</div>
 					</div>								
 				</s:iterator>		
-				<div class="icon_set">
-					<h1 class="app-title">アプリ一覧</h1>	
+				<h1 class="app-title">アプリ一覧</h1>
+				<div class="icon_set">	
 					<s:iterator value="hottestPage.result">				
 						<a href="${ctx}/store/jplocker!details.action?id=${theme.id}&${queryString}">
 							<img alt="${title}" style="padding: 1px;" data-original="${ctx}/image.action?path=${theme.iconPath}" src="${ctx}/images/default.png" class="icon" width="72" height="72">
