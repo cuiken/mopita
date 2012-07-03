@@ -15,7 +15,7 @@
   		<link rel="stylesheet" href="${ctx}/css/mobile.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/top.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/reset.css" media="screen"/>
-  		<link rel="stylesheet" href="${ctx}/css/home.css" media="screen"/>
+  		<link rel="stylesheet" href="${ctx}/css/layout.css" media="screen"/>
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
 		<script src="${ctx}/js/jquery/jquery.masonry.min.js"></script>
 		<script src="${ctx}/js/jquery/jquery.infinitescroll.min.js"></script>
@@ -37,6 +37,19 @@
 			 $("#content1").live("click",function(){ 
 				$(this).css("backgroundColor","#e7e6c8");
 			});
+			 
+			 $("#btn_down").live("click",function(){ 
+					var uri=$(this).attr("pay");
+					$.ajax({
+						type:"POST",
+						url:"${ctx}/log/log!saveDownload.action",
+						dataType:"text",
+						data:{queryString:uri,cs:'${queryString}'}
+					});
+					location.href=uri;
+					return false;
+				});
+			 
 		    var $container = $('#container');
 		    
 		    $container.imagesLoaded(function(){
@@ -75,14 +88,21 @@
 			
 			<div id="container" class="transitions-enabled infinite-scroll clearfix"> 
 				<s:iterator value="catePage.result">
-					<div class="contents_info" id="content1" onclick="location.href='jplocker!details.action?id=${theme.id}&${queryString}';">
-						<div class="contents_image">						
-							<img alt="${title}" onerror="this.src='${ctx}/images/default.png'" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" style="margin: 3px;">							
+					<div class="contents_info" style="height: 105px;" id="content1" onclick="location.href='jplocker!details.action?id=${theme.id}&${queryString}';">
+						<div class="contents_image" style="height: 100px;">						
+							<img alt="${title}"  onerror="this.src='${ctx}/images/default.png'" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" style="margin: 3px; margin-top: 16px;">							
 						</div>
-						<div class="contents_txt">
-							<div style="margin-top: 10px;">
+						<div class="contents_txt" style="height: 100px;">
+							<div style="margin-top: 15px;">
 								<font color="#666666">${title}</font>
 								<p><font color="#aeaea6">${shortDescription}</font></p>
+								<s:if test="price==null">
+									 <div class="icon-paid" id="btn_down" pay="${theme.downloadURL}">
+									 
+									 		FREE
+									 	
+									 </div>
+								 </s:if>
 							</div>
 						</div>
 					</div>

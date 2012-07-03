@@ -105,8 +105,8 @@ public class HomeAction extends ActionSupport {
 		Page<ThemeFile> adPage = new Page<ThemeFile>();
 		adPage = fileManager.searchFileByShelf(adPage, Shelf.Type.RECOMMEND, storeId);
 		String domain = Constants.getDomain();
-
-		String xml = fileManager.adXml(adPage.getResult(), domain);
+		String detailsURL="/home!details.action?id=";
+		String xml = fileManager.adXml(adPage.getResult(), domain,detailsURL);
 		Struts2Utils.renderXml(xml);
 		return null;
 	}
@@ -157,6 +157,7 @@ public class HomeAction extends ActionSupport {
 		httpBuffer.append(URLEncoder.encode(info.getTheme().getApkPath(), "utf-8"));
 		httpBuffer.append("&title=" + URLEncoder.encode(info.getTitle(), "utf-8"));
 		httpBuffer.append("|").append(URLEncoder.encode(info.getTheme().getTitle(), "utf-8"));
+		httpBuffer.append("&");
 		if (downType.equals(DownloadType.MARKET.getValue())) {
 			marketDownload(fromMarket, httpBuffer.toString());
 		} else {

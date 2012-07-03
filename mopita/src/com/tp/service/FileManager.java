@@ -198,7 +198,7 @@ public class FileManager {
 		return themeFileDao.isPropertyUnique("title", newTitle, oldTitle);
 	}
 
-	public String adXml(List<ThemeFile> themes, String domain) throws Exception {
+	public String adXml(List<ThemeFile> themes, String domain,String linkURL) throws Exception {
 		StringBuilder buffer = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 		if (themes.size() > 5) {
 			themes = themes.subList(0, 5);
@@ -219,7 +219,7 @@ public class FileManager {
 			buffer.append(" format=\"" + exts[exts.length - 1] + "\"");
 			buffer.append(" version=\"1\"");
 			buffer.append(">");
-			buffer.append("<linkUrl>" + domain + "/home!details.action?id=" + id + "&amp;f=ad</linkUrl>");
+			buffer.append("<linkUrl>" + domain + linkURL + id + "&amp;f=ad</linkUrl>");
 			buffer.append("<downloadUrl>" + domain + "/image.action?path=" + URLEncoder.encode(ad, "UTF-8")
 					+ "</downloadUrl>");
 			buffer.append("</ad>");

@@ -101,9 +101,9 @@
 						</a>
 					</div>
 				</div>
-				
-				<%@include file="/common/jp-footer.jsp" %>
-
+				<div style="font-size: 85%;">
+					<%@include file="/common/jp-footer.jsp" %>
+				</div>
 			</div>
 
 		</form>

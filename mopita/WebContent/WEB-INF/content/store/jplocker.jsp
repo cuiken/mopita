@@ -62,12 +62,12 @@
 							<div style="margin-top: 15px;">
 								<font color="#666666">${title}</font>
 								<p><font color="#aeaea6">${shortDescription}</font></p>
-									<s:if test="price==null">
-								 <div class="icon-paid" id="btn_down" pay="${theme.downloadURL}">
-								 
-								 		FREE
-								 	
-								 </div>
+								<s:if test="price==null">
+									 <div class="icon-paid" id="btn_down" pay="${theme.downloadURL}">
+									 
+									 		FREE
+									 	
+									 </div>
 								 </s:if>
 							</div>
 						</div>

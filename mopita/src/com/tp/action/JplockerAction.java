@@ -122,8 +122,8 @@ public class JplockerAction extends ActionSupport {
 		Page<ThemeFile> adPage = new Page<ThemeFile>();
 		adPage = fileManager.searchFileByShelf(adPage, Shelf.Type.RECOMMEND, storeId);
 		String domain = Constants.getDomain();
-
-		String xml = fileManager.adXml(adPage.getResult(), domain);
+		String detailsURL="/store/jplocker!details.action?id=";
+		String xml = fileManager.adXml(adPage.getResult(), domain,detailsURL);
 		Struts2Utils.renderXml(xml);
 		return null;
 	}
@@ -229,7 +229,10 @@ public class JplockerAction extends ActionSupport {
 
 		cateInfos = categoryInfoManager.getInfosBylanguage(language);
 		catePage = fileManager.searchInfoByCategoryAndStore(catePage, categoryId, StoreId, language);
-
+		List<FileStoreInfo> storeInfos=catePage.getResult();
+		for(FileStoreInfo info :storeInfos){
+			setDownloadType(session, info);
+		}
 		return "more";
 	}
 
