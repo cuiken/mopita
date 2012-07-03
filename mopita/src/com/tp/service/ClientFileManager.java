@@ -28,6 +28,10 @@ public class ClientFileManager {
 	public ClientFile get(Long id) {
 		return clientFileDao.get(id);
 	}
+	
+	public void delete(Long id){
+		clientFileDao.delete(id);
+	}
 
 	public ClientFile getClientByVersion(String version) {
 		return clientFileDao.findUniqueBy("version", version);

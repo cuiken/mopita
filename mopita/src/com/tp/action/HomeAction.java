@@ -73,7 +73,7 @@ public class HomeAction extends ActionSupport {
 		HttpSession session = Struts2Utils.getSession();
 
 		language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
-		Long storeId = (Long) session.getAttribute(Constants.SESS_DEFAULT_STORE);
+		Long storeId = chooseStoreId(session);
 
 		hottestPage.setPageSize(12);
 		hottestPage = fileManager.searchStoreInfoInShelf(hottestPage, Shelf.Type.HOTTEST, storeId, language);
@@ -95,6 +95,16 @@ public class HomeAction extends ActionSupport {
 		return (String) session.getAttribute(Constants.PARA_RESOLUTION) == null;
 	}
 
+	private Long chooseStoreId(HttpSession session) {
+		String storeType = (String) session.getAttribute(Constants.PARA_STORE_TYPE);
+
+		if (storeType.equals(Constants.ST_LOCK)) {
+			return (Long) session.getAttribute(Constants.SESS_DEFAULT_STORE);
+		} else {
+			return categoryManager.getStoreByValue(Constants.ST_LOCK).getId();
+		}
+	}
+	
 	/**
 	 * 输出5个广告xml
 	 * @return
@@ -117,7 +127,7 @@ public class HomeAction extends ActionSupport {
 			HttpSession session = Struts2Utils.getSession();
 
 			language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
-			Long storeId = (Long) session.getAttribute(Constants.SESS_DEFAULT_STORE);
+			Long storeId = chooseStoreId(session);
 			info = fileManager.getStoreInfoBy(storeId, id, language);
 			if (info == null)
 				return "reload";
@@ -199,7 +209,7 @@ public class HomeAction extends ActionSupport {
 
 		language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
 
-		Long storeId = (Long) session.getAttribute(Constants.SESS_DEFAULT_STORE);
+		Long storeId = chooseStoreId(session);
 		categoryId = Long.valueOf(Struts2Utils.getParameter("cid"));
 
 		cateInfos = categoryInfoManager.getInfosBylanguage(language);

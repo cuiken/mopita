@@ -57,7 +57,7 @@ public class FunlockerClientAction extends CRUDActionSupport<ClientFile> {
 
 	@Override
 	public String delete() throws Exception {
-
+		clientFileManager.delete(id);
 		return RELOAD;
 	}
 

@@ -17,7 +17,11 @@
 				
 				
 			});
-
+			function deleteThis(id){
+				if(confirm("确定要删除吗?")){
+					window.location="funlocker-client!delete.action?id="+id;
+				}
+			}
 		</script>
 	</head>
 	<body>
@@ -52,7 +56,8 @@
 								<td>${createTime}</td>
 								<td>${modifyTime}</td>
 								<td>
-									<a href="funlocker-client!input.action?id=${id}">编辑</a>
+									<a href="funlocker-client!input.action?id=${id}">编辑</a>&nbsp;
+									<a href="#" onclick="deleteThis(${id})">删除</a>
 								</td>
 							</tr>
 						</s:iterator>
