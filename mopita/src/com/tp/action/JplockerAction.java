@@ -99,11 +99,13 @@ public class JplockerAction extends ActionSupport {
 
 	private Long chooseStoreId(HttpSession session) {
 		String storeType = (String) session.getAttribute(Constants.PARA_STORE_TYPE);
-
-		if (storeType.equals(Constants.JP_LOCKER)) {
-			return (Long) session.getAttribute(Constants.SESS_DEFAULT_STORE);
+		Long storeId = (Long) session.getAttribute(Constants.ID_JPLOCKER);
+		if (storeType != null && storeId != null && storeType.equals(Constants.JP_LOCKER)) {
+			return storeId;
 		} else {
-			return categoryManager.getStoreByValue(Constants.JP_LOCKER).getId();
+			storeId = categoryManager.getStoreByValue(Constants.JP_LOCKER).getId();
+			session.setAttribute(Constants.ID_JPLOCKER, storeId);
+			return storeId;
 		}
 	}
 
@@ -122,8 +124,8 @@ public class JplockerAction extends ActionSupport {
 		Page<ThemeFile> adPage = new Page<ThemeFile>();
 		adPage = fileManager.searchFileByShelf(adPage, Shelf.Type.RECOMMEND, storeId);
 		String domain = Constants.getDomain();
-		String detailsURL="/store/jplocker!details.action?id=";
-		String xml = fileManager.adXml(adPage.getResult(), domain,detailsURL);
+		String detailsURL = "/store/jplocker!details.action?id=";
+		String xml = fileManager.adXml(adPage.getResult(), domain, detailsURL);
 		Struts2Utils.renderXml(xml);
 		return null;
 	}
@@ -166,20 +168,20 @@ public class JplockerAction extends ActionSupport {
 	private void setDownloadType(HttpSession session, FileStoreInfo info) throws UnsupportedEncodingException {
 
 		String fromMarket = (String) session.getAttribute(Constants.PARA_FROM_MARKET);
-//		String downType = (String) session.getAttribute(Constants.PARA_DOWNLOAD_METHOD);
-//		StringBuilder httpBuffer = new StringBuilder();
-//		httpBuffer.append("file-download.action?id=");
-//		httpBuffer.append(info.getTheme().getId());
-//		httpBuffer.append("&inputPath=");
-//		httpBuffer.append(URLEncoder.encode(info.getTheme().getApkPath(), "utf-8"));
-//		httpBuffer.append("&title=" + URLEncoder.encode(info.getTitle(), "utf-8"));
-//		httpBuffer.append("|").append(URLEncoder.encode(info.getTheme().getTitle(), "utf-8"));
+		//		String downType = (String) session.getAttribute(Constants.PARA_DOWNLOAD_METHOD);
+		//		StringBuilder httpBuffer = new StringBuilder();
+		//		httpBuffer.append("file-download.action?id=");
+		//		httpBuffer.append(info.getTheme().getId());
+		//		httpBuffer.append("&inputPath=");
+		//		httpBuffer.append(URLEncoder.encode(info.getTheme().getApkPath(), "utf-8"));
+		//		httpBuffer.append("&title=" + URLEncoder.encode(info.getTitle(), "utf-8"));
+		//		httpBuffer.append("|").append(URLEncoder.encode(info.getTheme().getTitle(), "utf-8"));
 
-//		if (info.getPrice() != null || downType.equals(DownloadType.MARKET.getValue())) {
-			marketDownload(fromMarket, info);
-//		} else {
-//			info.getTheme().setDownloadURL(httpBuffer.toString());
-//		}
+		//		if (info.getPrice() != null || downType.equals(DownloadType.MARKET.getValue())) {
+		marketDownload(fromMarket, info);
+		//		} else {
+		//			info.getTheme().setDownloadURL(httpBuffer.toString());
+		//		}
 	}
 
 	private void marketDownload(String fromMarket, FileStoreInfo info) {
@@ -187,13 +189,13 @@ public class JplockerAction extends ActionSupport {
 			fromMarket = Constants.MARKET_GOOGLE;
 		}
 		Market market = marketManager.findByPkName(fromMarket);
-//		if (info.getPrice() != null) {
-			fileInMarket(market, info);
-//		} else if (market == null || market.getMarketKey().isEmpty()) {
-//			info.getTheme().setDownloadURL(http);
-//		} else {
-//			fileInMarket(market, http, info);
-//		}
+		//		if (info.getPrice() != null) {
+		fileInMarket(market, info);
+		//		} else if (market == null || market.getMarketKey().isEmpty()) {
+		//			info.getTheme().setDownloadURL(http);
+		//		} else {
+		//			fileInMarket(market, http, info);
+		//		}
 	}
 
 	private void fileInMarket(Market market, FileStoreInfo info) {
@@ -212,10 +214,10 @@ public class JplockerAction extends ActionSupport {
 			info.getTheme().setDownloadURL(uri);
 		} else if (info.getPrice() != null) {
 			info.getTheme().setDownloadURL("");
-		} 
-//		else {
-//			info.getTheme().setDownloadURL(http);
-//		}
+		}
+		//		else {
+		//			info.getTheme().setDownloadURL(http);
+		//		}
 	}
 
 	public String more() throws Exception {
@@ -229,8 +231,8 @@ public class JplockerAction extends ActionSupport {
 
 		cateInfos = categoryInfoManager.getInfosBylanguage(language);
 		catePage = fileManager.searchInfoByCategoryAndStore(catePage, categoryId, StoreId, language);
-		List<FileStoreInfo> storeInfos=catePage.getResult();
-		for(FileStoreInfo info :storeInfos){
+		List<FileStoreInfo> storeInfos = catePage.getResult();
+		for (FileStoreInfo info : storeInfos) {
 			setDownloadType(session, info);
 		}
 		return "more";

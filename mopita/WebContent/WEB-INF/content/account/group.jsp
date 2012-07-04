@@ -9,6 +9,11 @@
 			//聚焦第一个输入框
 			$("#group-tab").addClass("active");
 		});
+		function deleteThis(id){
+			if(confirm("确定要删除吗?")){
+				window.location="group!delete.action?id="+id;
+			}
+		}
 	</script>
 </head>
 
@@ -29,10 +34,20 @@
 		<c:forEach items="${groups}" var="group">
 			<tr>
 				<td>${group.name}</td>
-				<td>${group.permissionNames}</td>
+				<td>
+					<c:choose>
+						<c:when test="${fn:length(group.permissionNames)>30}">
+							${fn:substring(group.permissionNames,0,30)}....
+						</c:when>
+						<c:otherwise>
+							${group.permissionNames}
+						</c:otherwise>
+					</c:choose>	
+				</td>
 				<td>
 					<shiro:hasPermission name="group:edit">
-						<a href="group!input.action?id=${group.id}">修改</a> <a href="group!delete.action?id=${group.id}">删除</a>
+						<a href="group!input.action?id=${group.id}">修改</a> 
+						<a href="#" onclick="deleteThis(${group.id})">删除</a>	
 					</shiro:hasPermission>	
 				</td>
 			</tr>

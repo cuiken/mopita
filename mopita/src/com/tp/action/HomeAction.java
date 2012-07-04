@@ -97,14 +97,17 @@ public class HomeAction extends ActionSupport {
 
 	private Long chooseStoreId(HttpSession session) {
 		String storeType = (String) session.getAttribute(Constants.PARA_STORE_TYPE);
-
-		if (storeType.equals(Constants.ST_LOCK)) {
-			return (Long) session.getAttribute(Constants.SESS_DEFAULT_STORE);
+		Long storeId = (Long) session.getAttribute(Constants.ID_LOCK);
+		if (storeType != null && storeId != null && storeType.equals(Constants.ST_LOCK)) {
+			return storeId;
 		} else {
-			return categoryManager.getStoreByValue(Constants.ST_LOCK).getId();
+			storeId = categoryManager.getStoreByValue(Constants.ST_LOCK).getId();
+			session.setAttribute(Constants.ID_LOCK, storeId);
+			return storeId;
 		}
+
 	}
-	
+
 	/**
 	 * 输出5个广告xml
 	 * @return
@@ -115,8 +118,8 @@ public class HomeAction extends ActionSupport {
 		Page<ThemeFile> adPage = new Page<ThemeFile>();
 		adPage = fileManager.searchFileByShelf(adPage, Shelf.Type.RECOMMEND, storeId);
 		String domain = Constants.getDomain();
-		String detailsURL="/home!details.action?id=";
-		String xml = fileManager.adXml(adPage.getResult(), domain,detailsURL);
+		String detailsURL = "/home!details.action?id=";
+		String xml = fileManager.adXml(adPage.getResult(), domain, detailsURL);
 		Struts2Utils.renderXml(xml);
 		return null;
 	}

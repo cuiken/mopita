@@ -2,7 +2,6 @@ package com.tp.action;
 
 import static com.tp.utils.Constants.AD_XML;
 import static com.tp.utils.Constants.GET_CLIENT;
-import static com.tp.utils.Constants.ST_LOCK;
 import static com.tp.utils.Constants.PARA_CLIENT_VERSION;
 import static com.tp.utils.Constants.PARA_DOWNLOAD_METHOD;
 import static com.tp.utils.Constants.PARA_FROM_MARKET;
@@ -24,8 +23,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.collect.Lists;
@@ -33,8 +30,6 @@ import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 import com.tp.entity.DownloadType;
 import com.tp.entity.LogInHome;
-import com.tp.entity.Store;
-import com.tp.service.CategoryManager;
 import com.tp.service.LogService;
 import com.tp.utils.Constants;
 import com.tp.utils.Constants.Language;
@@ -43,10 +38,8 @@ import com.tp.utils.Struts2Utils;
 public class HomeInterceptor extends AbstractInterceptor {
 
 	private static final long serialVersionUID = 1L;
-	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	private LogService logService;
-	private CategoryManager categoryManager;
 
 	@Override
 	public String intercept(ActionInvocation invocation) throws Exception {
@@ -141,11 +134,6 @@ public class HomeInterceptor extends AbstractInterceptor {
 		}
 		if (store_type != null) {
 			session.setAttribute(PARA_STORE_TYPE, store_type);
-		} else if (store_type == null && session.getAttribute(PARA_STORE_TYPE) == null) {
-			session.setAttribute(PARA_STORE_TYPE, ST_LOCK);
-		}
-		if (session.getAttribute(Constants.SESS_DEFAULT_STORE) == null) {
-			setDefaultStore(session);
 		}
 
 		if (language != null) {
@@ -176,16 +164,6 @@ public class HomeInterceptor extends AbstractInterceptor {
 		}
 	}
 
-	private void setDefaultStore(HttpSession session) {
-		try {
-			String storeType = (String) session.getAttribute(PARA_STORE_TYPE);
-			Store store = categoryManager.getStoreByValue(storeType);
-			session.setAttribute(Constants.SESS_DEFAULT_STORE, store.getId());
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-		}
-	}
-
 	private static List<String> defaultLanguage() {
 
 		List<String> languages = Lists.newArrayList();
@@ -207,8 +185,4 @@ public class HomeInterceptor extends AbstractInterceptor {
 		this.logService = logService;
 	}
 
-	@Autowired
-	public void setCategoryManager(CategoryManager categoryManager) {
-		this.categoryManager = categoryManager;
-	}
 }
