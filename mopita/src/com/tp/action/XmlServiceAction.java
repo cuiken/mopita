@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.tp.service.XmlService;
-import com.tp.utils.Constants;
 import com.tp.utils.Encodes;
 import com.tp.utils.Struts2Utils;
 
@@ -18,10 +17,9 @@ public class XmlServiceAction extends ActionSupport {
 	@Override
 	public String execute() throws Exception {
 
-		String domain = Constants.getDomain();
 		String store = Struts2Utils.getParameter("st");
 		String language = Struts2Utils.getParameter("l");
-		String xml = xmlService.getXml(store, language, domain);
+		String xml = xmlService.getXml(store, language);
 		Struts2Utils.renderText(Encodes.encodeBase64(xml.getBytes()));
 
 		return null;
@@ -29,10 +27,9 @@ public class XmlServiceAction extends ActionSupport {
 
 	public String getXml() throws Exception {
 
-		String domain = Constants.getDomain();
 		String store = Struts2Utils.getParameter("st");
 		String language = Struts2Utils.getParameter("l");
-		String xml = xmlService.getXml(store, language, domain);
+		String xml = xmlService.getXml(store, language);
 
 		Struts2Utils.renderXml(xml);
 		return null;

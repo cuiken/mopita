@@ -35,7 +35,8 @@ public class ThemeFile extends IdEntity {
 	private String title;
 	private Long uxSize;
 	private Long apkSize;
-	private String uxPath;
+	private String uxHvga;
+	private String uxWvga;
 	private String apkPath;
 	private String availMachine;
 	private String unavailMachine;
@@ -55,6 +56,7 @@ public class ThemeFile extends IdEntity {
 	private List<FileStoreInfo> infoStore = Lists.newArrayList();
 	private List<ShelfFileLink> shelfFiles = Lists.newArrayList();
 	private List<FileMarketValue> marketValues = Lists.newArrayList();
+	private List<Preview> previews = Lists.newArrayList();
 
 	public String getName() {
 		return name;
@@ -88,12 +90,22 @@ public class ThemeFile extends IdEntity {
 		this.apkSize = apkSize;
 	}
 
-	public String getUxPath() {
-		return uxPath;
+	@Column(name = "ux_h_path")
+	public String getUxHvga() {
+		return uxHvga;
 	}
 
-	public void setUxPath(String uxPath) {
-		this.uxPath = uxPath;
+	public void setUxHvga(String uxHvga) {
+		this.uxHvga = uxHvga;
+	}
+
+	@Column(name = "ux_w_path")
+	public String getUxWvga() {
+		return uxWvga;
+	}
+
+	public void setUxWvga(String uxWvga) {
+		this.uxWvga = uxWvga;
 	}
 
 	public String getApkPath() {
@@ -229,6 +241,15 @@ public class ThemeFile extends IdEntity {
 
 	public void setMarketValues(List<FileMarketValue> marketValues) {
 		this.marketValues = marketValues;
+	}
+
+	@OneToMany(mappedBy = "theme", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
+	public List<Preview> getPreviews() {
+		return previews;
+	}
+
+	public void setPreviews(List<Preview> previews) {
+		this.previews = previews;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)

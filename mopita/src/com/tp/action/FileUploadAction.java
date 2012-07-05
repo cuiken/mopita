@@ -46,6 +46,7 @@ public class FileUploadAction extends ActionSupport {
 	private String marketURL;
 
 	private String title;
+	private String version;
 	private Long price;
 	private String shortDescription;
 	private String longDescription;
@@ -114,6 +115,7 @@ public class FileUploadAction extends ActionSupport {
 		ThemeFile theme = new ThemeFile();
 		theme.setName(FileUtils.getFileName(uploadFileName));
 		theme.setTitle(title);
+		theme.setVersion(version);
 		theme.setAvailMachine(availMachine);
 		theme.setUnavailMachine(unavailMachine);
 		theme.setMarketURL(marketURL);
@@ -167,6 +169,10 @@ public class FileUploadAction extends ActionSupport {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
 	}
 
 	public void setMarketURL(String marketURL) {

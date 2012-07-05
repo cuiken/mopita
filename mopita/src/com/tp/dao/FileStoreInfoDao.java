@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.tp.entity.FileStoreInfo;
+import com.tp.entity.Shelf;
 import com.tp.orm.Page;
 import com.tp.orm.hibernate.HibernateDao;
 
@@ -20,7 +21,7 @@ public class FileStoreInfoDao extends HibernateDao<FileStoreInfo, Long> {
 
 	private static final String Q_SHELF_THEME_STORE = "select distinct fsi from FileStoreInfo fsi join fsi.theme.shelfFiles s where s.shelf.value=? and s.shelf.store.id=? and fsi.store.id=? and fsi.language=?  order by s.sort";
 	private static final String Q_BY_CATEGORY_AND_STORE = "select distinct fsi from FileStoreInfo fsi join fsi.theme.categories c join fsi.theme.shelfFiles s where c.id=? and fsi.store.id=? and fsi.language=? order by s.sort";
-	private static final String Q_BY_STORE_AND_LANGUAGE = "select fsi from FileStoreInfo fsi where fsi.store.id=? and fsi.language=?";
+//	private static final String Q_BY_STORE_AND_LANGUAGE = "select fsi from FileStoreInfo fsi where fsi.store.id=? and fsi.language=?";
 
 	public void deleteByThemeAndStore(Long fid, Long sid) {
 		createQuery(DELETE_BY_THEME_AND_STORE, fid, sid).executeUpdate();
@@ -41,7 +42,7 @@ public class FileStoreInfoDao extends HibernateDao<FileStoreInfo, Long> {
 
 	@SuppressWarnings("unchecked")
 	public List<FileStoreInfo> getFileInfoByStoreAndLanguage(Long sid, String language) {
-		return createQuery(Q_BY_STORE_AND_LANGUAGE, sid, language).list();
+		return createQuery(Q_SHELF_THEME_STORE, Shelf.Type.RECOMMEND.getValue(), sid, sid, language).list();
 	}
 
 	/**

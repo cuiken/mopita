@@ -91,6 +91,14 @@ public class FileUtils {
 	public static boolean isUx(String ext) {
 		return StringUtils.equalsIgnoreCase(ext, FileType.UX.getValue());
 	}
+	
+	public static boolean isHUx(String fname){
+		return StringUtils.containsIgnoreCase(fname, FileType.UX_H.getValue());
+	}
+	
+	public static boolean isWUx(String fname){
+		return StringUtils.containsIgnoreCase(fname, FileType.UX_W.getValue());
+	}
 
 	public static boolean isApk(String ext) {
 		return StringUtils.equalsIgnoreCase(ext, FileType.APK.getValue());

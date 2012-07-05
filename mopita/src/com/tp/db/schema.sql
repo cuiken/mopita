@@ -55,7 +55,8 @@ create table f_file(
 	title varchar(50),
 	ux_size int,
 	apk_size int,
-	ux_path varchar(255),
+	ux_w_path varchar(255),
+	ux_h_path varchar(255),
 	apk_path varchar(255),
 	avail_machine varchar(255),
 	unavail_machine varchar(255),
@@ -67,6 +68,15 @@ create table f_file(
 	version varchar(10),
 	create_time varchar(30),
 	modify_time varchar(30),
+	primary key(id)
+
+)ENGINE=InnoDB;
+
+create table f_preview(
+	id int not null auto_increment,
+	name varchar(100) not null,
+	path varchar(255) not null,
+	theme_id int ,
 	primary key(id)
 
 )ENGINE=InnoDB;

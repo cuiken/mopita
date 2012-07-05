@@ -12,10 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.collect.Lists;
 import com.tp.dao.FileInfoDao;
 import com.tp.dao.FileStoreInfoDao;
+import com.tp.dao.PreviewDao;
 import com.tp.dao.ThemeFileDao;
 import com.tp.dto.FileDTO;
 import com.tp.entity.FileInfo;
 import com.tp.entity.FileStoreInfo;
+import com.tp.entity.Preview;
 import com.tp.entity.Shelf;
 import com.tp.entity.ThemeFile;
 import com.tp.mapper.JsonMapper;
@@ -31,6 +33,7 @@ public class FileManager {
 	private FileInfoDao fileInfoDao;
 	private ThemeFileDao themeFileDao;
 	private FileStoreInfoDao storeInfoDao;
+	private PreviewDao previewDao;
 
 	public FileInfo getFileInfo(Long id) {
 		return fileInfoDao.get(id);
@@ -98,7 +101,11 @@ public class FileManager {
 	}
 
 	public void saveFiles(List<File> files, ThemeFile theme) {
+		List<File> previews = Lists.newArrayList();
 		for (File file : files) {
+			if (file.getParentFile().getName().equals("preview")) {
+				previews.add(file);
+			}
 			String fname = FileUtils.getFileName(file.getName());
 			String extension = FileUtils.getExtension(file.getName());
 			if (FileUtils.isPreClient(fname)) {
@@ -114,12 +121,27 @@ public class FileManager {
 				theme.setApkSize(FileUtils.getFileSize(file.getPath()));
 				theme.setApkPath(file.getPath());
 			} else if (FileUtils.isUx(extension)) {
+				if (FileUtils.isHUx(fname)) {
+					theme.setUxHvga(file.getPath());
+				} else {
+					theme.setUxWvga(file.getPath());
+				}
 
-				theme.setUxPath(file.getPath());
 				theme.setUxSize(FileUtils.getFileSize(file.getPath()));
 			}
 		}
 		saveThemeFile(theme);
+		savePreviews(previews, theme);
+	}
+
+	private void savePreviews(List<File> files, ThemeFile theme) {
+		for (File file : files) {
+			Preview pre = new Preview();
+			pre.setName(file.getName());
+			pre.setPath(file.getPath());
+			pre.setTheme(theme);
+			previewDao.save(pre);
+		}
 	}
 
 	private void saveFileinfo(ThemeFile f, FileInfo info) {
@@ -198,7 +220,7 @@ public class FileManager {
 		return themeFileDao.isPropertyUnique("title", newTitle, oldTitle);
 	}
 
-	public String adXml(List<ThemeFile> themes, String domain,String linkURL) throws Exception {
+	public String adXml(List<ThemeFile> themes, String domain, String linkURL) throws Exception {
 		StringBuilder buffer = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 		if (themes.size() > 5) {
 			themes = themes.subList(0, 5);
@@ -241,6 +263,11 @@ public class FileManager {
 	@Autowired
 	public void setStoreInfoDao(FileStoreInfoDao storeInfoDao) {
 		this.storeInfoDao = storeInfoDao;
+	}
+
+	@Autowired
+	public void setPreviewDao(PreviewDao previewDao) {
+		this.previewDao = previewDao;
 	}
 
 }

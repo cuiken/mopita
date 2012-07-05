@@ -8,7 +8,9 @@ public enum FileType {
 	PREVIEW_CLIENT("pre_c"),
 	PREVIEW_WEB("pre_w"),
 	ICON("icon_"),
-	AD("ad_");
+	AD("ad_"),
+	UX_W("_w"),
+	UX_H("_h");
 	
 	private String value;
 
