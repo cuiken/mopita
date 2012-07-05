@@ -11,8 +11,6 @@ import com.tp.entity.ClientFile;
 import com.tp.entity.LogFromClient;
 import com.tp.entity.LogInHome;
 import com.tp.orm.Page;
-import com.tp.orm.PageRequest.Sort;
-import com.tp.orm.PropertyFilter;
 import com.tp.service.ClientFileManager;
 import com.tp.service.LogService;
 import com.tp.utils.Constants;
@@ -44,13 +42,7 @@ public class LogAction extends ActionSupport {
 	}
 
 	public String list() throws Exception {
-		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(Struts2Utils.getRequest());
-		if (!page.isOrderBySetted()) {
-			page.setOrderBy("createTime");
-			page.setOrderDir(Sort.DESC);
-		}
-		page = logService.searchLogFromClient(page, filters);
-		sliders = page.getSlider((int) page.getTotalPages());
+
 		return SUCCESS;
 	}
 
@@ -75,7 +67,7 @@ public class LogAction extends ActionSupport {
 		logService.saveLogFromClent(entity);
 
 		ClientFile client = clientFileManager.getByVersion(clientVersion);
-		if(client==null){
+		if (client == null) {
 			Struts2Utils.renderText("");
 			return null;
 		}
