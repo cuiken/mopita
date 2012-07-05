@@ -10,10 +10,9 @@
 	  	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   		<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 		<title>details</title>
-		<link rel="stylesheet" href="${ctx}/css/style.css" media="screen"/>
+		<link rel="stylesheet" href="${ctx}/css/jplocker/style.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/details.css" media="screen"/>
-  		<link rel="stylesheet" href="${ctx}/css/home.css" media="screen"/>
-  		<link rel="stylesheet" href="${ctx}/css/reset.css" media="screen"/>
+  		<link rel="stylesheet" href="${ctx}/css/jplocker/reset.css" media="screen"/>
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
 		<script src="${ctx}/js/jquery/jquery.lazyload.min.js"></script>
 		<style type="text/css">

@@ -11,11 +11,11 @@
   		<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
  
 		<title>more</title>
-		<link rel="stylesheet" href="${ctx}/css/style.css" media="screen"/>
-  		<link rel="stylesheet" href="${ctx}/css/mobile.css" media="screen"/>
-  		<link rel="stylesheet" href="${ctx}/css/top.css" media="screen"/>
-  		<link rel="stylesheet" href="${ctx}/css/reset.css" media="screen"/>
-  		<link rel="stylesheet" href="${ctx}/css/layout.css" media="screen"/>
+		<link rel="stylesheet" href="${ctx}/css/jplocker/style.css" media="screen"/>
+  		<link rel="stylesheet" href="${ctx}/css/jplocker/mobile.css" media="screen"/>
+  		<link rel="stylesheet" href="${ctx}/css/jplocker/top.css" media="screen"/>
+  		<link rel="stylesheet" href="${ctx}/css/jplocker/reset.css" media="screen"/>
+  		<link rel="stylesheet" href="${ctx}/css/jplocker/layout.css" media="screen"/>
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
 		<script src="${ctx}/js/jquery/jquery.masonry.min.js"></script>
 		<script src="${ctx}/js/jquery/jquery.infinitescroll.min.js"></script>
@@ -89,20 +89,19 @@
 			<div id="container" class="transitions-enabled infinite-scroll clearfix"> 
 				<s:iterator value="catePage.result">
 					<div class="contents_info" style="height: 105px;" id="content1" onclick="location.href='jplocker!details.action?id=${theme.id}&${queryString}';">
-						<div class="contents_image" style="height: 100px;">						
-							<img alt="${title}"  onerror="this.src='${ctx}/images/default.png'" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" style="margin: 3px; margin-top: 16px;">							
+						<div class="contents_image">						
+							<img alt="${title}"  onerror="this.src='${ctx}/images/default.png'" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" style="margin: 3px;">							
 						</div>
-						<div class="contents_txt" style="height: 100px;">
-							<div style="margin-top: 15px;">
-								<font color="#666666">${title}</font>
+						<div class="contents_txt">
+							<div class="content-title">
+								<font color="#666666">${title}
+									<s:if test="price==null">
+										<span class="icon-free" id="btn_down" pay="${theme.downloadURL}">
+											FREE
+										</span>
+									</s:if>	
+								</font>
 								<p><font color="#aeaea6">${shortDescription}</font></p>
-								<s:if test="price==null">
-									 <div class="icon-paid" id="btn_down" pay="${theme.downloadURL}">
-									 
-									 		FREE
-									 	
-									 </div>
-								 </s:if>
 							</div>
 						</div>
 					</div>

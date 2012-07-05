@@ -28,12 +28,12 @@ public class FileDownloadAction extends ActionSupport {
 	@Override
 	public String execute() throws Exception {
 
-		inputPath = Constants.FILE_STORAGE + new String(inputPath.getBytes("iso-8859-1"), "utf-8");
+		inputPath = Constants.FILE_STORAGE + new String(inputPath.getBytes("iso-8859-1"), Constants.ENCODE_UTF_8);
 		File file = new File(inputPath);
 		if (file.exists()) {
 			long p = 0;
 			long fileLength = file.length();
-			downloadFileName = new String(file.getName().getBytes(), "ISO8859-1");
+			downloadFileName = new String(file.getName().getBytes(), "ISO-8859-1");
 
 			InputStream inputStream = new FileInputStream(file);
 			HttpServletResponse response = Struts2Utils.getResponse();
@@ -75,6 +75,9 @@ public class FileDownloadAction extends ActionSupport {
 
 		String version = Struts2Utils.getParameter(Constants.PARA_CLIENT_VERSION);
 		String app = Struts2Utils.getParameter("app"); //兼容老版本内容下载参数v 重复混乱的情况
+		if (app != null && !app.isEmpty()) {
+			app = new String(app.getBytes("iso-8859-1"), Constants.ENCODE_UTF_8);
+		}
 		String market = Struts2Utils.getParameter(Constants.PARA_FROM_MARKET);
 		if (market != null && market.equals(Constants.MARKET_GOOGLE)) {
 			return getLockerClient(version, app, Constants.LOCKER_JP);
@@ -84,10 +87,10 @@ public class FileDownloadAction extends ActionSupport {
 	}
 
 	private String getLockerClient(String version, String app, String dtype) throws Exception {
+
 		if (version == null || version.isEmpty()) {
 			version = clientFileManager.getNewestVersionCode(dtype);
-		}
-		if (version != null && app != null && !app.equals("千机解锁") && !app.equals("Funlocker")) {//内容下客户端,兼容老版本客户端v参数值的错误
+		} else if (version != null && app != null && !app.equals("千机解锁") && !app.equals("Funlocker")) {//内容下客户端,兼容老版本客户端v参数值的错误
 			version = clientFileManager.getNewestVersionCode(dtype);
 		}
 		ClientFile newClient = clientFileManager.getClientByVersion(version);

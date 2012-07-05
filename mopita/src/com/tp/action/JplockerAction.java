@@ -1,7 +1,5 @@
 package com.tp.action;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.opensymphony.xwork2.ActionSupport;
 import com.tp.entity.Category;
 import com.tp.entity.CategoryInfo;
-import com.tp.entity.DownloadType;
 import com.tp.entity.FileMarketValue;
 import com.tp.entity.FileStoreInfo;
 import com.tp.entity.Market;
@@ -82,9 +79,10 @@ public class JplockerAction extends ActionSupport {
 		hottestPage = fileManager.searchStoreInfoInShelf(hottestPage, Shelf.Type.HOTTEST, storeId, language);
 
 		newestPage = fileManager.searchStoreInfoInShelf(newestPage, Shelf.Type.NEWEST, storeId, language);
+		Market market = this.getMarket(session);
 		List<FileStoreInfo> newestList = newestPage.getResult();
 		for (FileStoreInfo info : newestList) {
-			setDownloadType(session, info);
+			setDownloadType(market, info);
 		}
 		if (visitByBrowse(session)) {
 			recommendPage = fileManager.searchStoreInfoInShelf(recommendPage, Shelf.Type.RECOMMEND, storeId, language);
@@ -140,7 +138,8 @@ public class JplockerAction extends ActionSupport {
 			info = fileManager.getStoreInfoBy(storeId, id, language);
 			if (info == null)
 				return "reload";
-			setDownloadType(session, info);
+			Market market = this.getMarket(session);
+			setDownloadType(market, info);
 			Category cate = info.getTheme().getCategories().get(0);
 			List<CategoryInfo> cateInfos = cate.getInfos();
 			for (CategoryInfo ci : cateInfos) {
@@ -165,40 +164,15 @@ public class JplockerAction extends ActionSupport {
 		return "details";
 	}
 
-	private void setDownloadType(HttpSession session, FileStoreInfo info) throws UnsupportedEncodingException {
-
+	private Market getMarket(HttpSession session) {
 		String fromMarket = (String) session.getAttribute(Constants.PARA_FROM_MARKET);
-		//		String downType = (String) session.getAttribute(Constants.PARA_DOWNLOAD_METHOD);
-		//		StringBuilder httpBuffer = new StringBuilder();
-		//		httpBuffer.append("file-download.action?id=");
-		//		httpBuffer.append(info.getTheme().getId());
-		//		httpBuffer.append("&inputPath=");
-		//		httpBuffer.append(URLEncoder.encode(info.getTheme().getApkPath(), "utf-8"));
-		//		httpBuffer.append("&title=" + URLEncoder.encode(info.getTitle(), "utf-8"));
-		//		httpBuffer.append("|").append(URLEncoder.encode(info.getTheme().getTitle(), "utf-8"));
-
-		//		if (info.getPrice() != null || downType.equals(DownloadType.MARKET.getValue())) {
-		marketDownload(fromMarket, info);
-		//		} else {
-		//			info.getTheme().setDownloadURL(httpBuffer.toString());
-		//		}
-	}
-
-	private void marketDownload(String fromMarket, FileStoreInfo info) {
 		if (fromMarket == null || fromMarket.isEmpty()) {
 			fromMarket = Constants.MARKET_GOOGLE;
 		}
-		Market market = marketManager.findByPkName(fromMarket);
-		//		if (info.getPrice() != null) {
-		fileInMarket(market, info);
-		//		} else if (market == null || market.getMarketKey().isEmpty()) {
-		//			info.getTheme().setDownloadURL(http);
-		//		} else {
-		//			fileInMarket(market, http, info);
-		//		}
+		return marketManager.findByPkName(fromMarket);
 	}
 
-	private void fileInMarket(Market market, FileStoreInfo info) {
+	private void setDownloadType(Market market, FileStoreInfo info) {
 		List<ThemeFile> files = market.getThemes();
 		if (files.contains(info.getTheme())) {
 			String uri = market.getMarketKey() + info.getTheme().getMarketURL();
@@ -215,9 +189,6 @@ public class JplockerAction extends ActionSupport {
 		} else if (info.getPrice() != null) {
 			info.getTheme().setDownloadURL("");
 		}
-		//		else {
-		//			info.getTheme().setDownloadURL(http);
-		//		}
 	}
 
 	public String more() throws Exception {
@@ -232,8 +203,9 @@ public class JplockerAction extends ActionSupport {
 		cateInfos = categoryInfoManager.getInfosBylanguage(language);
 		catePage = fileManager.searchInfoByCategoryAndStore(catePage, categoryId, StoreId, language);
 		List<FileStoreInfo> storeInfos = catePage.getResult();
+		Market market = this.getMarket(session);
 		for (FileStoreInfo info : storeInfos) {
-			setDownloadType(session, info);
+			setDownloadType(market, info);
 		}
 		return "more";
 	}

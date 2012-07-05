@@ -11,11 +11,11 @@
   		<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
 		<title>home</title>
-		<link rel="stylesheet" href="${ctx}/css/style.css" media="screen"/>
-  		<link rel="stylesheet" href="${ctx}/css/top.css" media="screen"/>
-  		<link rel="stylesheet" href="${ctx}/css/reset.css" media="screen"/>
-  		<link rel="stylesheet" href="${ctx}/css/mobile.css" media="screen"/>
-  		<link rel="stylesheet" href="${ctx}/css/layout.css" media="screen"/>
+		<link rel="stylesheet" href="${ctx}/css/jplocker/style.css" media="screen"/>
+  		<link rel="stylesheet" href="${ctx}/css/jplocker/top.css" media="screen"/>
+  		<link rel="stylesheet" href="${ctx}/css/jplocker/reset.css" media="screen"/>
+  		<link rel="stylesheet" href="${ctx}/css/jplocker/mobile.css" media="screen"/>
+  		<link rel="stylesheet" href="${ctx}/css/jplocker/layout.css" media="screen"/>
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
 		<script src="${ctx}/js/jquery/jquery.lazyload.min.js"></script>
 
@@ -58,21 +58,20 @@
 				<h1 class="app-title">最新アプリ</h1>		
 				<s:iterator value="newestPage.result">
 					<div class="contents_info" style="height: 105px;" id="content1" sid="${theme.id}">			
-						<div class="contents_txt" style="height: 100px;">
-							<div style="margin-top: 15px;">
-								<font color="#666666">${title}</font>
+						<div class="contents_txt">
+							<div class="content-title">
+								<font color="#666666">${title}
+									<s:if test="price==null">
+										<span class="icon-free" id="btn_down" pay="${theme.downloadURL}">														 
+											 FREE
+										</span>
+									</s:if>
+								</font>
 								<p><font color="#aeaea6">${shortDescription}</font></p>
-								<s:if test="price==null">
-									 <div class="icon-paid" id="btn_down" pay="${theme.downloadURL}">
-									 
-									 		FREE
-									 	
-									 </div>
-								 </s:if>
 							</div>
 						</div>
-						<div class="contents_image" style="height: 100px;">						
-							<img style="margin: 3px;margin-top: 16px;" alt="${title}" data-original="${ctx}/image.action?path=${theme.iconPath}" src="${ctx}/images/default.png" width="72" height="72" class="contents_image_middle">						
+						<div class="contents_image">						
+							<img style="margin: 3px;" alt="${title}" data-original="${ctx}/image.action?path=${theme.iconPath}" src="${ctx}/images/default.png" width="72" height="72" class="contents_image_middle">						
 						</div>
 					</div>								
 				</s:iterator>		

@@ -62,7 +62,7 @@ public class HomeInterceptor extends AbstractInterceptor {
 		return invocation.invoke();
 	}
 
-	private void saveLog(String requestMethod, Map<String, Object> requestParam) {
+	private void saveLog(String requestMethod, Map<String, Object> requestParam) throws Exception {
 		if (requestMethod.equals(AD_XML)) {
 			return;
 		}
@@ -73,7 +73,9 @@ public class HomeInterceptor extends AbstractInterceptor {
 		for (Entry<String, Object> e : keys) {
 			String k = e.getKey();
 			String v = ((String[]) e.getValue())[0];
-
+			if (v != null && !v.isEmpty()) {
+				v = new String(v.getBytes("iso-8859-1"), Constants.ENCODE_UTF_8);
+			}
 			if (k.equals(PARA_IMEI)) {
 				log.setImei(v);
 			} else if (k.equals(PARA_IMSI)) {

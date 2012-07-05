@@ -8,13 +8,15 @@ public class Constants {
 
 	public final static String[] IMG_EXTENSION = { "jpg", "jpeg", "gif", "bmp", "png" };
 
+	public static final String ENCODE_UTF_8 = "UTF-8";
+
 	public static final String DOT_SEPARATOR = ".";
 
 	public static final String ST_LOCK = "lock";
 	public static final String JP_LOCKER = "jplocker";
-	
-	public static final String ID_LOCK="lockId";
-	public static final String ID_JPLOCKER="jplockerId";
+
+	public static final String ID_LOCK = "lockId";
+	public static final String ID_JPLOCKER = "jplockerId";
 
 	public static final String PARA_LANGUAGE = "l";
 	public static final String PARA_DOWNLOAD_METHOD = "dm";
