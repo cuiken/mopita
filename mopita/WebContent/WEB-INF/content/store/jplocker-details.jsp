@@ -21,6 +21,13 @@
 				padding: 0;
 						
 			}
+			img{
+				border: 0;
+			}
+
+			a{
+				text-decoration: none;
+			}
 		</style>
 		<script>
 			$(function() {
