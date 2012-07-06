@@ -244,6 +244,7 @@ public class ThemeFile extends IdEntity {
 	}
 
 	@OneToMany(mappedBy = "theme", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	public List<Preview> getPreviews() {
 		return previews;
 	}

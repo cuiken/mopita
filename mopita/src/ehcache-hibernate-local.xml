@@ -28,6 +28,13 @@
 		maxEntriesLocalDisk="1000"></cache>
 	<cache name="com.tp.entity.ThemeFile.shelfFiles" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"
 		maxEntriesLocalDisk="1000"></cache>
+	<cache name="com.tp.entity.ThemeFile.previews" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"
+		maxEntriesLocalDisk="1000"></cache>
+
+	<cache name="com.tp.entity.Preview" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"
+		maxEntriesLocalDisk="1000"></cache>
+	<cache name="com.tp.entity.Preview.theme" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"
+		maxEntriesLocalDisk="1000"></cache>
 
 	<cache name="com.tp.entity.FileInfo" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"
 		maxEntriesLocalDisk="1000"></cache>

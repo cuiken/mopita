@@ -1,7 +1,5 @@
 package com.tp.action;
 
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +29,7 @@ public class LogAction extends ActionSupport {
 	private static final String PARA_FROM_MARKET = Constants.PARA_FROM_MARKET;
 
 	private Page<LogFromClient> page = new Page<LogFromClient>();
-	private List<Integer> sliders;
+
 	private LogService logService;
 	private ClientFileManager clientFileManager;
 
@@ -138,10 +136,6 @@ public class LogAction extends ActionSupport {
 
 	public Page<LogFromClient> getPage() {
 		return page;
-	}
-
-	public List<Integer> getSliders() {
-		return sliders;
 	}
 
 	@Autowired

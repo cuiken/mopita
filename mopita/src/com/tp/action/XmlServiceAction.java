@@ -20,17 +20,7 @@ public class XmlServiceAction extends ActionSupport {
 		String store = Struts2Utils.getParameter("st");
 		String language = Struts2Utils.getParameter("l");
 		String xml = xmlService.getXml(store, language);
-		Struts2Utils.renderText(Encodes.encodeBase64(xml.getBytes()));
-
-		return null;
-	}
-
-	public String getXml() throws Exception {
-
-		String store = Struts2Utils.getParameter("st");
-		String language = Struts2Utils.getParameter("l");
-		String xml = xmlService.getXml(store, language);
-
+		//		Struts2Utils.renderText(Encodes.encodeBase64(xml.getBytes()));
 		Struts2Utils.renderXml(xml);
 		return null;
 	}

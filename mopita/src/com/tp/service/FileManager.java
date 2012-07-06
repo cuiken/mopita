@@ -38,6 +38,10 @@ public class FileManager {
 	public FileInfo getFileInfo(Long id) {
 		return fileInfoDao.get(id);
 	}
+	
+	public void deletePreview(Long themeId){
+		previewDao.deleteByTheme(themeId);
+	}
 
 	public List<ThemeFile> getAllThemeFile() {
 		return themeFileDao.getAll();
@@ -135,6 +139,7 @@ public class FileManager {
 	}
 
 	private void savePreviews(List<File> files, ThemeFile theme) {
+		previewDao.deleteByTheme(theme.getId());
 		for (File file : files) {
 			Preview pre = new Preview();
 			pre.setName(file.getName());

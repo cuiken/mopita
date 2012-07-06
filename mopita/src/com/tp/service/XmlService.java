@@ -58,11 +58,11 @@ public class XmlService {
 
 	private String getFileInfo(List<FileStoreInfo> fileInfos) throws Exception {
 		StringBuilder buffer = new StringBuilder();
-		String pres = "";
-		String wux = "";
-		String hux = "";
-		for (FileStoreInfo info : fileInfos) {
 
+		for (FileStoreInfo info : fileInfos) {
+			String pres = "";
+			String wux = "";
+			String hux = "";
 			List<Preview> previews = info.getTheme().getPreviews();
 
 			for (Preview p : previews) {
@@ -83,7 +83,7 @@ public class XmlService {
 			buffer.append("<shortDesc>" + Encodes.escapeXml(info.getShortDescription()) + "</shortDesc>");
 			buffer.append("<longDesc>" + Encodes.escapeXml(info.getLongDescription()) + "</longDesc>");
 			buffer.append("<ux_w>" + FILE_DOWNLOAD + wux + "</ux_w>");
-			buffer.append("<ux_h>" + IMAGE_DOWNLOAD + hux + "</ux_h>");
+			buffer.append("<ux_h>" + FILE_DOWNLOAD + hux + "</ux_h>");
 			buffer.append("<preview>").append(pres).append("</preview>");
 
 			buffer.append("<createTime>" + info.getTheme().getCreateTime() + "</createTime>");
