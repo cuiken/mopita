@@ -12,6 +12,7 @@ import static com.tp.utils.Constants.PARA_RESOLUTION;
 import static com.tp.utils.Constants.PARA_STORE_TYPE;
 import static com.tp.utils.Constants.QUERY_STRING;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -32,6 +33,7 @@ import com.tp.entity.DownloadType;
 import com.tp.entity.LogInHome;
 import com.tp.service.LogService;
 import com.tp.utils.Constants;
+import com.tp.utils.DateFormatUtils;
 import com.tp.utils.Constants.Language;
 import com.tp.utils.Struts2Utils;
 
@@ -97,6 +99,7 @@ public class HomeInterceptor extends AbstractInterceptor {
 			}
 		}
 		log.setRequestParams(removeLastComma(buffer.toString()));
+		log.setCreateTime(DateFormatUtils.convert(new Date()));
 		logService.saveLogInHome(log);
 	}
 

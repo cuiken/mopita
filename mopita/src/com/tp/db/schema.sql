@@ -141,52 +141,6 @@ create table f_market_file(
 
 )ENGINE=InnoDB;
 
-create table log_f_client(
-	id int not null auto_increment,
-	imei varchar(50),
-	imsi varchar(50),
-	store_type varchar(20),
-	down_type varchar(20),
-	language varchar(20),
-	client_version varchar(20),
-	resolution varchar(50),
-	from_market varchar(50),
-	create_time timestamp,
-	primary key(id)
-)ENGINE=InnoDB;
-
-create table log_f_home(
-	id int not null auto_increment,
-	imei varchar(50),
-	imsi varchar(50),
-	store_type varchar(20),
-	down_type varchar(20),
-	language varchar(20),
-	client_version varchar(20),
-	resolution varchar(100),
-	from_market varchar(255),
-	request_method varchar(50),
-	request_params varchar(255),
-	create_time timestamp,
-	primary key(id)
-)ENGINE=InnoDB;
-
-create table log_f_store(
-	id int not null auto_increment,
-	imei varchar(50),
-	imsi varchar(50),
-	store_type varchar(20),
-	down_type varchar(20),
-	language varchar(20),
-	client_version varchar(20),
-	resolution varchar(100),
-	from_market varchar(255),
-	request_method varchar(50),
-	request_params varchar(255),
-	create_time timestamp,
-	primary key(id)
-)ENGINE=InnoDB;
-
 create table f_market_info(
 	id int not null auto_increment,
 	key_name varchar(30),
@@ -213,4 +167,53 @@ create table f_client_market(
 	client_id int not null,
 	market_id int not null
 )ENGINE=InnoDB;
+
+create table log_f_client(
+	id int not null auto_increment,
+	imei varchar(50),
+	imsi varchar(50),
+	store_type varchar(20),
+	down_type varchar(20),
+	language varchar(20),
+	client_version varchar(20),
+	resolution varchar(50),
+	from_market varchar(50),
+	create_time varchar(32),
+	primary key(id)
+)ENGINE=InnoDB;
+
+create table log_f_store(
+	id int not null auto_increment,
+	imei varchar(50),
+	imsi varchar(50),
+	store_type varchar(20),
+	down_type varchar(20),
+	language varchar(20),
+	client_version varchar(20),
+	resolution varchar(100),
+	from_market varchar(255),
+	request_method varchar(50),
+	request_params varchar(255),
+	create_time varchar(32),
+	primary key(id)
+)ENGINE=InnoDB;
+
+create table log_count_client(
+	id int not null auto_increment,
+	create_time varchar(32),
+	open_count int,
+	total_user int,
+	open_user int,
+	increment_user int,
+	total_download int,
+	down_by_content int,
+	down_by_share int,
+	down_by_other int,
+	visit_store_count int,
+	visit_store_user int,
+	primary key(id)
+	
+)ENGINE=InnoDB;
+
+create table log_count_content()ENGINE=InnoDB;
 

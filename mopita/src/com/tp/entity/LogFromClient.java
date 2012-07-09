@@ -1,7 +1,5 @@
 package com.tp.entity;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -19,7 +17,7 @@ public class LogFromClient extends IdEntity {
 	private String clientVersion;
 	private String resolution;
 	private String fromMarket;
-	private Date createTime;
+	private String createTime;
 
 	public String getImei() {
 		return imei;
@@ -85,11 +83,11 @@ public class LogFromClient extends IdEntity {
 		this.fromMarket = fromMarket;
 	}
 
-	public Date getCreateTime() {
+	public String getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Date createTime) {
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
 

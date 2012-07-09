@@ -71,4 +71,6 @@
 	<!-- 使用annotation定义事务 -->
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
 	
+	<import resource="applicationContext-quartz-cron-local.xml"/>
+	
 </beans>

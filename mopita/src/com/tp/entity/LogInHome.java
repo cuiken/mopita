@@ -1,7 +1,5 @@
 package com.tp.entity;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -21,7 +19,7 @@ public class LogInHome extends IdEntity {
 	private String fromMarket;
 	private String requestMethod;
 	private String requestParams;
-	private Date createTime;
+	private String createTime;
 
 	public String getImei() {
 		return imei;
@@ -103,11 +101,11 @@ public class LogInHome extends IdEntity {
 		this.requestParams = requestParams;
 	}
 
-	public Date getCreateTime() {
+	public String getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Date createTime) {
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
 

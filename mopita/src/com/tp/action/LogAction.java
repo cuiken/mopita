@@ -1,5 +1,7 @@
 package com.tp.action;
 
+import java.util.Date;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import com.tp.orm.Page;
 import com.tp.service.ClientFileManager;
 import com.tp.service.LogService;
 import com.tp.utils.Constants;
+import com.tp.utils.DateFormatUtils;
 import com.tp.utils.Struts2Utils;
 
 @Namespace("/log")
@@ -62,6 +65,7 @@ public class LogAction extends ActionSupport {
 		entity.setClientVersion(clientVersion);
 		entity.setResolution(resolution);
 		entity.setFromMarket(fromMarket);
+		entity.setCreateTime(DateFormatUtils.convert(new Date()));
 		logService.saveLogFromClent(entity);
 
 		ClientFile client = clientFileManager.getByVersion(clientVersion);
@@ -91,7 +95,7 @@ public class LogAction extends ActionSupport {
 		} else {
 			log.setRequestParams(queryStr);
 		}
-
+		log.setCreateTime(DateFormatUtils.convert(new Date()));
 		logService.saveLogInHome(log);
 		Struts2Utils.renderText("success");
 		return null;
