@@ -55,7 +55,7 @@
 					</div>
 				  </s:if>
 		  
-				<h1 class="app-title">最新アプリ</h1>		
+				<h1 class="app-title">おすすめロック画面アプリ</h1>		
 				<s:iterator value="newestPage.result">
 					<div class="contents_info" style="height: 105px;" id="content1" sid="${theme.id}">			
 						<div class="contents_txt">
@@ -75,7 +75,7 @@
 						</div>
 					</div>								
 				</s:iterator>		
-				<h1 class="app-title">アプリ一覧</h1>
+				<h1 class="app-title">ロック画面アプリ一覧</h1>
 				<div class="icon_set">	
 					<s:iterator value="hottestPage.result">				
 						<a href="${ctx}/store/jplocker!details.action?id=${theme.id}&${queryString}">
