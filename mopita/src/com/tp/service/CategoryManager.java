@@ -215,6 +215,7 @@ public class CategoryManager {
 			storeInfo.setShortDescription(fmi.getShortDescription());
 			storeInfo.setLongDescription(fmi.getLongDescription());
 			storeInfo.setAuthor(fmi.getAuthor());
+			storeInfo.setPrice(fmi.getPrice());
 			storeInfo.setLanguage(fmi.getLanguage());
 			storeInfo.setFiId(fmi.getId());
 			storeInfo.setTheme(theme);

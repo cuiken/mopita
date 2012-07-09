@@ -225,7 +225,6 @@ public class ThemeFile extends IdEntity {
 	}
 
 	@OneToMany(mappedBy = "theme", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
-	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	public List<ShelfFileLink> getShelfFiles() {
 		return shelfFiles;
 	}
@@ -255,7 +254,6 @@ public class ThemeFile extends IdEntity {
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "f_category_file", joinColumns = { @JoinColumn(name = "file_id") }, inverseJoinColumns = { @JoinColumn(name = "category_id") })
-	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	public List<Category> getCategories() {
 		return categories;
 	}
