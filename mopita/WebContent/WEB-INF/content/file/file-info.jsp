@@ -46,8 +46,8 @@
 						<td>${author}</td>
 						<td>${price}</td>
 						<td>
-							<a href="file-info!input.action?id=${id}&themeId=${themeId}">修改</a>
-						
+							<!-- <a href="file-info!input.action?id=${id}&themeId=${themeId}">修改</a>
+						 -->
 							<a href="#" onclick="deleteThis(${id},${themeId})">删除</a>
 						</td>
 					</tr>
