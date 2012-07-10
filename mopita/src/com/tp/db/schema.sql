@@ -211,6 +211,7 @@ create table log_count_client(
 	down_by_other int,
 	visit_store_count int,
 	visit_store_user int,
+	take_times int,
 	primary key(id)
 	
 )ENGINE=InnoDB;

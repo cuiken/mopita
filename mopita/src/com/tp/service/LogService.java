@@ -1,6 +1,5 @@
 package com.tp.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import com.tp.entity.LogFromClient;
 import com.tp.entity.LogInHome;
 import com.tp.orm.Page;
 import com.tp.orm.PropertyFilter;
-import com.tp.utils.DateFormatUtils;
 
 @Component
 @Transactional
@@ -54,17 +52,18 @@ public class LogService {
 
 	public void createClientReport(String sdate, String edate) {
 		LogCountClient client = new LogCountClient();
+		long start = System.currentTimeMillis();
 		long downTotal = countClientDownloadTotal(sdate, edate);
 		long downByContent = countClientDownloadByContent(sdate, edate);
 		long downByShare = countClientDownloadByShare(sdate, edate);
 		long totalUser = countTotalUser(edate);
 		long perTotalUser = 0L;
-		String currDate = DateFormatUtils.convertReportDate(new Date());
-		LogCountClient perCount = getLogClientCountByDate(DateFormatUtils.getPerDate(currDate));
+
+		LogCountClient perCount = getLogClientCountByDate(sdate);
 		if (perCount != null) {
 			perTotalUser = perCount.getTotalUser();
 		}
-		client.setCreateTime(currDate);
+		client.setCreateTime(sdate);
 		client.setDownByContent(downByContent);
 		client.setDownByShare(downByShare);
 		client.setTotalDownload(downTotal);
@@ -75,6 +74,8 @@ public class LogService {
 		client.setTotalUser(totalUser);
 		client.setIncrementUser(totalUser - perTotalUser);
 		client.setOpenUser(countOpenUser(sdate, edate));
+		long end = System.currentTimeMillis();
+		client.setTakeTimes(end - start);
 		countClientDao.save(client);
 	}
 

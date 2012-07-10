@@ -18,6 +18,7 @@ public class LogCountClient extends IdEntity {
 	private long downByOther;
 	private long visitStoreCount;
 	private long visitStoreUser;
+	private long takeTimes;
 
 	public String getCreateTime() {
 		return createTime;
@@ -105,6 +106,14 @@ public class LogCountClient extends IdEntity {
 
 	public void setVisitStoreUser(long visitStoreUser) {
 		this.visitStoreUser = visitStoreUser;
+	}
+
+	public long getTakeTimes() {
+		return takeTimes;
+	}
+
+	public void setTakeTimes(long takeTimes) {
+		this.takeTimes = takeTimes;
 	}
 
 	@Override

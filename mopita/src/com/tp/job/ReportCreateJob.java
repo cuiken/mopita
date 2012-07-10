@@ -13,8 +13,8 @@ public class ReportCreateJob {
 
 	public void createReport() {
 		String currDate = DateFormatUtils.convertReportDate(new Date());
-		String endDate = DateFormatUtils.getPerDate(currDate);
-		logService.createClientReport(currDate, endDate);
+		String perDate = DateFormatUtils.getPerDate(currDate);
+		logService.createClientReport(perDate, currDate);
 	}
 
 	@Autowired
