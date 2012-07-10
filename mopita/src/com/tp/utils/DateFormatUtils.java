@@ -24,4 +24,9 @@ public class DateFormatUtils {
 		return dt.plus(Period.days(-1)).toString(DateTimeFormat.forPattern("yyyy-MM-dd"));
 	}
 
+	public static String getNextDate(String date) {
+		DateTime dt = new DateTime(date);
+		return dt.plus(Period.days(1)).toString(DateTimeFormat.forPattern("yyyy-MM-dd"));
+	}
+
 }

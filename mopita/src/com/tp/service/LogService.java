@@ -1,5 +1,6 @@
 package com.tp.service;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,6 +135,40 @@ public class LogService {
 	 */
 	private Long countClientDownloadByContent(String sdate, String edate) {
 		return logHomeDao.countByMethod(METHOD_GETCLIENT, "%cv:%", sdate, edate);
+	}
+
+	/**
+	 * 文件内容总访问量
+	 */
+	public Long countContentTotalVisit(String fid, String sdate, String edate) {
+		return logHomeDao.countContentByMethod("details", "%" + fid + "%", sdate, edate);
+	}
+
+	/**
+	 * 文件内容广告引导访问量
+	 */
+
+	public Long countContentVisitByAD(String fid, String sdate, String edate) {
+		return logHomeDao.countContentByMethod("details", "%f:ad%" + fid + "%", sdate, edate);
+	}
+
+	/**
+	 * 文件下载总量
+	 */
+	public Long countContentTotalDown(String fid, String fpack, String sdate, String edate) {
+		String[] methods = { "execute", "more", "getClient", "details" };
+		return logHomeDao.countContentTotalDown(Arrays.asList(methods), "%" + fpack + "%", "%" + fid + "%", sdate,
+				edate);
+	}
+
+	/**
+	 * 文件对应的market访问量(下载量)
+	 */
+	public Long countContentMarketDown(String filePackage, String sdate, String edate) {
+
+		String[] methods = { "execute", "more", "getClient", "details", "file-download.action" };
+
+		return logHomeDao.countContentNotIn(Arrays.asList(methods), "%" + filePackage + "%", sdate, edate);
 	}
 
 	@Autowired
