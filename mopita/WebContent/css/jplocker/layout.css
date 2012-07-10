@@ -6,7 +6,7 @@ a {
 	width: 205px;
 }
 .app-title {
-	width: 98%;
+	/*width: 98%;*/
 	font-size: 16px;
 	background: rgb(234,43,116);
 	margin: 0 auto;

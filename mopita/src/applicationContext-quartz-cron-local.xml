@@ -27,7 +27,7 @@
 	<!-- Cron式Trigger定义 -->
 	<bean id="reportTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="reportJobDetail" />		
-		<property name="cronExpression" value="0 40 18 ? * *" />
+		<property name="cronExpression" value="0 0 01 * * ?" />
 	</bean>
 	
 	<!-- Cron JobDetajil, 基于MethodInvokingJobDetailFactoryBean调用普通Spring Bean -->
