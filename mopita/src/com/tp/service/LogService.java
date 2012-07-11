@@ -59,6 +59,11 @@ public class LogService {
 		return countClientDao.findPage(page, filters);
 	}
 
+	public Page<LogCountContent> searchLogCountContent(final Page<LogCountContent> page,
+			final List<PropertyFilter> filters) {
+		return countContentDao.findPage(page, filters);
+	}
+
 	public LogCountClient getLogCountClient(Long id) {
 		return countClientDao.get(id);
 	}

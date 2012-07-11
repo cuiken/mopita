@@ -7,9 +7,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
 @Table(name = "log_cc_market")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class LogContentMarket extends IdEntity {
 
 	private String marketName;
@@ -34,6 +37,7 @@ public class LogContentMarket extends IdEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "log_c_id")
+	@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 	public LogCountContent getLogContent() {
 		return logContent;
 	}

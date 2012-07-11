@@ -79,7 +79,7 @@
 				</tbody>
 			</table>	
 			<div>
-				第${page.pageNo}页, 共${page.totalPages}页
+				${page.totalItems}条记录 ,第${page.pageNo}页, 共${page.totalPages}页
 				<a href="?page.pageNo=1">首页</a>
 				<s:if test="page.prePage"><a href="?page.pageNo=${page.prePage}">上一页</a></s:if>
 				<s:if test="page.nextPage"><a href="?page.pageNo=${page.nextPage}">下一页</a></s:if>

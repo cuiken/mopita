@@ -31,8 +31,8 @@ public class LogServiceTest extends SpringTxTestCase {
 	@Test
 	@Rollback(value = false)
 	public void reportContent() {
-		String sdate = "2012-07-05";
-		String edate = "2012-07-06";
+		String sdate = "2012-07-06";
+		String edate = "2012-07-07";
 		long start = System.currentTimeMillis();
 		logService.createContentReport(sdate, edate);
 		long end = System.currentTimeMillis();

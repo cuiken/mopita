@@ -39,7 +39,8 @@
 		<shiro:hasPermission name="market:view">
 			<a href="${ctx}/category/market.action">市场列表</a>
 		</shiro:hasPermission>	
-		
+		<a href="${ctx}/report/report!client.action">客户端日报</a>
+		<a href="${ctx}/report/report!content.action">内容日报</a>
 		<a href="${ctx}/logout.action">退出登录</a>
 	</shiro:user>
 	
@@ -47,6 +48,5 @@
 		<a href="${ctx}/login.action">登录</a>
 		<a href="${ctx}/home.action?l=ZH">商店首页演示</a>
 		<a href="${ctx}/home!adXml.action">广告输出演示</a>
-		<a href="${ctx}/log/log!list.action">日志演示</a>
 	</shiro:guest>
 </div>

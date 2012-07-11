@@ -9,10 +9,13 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.google.common.collect.Lists;
 
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class LogCountContent extends IdEntity {
 
 	private String logDate;
@@ -90,6 +93,7 @@ public class LogCountContent extends IdEntity {
 	}
 
 	@OneToMany(mappedBy = "logContent", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	public List<LogContentMarket> getDownByPerMarket() {
 		return downByPerMarket;
 	}
