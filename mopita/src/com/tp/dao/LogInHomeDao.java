@@ -17,6 +17,7 @@ public class LogInHomeDao extends HibernateDao<LogInHome, Long> {
 	private static final String COUNT_CONTENT_BY_METHOD = "select count(*) from LogInHome l where l.requestMethod=? and l.requestParams like ? and l.createTime between ? and ?";
 	private static final String COUNT_CONTENT_NOT_IN_METHOD = "select count(*) from LogInHome l where l.requestMethod not in (:methods) and l.requestParams like :param and l.createTime between :sdate and :edate";
 	private static final String COUNT_CONTENT_TOTAL_DOWN = "select count(*) from LogInHome l where l.requestMethod not in (:methods) and (l.requestParams like :fpack or l.requestParams like :fid) and l.createTime between :sdate and :edate";
+	private static final String COUNT_CONTENT_PER_MARKET = "select count(*) from LogInHome l where l.requestParams like ? and l.createTime between ? and ?";
 
 	public Long countByMethod(String method, String params, String sDate, String eDate) {
 		return (Long) createQuery(COUNT_BY_METHOD, method, params, sDate, eDate).uniqueResult();
@@ -47,5 +48,9 @@ public class LogInHomeDao extends HibernateDao<LogInHome, Long> {
 		query.setParameter("sdate", sdate);
 		query.setParameter("edate", edate);
 		return (Long) query.uniqueResult();
+	}
+
+	public Long countContentPerMarketDown(String marketKeyAndFpack, String sdate, String edate) {
+		return (Long) createQuery(COUNT_CONTENT_PER_MARKET, marketKeyAndFpack, sdate, edate).uniqueResult();
 	}
 }

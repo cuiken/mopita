@@ -216,5 +216,24 @@ create table log_count_client(
 	
 )ENGINE=InnoDB;
 
-create table log_count_content()ENGINE=InnoDB;
+create table log_count_content(
+	id int not null auto_increment,
+	log_date varchar(32),
+	theme_name varchar(32),
+	total_visit int,
+	visit_by_ad int,
+	visit_by_store int,
+	total_down int,
+	down_by_store int,
+	create_time timestamp,
+	primary key(id)
+)ENGINE=InnoDB;
+
+create table log_cc_market(
+	id int not null auto_increment,
+	market_name varchar(32),
+	total_down int,
+	log_c_id int,
+	primary key(id)
+)ENGINE=InnoDB;
 

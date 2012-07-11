@@ -8,11 +8,19 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tp.dao.LogCountClientDao;
+import com.tp.dao.LogCountContentDao;
+import com.tp.dao.LogCountContentMarketDao;
 import com.tp.dao.LogFromClientDao;
 import com.tp.dao.LogInHomeDao;
+import com.tp.dao.MarketDao;
+import com.tp.dao.ThemeFileDao;
+import com.tp.entity.LogContentMarket;
 import com.tp.entity.LogCountClient;
+import com.tp.entity.LogCountContent;
 import com.tp.entity.LogFromClient;
 import com.tp.entity.LogInHome;
+import com.tp.entity.Market;
+import com.tp.entity.ThemeFile;
 import com.tp.orm.Page;
 import com.tp.orm.PropertyFilter;
 
@@ -26,6 +34,10 @@ public class LogService {
 	private LogFromClientDao logClientDao;
 	private LogInHomeDao logHomeDao;
 	private LogCountClientDao countClientDao;
+	private LogCountContentDao countContentDao;
+	private LogCountContentMarketDao ccMarketDao;
+	private ThemeFileDao themeDao;
+	private MarketDao marketDao;
 
 	public void saveLogFromClent(LogFromClient entity) {
 		logClientDao.save(entity);
@@ -137,6 +149,42 @@ public class LogService {
 		return logHomeDao.countByMethod(METHOD_GETCLIENT, "%cv:%", sdate, edate);
 	}
 
+	public void createContentReport(String sdate, String edate) {
+		List<ThemeFile> themes = themeDao.getAll();
+
+		for (ThemeFile theme : themes) {
+			LogCountContent lcct = new LogCountContent();
+			long totalVisit = countContentTotalVisit(String.valueOf(theme.getId()), sdate, edate);
+			long visitByAd = countContentVisitByAD(String.valueOf(theme.getId()), sdate, edate);
+			long totalDown = countContentTotalDown(String.valueOf(theme.getId()), theme.getMarketURL(), sdate, edate);
+			long marketDown = countContentMarketDown(theme.getMarketURL(), sdate, edate);
+			lcct.setLogDate(sdate);
+			lcct.setThemeName(theme.getTitle());
+			lcct.setTotalVisit(totalVisit);
+			lcct.setTotalDown(totalDown);
+			lcct.setVisitByAd(visitByAd);
+			lcct.setVisitByStore(totalVisit - visitByAd);
+			lcct.setDownByStore(totalDown - marketDown);
+			countContentDao.save(lcct);
+			perMarketDown(theme, lcct, sdate, edate);
+		}
+	}
+
+	private void perMarketDown(ThemeFile theme, LogCountContent lcc, String sdate, String edate) {
+		List<Market> markets = marketDao.getAll();
+		for (Market market : markets) {
+			if (market.getThemes().contains(theme)) {
+				LogContentMarket ccMarket = new LogContentMarket();
+				long perMarketDown = countContentPerMarketDown(market.getMarketKey(), theme.getMarketURL(), sdate,
+						edate);
+				ccMarket.setMarketName(market.getName());
+				ccMarket.setTotalDown(perMarketDown);
+				ccMarket.setLogContent(lcc);
+				ccMarketDao.save(ccMarket);
+			}
+		}
+	}
+
 	/**
 	 * 文件内容总访问量
 	 */
@@ -171,6 +219,13 @@ public class LogService {
 		return logHomeDao.countContentNotIn(Arrays.asList(methods), "%" + filePackage + "%", sdate, edate);
 	}
 
+	/**
+	 * 文件在每个市场的下载量
+	 */
+	public Long countContentPerMarketDown(String marketKey, String fpack, String sdate, String edate) {
+		return logHomeDao.countContentPerMarketDown("%" + marketKey + "%" + fpack + "%", sdate, edate);
+	}
+
 	@Autowired
 	public void setLogClientDao(LogFromClientDao logClientDao) {
 		this.logClientDao = logClientDao;
@@ -184,5 +239,25 @@ public class LogService {
 	@Autowired
 	public void setCountClientDao(LogCountClientDao countClientDao) {
 		this.countClientDao = countClientDao;
+	}
+
+	@Autowired
+	public void setThemeDao(ThemeFileDao themeDao) {
+		this.themeDao = themeDao;
+	}
+
+	@Autowired
+	public void setMarketDao(MarketDao marketDao) {
+		this.marketDao = marketDao;
+	}
+
+	@Autowired
+	public void setCcMarketDao(LogCountContentMarketDao ccMarketDao) {
+		this.ccMarketDao = ccMarketDao;
+	}
+
+	@Autowired
+	public void setCountContentDao(LogCountContentDao countContentDao) {
+		this.countContentDao = countContentDao;
 	}
 }

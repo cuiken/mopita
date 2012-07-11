@@ -15,6 +15,7 @@ public class ReportCreateJob {
 		String currDate = DateFormatUtils.convertReportDate(new Date());
 		String perDate = DateFormatUtils.getPerDate(currDate);
 		logService.createClientReport(perDate, currDate);
+		logService.createContentReport(perDate, currDate);
 	}
 
 	@Autowired
