@@ -12,7 +12,7 @@ import com.google.common.collect.Lists;
  */
 public class PageRequest {
 	protected int pageNo = 1;
-	protected int pageSize = 10;
+	protected int pageSize = 20;
 
 	protected String orderBy = null;
 	protected String orderDir = null;

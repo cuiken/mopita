@@ -151,7 +151,7 @@ public class LogService {
 
 	public void createContentReport(String sdate, String edate) {
 		List<ThemeFile> themes = themeDao.getAll();
-
+		List<Market> markets = marketDao.getAll();
 		for (ThemeFile theme : themes) {
 			LogCountContent lcct = new LogCountContent();
 			long totalVisit = countContentTotalVisit(String.valueOf(theme.getId()), sdate, edate);
@@ -166,12 +166,12 @@ public class LogService {
 			lcct.setVisitByStore(totalVisit - visitByAd);
 			lcct.setDownByStore(totalDown - marketDown);
 			countContentDao.save(lcct);
-			perMarketDown(theme, lcct, sdate, edate);
+			perMarketDown(theme, lcct, markets, sdate, edate);
 		}
 	}
 
-	private void perMarketDown(ThemeFile theme, LogCountContent lcc, String sdate, String edate) {
-		List<Market> markets = marketDao.getAll();
+	private void perMarketDown(ThemeFile theme, LogCountContent lcc, List<Market> markets, String sdate, String edate) {
+
 		for (Market market : markets) {
 			if (market.getThemes().contains(theme)) {
 				LogContentMarket ccMarket = new LogContentMarket();
