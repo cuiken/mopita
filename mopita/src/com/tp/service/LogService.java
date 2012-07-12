@@ -23,6 +23,7 @@ import com.tp.entity.Market;
 import com.tp.entity.ThemeFile;
 import com.tp.orm.Page;
 import com.tp.orm.PropertyFilter;
+import com.tp.utils.DateFormatUtils;
 
 @Component
 @Transactional
@@ -77,7 +78,7 @@ public class LogService {
 		long totalUser = countTotalUser(edate);
 		long perTotalUser = 0L;
 
-		LogCountClient perCount = getLogClientCountByDate(sdate);
+		LogCountClient perCount = getLogClientCountByDate(DateFormatUtils.getPerDate(sdate));
 		if (perCount != null) {
 			perTotalUser = perCount.getTotalUser();
 		}
