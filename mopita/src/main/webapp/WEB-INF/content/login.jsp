@@ -4,7 +4,6 @@
 <%@ page import="org.apache.shiro.authc.IncorrectCredentialsException"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
@@ -38,7 +37,7 @@
 		</div>
 	</div>
 	<div id="content" class="span12">
-	<form:form id="loginForm" action="${ctx}/login.action" method="post" class="form-horizontal">
+	<form id="loginForm" action="${ctx}/login.action" method="post" class="form-horizontal">
 		<%
 		String error = (String) request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
 		if(error != null){
@@ -83,7 +82,7 @@
 				<input id="submit" class="btn" type="submit" value="登录"/>
 				</div>
 			</div>		
-	</form:form>
+	</form>
 	</div>
 	</div>
 	<div id="footer" class="span12">
