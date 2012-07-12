@@ -5,12 +5,17 @@
 	<head>
 		<title>文件编辑</title>
 		<%@include file="/common/script.jsp" %>
+		<link rel="stylesheet" href="${ctx}/js/jquery/themes/base/jquery.ui.all.css">
 		<link href="${ctx}/js/jquery/validation/milk.css" rel="stylesheet">
-		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
+		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>	
+		<script src="${ctx}/js/jquery/ui/jquery.ui.core.js"></script>
+		<script src="${ctx}/js/jquery/ui/jquery.ui.widget.js"></script>
+		<script src="${ctx}/js/jquery/ui/jquery.ui.tabs.js"></script>
 		<script src="${ctx}/js/jquery/validation/jquery.validate.min.js"></script>
 		<script src="${ctx}/js/jquery/validation/messages_cn.js"></script>
 		<script>
 			$(document).ready(function(){
+				//$( "#tabs" ).tabs();
 				$("textarea").css("height","150px");
 				$("#inputForm").validate({
 					rules:{
@@ -85,6 +90,7 @@
 			</fieldset>
 			<fieldset>
 				<legend>多语言描述信息</legend>
+
 				<s:iterator value="fileInfo" status="info">
 					<input type="hidden" name="fileInfo[${info.index}].id" value="${id}"/>
 					<div>

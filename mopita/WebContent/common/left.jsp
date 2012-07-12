@@ -7,7 +7,7 @@
 			<a href="${ctx}/account/user.action">用户列表</a>
 		</shiro:hasPermission>
 		
-		<shiro:hasPermission name="user:edit">
+		<shiro:hasPermission name="group:view">
 			<a href="${ctx}/account/group.action">权限组列表</a>
 		</shiro:hasPermission>
 		
