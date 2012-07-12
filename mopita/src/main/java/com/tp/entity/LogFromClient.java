@@ -3,7 +3,7 @@ package com.tp.entity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.apache.commons.lang.xwork.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Entity
 @Table(name = "log_f_client")

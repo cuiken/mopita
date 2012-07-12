@@ -1,5 +1,6 @@
 package com.tp.action.account;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -12,8 +13,6 @@ import com.tp.action.CRUDActionSupport;
 import com.tp.entity.account.Group;
 import com.tp.entity.account.Permission;
 import com.tp.service.account.AccountManager;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 @Namespace("/account")
 @Results({ @Result(name = CRUDActionSupport.RELOAD, location = "group.action", type = "redirect") })
@@ -80,7 +79,6 @@ public class GroupAction extends CRUDActionSupport<Group> {
 		return groups;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Permission> getAllPermissions() {
 		return Arrays.asList(Permission.values());
 	}
