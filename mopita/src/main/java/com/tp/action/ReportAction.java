@@ -10,6 +10,7 @@ import com.tp.entity.LogCountClient;
 import com.tp.entity.LogCountContent;
 import com.tp.orm.Page;
 import com.tp.orm.PropertyFilter;
+import com.tp.orm.PageRequest.Sort;
 import com.tp.service.LogService;
 import com.tp.utils.Struts2Utils;
 
@@ -24,12 +25,20 @@ public class ReportAction extends ActionSupport {
 
 	public String client() {
 		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(Struts2Utils.getRequest());
+		if (!cpage.isOrderBySetted()) {
+			cpage.setOrderBy("createTime");
+			cpage.setOrderDir(Sort.DESC);
+		}
 		cpage = logService.searchLogCountClient(cpage, filters);
 		return "client";
 	}
 
 	public String content() {
 		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(Struts2Utils.getRequest());
+		if (!ctpage.isOrderBySetted()) {
+			ctpage.setOrderBy("createTime");
+			ctpage.setOrderDir(Sort.DESC);
+		}
 		ctpage = logService.searchLogCountContent(ctpage, filters);
 		return "content";
 	}

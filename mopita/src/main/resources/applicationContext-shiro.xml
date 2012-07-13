@@ -20,7 +20,7 @@
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
 		<property name="loginUrl" value="/login.action" />
-		<property name="successUrl" value="/account/user.action" />
+		<property name="successUrl" value="/file/file.action" />
 		<property name="filterChainDefinitions">
 			<value>
 				/login.action = authc
