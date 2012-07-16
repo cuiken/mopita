@@ -197,7 +197,9 @@ public class HomeAction extends ActionSupport {
 			if (market.getPkName().equals(Constants.OPPO_NEARME)) {
 				List<FileMarketValue> fvs = info.getTheme().getMarketValues();
 				for (FileMarketValue fm : fvs) {
-					uri += (fm.getKeyName() + "=" + fm.getKeyValue());
+					if (market.getId().equals(fm.getMarket().getId())) {
+						uri += "&" + (fm.getKeyName() + "=" + fm.getKeyValue());
+					}
 				}
 			}
 			info.getTheme().setDownloadURL(uri);
