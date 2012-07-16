@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionSupport;
 import com.tp.entity.LogCountClient;
 import com.tp.entity.LogCountContent;
@@ -22,6 +23,7 @@ public class ReportAction extends ActionSupport {
 	private LogService logService;
 	private Page<LogCountClient> cpage = new Page<LogCountClient>();
 	private Page<LogCountContent> ctpage = new Page<LogCountContent>();
+	private List<Integer> sliders = Lists.newArrayList();
 
 	public String client() {
 		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(Struts2Utils.getRequest());
@@ -40,6 +42,7 @@ public class ReportAction extends ActionSupport {
 			ctpage.setOrderDir(Sort.DESC);
 		}
 		ctpage = logService.searchLogCountContent(ctpage, filters);
+		sliders = ctpage.getSlider(10);
 		return "content";
 	}
 
@@ -54,5 +57,9 @@ public class ReportAction extends ActionSupport {
 
 	public Page<LogCountContent> getCtpage() {
 		return ctpage;
+	}
+
+	public List<Integer> getSliders() {
+		return sliders;
 	}
 }

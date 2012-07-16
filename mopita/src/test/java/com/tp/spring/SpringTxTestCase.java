@@ -1,4 +1,4 @@
-package test.com.tp.spring;
+package com.tp.spring;
 
 import javax.sql.DataSource;
 

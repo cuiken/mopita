@@ -1,4 +1,4 @@
-package test.com.tp.unit.dao;
+package com.tp.unit.dao;
 
 import static org.junit.Assert.*;
 
@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 
-import test.com.tp.spring.SpringTxTestCase;
+import com.tp.spring.SpringTxTestCase;
 
 import com.tp.service.LogService;
 

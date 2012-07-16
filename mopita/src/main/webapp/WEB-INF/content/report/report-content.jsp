@@ -61,9 +61,10 @@
 			<div>
 				${ctpage.totalItems}条记录 , 第${ctpage.pageNo}页, 共${ctpage.totalPages}页
 				<a href="?ctpage.pageNo=1">首页</a>
-				<s:if test="ctpage.prePage"><a href="?ctpage.pageNo=${ctpage.prePage}">上一页</a></s:if>
-				<s:if test="ctpage.nextPage"><a href="?ctpage.pageNo=${ctpage.nextPage}">下一页</a></s:if>
-				<a href="?ctpage.pageNo=${ctpage.totalPages}">末页</a>
+				<s:iterator value="sliders" status="i">
+					<a href="?ctpage.pageNo=${i.index+1}"><s:property/></a>
+				</s:iterator>
+				<a href="?ctpage.pageNo=${ctpage.totalPages}">末页</a>		
 			</div>
 			</div>
 		</div>
