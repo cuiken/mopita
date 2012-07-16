@@ -38,8 +38,8 @@ public class FileManager {
 	public FileInfo getFileInfo(Long id) {
 		return fileInfoDao.get(id);
 	}
-	
-	public void deletePreview(Long themeId){
+
+	public void deletePreview(Long themeId) {
 		previewDao.deleteByTheme(themeId);
 	}
 
@@ -247,6 +247,36 @@ public class FileManager {
 			buffer.append(" version=\"1\"");
 			buffer.append(">");
 			buffer.append("<linkUrl>" + domain + linkURL + id + "&amp;f=ad</linkUrl>");
+			buffer.append("<downloadUrl>" + domain + "/image.action?path=" + URLEncoder.encode(ad, "UTF-8")
+					+ "</downloadUrl>");
+			buffer.append("</ad>");
+		}
+		buffer.append("</ads>");
+		return buffer.toString();
+	}
+
+	public String jplockerAdXml(List<ThemeFile> themes, String domain) throws Exception {
+		StringBuilder buffer = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		if (themes.size() > 5) {
+			themes = themes.subList(0, 5);
+		}
+
+		buffer.append("<ads>");
+		for (ThemeFile theme : themes) {
+			Long id = theme.getId();
+			String ad = theme.getAdPath();
+			if (ad == null || ad.isEmpty()) {
+				continue;
+			}
+			String[] items = StringUtils.split(ad, File.separator);
+			String adName = items[items.length - 1];
+			String[] exts = StringUtils.split(adName, Constants.DOT_SEPARATOR);
+			buffer.append("<ad id=\"" + id + "\"");
+			buffer.append(" fileName=\"" + adName + "\"");
+			buffer.append(" format=\"" + exts[exts.length - 1] + "\"");
+			buffer.append(" version=\"1\"");
+			buffer.append(">");
+			buffer.append("<linkUrl>" + Constants.MARKET_GOOGLE_URL + theme.getMarketURL() + "</linkUrl>");
 			buffer.append("<downloadUrl>" + domain + "/image.action?path=" + URLEncoder.encode(ad, "UTF-8")
 					+ "</downloadUrl>");
 			buffer.append("</ad>");

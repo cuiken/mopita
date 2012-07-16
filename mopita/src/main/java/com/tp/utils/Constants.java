@@ -38,6 +38,7 @@ public class Constants {
 	public static final String LENVOL_STORE = "com.lenovo.leos.appstore";
 	public static final String OPPO_NEARME = "com.oppo.market";
 	public static final String MARKET_GOOGLE = "com.android.vending";
+	public static final String MARKET_GOOGLE_URL = "browerhttps://play.google.com/store/apps/details?id=";
 
 	public enum Language {
 		ZH("zh"), EN("en"), JP("jp"), JA("ja");

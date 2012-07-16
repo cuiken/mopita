@@ -8,12 +8,9 @@ import javax.servlet.http.HttpSession;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.tp.entity.Category;
 import com.tp.entity.CategoryInfo;
 import com.tp.entity.FileMarketValue;
 import com.tp.entity.FileStoreInfo;
@@ -21,7 +18,6 @@ import com.tp.entity.Market;
 import com.tp.entity.Shelf;
 import com.tp.entity.ThemeFile;
 import com.tp.orm.Page;
-import com.tp.service.CategoryInfoManager;
 import com.tp.service.CategoryManager;
 import com.tp.service.FileManager;
 import com.tp.service.MarketManager;
@@ -33,10 +29,9 @@ import com.tp.utils.Struts2Utils;
 public class JplockerAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
-	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	private CategoryManager categoryManager;
-	private CategoryInfoManager categoryInfoManager;
+
 	private FileManager fileManager;
 	private MarketManager marketManager;
 
@@ -46,7 +41,6 @@ public class JplockerAction extends ActionSupport {
 	private Page<FileStoreInfo> newestPage = new Page<FileStoreInfo>();
 	private Page<FileStoreInfo> catePage = new Page<FileStoreInfo>();
 
-	private Long id;
 	private FileStoreInfo info;
 
 	private List<CategoryInfo> cateInfos;
@@ -122,46 +116,9 @@ public class JplockerAction extends ActionSupport {
 		Page<ThemeFile> adPage = new Page<ThemeFile>();
 		adPage = fileManager.searchFileByShelf(adPage, Shelf.Type.RECOMMEND, storeId);
 		String domain = Constants.getDomain();
-		String detailsURL = "/store/jplocker!details.action?id=";
-		String xml = fileManager.adXml(adPage.getResult(), domain, detailsURL);
+		String xml = fileManager.jplockerAdXml(adPage.getResult(), domain);
 		Struts2Utils.renderXml(xml);
 		return null;
-	}
-
-	public String details() throws Exception {
-		try {
-
-			HttpSession session = Struts2Utils.getSession();
-
-			language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
-			Long storeId = chooseStoreId(session);
-			info = fileManager.getStoreInfoBy(storeId, id, language);
-			if (info == null)
-				return "reload";
-			Market market = this.getMarket(session);
-			setDownloadType(market, info);
-			Category cate = info.getTheme().getCategories().get(0);
-			List<CategoryInfo> cateInfos = cate.getInfos();
-			for (CategoryInfo ci : cateInfos) {
-				if (ci.getDescription().equals(language)) {
-					categoryName = ci.getName();
-					break;
-				}
-			}
-
-			catePage = fileManager.searchInfoByCategoryAndStore(catePage, cate.getId(), storeId, language);
-			List<FileStoreInfo> fileinfos = catePage.getResult();
-			fileinfos.remove(info);
-			Collections.shuffle(fileinfos);
-			if (fileinfos.size() > 3) {
-				fileinfos = fileinfos.subList(0, 3);
-			}
-			catePage.setResult(fileinfos);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			return "reload";
-		}
-		return "details";
 	}
 
 	private Market getMarket(HttpSession session) {
@@ -191,25 +148,6 @@ public class JplockerAction extends ActionSupport {
 		}
 	}
 
-	public String more() throws Exception {
-
-		HttpSession session = Struts2Utils.getSession();
-
-		language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
-
-		Long StoreId = chooseStoreId(session);
-		categoryId = Long.valueOf(Struts2Utils.getParameter("cid"));
-
-		cateInfos = categoryInfoManager.getInfosBylanguage(language);
-		catePage = fileManager.searchInfoByCategoryAndStore(catePage, categoryId, StoreId, language);
-		List<FileStoreInfo> storeInfos = catePage.getResult();
-		Market market = this.getMarket(session);
-		for (FileStoreInfo info : storeInfos) {
-			setDownloadType(market, info);
-		}
-		return "more";
-	}
-
 	@Autowired
 	public void setFileManager(FileManager fileManager) {
 		this.fileManager = fileManager;
@@ -223,11 +161,6 @@ public class JplockerAction extends ActionSupport {
 	@Autowired
 	public void setMarketManager(MarketManager marketManager) {
 		this.marketManager = marketManager;
-	}
-
-	@Autowired
-	public void setCategoryInfoManager(CategoryInfoManager categoryInfoManager) {
-		this.categoryInfoManager = categoryInfoManager;
 	}
 
 	public Page<FileStoreInfo> getHottestPage() {
@@ -244,10 +177,6 @@ public class JplockerAction extends ActionSupport {
 
 	public Page<FileStoreInfo> getCatePage() {
 		return catePage;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public FileStoreInfo getInfo() {

@@ -11,7 +11,7 @@ import com.tp.spring.SpringTxTestCase;
 
 import com.tp.service.LogService;
 
-@ContextConfiguration(locations = { "/applicationContext.xml" })
+@ContextConfiguration(locations = { "/applicationContext-test.xml" })
 public class LogServiceTest extends SpringTxTestCase {
 
 	private LogService logService;

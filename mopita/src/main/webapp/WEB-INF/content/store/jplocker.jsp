@@ -24,11 +24,6 @@
 				$("img").lazyload();
 				$("#content1").live("click",function(){ 
 					$(this).css("backgroundColor","#e7e6c8");
-					var id=$(this).attr("sid");
-					location.href="${ctx}/store/jplocker!details.action?id="+id+"&${queryString}";
-					return false;
-				});
-				$("#btn_down").live("click",function(){ 
 					var uri=$(this).attr("pay");
 					$.ajax({
 						type:"POST",
@@ -37,7 +32,6 @@
 						data:{queryString:uri,cs:'${queryString}'}
 					});
 					location.href=uri;
-					return false;
 				});
 				
 			});
@@ -49,7 +43,7 @@
 			<div id="container"> 		
 				<s:if test="adFile!=null">		
 					 <div class="imgCenter">
-						<a href="${ctx}/store/jplocker!details.action?id=${adFile.id}&${queryString}">
+						<a href="${theme.downloadURL}">
 							<img alt="${adFile.title}" src="${ctx}/image.action?path=${adFile.adPath}" class="max-width_100">
 						</a>
 					</div>
@@ -57,12 +51,12 @@
 		  
 				<h1 class="app-title">おすすめロック画面アプリ</h1>		
 				<s:iterator value="newestPage.result">
-					<div class="contents_info" style="height: 105px;" id="content1" sid="${theme.id}">			
+					<div class="contents_info" style="height: 105px;" id="content1" pay="${theme.downloadURL}">			
 						<div class="contents_txt">
 							<div class="content-title">
 								<font color="#666666">${title}
 									<s:if test="price==null">
-										<span class="icon-free" id="btn_down" pay="${theme.downloadURL}">														 
+										<span class="icon-free" id="btn_down">														 
 											 FREE
 										</span>
 									</s:if>
@@ -78,7 +72,7 @@
 				<h1 class="app-title">ロック画面アプリ一覧</h1>
 				<div class="icon_set">	
 					<s:iterator value="hottestPage.result">				
-						<a href="${ctx}/store/jplocker!details.action?id=${theme.id}&${queryString}">
+						<a href="${theme.downloadURL}">
 							<img alt="${title}" style="padding: 1px;" data-original="${ctx}/image.action?path=${theme.iconPath}" src="${ctx}/images/default.png" class="icon" width="72" height="72">
 						</a>		
 					</s:iterator>
