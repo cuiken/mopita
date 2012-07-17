@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionSupport;
-import com.tp.entity.CategoryInfo;
 import com.tp.entity.FileMarketValue;
 import com.tp.entity.FileStoreInfo;
 import com.tp.entity.Market;
@@ -44,11 +43,8 @@ public class JplockerAction extends ActionSupport {
 
 	private FileStoreInfo info;
 
-	private List<CategoryInfo> cateInfos;
-	private Long categoryId;
 	private ThemeFile adFile;
 
-	private String categoryName;
 	private String language;
 
 	@Override
@@ -74,7 +70,7 @@ public class JplockerAction extends ActionSupport {
 		hottestPage = fileManager.searchStoreInfoInShelf(hottestPage, Shelf.Type.HOTTEST, storeId, language);
 
 		newestPage = fileManager.searchStoreInfoInShelf(newestPage, Shelf.Type.NEWEST, storeId, language);
-		
+
 		if (visitByBrowse(session)) {
 			recommendPage = fileManager.searchStoreInfoInShelf(recommendPage, Shelf.Type.RECOMMEND, storeId, language);
 			List<FileStoreInfo> recommendFiles = recommendPage.getResult();
@@ -84,7 +80,7 @@ public class JplockerAction extends ActionSupport {
 			}
 		}
 		Market market = this.getMarket(session);
-		List<FileStoreInfo> allFile=Lists.newArrayList();
+		List<FileStoreInfo> allFile = Lists.newArrayList();
 		allFile.addAll(newestPage.getResult());
 		allFile.addAll(hottestPage.getResult());
 		allFile.addAll(recommendPage.getResult());
@@ -193,20 +189,8 @@ public class JplockerAction extends ActionSupport {
 		this.info = info;
 	}
 
-	public List<CategoryInfo> getCateInfos() {
-		return cateInfos;
-	}
-
-	public Long getCategoryId() {
-		return categoryId;
-	}
-
 	public ThemeFile getAdFile() {
 		return adFile;
-	}
-
-	public String getCategoryName() {
-		return categoryName;
 	}
 
 	public String getLanguage() {
