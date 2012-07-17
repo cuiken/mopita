@@ -19,7 +19,7 @@
 			<h3>内容日报</h3>
 			<div id="filter">
 				内容: <input type="text" name="filter_LIKES_themeName" value="${param['filter_LIKES_themeName']}" size="20"/>
-				&nbsp;日期<input type="text" name="filter_LIKES_logDate" value="${param['filter_LIKES_logDate']}" size="20"/>
+				&nbsp;日期<input type="date" autocomplete="on" name="filter_EQS_logDate" value="${param['filter_EQS_logDate']}" size="20"/>
 				<input type="button" value="搜索" onclick="search();"/>
 			</div>
 			<table>
