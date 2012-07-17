@@ -5,11 +5,13 @@
 	<head>
 		<title>内容统计</title>
 		<%@include file="/common/script.jsp" %>
+		<link href="${ctx}/css/home.css" type="text/css" rel="stylesheet">
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
 		<script src="${ctx}/js/table.js"></script>
 	</head>
 	<body>
 		<form id="mainForm" action="report!content.action" method="post">
+		<input type="hidden" name="ctpage.pageNo" id="pageNo" value="${ctpage.pageNo}"/>
 		<input type="hidden" name="ctpage.orderBy" id="orderBy" value="${ctpage.orderBy}"/>
 		<input type="hidden" name="ctpage.orderDir" id="order" value="${ctpage.orderDir}"/>
 		<div class="container">
@@ -19,6 +21,7 @@
 			<h3>内容日报</h3>
 			<div id="filter">
 				内容: <input type="text" name="filter_LIKES_themeName" value="${param['filter_LIKES_themeName']}" size="20"/>
+				&nbsp;日期<input type="text" name="filter_LIKES_logDate" value="${param['filter_LIKES_logDate']}" size="20"/>
 				<input type="button" value="搜索" onclick="search();"/>
 			</div>
 			<table>
@@ -58,13 +61,17 @@
 				</tbody>
 			</table>		
 							
-			<div>
+			<div class="pagination">
 				${ctpage.totalItems}条记录 , 第${ctpage.pageNo}页, 共${ctpage.totalPages}页
-				<a href="?ctpage.pageNo=1">首页</a>
-				<s:iterator value="sliders" status="i">
-					<a href="?ctpage.pageNo=${i.index+1}"><s:property/></a>
+				<a href="javascript:jumpPage(1)">首页</a>
+				<s:iterator value="sliders" id="num">	
+					<s:if test="ctpage.pageNo==#num">
+						<span class="current">${num}</span>
+					</s:if><s:else>		
+					<a href="javascript:jumpPage(${num})"><s:property/></a>
+					</s:else>
 				</s:iterator>
-				<a href="?ctpage.pageNo=${ctpage.totalPages}">末页</a>		
+				<a href="javascript:jumpPage(${ctpage.totalPages})">末页</a>		
 			</div>
 			</div>
 		</div>
