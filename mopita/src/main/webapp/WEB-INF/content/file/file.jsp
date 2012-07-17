@@ -5,6 +5,7 @@
 	<head>
 		<title>文件列表</title>
 		<%@include file="/common/script.jsp" %>
+		<link href="${ctx}/css/home.css" type="text/css" rel="stylesheet">
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
 		<script src="${ctx}/js/table.js"></script>
 		<script>
@@ -22,8 +23,7 @@
 	<body>
 		<div class="container">
 			<form id="mainForm" action="file.action" method="post">
-			<input type="hidden" name="page.orderBy" id="orderBy" value="${page.orderBy}"/>
-			<input type="hidden" name="page.orderDir" id="order" value="${page.orderDir}"/>
+			
 			<%@include file="/common/header.jsp" %>
 			<%@include file="/common/left.jsp" %>
 			<div class="span-18 last prepend-top">
@@ -78,13 +78,7 @@
 				</s:iterator>
 				</tbody>
 			</table>	
-			<div>
-				${page.totalItems}条记录 ,第${page.pageNo}页, 共${page.totalPages}页
-				<a href="?page.pageNo=1">首页</a>
-				<s:if test="page.prePage"><a href="?page.pageNo=${page.prePage}">上一页</a></s:if>
-				<s:if test="page.nextPage"><a href="?page.pageNo=${page.nextPage}">下一页</a></s:if>
-				<a href="?page.pageNo=${page.totalPages}">末页</a>
-			</div>
+			<%@include file="/common/page.jsp" %>
 		</div>
 		</form>
 		

@@ -39,8 +39,8 @@
 		<shiro:hasPermission name="market:view">
 			<a href="${ctx}/category/market.action">市场列表</a>
 		</shiro:hasPermission>	
-		<a href="${ctx}/report/report!client.action">客户端日报</a>
-		<a href="${ctx}/report/report!content.action">内容日报</a>
+		<a href="${ctx}/report/report-client.action">客户端日报</a>
+		<a href="${ctx}/report/report-content.action">内容日报</a>
 		<a href="${ctx}/logout.action">退出登录</a>
 	</shiro:user>
 	

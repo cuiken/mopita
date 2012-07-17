@@ -5,10 +5,10 @@
 	<head>
 		<title>客户端统计</title>
 		<%@include file="/common/script.jsp" %>
-
+		<link href="${ctx}/css/home.css" type="text/css" rel="stylesheet">
 	</head>
 	<body>
-		<form action="report!client.action" method="get">
+		<form id="mainForm" action="report-client.action" method="get">
 		<div class="container">
 		<%@include file="/common/header.jsp" %>
 		<%@include file="/common/left.jsp" %>
@@ -31,7 +31,7 @@
 				</tr>
 				</thead>
 				<tbody>
-				<s:iterator value="cpage.result">
+				<s:iterator value="page.result">
 					<tr>
 						<td>${createTime}</td>
 						<td>${openCount}</td>
@@ -49,13 +49,7 @@
 				</tbody>
 			</table>		
 							
-			<div>
-				${cpage.totalItems}条记录 ,第${cpage.pageNo}页, 共${cpage.totalPages}页
-				<a href="?cpage.pageNo=1">首页</a>
-				<s:if test="cpage.prePage"><a href="?cpage.pageNo=${cpage.prePage}">上一页</a></s:if>
-				<s:if test="cpage.nextPage"><a href="?cpage.pageNo=${cpage.nextPage}">下一页</a></s:if>
-				<a href="?cpage.pageNo=${cpage.totalPages}">末页</a>
-			</div>
+			<%@include file="/common/page.jsp" %>
 			</div>
 		</div>
 		</form>

@@ -39,6 +39,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	private CategoryManager categoryManager;
 	private FileInfoObservable observer;
 
+	private List<Integer> sliders = Lists.newArrayList();
 	private File file;
 
 	@Override
@@ -66,7 +67,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 			page.setOrderDir(Sort.DESC);
 		}
 		page = fileManager.searchThemeFile(page, filters);
-
+		sliders = page.getSlider(10);
 		return SUCCESS;
 	}
 
@@ -161,5 +162,9 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 
 	public void setFile(File file) {
 		this.file = file;
+	}
+	
+	public List<Integer> getSliders() {
+		return sliders;
 	}
 }
