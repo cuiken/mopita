@@ -10,6 +10,7 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionSupport;
 import com.tp.entity.CategoryInfo;
 import com.tp.entity.FileMarketValue;
@@ -73,11 +74,7 @@ public class JplockerAction extends ActionSupport {
 		hottestPage = fileManager.searchStoreInfoInShelf(hottestPage, Shelf.Type.HOTTEST, storeId, language);
 
 		newestPage = fileManager.searchStoreInfoInShelf(newestPage, Shelf.Type.NEWEST, storeId, language);
-		Market market = this.getMarket(session);
-		List<FileStoreInfo> newestList = newestPage.getResult();
-		for (FileStoreInfo info : newestList) {
-			setDownloadType(market, info);
-		}
+		
 		if (visitByBrowse(session)) {
 			recommendPage = fileManager.searchStoreInfoInShelf(recommendPage, Shelf.Type.RECOMMEND, storeId, language);
 			List<FileStoreInfo> recommendFiles = recommendPage.getResult();
@@ -85,6 +82,15 @@ public class JplockerAction extends ActionSupport {
 				Collections.shuffle(recommendFiles);
 				adFile = recommendFiles.get(0).getTheme();
 			}
+		}
+		Market market = this.getMarket(session);
+		List<FileStoreInfo> allFile=Lists.newArrayList();
+		allFile.addAll(newestPage.getResult());
+		allFile.addAll(hottestPage.getResult());
+		allFile.addAll(recommendPage.getResult());
+
+		for (FileStoreInfo info : allFile) {
+			setDownloadType(market, info);
 		}
 		return SUCCESS;
 	}

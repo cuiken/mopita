@@ -34,6 +34,7 @@
 	$(function() {
 		$("#message").fadeOut(3000);
 		$( "#sortable1, #sortable2" ).sortable({
+			 cursor: 'move',
 			connectWith: ".connectedSortable"
 		}).disableSelection();
 		$("#btn").click(function(){
