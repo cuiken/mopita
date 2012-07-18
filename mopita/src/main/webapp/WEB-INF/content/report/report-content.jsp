@@ -8,6 +8,15 @@
 		<link href="${ctx}/css/home.css" type="text/css" rel="stylesheet">
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
 		<script src="${ctx}/js/table.js"></script>
+		<script>
+			function exportExcel(){
+				$("#order").val("");
+				$("#orderBy").val("");
+				$("#pageNo").val("1");
+				$("#mainForm").attr("action","report-content!export.action");
+				$("#mainForm").submit();
+			}
+		</script>
 	</head>
 	<body>
 		<form id="mainForm" action="report-content.action" method="post">
@@ -20,7 +29,8 @@
 			<div id="filter">
 				内容: <input type="text" name="filter_LIKES_themeName" value="${param['filter_LIKES_themeName']}" size="20"/>
 				&nbsp;日期<input type="date" autocomplete="on" name="filter_EQS_logDate" value="${param['filter_EQS_logDate']}" size="20"/>
-				<input type="button" value="搜索" onclick="search();"/>
+				<input type="button" value="搜索" onclick="search();"/>&nbsp;
+				<input type="button" value="导出" onclick="exportExcel();"/>
 			</div>
 			<table>
 				<thead>

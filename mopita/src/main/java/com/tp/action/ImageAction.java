@@ -15,7 +15,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.tp.utils.Constants;
-import com.tp.utils.Servlets;
+import com.tp.utils.ServletUtils;
 import com.tp.utils.Struts2Utils;
 
 public class ImageAction extends ActionSupport {
@@ -53,13 +53,13 @@ public class ImageAction extends ActionSupport {
 		response.setContentType("image/*");
 		ContentInfo contentInfo = getContentInfo(file);
 		//根据Etag或ModifiedSince Header判断客户端的缓存文件是否有效, 如仍有效则设置返回码为304,直接返回.
-		if (!Servlets.checkIfModifiedSince(request, response, contentInfo.lastModified)
-				|| !Servlets.checkIfNoneMatchEtag(request, response, contentInfo.etag)) {
+		if (!ServletUtils.checkIfModifiedSince(request, response, contentInfo.lastModified)
+				|| !ServletUtils.checkIfNoneMatchEtag(request, response, contentInfo.etag)) {
 			return;
 		}
-		Servlets.setExpiresHeader(response, ONE_YEAR_SECONDS);
-		Servlets.setLastModifiedHeader(response, System.currentTimeMillis());
-		Servlets.setEtag(response, contentInfo.etag);
+		ServletUtils.setExpiresHeader(response, ONE_YEAR_SECONDS);
+		ServletUtils.setLastModifiedHeader(response, System.currentTimeMillis());
+		ServletUtils.setEtag(response, contentInfo.etag);
 
 		byte[] buffer = new byte[1024];
 		InputStream is = new FileInputStream(file);

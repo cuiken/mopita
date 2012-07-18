@@ -16,7 +16,7 @@ import org.apache.commons.lang3.Validate;
  * Http与Servlet工具类.
  * 
  */
-public class Servlets {
+public class ServletUtils {
 
 	//-- Content Type 定义 --//
 	public static final String EXCEL_TYPE = "application/vnd.ms-excel";
@@ -32,7 +32,7 @@ public class Servlets {
 	//-- 常用数值定义 --//
 	public static final long ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;
 
-	private Servlets() {
+	private ServletUtils() {
 	}
 
 	/**

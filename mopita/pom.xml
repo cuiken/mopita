@@ -392,7 +392,12 @@
 			<version>5.3.2</version>
 		</dependency>
 
-		<!-- excel <dependency> <groupId>org.apache.poi</groupId> <artifactId>poi</artifactId> <version>3.8</version> </dependency> -->
+		<!-- excel -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.8</version>
+		</dependency>
 		<!-- validator <dependency> <groupId>org.hibernate</groupId> <artifactId>hibernate-validator</artifactId> <version>${hibernate-validator.version}</version> 
 			</dependency> -->
 

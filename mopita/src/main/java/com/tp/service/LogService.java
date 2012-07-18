@@ -51,6 +51,10 @@ public class LogService {
 	public void saveLogCountClient(LogCountClient entity) {
 		countClientDao.save(entity);
 	}
+	
+	public List<LogCountContent> getAllContents(){
+		return countContentDao.getAll();
+	}
 
 	public LogCountClient getLogClientCountByDate(String date) {
 		return countClientDao.findUniqueBy("createTime", date);
