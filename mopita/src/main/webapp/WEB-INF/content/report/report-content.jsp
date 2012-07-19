@@ -10,11 +10,7 @@
 		<script src="${ctx}/js/table.js"></script>
 		<script>
 			function exportExcel(){
-				$("#order").val("");
-				$("#orderBy").val("");
-				$("#pageNo").val("1");
-				$("#mainForm").attr("action","report-content!export.action");
-				$("#mainForm").submit();
+				window.location="report-content!export.action?theme="+encodeURIComponent($("#theme").val())+"&date="+$("#sdate").val();
 			}
 		</script>
 	</head>
@@ -27,10 +23,10 @@
 			<div class="span-18 last prepend-top">
 			<h3>内容日报</h3>
 			<div id="filter">
-				内容: <input type="text" name="filter_LIKES_themeName" value="${param['filter_LIKES_themeName']}" size="20"/>
-				&nbsp;日期<input type="date" autocomplete="on" name="filter_EQS_logDate" value="${param['filter_EQS_logDate']}" size="20"/>
+				内容: <input type="text" id="theme" name="filter_LIKES_themeName" value="${param['filter_LIKES_themeName']}" size="20"/>
+				&nbsp;日期<input type="date" id="sdate" autocomplete="on" name="filter_EQS_logDate" value="${param['filter_EQS_logDate']}" size="20"/>
 				<input type="button" value="搜索" onclick="search();"/>&nbsp;
-				<input type="button" value="导出" onclick="exportExcel();"/>
+				<div style="float:right"><a href="#" onclick="exportExcel();"><img alt="excel" src="${ctx}/images/excel.png"></a></div>
 			</div>
 			<table>
 				<thead>

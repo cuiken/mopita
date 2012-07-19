@@ -25,13 +25,13 @@
 				$("#content1").live("click",function(){ 
 					$(this).css("backgroundColor","#e7e6c8");
 					var uri=$(this).attr("pay");
+					location.href=uri;
 					$.ajax({
 						type:"POST",
 						url:"${ctx}/log/log!saveDownload.action",
 						dataType:"text",
 						data:{queryString:uri,cs:'${queryString}'}
-					});
-					location.href=uri;
+					});				
 				});
 				
 			});

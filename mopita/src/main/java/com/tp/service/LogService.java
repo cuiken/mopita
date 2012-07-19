@@ -51,9 +51,13 @@ public class LogService {
 	public void saveLogCountClient(LogCountClient entity) {
 		countClientDao.save(entity);
 	}
-	
-	public List<LogCountContent> getAllContents(){
+
+	public List<LogCountContent> getAllContents() {
 		return countContentDao.getAll();
+	}
+
+	public List<LogCountContent> getContentByThemeOrDate(String theme, String date) {
+		return countContentDao.getByContentOrDate(theme, date);
 	}
 
 	public LogCountClient getLogClientCountByDate(String date) {
