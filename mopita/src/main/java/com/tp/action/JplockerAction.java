@@ -43,8 +43,6 @@ public class JplockerAction extends ActionSupport {
 
 	private FileStoreInfo info;
 
-	private ThemeFile adFile;
-
 	private String language;
 
 	@Override
@@ -76,7 +74,6 @@ public class JplockerAction extends ActionSupport {
 			List<FileStoreInfo> recommendFiles = recommendPage.getResult();
 			if (recommendFiles.size() > 0) {
 				Collections.shuffle(recommendFiles);
-				adFile = recommendFiles.get(0).getTheme();
 			}
 		}
 		Market market = this.getMarket(session);
@@ -187,10 +184,6 @@ public class JplockerAction extends ActionSupport {
 
 	public void setInfo(FileStoreInfo info) {
 		this.info = info;
-	}
-
-	public ThemeFile getAdFile() {
-		return adFile;
 	}
 
 	public String getLanguage() {

@@ -41,10 +41,10 @@
 		<form action="jplocker.action" method="get">
 
 			<div id="container"> 		
-				<s:if test="adFile!=null">		
+				<s:if test="recommendPage.result.size()>0">		
 					 <div class="imgCenter">
-						<a href="${theme.downloadURL}">
-							<img alt="${adFile.title}" src="${ctx}/image.action?path=${adFile.adPath}" class="max-width_100">
+						<a href="${recommendPage.result[0].theme.downloadURL}">
+							<img alt="${recommendPage.result[0].theme.title}" src="${ctx}/image.action?path=${recommendPage.result[0].theme.adPath}" class="max-width_100">
 						</a>
 					</div>
 				  </s:if>
