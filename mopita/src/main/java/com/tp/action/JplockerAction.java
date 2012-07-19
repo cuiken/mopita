@@ -69,12 +69,10 @@ public class JplockerAction extends ActionSupport {
 
 		newestPage = fileManager.searchStoreInfoInShelf(newestPage, Shelf.Type.NEWEST, storeId, language);
 
-		if (visitByBrowse(session)) {
-			recommendPage = fileManager.searchStoreInfoInShelf(recommendPage, Shelf.Type.RECOMMEND, storeId, language);
-			List<FileStoreInfo> recommendFiles = recommendPage.getResult();
-			if (recommendFiles.size() > 0) {
-				Collections.shuffle(recommendFiles);
-			}
+		recommendPage = fileManager.searchStoreInfoInShelf(recommendPage, Shelf.Type.RECOMMEND, storeId, language);
+		List<FileStoreInfo> recommendFiles = recommendPage.getResult();
+		if (recommendFiles.size() > 0) {
+			Collections.shuffle(recommendFiles);
 		}
 		Market market = this.getMarket(session);
 		List<FileStoreInfo> allFile = Lists.newArrayList();
@@ -98,11 +96,6 @@ public class JplockerAction extends ActionSupport {
 			session.setAttribute(Constants.ID_JPLOCKER, storeId);
 			return storeId;
 		}
-	}
-
-	private boolean visitByBrowse(HttpSession session) {
-
-		return (String) session.getAttribute(Constants.PARA_RESOLUTION) == null;
 	}
 
 	/**
