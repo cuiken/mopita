@@ -28,17 +28,13 @@ public class ClientFileManager {
 	public ClientFile get(Long id) {
 		return clientFileDao.get(id);
 	}
-	
-	public void delete(Long id){
+
+	public void delete(Long id) {
 		clientFileDao.delete(id);
 	}
 
 	public ClientFile getClientByVersion(String version) {
 		return clientFileDao.findUniqueBy("version", version);
-	}
-
-	public String getMaxByVersion(String v, String dtype) {
-		return clientFileDao.getMaxByVersion(v, dtype);
 	}
 
 	public String getNewestVersionCode(String dtype) {
@@ -53,20 +49,32 @@ public class ClientFileManager {
 		if (versionFromClient == null || versionFromClient.isEmpty()) {
 			return "";
 		}
-		String[] versions = StringUtils.split(versionFromClient, Constants.DOT_SEPARATOR);
-		if (versions.length > 2) {
-			String oldHeader = versions[0];
-			String newVersion = this.getMaxByVersion(oldHeader, dtype);
-			if (newVersion == null)
-				return "";
-			String[] newvs = StringUtils.split(newVersion, Constants.DOT_SEPARATOR);
-			String newHeader = newvs[0];
-			String newUse = newvs[1];
-			String oldUse = versions[1];
-			if (oldHeader.equals(newHeader)) {
-				if (Integer.valueOf(oldUse) < Integer.valueOf(newUse)) {
 
-					return newVersion;
+		String maxVersion = getNewestVersionCode(dtype);
+
+		return compareVersion(versionFromClient, maxVersion, dtype);
+	}
+
+	public String compareVersion(String vsclient, String maxVersion, String dtype) {
+		if (maxVersion != null && !maxVersion.isEmpty()) {
+			String[] maxvs = StringUtils.split(maxVersion, Constants.DOT_SEPARATOR);
+			String[] vs = StringUtils.split(vsclient, Constants.DOT_SEPARATOR);
+			if (maxvs.length > 2 && vs.length > 2) {
+				if (Integer.parseInt(maxvs[0]) > Integer.parseInt(vs[0])
+						|| Integer.parseInt(maxvs[1]) > Integer.parseInt(vs[1])) {
+					return maxVersion;
+				}
+
+				if (!dtype.equals(Constants.LOCKER_STANDARD)) {
+					String maxlast = StringUtils.substring(maxvs[2], 0, maxvs[2].length() - 1);
+					String vslast = StringUtils.substring(vs[2], 0, vs[2].length() - 1);
+					if (Integer.parseInt(maxlast) > Integer.parseInt(vslast)) {
+						return maxVersion;
+					}
+				} else {
+					if (Integer.parseInt(maxvs[2]) > Integer.parseInt(vs[2])) {
+						return maxVersion;
+					}
 				}
 			}
 		}

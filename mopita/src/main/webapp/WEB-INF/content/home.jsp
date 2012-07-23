@@ -17,6 +17,11 @@
   		<link rel="stylesheet" href="${ctx}/css/home.css" media="screen"/>
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
 		<script src="${ctx}/js/jquery/jquery.lazyload.min.js"></script>
+		<style type="text/css">
+			body{
+				font-family: DFPShaoNvW;	
+			}
+		</style>
 		<script>
 			$(document).ready(function(){
 				$("img").lazyload();
