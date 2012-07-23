@@ -73,7 +73,7 @@
 				<div class="icon_set">	
 					<s:iterator value="hottestPage.result">				
 						<a href="${theme.downloadURL}">
-							<img alt="${title}" style="padding: 1px;" data-original="${ctx}/image.action?path=${theme.iconPath}" src="${ctx}/images/default.png" class="icon" width="72" height="72">
+							<img alt="${title}" data-original="${ctx}/image.action?path=${theme.iconPath}" src="${ctx}/images/default.png" class="icon">
 						</a>		
 					</s:iterator>
 				</div>						
