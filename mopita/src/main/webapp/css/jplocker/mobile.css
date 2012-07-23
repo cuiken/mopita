@@ -1,38 +1,3 @@
-.sites {
-}
- .sites a {
-        display:block;
-        float:left;
-        width:50%;
-        height:35px;
-        overflow:hidden;
-        line-height:35px;
-        text-align:center;
-}
-.float_clear {
-        clear:both;
-        height:0px;
-        line-height:0px;
-        margin:0px 0px 0px 0px;
-        padding:0px 0px 0px 0px;
-        overflow:hidden;
-}
-
-.lineTop {
-	PADDING-BOTTOM:1px; padding-top:1px; TEXT-INDENT: 10px; LINE-HEIGHT: 1px; BORDER-TOP: #ddd 1px solid; height: 2px;
-TEXT-ALIGN: center;
-}
-.lineBottom {
-	PADDING-BOTTOM:1px; padding-top:1px; TEXT-INDENT: 10px; LINE-HEIGHT: 1px; BORDER-BOTTOM: #ddd 1px solid; height: 2px;
-TEXT-ALIGN: center;
-}
-.lineBottom A {
-    FONT-WEIGHT: bolder; COLOR: blue;DISPLAY: block
-}
-
-.position SPAN {
-	COLOR: #1f376d
-}
 
 .soft {
  PADDING-RIGHT: 6px; PADDING-LEFT: 6px; BORDER-TOP: #ddd 0px solid; PADDING-BOTTOM: 6px; OVERFLOW: hidden; PADDING-TOP: 10px; BORDER-BOTTOM: #ddd 1px solid; ZOOM: 1

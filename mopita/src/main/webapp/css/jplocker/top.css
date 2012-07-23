@@ -393,26 +393,28 @@ p.info_title{
 	text-align:center;
 }
 .contents_info {
-	width:100%;
+	margin:0;
 	height:80px;
 	margin: 0 auto;
+	padding:2px 0 0;
 	border-bottom: 2px solid #e1e0c1;
 }
 #contents_info-last{
+	margin:0;
 	width:100%;
 	height:80px;
-	margin: 0 auto;
+	padding:2px 0 0;
 	border-bottom:none;
 }
 .content-title{
         padding-left:10px;
-		width:100%;	
+		width:95%;	
 	}
 .contents_txt {
 	float:right;
-	height:75px;
+	height: 73px;
 	width:70%;
-	padding:16px 3%;
+padding: 2px 1% 0;
 }
 .contents_txt p {
 	font-size: 80%;
@@ -421,13 +423,9 @@ p.info_title{
 
 .contents_image {
 text-align: right;
-font-size: 80%;
-float: left;
 width: 20%;
-height: 80px;
-color: white;
 margin: 0;
-padding: 13px 1px;
+padding: 0 0 0 4px;
 }
 .contents_image a {
 	color:#ffffff;
@@ -460,15 +458,4 @@ padding: 13px 1px;
 
 #balloon p {
 	margin: 0;
-}
-
-/* 占い・心理テスト */
-#uranai_shinritest {
-	margin:0 auto;
-	padding:10px 0;
-	text-align:center;
-}
-
-#uranai_shinritest img {
-	max-width:45%;	
 }
