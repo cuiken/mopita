@@ -4,7 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tp.entity.ClientFile;
 import com.tp.spring.SpringTxTestCase;
@@ -15,6 +17,8 @@ public class ClientManagerTest extends SpringTxTestCase {
 	private ClientFileManager clientManager;
 
 	@Test
+	@Rollback
+	@Transactional
 	public void stNewestVersion() {
 		ClientFile client = new ClientFile();
 		client.setName("test-client-st");
@@ -33,6 +37,10 @@ public class ClientManagerTest extends SpringTxTestCase {
 		returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
 		assertEquals(client.getVersion(), returnVersion);
 
+		cv = "1.11.5";
+		returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
+		assertEquals(client.getVersion(), returnVersion);
+
 		cv = "2.9.5";
 		returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
 		assertEquals(client.getVersion(), returnVersion);
@@ -41,12 +49,34 @@ public class ClientManagerTest extends SpringTxTestCase {
 		returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
 		assertEquals(client.getVersion(), returnVersion);
 
+		cv = "2.11.5";
+		returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
+		assertEquals("", returnVersion);
+
+		cv = "2.10.5";
+		returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
+		assertEquals("", returnVersion);
+
 		cv = "2.10.7";
+		returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
+		assertEquals("", returnVersion);
+
+		cv = "3.10.7";
+		returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
+		assertEquals("", returnVersion);
+		
+		cv = "3.11.7";
+		returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
+		assertEquals("", returnVersion);
+		
+		cv = "3.1.7";
 		returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
 		assertEquals("", returnVersion);
 	}
 
 	@Test
+	@Rollback
+	@Transactional
 	public void jpNewestVersion() {
 		ClientFile client = new ClientFile();
 		client.setName("test-client-jp");

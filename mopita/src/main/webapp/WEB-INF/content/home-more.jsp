@@ -19,11 +19,7 @@
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
 		<script src="${ctx}/js/jquery/jquery.masonry.min.js"></script>
 		<script src="${ctx}/js/jquery/jquery.infinitescroll.min.js"></script>
-		<style type="text/css">
-			body{
-				font-family: DFPShaoNvW;	
-			}
-		</style>
+
   		<script>
 		  $(function(){
 

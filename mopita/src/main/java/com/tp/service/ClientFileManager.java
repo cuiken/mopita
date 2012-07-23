@@ -60,6 +60,9 @@ public class ClientFileManager {
 			String[] maxvs = StringUtils.split(maxVersion, Constants.DOT_SEPARATOR);
 			String[] vs = StringUtils.split(vsclient, Constants.DOT_SEPARATOR);
 			if (maxvs.length > 2 && vs.length > 2) {
+				if (Integer.parseInt(maxvs[0]) < Integer.parseInt(vs[0])) {
+					return "";
+				}
 				if (Integer.parseInt(maxvs[0]) > Integer.parseInt(vs[0])
 						|| Integer.parseInt(maxvs[1]) > Integer.parseInt(vs[1])) {
 					return maxVersion;
