@@ -1,18 +1,24 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@include file="/common/taglibs.jsp" %>
 <%@ page import="org.apache.shiro.web.filter.authc.FormAuthenticationFilter"%>
 <%@ page import="org.apache.shiro.authc.ExcessiveAttemptsException"%>
 <%@ page import="org.apache.shiro.authc.IncorrectCredentialsException"%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="ctx" value="${pageContext.request.contextPath}"/>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 	<title>登录页</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 	<meta http-equiv="Cache-Control" content="no-store" />
 	<meta http-equiv="Pragma" content="no-cache" />
 	<meta http-equiv="Expires" content="0" />
+	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 	<link href="${ctx}/css/bootstrap/2.0.3/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+	<link href="${ctx}/css/bootstrap/2.0.3/css/bootstrap-responsive.min.css" type="text/css" rel="stylesheet" />
 	<link href="${ctx}/css/mini-web.css" type="text/css" rel="stylesheet" />
 	<link href="${ctx}/js/jquery/validation/milk.css" rel="stylesheet">
 	<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
@@ -20,74 +26,93 @@
 	<script src="${ctx}/js/jquery/validation/messages_cn.js"></script>
 	<script>
 		$(document).ready(function() {
+			$("#username").focus();
 			$("#loginForm").validate();
 		});
 	</script>
 </head>
 
-<body>
-	<div class="container">
-	<div id="header" class="span12">
-		<div id="menu">
-			<ul class="nav nav-tabs">
-				<li class="active">
-					<a href="${ctx}/login.action">登陆</a>
-				</li>
-			</ul>
+<body data-spy="scroll" data-target=".subnav" data-offset="50">
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+				</a>
+				<a class="brand" href="${ctx}/login.action">UMS2.0</a>
+				<div class="nav-collapse">
+					<ul class="nav">
+						<li class="active">
+							<a href="${ctx}/login.action">登录</a>
+						</li>
+					</ul>
+				</div>
+			</div>
 		</div>
 	</div>
+	<div class="container">
+		<header class="jumbotron masthead">
+		 	<div class="inner">
+		    	<p></p>
+			</div>
+		</header>
 	<div id="content" class="span12">
-	<form id="loginForm" action="${ctx}/login.action" method="post" class="form-horizontal">
-		<%
-		String error = (String) request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
-		if(error != null){
-			if(error.contains("DisabledAccountException")){
-		%>
-			<div class="control-group">
-			<div class="controls ">
-			<div class="alert alert-error">
-			<button class="close" data-dismiss="alert">×</button>
-			用户已被屏蔽,请登录其他用户.</div>
-			</div>
-			</div>
-		<%
-			}else{
-		%>	
-			<div class="control-group">
-			<div class="controls ">
-			<div class="alert alert-error">
-			<button class="close" data-dismiss="alert">×</button>
-				登录失败，请重试.</div>
-			</div>
-			</div>
-			
-		<%
-		}}
-		%>
-			<div class="control-group">
-				<label for="username" class="control-label">名称:</label>
-				<div class="controls">
-					<input type="text" placeholder="请输入用户名" id="username" name="username" size="50" value="${username}" class="required span2"/>
+		<form id="loginForm" action="${ctx}/login.action" method="post" class="form-horizontal">
+			<%
+			String error = (String) request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
+			if(error != null){
+				if(error.contains("DisabledAccountException")){
+			%>
+				<div class="control-group">
+				<div class="controls ">
+				<div class="alert alert-error">
+				<button class="close" data-dismiss="alert">×</button>
+				用户已被屏蔽,请登录其他用户.</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<label for="password" class="control-label">密码:</label>
-				<div class="controls">
-					<input type="password" id="password" placeholder="请输入密码" name="password" size="50"  class="required span2"/>
 				</div>
-			</div>
-			<div class="control-group">
-				<div class="controls">
-				<label class="checkbox inline" for="rememberMe"> <input type="checkbox" id="rememberMe" name="rememberMe" checked="checked"/> 记住我</label>
-				<input id="submit" class="btn" type="submit" value="登录"/>
+			<%
+				}else{
+			%>	
+				<div class="control-group">
+				<div class="controls ">
+				<div class="alert alert-error">
+				<button class="close" data-dismiss="alert">×</button>
+					登录失败，请重试.</div>
+				</div>
+				</div>
+				
+			<%
+			}}
+			%>
+				<div class="control-group">
+					
+					<div class="controls">
+						<input type="text" placeholder="帐号" id="username" name="username" size="50" value="${username}" class="required span3"/>
+					</div>
+				</div>
+				<div class="control-group">
+					
+					<div class="controls">
+						<input type="password" id="password" placeholder="密码" name="password" size="50"  class="required span3"/>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+					<input id="submit" class="btn btn-primary" type="submit" value="登录"/>
+					
+					<span style="padding-left:10px;">
+						<label class="checkbox inline" for="rememberMe"> <input type="checkbox" id="rememberMe" name="rememberMe" checked="checked"/> 记住我</label>
+					</span>
 				</div>
 			</div>		
-	</form>
+		</form>
+		<footer class="footer">
+		<p>Copyright &copy; 2012 <a href="http://www.tpadsz.com/">tpadsz.com</a></p>
+		</footer>
 	</div>
 	</div>
-	<div id="footer" class="span12">
-	Copyright &copy; 2012 <a href="http://www.tpadsz.com/">tpadsz.com</a>
-</div>
 	<script src="${ctx}/css/bootstrap/2.0.3/js/bootstrap.min.js" type="text/javascript"></script>
 </body>
 </html>
