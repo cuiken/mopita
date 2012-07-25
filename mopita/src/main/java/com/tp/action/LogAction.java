@@ -87,6 +87,8 @@ public class LogAction extends ActionSupport {
 		int ques = StringUtils.indexOf(queryStr, "?");
 		if (ques != -1) {
 			log.setRequestMethod(StringUtils.substring(queryStr, 0, ques));
+		}else{
+			log.setRequestMethod("d_download");
 		}
 		if (index != -1) {
 			queryStr = StringUtils.substring(queryStr, ques + 1, index);
