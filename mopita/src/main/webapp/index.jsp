@@ -1,4 +1,3 @@
 <% 
-	String language=request.getLocale().getLanguage();
-	response.sendRedirect("home.action?l="+language);
+	response.sendRedirect("file/file.action");
 %>
