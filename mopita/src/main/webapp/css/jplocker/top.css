@@ -459,3 +459,19 @@ padding: 0 0 0 4px;
 #balloon p {
 	margin: 0;
 }
+#side-menu{
+border-top:solid 10px #0FF;
+display:block;
+text-align:left;
+margin-top: 150px;
+padding:10px 0 0 5px;
+border-top: solid 10px #EA2B74;
+font-size:16px;
+}
+#side-menu ul{
+list-style:none;
+}
+#side-menu ul li{
+padding:2px 0 0;
+}
+#side-menu ul li a{text-decoration:underline;font-size:14px;}

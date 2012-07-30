@@ -79,6 +79,14 @@
 				</div>						
 
 				<div style="font-size: 85%;">
+					<aside id="side-menu">
+						<ul>
+							<li><a href="${ctx}/store/help!device.action">対応機種</a></li>
+							<br>
+							 <li><a href="${ctx}/store/help!inquiry.action">お問い合わせ</a></li>
+							<li><a href="${ctx}/store/help!tokusyou.action">特定商取引法</a></li>
+						</ul>
+					</aside>
 					<%@include file="/common/jp-footer.jsp" %>
 				</div>
 			</div>
