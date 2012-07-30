@@ -219,7 +219,7 @@ public class LogService {
 	 */
 	public Long countContentTotalDown(String fid, String fpack, String sdate, String edate) {
 		String[] methods = { "execute", "more", "getClient", "details" };
-		return logHomeDao.countContentTotalDown(Arrays.asList(methods), "%" + fpack + "%", "%" + fid + "%", sdate,
+		return logHomeDao.countContentTotalDown(Arrays.asList(methods), "%" + fpack + "%", "%id:" + fid + "%", sdate,
 				edate);
 	}
 
