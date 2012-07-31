@@ -237,3 +237,33 @@ create table log_cc_market(
 	primary key(id)
 )ENGINE=InnoDB;
 
+--分类表
+create table nav_category(
+	id int not null auto_increment,
+	name varchar(35),
+	value varchar(35),
+	parent_id int,
+	pic_addr varchar(255),
+	dtype varchar(35),
+	primary key(id)
+)ENGINE=InnoDB;
+
+--具体元素表
+create table nav_item(
+	id int not null auto_increment,
+	name varchar(35),
+	value varchar(35),
+	nav_addr varchar(255),
+	pic_addr varchar(255),
+	primary key(id)
+
+)ENGINE=InnoDB;
+
+--分类元素关系表
+create table nav_category_navigator(
+	id int not null auto_increment,
+	c_id int,
+	n_id int,
+	primary key(id)
+)ENGINE=InnoDB;
+
