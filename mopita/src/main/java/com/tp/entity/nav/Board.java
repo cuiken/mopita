@@ -6,6 +6,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -28,7 +31,8 @@ public class Board extends TagItem {
 		this.tags = tags;
 	}
 
-	@OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "nav_category_navigator", joinColumns = { @JoinColumn(name = "c_id") }, inverseJoinColumns = { @JoinColumn(name = "n_id") })
 	public List<Navigator> getNavigators() {
 		return navigators;
 	}
