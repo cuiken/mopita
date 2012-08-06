@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.UUID;
 
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
@@ -30,7 +29,7 @@ public class FileUtils {
 			ZipFile zipFile = new ZipFile(srcFile, "GBK", true);
 
 			Enumeration<ZipArchiveEntry> files = zipFile.getEntries();
-			String folderName = UUID.randomUUID().toString();
+			String folderName = UUIDGenerator.generateUUID();
 			File baseDir = new File(FILE_STORAGE + folderName);
 			baseDir.mkdirs();
 			List<ZipArchiveEntry> entries = Lists.newArrayList();
@@ -91,12 +90,12 @@ public class FileUtils {
 	public static boolean isUx(String ext) {
 		return StringUtils.equalsIgnoreCase(ext, FileType.UX.getValue());
 	}
-	
-	public static boolean isHUx(String fname){
+
+	public static boolean isHUx(String fname) {
 		return StringUtils.containsIgnoreCase(fname, FileType.UX_H.getValue());
 	}
-	
-	public static boolean isWUx(String fname){
+
+	public static boolean isWUx(String fname) {
 		return StringUtils.containsIgnoreCase(fname, FileType.UX_W.getValue());
 	}
 
