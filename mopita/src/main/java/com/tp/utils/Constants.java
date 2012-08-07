@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 public class Constants {
 
 	public final static String FILE_STORAGE = Config.getProperty("file.storage");
+	
+	public static final String NAV_FOLDER = "nav";
 
 	public final static String[] IMG_EXTENSION = { "jpg", "jpeg", "gif", "bmp", "png" };
 

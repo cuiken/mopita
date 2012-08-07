@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,9 @@ public class FileUtils {
 	private static final Logger logger = LoggerFactory.getLogger(FileUtils.class);
 
 	private static final String FILE_STORAGE = Constants.FILE_STORAGE;
+
+	private FileUtils() {
+	}
 
 	public static List<File> unZip(File srcFile) {
 		try {
@@ -122,5 +126,14 @@ public class FileUtils {
 
 		zipFile.close();
 		return files;
+	}
+
+	public static File copyFile(File upload, String fname) throws Exception {
+		File targetDir = new File(Constants.FILE_STORAGE, Constants.NAV_FOLDER);
+		String fileName = UUIDGenerator.generateUUID();
+		String ext = StringUtils.substringAfterLast(fname, Constants.DOT_SEPARATOR);
+		File destFile = new File(targetDir, fileName + Constants.DOT_SEPARATOR + ext);
+		org.apache.commons.io.FileUtils.copyFile(upload, destFile);
+		return destFile;
 	}
 }

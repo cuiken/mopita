@@ -14,12 +14,14 @@
 		<form action="navigator.action" id="mainForm" method="get">
 			<div class="container">
 				<table class="table table-striped table-bordered table-condensed">
-					<thead><tr><th>名称</th><th>地址</th><th>操作</th><tr></thead>
+					<thead><tr><th>链接名称</th><th>链接地址</th><th>分类标签</th><th>所属面版</th><th>操作</th><tr></thead>
 					<tbody>
 						<c:forEach items="${navigators}" var="nav">
 							<tr>
 								<td>${nav.name}</td>
 								<td>${nav.navAddr}</td>
+								<td>${nav.tagNames}</td>
+								<td>${nav.boardNames}</td>
 								<td>
 									<a href="navigator!input.action?id=${nav.id}">修改</a>
 									<a href="navigator!delete.action?id=${nav.id}">删除</a>

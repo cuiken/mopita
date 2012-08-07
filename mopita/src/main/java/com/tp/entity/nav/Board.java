@@ -32,7 +32,7 @@ public class Board extends TagItem {
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "nav_category_navigator", joinColumns = { @JoinColumn(name = "c_id") }, inverseJoinColumns = { @JoinColumn(name = "n_id") })
+	@JoinTable(name = "nav_board_navigator", joinColumns = { @JoinColumn(name = "b_id") }, inverseJoinColumns = { @JoinColumn(name = "n_id") })
 	public List<Navigator> getNavigators() {
 		return navigators;
 	}

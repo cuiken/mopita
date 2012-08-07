@@ -14,11 +14,12 @@
 		<form action="nav-tag.action" id="mainForm" method="get">
 			<div class="container">
 				<table class="table table-striped table-bordered table-condensed">
-					<thead><tr><th>名称</th><th>操作</th><tr></thead>
+					<thead><tr><th>名称</th><th>所属版面</th><th>操作</th><tr></thead>
 					<tbody>
 						<c:forEach items="${tags}" var="tag">
 							<tr>
 								<td>${tag.name}</td>
+								<td>${tag.board.name}</td>
 								<td>
 									<a href="nav-tag!input.action?id=${tag.id}">修改</a>
 									<a href="nav-tag!delete.action?id=${tag.id}">删除</a>

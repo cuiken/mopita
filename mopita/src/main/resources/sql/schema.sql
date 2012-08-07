@@ -260,10 +260,18 @@ create table nav_item(
 )ENGINE=InnoDB;
 
 --分类元素关系表
-create table nav_category_navigator(
+create table nav_board_navigator(
 	id int not null auto_increment,
-	c_id int,
+	b_id int,
 	n_id int,
 	primary key(id)
+)ENGINE=InnoDB;
+
+create table nav_tag_navigator(
+	id int not null auto_increment,
+	t_id int,
+	n_id int,
+	primary key(id)
+
 )ENGINE=InnoDB;
 

@@ -9,6 +9,18 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="${ctx}/css/bootstrap/2.0.3/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
 		<link href="${ctx}/css/bootstrap/2.0.3/css/bootstrap-responsive.min.css" type="text/css" rel="stylesheet" />
+		<script type="text/javascript" src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
+		<script>
+			$(document).ready(function(){
+				$("input[name='boardId']").each(function(){
+					
+					if(this.value==${board.id}){
+						
+						$(this).attr("checked","checked");
+					}
+				})
+			});
+		</script>
 	</head>
 	<body>
 		<form action="nav-tag!save.action" id="inputForm" method="post" enctype="multipart/form-data" class="form-horizontal">
@@ -26,6 +38,16 @@
 						<label for="fileInput" class="control-label">图标:</label>
 						<div class="controls">
 							<input type="file" class="input-file" id="fileInput" name="upload">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">所属板块:</label>
+						<div class="controls">
+							<c:forEach var="board" items="${boards}">
+								<label class="radio">
+									<input type="radio" name="boardId" value="${board.id}">${board.name}
+								</label>
+							</c:forEach>
 						</div>
 					</div>
 					<div class="form-actions">

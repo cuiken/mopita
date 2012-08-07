@@ -3,31 +3,35 @@ package com.tp.action.nav;
 import java.io.File;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tp.action.CRUDActionSupport;
+import com.tp.dao.HibernateUtils;
+import com.tp.entity.nav.Board;
+import com.tp.entity.nav.NavTag;
 import com.tp.entity.nav.Navigator;
 import com.tp.service.nav.NavigatorService;
 import com.tp.utils.Constants;
-import com.tp.utils.UUIDGenerator;
+import com.tp.utils.FileUtils;
 
 @Namespace("/nav")
 @Results({ @Result(name = CRUDActionSupport.RELOAD, location = "navigator.action", type = "redirect") })
 public class NavigatorAction extends CRUDActionSupport<Navigator> {
 
 	private static final long serialVersionUID = 1L;
-	private static final String NAV_FOLDER = "nav";
+
 	private Navigator entity;
 	private Long id;
 	private List<Navigator> navigators;
 	private File upload;
 	private String uploadFileName;
 	private NavigatorService navigatorService;
+
+	private List<Long> checkedTagIds;
+	private List<Long> checkedBoardIds;
 
 	@Override
 	public Navigator getModel() {
@@ -43,27 +47,26 @@ public class NavigatorAction extends CRUDActionSupport<Navigator> {
 
 	@Override
 	public String input() throws Exception {
-
+		checkedBoardIds = entity.getCheckedBoardIds();
+		checkedTagIds = entity.getCheckedTagIds();
 		return INPUT;
 	}
 
 	@Override
 	public String save() throws Exception {
-		File targetDir = new File(Constants.FILE_STORAGE, NAV_FOLDER);
-		String fileName = UUIDGenerator.generateUUID();
-		String ext = StringUtils.substringAfterLast(uploadFileName, Constants.DOT_SEPARATOR);
-		File destFile = new File(targetDir, fileName + Constants.DOT_SEPARATOR + ext);
-		FileUtils.copyFile(upload, destFile);
 		if (upload != null) {
-			entity.setPicAddr(NAV_FOLDER + File.separator + destFile.getName());
+			File destFile = FileUtils.copyFile(upload, uploadFileName);
+			entity.setPicAddr(Constants.NAV_FOLDER + File.separator + destFile.getName());
 		}
+		HibernateUtils.mergeByCheckedIds(entity.getBoards(), checkedBoardIds, Board.class);
+		HibernateUtils.mergeByCheckedIds(entity.getTags(), checkedTagIds, NavTag.class);
 		navigatorService.saveNav(entity);
 		return RELOAD;
 	}
 
 	@Override
 	public String delete() throws Exception {
-
+		navigatorService.deleteNav(id);
 		return RELOAD;
 	}
 
@@ -91,6 +94,30 @@ public class NavigatorAction extends CRUDActionSupport<Navigator> {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public List<Board> getAllBoards() {
+		return navigatorService.getAllBoards();
+	}
+
+	public List<NavTag> getAllTags() {
+		return navigatorService.getAllTags();
+	}
+
+	public List<Long> getCheckedTagIds() {
+		return checkedTagIds;
+	}
+
+	public void setCheckedTagIds(List<Long> checkedTagIds) {
+		this.checkedTagIds = checkedTagIds;
+	}
+
+	public List<Long> getCheckedBoardIds() {
+		return checkedBoardIds;
+	}
+
+	public void setCheckedBoardIds(List<Long> checkedBoardIds) {
+		this.checkedBoardIds = checkedBoardIds;
 	}
 
 	@Autowired
