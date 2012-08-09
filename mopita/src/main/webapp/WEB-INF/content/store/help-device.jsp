@@ -61,5 +61,22 @@ margin-top: 0.5em;
 <li>XperiaacroHD(SO-03D)</li>
 <li>REGZAPhone(T-01D)</li>
 </ul>
+<h2>Softbank</h2>
+<ul>
+<li>Streak Pro(101DL)</li>
+<li>Vision(007HW)</li>
+<li>HONEY BEE(101K)</li>
+<li>MEDIAS CH(101N)</li>
+<li>Sweety (003P)</li>
+<li>LUMIX Phone(101P)</li>
+<li>102P(102P)</li>
+<li>AQUOS PHONE THE PREMIUM(009SH)</li>
+<li>Yahoo! Phone(009SH Y)</li>
+<li>AQUOS PHONE THE HYBRID(101SH)</li>
+<li>AQUOS PHONE(102SH)</li>
+<li>AQUOS PHONE(103SH)</li>
+<li>シンプルスマートフォン(008Z)</li>
+<li>STAR 7(009Z)</li>
+</ul>
 </body>
 </html>
