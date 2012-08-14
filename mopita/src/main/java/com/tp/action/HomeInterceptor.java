@@ -151,7 +151,7 @@ public class HomeInterceptor extends AbstractInterceptor {
 
 		} else {
 
-			session.setAttribute(PARA_LANGUAGE, getLocal());
+			session.setAttribute(PARA_LANGUAGE, Constants.getLocal());
 		}
 		Locale local = new Locale((String) session.getAttribute(PARA_LANGUAGE));
 		ServletActionContext.getContext().setLocale(local);
@@ -178,11 +178,6 @@ public class HomeInterceptor extends AbstractInterceptor {
 		}
 		return languages;
 
-	}
-
-	private static String getLocal() {
-		Locale local = ServletActionContext.getContext().getLocale();
-		return local.getLanguage();
 	}
 
 	@Autowired

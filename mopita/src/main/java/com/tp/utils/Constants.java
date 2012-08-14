@@ -1,11 +1,15 @@
 package com.tp.utils;
 
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
 
 public class Constants {
 
 	public final static String FILE_STORAGE = Config.getProperty("file.storage");
-	
+
 	public static final String NAV_FOLDER = "nav";
 
 	public final static String[] IMG_EXTENSION = { "jpg", "jpeg", "gif", "bmp", "png" };
@@ -16,6 +20,7 @@ public class Constants {
 
 	public static final String ST_LOCK = "lock";
 	public static final String JP_LOCKER = "jplocker";
+	public static final String DM_LOCKER = "dmlocker";
 
 	public static final String ID_LOCK = "lockId";
 	public static final String ID_JPLOCKER = "jplockerId";
@@ -63,4 +68,8 @@ public class Constants {
 		return buffer.toString();
 	}
 
+	public static String getLocal() {
+		Locale local = ServletActionContext.getContext().getLocale();
+		return local.getLanguage();
+	}
 }
