@@ -30,7 +30,16 @@
 	<body>
 	
 		<form action="locker.action" method="get">
-			<div id="container"> 						
+			<div id="container"> 	
+				<s:if test="adFile!=null">		
+					 <div class="imgCenter">
+						<s:if test="adFile!=null">
+							<a href="${ctx}/store/locker!details.action?id=${adFile.id}&${queryString}">
+								<img alt="${adFile.title}" src="${ctx}/image.action?path=${adFile.adPath}" class="max-width_100">
+							</a>
+						</s:if><s:else>商店无内容</s:else>
+					</div>
+				 </s:if>					
 				<s:iterator value="newestPage.result">
 					<div class="contents_info" id="content1" onclick="location.href='${ctx}/store/locker!details.action?id=${theme.id}&${queryString}';">			
 						<div class="contents_txt">
