@@ -32,7 +32,7 @@
 		<form action="locker.action" method="get">
 			<div id="container"> 						
 				<s:iterator value="newestPage.result">
-					<div class="contents_info" id="content1" onclick="location.href=''">			
+					<div class="contents_info" id="content1" onclick="location.href='${ctx}/store/locker!details.action?id=${theme.id}&${queryString}';">			
 						<div class="contents_txt">
 							<div style="margin-top: 10px;">
 								<font color="#666666">${title}</font>
@@ -47,7 +47,7 @@
 				
 				<div class="icon_set">
 					<s:iterator value="hottestPage.result">				
-						<a href="">
+						<a href="${ctx}/store/locker!details.action?id=${theme.id}&${queryString}">
 							<img alt="${title}" style="padding: 1px;" data-original="${ctx}/image.action?path=${theme.iconPath}" src="${ctx}/images/default.png" class="icon" width="72" height="72">
 						</a>		
 					</s:iterator>
