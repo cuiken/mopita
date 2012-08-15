@@ -6,6 +6,8 @@
 		<title>客户端统计</title>
 		<%@include file="/common/script.jsp" %>
 		<link href="${ctx}/css/home.css" type="text/css" rel="stylesheet">
+		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
+		<script src="${ctx}/js/table.js"></script>
 	</head>
 	<body>
 		<form id="mainForm" action="report-client.action" method="get">
