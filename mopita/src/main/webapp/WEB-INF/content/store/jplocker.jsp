@@ -24,7 +24,7 @@
 				$("img").lazyload();
 				$("#content1").live("click",function(){ 
 					$(this).css("backgroundColor","#e7e6c8");
-					var uri=$(this).attr("pay");
+					var uri=$(this).attr("data-pay");
 					location.href=uri;
 					$.ajax({
 						type:"POST",
@@ -51,7 +51,7 @@
 		  
 				<h1 class="app-title">おすすめロック画面アプリ</h1>		
 				<s:iterator value="newestPage.result">
-					<div class="contents_info" style="height: 80px;" id="content1" pay="${theme.downloadURL}">			
+					<div class="contents_info" style="height: 80px;" id="content1" data-pay="${theme.downloadURL}">			
 						<div class="contents_txt">
 							<div class="content-title">
 								<font color="#666666">${title}

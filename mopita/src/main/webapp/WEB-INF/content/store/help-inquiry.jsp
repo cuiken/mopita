@@ -45,4 +45,3 @@ margin-top: 0.2em;
 </div>
 </body>
 </html>
-</head>

@@ -58,5 +58,6 @@ margin-top: 0.5em;
 <dt>動作環境・対応端末</dt>
 <dd>AndroidOS 3.2 4.0 搭載端末
 詳しくはサイト内の対応端末をご参照ください。</dd>
+</dl>
 </body>
 </html>
