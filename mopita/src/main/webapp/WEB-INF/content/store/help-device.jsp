@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <!doctype html>
-<html>
+<html lang="ja" manifest="../cache.manifest">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,20 +63,31 @@ margin-top: 0.5em;
 </ul>
 <h2>Softbank</h2>
 <ul>
-<li>Streak Pro(101DL)</li>
+<li>DELL Streak(001DL)</li>
+<li>DELL Streak Pro(101DL)</li>
 <li>Vision(007HW)</li>
 <li>HONEY BEE(101K)</li>
 <li>MEDIAS CH(101N)</li>
 <li>Sweety (003P)</li>
 <li>LUMIX Phone(101P)</li>
 <li>102P(102P)</li>
+<li>GALAPAGOS (003SH)</li>
+<li>GALAPAGOS (005SH)</li>
+<li>AQUOS PHONE(006SH)</li>
 <li>AQUOS PHONE THE PREMIUM(009SH)</li>
 <li>Yahoo! Phone(009SH Y)</li>
 <li>AQUOS PHONE THE HYBRID(101SH)</li>
 <li>AQUOS PHONE(102SH)</li>
+<li>AQUOS PHONE(102SH2)</li>
 <li>AQUOS PHONE(103SH)</li>
 <li>シンプルスマートフォン(008Z)</li>
 <li>STAR 7(009Z)</li>
+</ul>
+<h2>Disney Mobile</h2>
+<ul>
+<li>DM009SH</li>
+<li>DM010SH</li>
+<li>DM012SH</li>
 </ul>
 </body>
 </html>
