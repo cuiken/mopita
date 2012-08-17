@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
@@ -21,6 +22,7 @@ import com.tp.orm.PageRequest.Sort;
 import com.tp.service.CategoryManager;
 import com.tp.service.FileInfoObservable;
 import com.tp.service.FileManager;
+import com.tp.utils.Constants;
 import com.tp.utils.DateFormatUtils;
 import com.tp.utils.FileUtils;
 import com.tp.utils.Struts2Utils;
@@ -43,7 +45,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	private File file;
 
 	@Override
-//	@RequiresPermissions("file:edit")
+	//	@RequiresPermissions("file:edit")
 	public String delete() throws Exception {
 		fileManager.deleteThemeFile(id);
 		addActionMessage("删除成功");
@@ -51,14 +53,14 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	}
 
 	@Override
-//	@RequiresPermissions("file:edit")
+	//	@RequiresPermissions("file:edit")
 	public String input() throws Exception {
 		checkedCategoryId = entity.getCheckedCategoryIds();
 		return INPUT;
 	}
 
 	@Override
-//	@RequiresPermissions("file:view")
+	//	@RequiresPermissions("file:view")
 	public String list() throws Exception {
 
 		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(Struts2Utils.getRequest());
@@ -82,13 +84,11 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	}
 
 	@Override
-//	@RequiresPermissions("file:edit")
+	//	@RequiresPermissions("file:edit")
 	public String save() throws Exception {
 		HibernateUtils.mergeByCheckedIds(entity.getCategories(), checkedCategoryId, Category.class);
-		List<File> files = Lists.newArrayList();
-		if (file != null) {
-			files = FileUtils.unZip(file);
-		}
+		List<File> files = copyNewFile(file, entity.getApkPath());
+
 		entity.setModifyTime(DateFormatUtils.convert(new Date()));
 		fileManager.saveFiles(files, entity);
 		for (FileInfo info : entity.getFileInfo()) {
@@ -97,6 +97,23 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 		}
 		addActionMessage("保存成功");
 		return RELOAD;
+	}
+
+	private List<File> copyNewFile(File newTheme, String oldPath) throws Exception {
+		List<File> files = Lists.newArrayList();
+		if (newTheme != null) {
+			files = FileUtils.unZip(newTheme);
+			String path = oldPath;
+			String[] ps = StringUtils.split(path, File.separator);
+			if (ps.length > 0) {
+				String folderName = ps[0];
+				File themebase = new File(Constants.FILE_STORAGE, folderName);
+
+				org.apache.commons.io.FileUtils.deleteDirectory(themebase);
+
+			}
+		}
+		return files;
 	}
 
 	public String checkTitle() throws Exception {
@@ -163,7 +180,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	public void setFile(File file) {
 		this.file = file;
 	}
-	
+
 	public List<Integer> getSliders() {
 		return sliders;
 	}

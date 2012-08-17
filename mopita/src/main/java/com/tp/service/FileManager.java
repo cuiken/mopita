@@ -135,7 +135,8 @@ public class FileManager {
 			}
 		}
 		saveThemeFile(theme);
-		savePreviews(previews, theme);
+		if (previews.size() > 0)
+			savePreviews(previews, theme);
 	}
 
 	private void savePreviews(List<File> files, ThemeFile theme) {
