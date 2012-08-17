@@ -42,7 +42,7 @@
 							</div>
 						</div>
 						<div class="contents_image">						
-							<img style="margin: 3px;" alt="${title}" data-original="${ctx}/image.action?path=${theme.iconPath}" src="${ctx}/images/default.png" width="72" height="72" class="contents_image_middle">						
+							<img style="margin: 3px;" alt="${title}" onerror="${ctx}/images/default.png" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" class="contents_image_middle">						
 						</div>
 					</div>								
 				</s:iterator>
@@ -50,7 +50,7 @@
 				<div class="icon_set">
 					<s:iterator value="hottestPage.result">				
 						<a href="${ctx}/home!details.action?id=${theme.id}&${queryString}">
-							<img alt="${title}" style="padding: 1px;" data-original="${ctx}/image.action?path=${theme.iconPath}" src="${ctx}/images/default.png" class="icon" width="72" height="72">
+							<img alt="${title}" style="padding: 1px;" onerror="${ctx}/images/default.png"  src="${ctx}/image.action?path=${theme.iconPath}" class="icon" width="72" height="72">
 						</a>		
 					</s:iterator>
 				</div>
@@ -61,10 +61,10 @@
 
 		</form>
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
-		<script src="${ctx}/js/jquery/jquery.lazyload.min.js"></script>
+		
 		<script>
 			$(document).ready(function(){
-				$("img").lazyload();
+				
 				$("#content1").live("click",function(){ 
 					$(this).css("backgroundColor","#e7e6c8");
 				});
