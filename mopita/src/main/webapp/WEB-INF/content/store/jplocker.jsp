@@ -16,26 +16,7 @@
   		<link rel="stylesheet" href="${ctx}/css/jplocker/reset.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/jplocker/mobile.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/jplocker/layout.css" media="screen"/>
-		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
-		<script src="${ctx}/js/jquery/jquery.lazyload.min.js"></script>
-
-		<script>
-			$(document).ready(function(){
-				$("img").lazyload();
-				$("#content1").live("click",function(){ 
-					$(this).css("backgroundColor","#e7e6c8");
-					var uri=$(this).attr("data-pay");
-					location.href=uri;
-					$.ajax({
-						type:"POST",
-						url:"${ctx}/log/log!saveDownload.action",
-						dataType:"text",
-						data:{queryString:uri,cs:'${queryString}'}
-					});				
-				});
-				
-			});
-		</script>
+		
 	</head>
 	<body>
 		<form action="jplocker.action" method="get">
@@ -91,6 +72,25 @@
 				</div>
 			</div>
 		</form>
+		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
+		<script src="${ctx}/js/jquery/jquery.lazyload.min.js"></script>
+		<script>
+			$(document).ready(function(){
+				$("img").lazyload();
+				$("#content1").live("click",function(){ 
+					$(this).css("backgroundColor","#e7e6c8");
+					var uri=$(this).attr("data-pay");
+					location.href=uri;
+					$.ajax({
+						type:"POST",
+						url:"${ctx}/log/log!saveDownload.action",
+						dataType:"text",
+						data:{queryString:uri,cs:'${queryString}'}
+					});				
+				});
+				
+			});
+		</script>
 	</body>
 
 </html>

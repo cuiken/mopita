@@ -12,39 +12,7 @@
 		<title>商店详细</title>
   		<link rel="stylesheet" href="${ctx}/css/details.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/home.css" media="screen"/>
-		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
-		<script src="${ctx}/js/jquery/jquery.lazyload.min.js"></script>
-		<style type="text/css">
-			body{
-				margin: 0;
-				padding: 0;
-			}
-		</style>
-		<script>
-			$(function() {
-				$("img").lazyload();
-				if('${language}'=='zh'){
-					$("#download").attr("src","${ctx}/images/dt.png");
-					$("#gohome").attr("src","${ctx}/images/dhome.png");
-					$("#more").attr("src","${ctx}/images/more.png");
-				}else{
-					$("#download").attr("src","${ctx}/images/en/dt.png");
-					$("#gohome").attr("src","${ctx}/images/en/dhome.png");
-					$("#more").attr("src","${ctx}/images/en/more.png");
-				}
-				$("#downfree").click(function(){
-					$.ajax({
-						type:"POST",
-						url:"${ctx}log/log!saveDownload.action",
-						dataType:"text",
-						data:{queryString:'${info.theme.downloadURL}',cs:'${queryString}'}
-					});
-					location.href='${info.theme.downloadURL}';
-					
-				});
-	        })
-
-		</script>
+		
 	</head>
 	<body>
 	
@@ -105,6 +73,33 @@
 			</div>
 
 		</form>
-	
+		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
+		<script src="${ctx}/js/jquery/jquery.lazyload.min.js"></script>
+
+		<script>
+			$(function() {
+				$("img").lazyload();
+				if('${language}'=='zh'){
+					$("#download").attr("src","${ctx}/images/dt.png");
+					$("#gohome").attr("src","${ctx}/images/dhome.png");
+					$("#more").attr("src","${ctx}/images/more.png");
+				}else{
+					$("#download").attr("src","${ctx}/images/en/dt.png");
+					$("#gohome").attr("src","${ctx}/images/en/dhome.png");
+					$("#more").attr("src","${ctx}/images/en/more.png");
+				}
+				$("#downfree").click(function(){
+					$.ajax({
+						type:"POST",
+						url:"${ctx}log/log!saveDownload.action",
+						dataType:"text",
+						data:{queryString:'${info.theme.downloadURL}',cs:'${queryString}'}
+					});
+					location.href='${info.theme.downloadURL}';
+					
+				});
+	        })
+
+		</script>
 	</body>
 </html>

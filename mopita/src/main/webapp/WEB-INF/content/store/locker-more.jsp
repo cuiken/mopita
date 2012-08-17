@@ -16,6 +16,50 @@
   		<link rel="stylesheet" href="${ctx}/css/top.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/reset.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/home.css" media="screen"/>
+		
+	</head>
+	<body>
+	
+		<form action="locker!more.action" method="get">
+			
+			<div id="container" class="transitions-enabled infinite-scroll clearfix"> 
+				<s:iterator value="catePage.result">
+					<div class="contents_info" id="content1" onclick="location.href='${ctx}/store/locker!details.action?id=${theme.id}&${queryString}';">
+						<div class="contents_image">						
+							<img alt="${title}" onerror="this.src='${ctx}/images/default.png'" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" style="margin: 3px;">							
+						</div>
+						<div class="contents_txt">
+							<div style="margin-top: 10px;">
+								<font color="#666666">${title}</font>
+								<p><font color="#aeaea6">${shortDescription}</font></p>
+							</div>
+						</div>
+					</div>
+				</s:iterator>
+			</div>
+			<nav id="page-nav">
+  				<a href="?catePage.pageNo=${catePage.nextPage}&cid=${categoryId}"></a>
+			</nav>
+			<div id="natigater" class="navigater_w">
+		
+			</div>
+			<div class="guide" style="display: block; bottom: 0px;">
+				<div>
+					<div class="navigater">
+						<s:iterator value="cateInfos">
+							<div class="col_4 navitem">
+				     			<a id="${category.id}" href="${ctx}/store/locker!more.action?cid=${category.id}&${queryString}" >${name}</a>
+					  		</div>
+						</s:iterator>
+						<div class="col_4 navitem" style="float: right;">
+							<a href="${ctx}/store/locker.action?${queryString}">
+								<img id="gohome" alt="gohome" src="${ctx}/images/home.png" height="28">
+							</a>
+						</div>	
+					</div>
+				</div>
+			</div>
+		</form>
 		<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
 		<script src="${ctx}/js/jquery/jquery.masonry.min.js"></script>
 		<script src="${ctx}/js/jquery/jquery.infinitescroll.min.js"></script>
@@ -68,49 +112,5 @@
 		  
 		  });
 	</script>
-	</head>
-	<body>
-	
-		<form action="locker!more.action" method="get">
-			
-			<div id="container" class="transitions-enabled infinite-scroll clearfix"> 
-				<s:iterator value="catePage.result">
-					<div class="contents_info" id="content1" onclick="location.href='${ctx}/store/locker!details.action?id=${theme.id}&${queryString}';">
-						<div class="contents_image">						
-							<img alt="${title}" onerror="this.src='${ctx}/images/default.png'" src="${ctx}/image.action?path=${theme.iconPath}" width="72" height="72" style="margin: 3px;">							
-						</div>
-						<div class="contents_txt">
-							<div style="margin-top: 10px;">
-								<font color="#666666">${title}</font>
-								<p><font color="#aeaea6">${shortDescription}</font></p>
-							</div>
-						</div>
-					</div>
-				</s:iterator>
-			</div>
-			<nav id="page-nav">
-  				<a href="?catePage.pageNo=${catePage.nextPage}&cid=${categoryId}"></a>
-			</nav>
-			<div id="natigater" class="navigater_w">
-		
-			</div>
-			<div class="guide" style="display: block; bottom: 0px;">
-				<div>
-					<div class="navigater">
-						<s:iterator value="cateInfos">
-							<div class="col_4 navitem">
-				     			<a id="${category.id}" href="${ctx}/store/locker!more.action?cid=${category.id}&${queryString}" >${name}</a>
-					  		</div>
-						</s:iterator>
-						<div class="col_4 navitem" style="float: right;">
-							<a href="${ctx}/store/locker.action?${queryString}">
-								<img id="gohome" alt="gohome" src="${ctx}/images/home.png" height="28">
-							</a>
-						</div>	
-					</div>
-				</div>
-			</div>
-		</form>
-	
 	</body>
 </html>
