@@ -12,11 +12,8 @@
  
 		<title>商店更多</title>
 		<link rel="stylesheet" href="${ctx}/css/style.css" media="screen"/>
-  		<link rel="stylesheet" href="${ctx}/css/mobile.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/top.css" media="screen"/>
-  		<link rel="stylesheet" href="${ctx}/css/reset.css" media="screen"/>
-  		<link rel="stylesheet" href="${ctx}/css/home.css" media="screen"/>
-		
+  		<link rel="stylesheet" href="${ctx}/css/reset.css" media="screen"/>	
 	</head>
 	<body>
 	

@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Fun Locker - 特定商取引に関する法律に基づく表示</title>
+<title>FunLocker - 特定商取引に関する法律に基づく表示</title>
 <style>
 h1{font-size:16px;color:#5d5d5d;}
 dt::before{

@@ -10,11 +10,10 @@
 	  	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   		<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
-		<title>home</title>
+		<title>FunLocker</title>
 		<link rel="stylesheet" href="${ctx}/css/jplocker/style.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/jplocker/top.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/jplocker/reset.css" media="screen"/>
-  		<link rel="stylesheet" href="${ctx}/css/jplocker/mobile.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/jplocker/layout.css" media="screen"/>
 		
 	</head>
