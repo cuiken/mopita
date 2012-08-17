@@ -9,12 +9,15 @@
 	  	<meta name="apple-mobile-web-app-status-bar-style" content="black">  
 	  	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   		<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-		<title>商店首页</title>
+		<title>移动商店首页</title>
 		<link rel="stylesheet" href="${ctx}/css/style.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/top.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/reset.css" media="screen"/>
-  		<link rel="stylesheet" href="${ctx}/css/mobile.css" media="screen"/>
-  		<link rel="stylesheet" href="${ctx}/css/home.css" media="screen"/>
+  		<style>
+	  		a{
+				text-decoration: none;
+			}
+  		</style>
 	</head>
 	<body>
 	
