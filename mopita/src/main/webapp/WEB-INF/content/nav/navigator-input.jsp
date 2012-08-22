@@ -60,7 +60,7 @@
 						</div>
 					</div>
 					<div class="control-group">
-						<label class="control-label">所属板块:</label>
+						<label class="control-label">一级大分类:</label>
 						<div class="controls">
 							<c:forEach var="board" items="${allBoards}">
 								<label class="radio">
@@ -70,7 +70,7 @@
 						</div>
 					</div>
 					<div class="control-group">
-						<label class="control-label">分类标签:</label>
+						<label class="control-label">二级分类标签:</label>
 						<div class="controls">
 							<c:forEach items="${allTags}" var="tag">
 								<label class="checkbox">

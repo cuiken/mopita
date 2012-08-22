@@ -14,7 +14,7 @@
 		<form action="navigator.action" id="mainForm" method="get">
 			<div class="container">
 				<table class="table table-striped table-bordered table-condensed">
-					<thead><tr><th>链接名称</th><th>链接地址</th><th>分类标签</th><th>所属面版</th><th>操作</th><tr></thead>
+					<thead><tr><th>链接名称</th><th>链接地址</th><th>二级分类标签</th><th>一级分类</th><th>操作</th><tr></thead>
 					<tbody>
 						<c:forEach items="${navigators}" var="nav">
 							<tr>
