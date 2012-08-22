@@ -58,10 +58,10 @@
 				</li>
 				<li style="width: 25%">
 					<a href="#" class="thumbnail">
-						<img alt="" src="${ctx}/images/nav/chuxing/chuxing_1x.gif">
+						<img alt="" src="${ctx}/images/nav/junshi/junshi_1x.gif">
 					</a>
 					<a href="#" class="thumbnail">
-						<img alt="" src="${ctx}/images/nav/gouwu/gouwu_1x.gif">
+						<img alt="" src="${ctx}/images/nav/tiyu/tiyu_1x.gif">
 					</a>
 				</li>
 				
@@ -71,12 +71,12 @@
 			<ul class="thumbnails">
 				<li style="width: 50%;">
 					<a href="#" class="thumbnail">
-						<img alt="" src="${ctx}/images/nav/jiaoyou/jiaoyou_4x.gif">
+						<img alt="" src="${ctx}/images/nav/gouwu/gouwu_4x.gif">
 					</a>
 				</li>
 				<li style="width: 50%;">
 					<a href="#" class="thumbnail">
-						<img alt="" src="${ctx}/images/nav/junshi/junshi_4x.gif">
+						<img alt="" src="${ctx}/images/nav/yuedu/yuedu_4x.gif">
 					</a>
 				</li>
 			</ul>
@@ -90,12 +90,12 @@
 				</li>
 				<li style="width: 25%">
 					<a href="#" class="thumbnail">
-						<img alt="" src="${ctx}/images/nav/yuedu/yuedu_1x.gif">
+						<img alt="" src="${ctx}/images/nav/chuxing/chuxing_1x.gif">
 					</a>
 				</li>
 				<li style="width: 25%">
 					<a href="#" class="thumbnail">
-						<img alt="" src="${ctx}/images/nav/keji/keji_1x.gif">
+						<img alt="" src="${ctx}/images/nav/youxiang/youjian_1x.gif">
 					</a>
 				</li>
 				<li style=" width: 25%">
@@ -110,7 +110,7 @@
 				</li>
 				<li style="width: 25%">
 					<a href="#" class="thumbnail">
-						<img alt="" src="${ctx}/images/nav/tianqi/tianqi_1x.gif">
+						<img alt="" src="${ctx}/images/nav/jiaoyou/jiaoyou_1x.gif">
 					</a>
 				</li>
 			</ul>
