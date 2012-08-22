@@ -12,7 +12,6 @@
 				margin-left: 0;
 				list-style: none;
 			}
-			
 			.thumbnails > li {
 			    float: left;
 			    margin-bottom: 0;
@@ -22,7 +21,10 @@
 			li {
     			line-height: 18px;
 			}
-			
+			ul, ol {
+			    margin: 0 0 0 25px;
+			    padding: 0;
+			}
 			.thumbnail {
 			    border: 1px solid #DDDDDD;
 			    border-radius: 4px 4px 4px 4px;
@@ -49,39 +51,66 @@
 	<section id="thumbnails">
 		<div>
 			<ul class="thumbnails">
-				<li>
+				<li style="width: 75%;">
 					<a href="#" class="thumbnail">
-						<img alt="" src="${ctx}/images/nav/xinwen/xinwen_6x.gif" height="150" width="225">
+						<img alt="" src="${ctx}/images/nav/xinwen/xinwen_6x.gif" >
 					</a>
 				</li>
-				<li>
+				<li style="width: 25%">
 					<a href="#" class="thumbnail">
-						<img alt="" src="${ctx}/images/nav/chuxing/chuxing_1x.gif" height="75" width="75">
+						<img alt="" src="${ctx}/images/nav/chuxing/chuxing_1x.gif">
+					</a>
+					<a href="#" class="thumbnail">
+						<img alt="" src="${ctx}/images/nav/gouwu/gouwu_1x.gif">
 					</a>
 				</li>
-				<li>
+				
+			</ul>	
+		</div>
+		<div>		
+			<ul class="thumbnails">
+				<li style="width: 50%;">
 					<a href="#" class="thumbnail">
-						<img alt="" src="${ctx}/images/nav/gouwu/gouwu_1x.gif" height="75" width="75">
+						<img alt="" src="${ctx}/images/nav/jiaoyou/jiaoyou_4x.gif">
 					</a>
 				</li>
-				<li>
+				<li style="width: 50%;">
 					<a href="#" class="thumbnail">
-						<img alt="" src="${ctx}/images/nav/jiaoyou/jiaoyou_4x.gif" height="150" width="150">
+						<img alt="" src="${ctx}/images/nav/junshi/junshi_4x.gif">
 					</a>
 				</li>
-				<li>
+			</ul>
+		</div>
+		<div>
+			<ul class="thumbnails">		
+				<li style="width: 25%">
 					<a href="#" class="thumbnail">
-						<img alt="" src="${ctx}/images/nav/junshi/junshi_4x.gif" height="150" width="150">
+						<img alt="" src="${ctx}/images/nav/meishi/meishi_1x.gif">
 					</a>
 				</li>
-				<li>
+				<li style="width: 25%">
 					<a href="#" class="thumbnail">
-						<img alt="" src="${ctx}/images/nav/meishi/meishi_4x.gif" height="150" width="150">
+						<img alt="" src="${ctx}/images/nav/yuedu/yuedu_1x.gif">
 					</a>
 				</li>
-				<li>
+				<li style="width: 25%">
 					<a href="#" class="thumbnail">
-						<img alt="" src="${ctx}/images/nav/yuedu/yuedu_4x.gif" height="150" width="150">
+						<img alt="" src="${ctx}/images/nav/keji/keji_1x.gif">
+					</a>
+				</li>
+				<li style=" width: 25%">
+					<a href="#" class="thumbnail">
+						<img alt="" src="${ctx}/images/nav/ditu/ditu_1x.gif">
+					</a>
+				</li>
+				<li style="width: 25%">
+					<a href="#" class="thumbnail">
+						<img alt="" src="${ctx}/images/nav/qiche/qiche_1x.gif">
+					</a>
+				</li>
+				<li style="width: 25%">
+					<a href="#" class="thumbnail">
+						<img alt="" src="${ctx}/images/nav/tianqi/tianqi_1x.gif">
 					</a>
 				</li>
 			</ul>
