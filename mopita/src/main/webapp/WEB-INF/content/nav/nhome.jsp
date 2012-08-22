@@ -113,6 +113,11 @@
 						<img alt="" src="${ctx}/images/nav/jiaoyou/jiaoyou_1x.gif">
 					</a>
 				</li>
+				<li style="width: 50%">
+					<a href="#" class="thumbnail">
+						<img alt="" src="${ctx}/images/nav/tianqi/tianqi_2x.gif">
+					</a>
+				</li>
 			</ul>
 		</div>
 	</section>
