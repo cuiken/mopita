@@ -98,21 +98,6 @@ public class JplockerAction extends ActionSupport {
 		}
 	}
 
-	/**
-	 * 输出5个广告xml
-	 * @return
-	 * @throws Exception
-	 */
-	public String adXml() throws Exception {
-		Long storeId = categoryManager.getStoreByValue(Constants.JP_LOCKER).getId();
-		Page<ThemeFile> adPage = new Page<ThemeFile>();
-		adPage = fileManager.searchFileByShelf(adPage, Shelf.Type.RECOMMEND, storeId);
-		String domain = Constants.getDomain();
-		String xml = fileManager.jplockerAdXml(adPage.getResult(), domain);
-		Struts2Utils.renderXml(xml);
-		return null;
-	}
-
 	private Market getMarket(HttpSession session) {
 		String fromMarket = (String) session.getAttribute(Constants.PARA_FROM_MARKET);
 		if (fromMarket == null || fromMarket.isEmpty()) {

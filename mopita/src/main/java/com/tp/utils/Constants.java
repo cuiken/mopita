@@ -32,6 +32,7 @@ public class Constants {
 	public static final String PARA_IMSI = "imsi";
 	public static final String PARA_STORE_TYPE = "st";
 	public static final String PARA_CLIENT_VERSION = "v";
+	public static final String PARA_CONTENT_VERSION = "cv";
 	public static final String PARA_RESOLUTION = "r";
 
 	public static final String QUERY_STRING = "queryString";
@@ -40,12 +41,11 @@ public class Constants {
 
 	public static final String LOCKER_STANDARD = "st";
 	public static final String LOCKER_JP = "jp";
+	public static final String LOCKER_DM = "dm";
 
-	public static final String PREFIX_MARKET_URI = "market://details?id=";
 	public static final String LENVOL_STORE = "com.lenovo.leos.appstore";
 	public static final String OPPO_NEARME = "com.oppo.market";
 	public static final String MARKET_GOOGLE = "com.android.vending";
-	public static final String MARKET_GOOGLE_URL = "browerhttps://play.google.com/store/apps/details?id=";
 
 	public enum Language {
 		ZH("zh"), EN("en"), JP("jp"), JA("ja");

@@ -49,7 +49,7 @@
 				</div>
 				<div>
 					<label for="dtype" class="field">客户端类型:</label>
-					<s:radio id="dtype" name="dtype" list="#{'st':'标准版','jp':'日本版'}" theme="simple"></s:radio>
+					<s:radio id="dtype" name="dtype" list="#{'st':'标准版','jp':'日本版','dm':'移动版'}" theme="simple"></s:radio>
 				</div>
 				<!-- 
 				<div>

@@ -25,6 +25,7 @@
 			<value>
 				/login.action = authc
 				/home*.action= anon
+				/nav*.action = anon
 				/image* = anon
 				/log/** = anon
 				/service/**=anon
