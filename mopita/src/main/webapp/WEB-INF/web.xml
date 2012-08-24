@@ -81,6 +81,11 @@
 		<filter-name>indexCacheFilter</filter-name>
 		<url-pattern>/store/jplocker.action</url-pattern>
 	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>indexCacheFilter</filter-name>
+		<url-pattern>/store/locker.action</url-pattern>
+	</filter-mapping>
 
 	<!-- Hibernate Open Session in View filter-->
 	<filter>
