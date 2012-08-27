@@ -33,6 +33,7 @@ public class Constants {
 	public static final String PARA_STORE_TYPE = "st";
 	public static final String PARA_CLIENT_VERSION = "v";
 	public static final String PARA_CONTENT_VERSION = "cv";
+	public static final String PARA_CLIENT_TYPE = "ct";
 	public static final String PARA_RESOLUTION = "r";
 
 	public static final String QUERY_STRING = "queryString";

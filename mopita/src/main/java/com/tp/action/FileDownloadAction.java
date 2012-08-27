@@ -75,10 +75,13 @@ public class FileDownloadAction extends ActionSupport {
 
 		String version = Struts2Utils.getParameter(Constants.PARA_CLIENT_VERSION);
 		String contentVersion = Struts2Utils.getParameter(Constants.PARA_CONTENT_VERSION);
-
+		String ct = Struts2Utils.getParameter(Constants.PARA_CLIENT_TYPE);
 		String app = Struts2Utils.getParameter("app"); //兼容老版本内容下载参数v 重复混乱的情况
 		if (app != null && !app.isEmpty()) {
 			app = new String(app.getBytes("iso-8859-1"), Constants.ENCODE_UTF_8);
+		}
+		if (ct != null && ct.equals(Constants.DM_LOCKER)) {
+			return getLockerClient(version, app, Constants.LOCKER_DM);
 		}
 		String market = Struts2Utils.getParameter(Constants.PARA_FROM_MARKET);
 		if (contentVersion != null && contentVersion.contains(Constants.LOCKER_DM)) {

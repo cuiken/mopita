@@ -114,11 +114,11 @@ public class LockerAction extends ActionSupport {
 	 * @throws Exception
 	 */
 	public String adXml() throws Exception {
-		Long storeId = categoryManager.getStoreByValue(Constants.ST_LOCK).getId();
+		Long storeId = categoryManager.getStoreByValue(Constants.DM_LOCKER).getId();
 		Page<ThemeFile> adPage = new Page<ThemeFile>();
 		adPage = fileManager.searchFileByShelf(adPage, Shelf.Type.RECOMMEND, storeId);
 		String domain = Constants.getDomain();
-		String detailsURL = "/home!details.action?id=";
+		String detailsURL = "/store/locker!details.action?id=";
 		String xml = fileManager.adXml(adPage.getResult(), domain, detailsURL);
 		Struts2Utils.renderXml(xml);
 		return null;
