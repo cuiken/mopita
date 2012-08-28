@@ -101,7 +101,7 @@
 				$("#downfree").click(function(){
 					$.ajax({
 						type:"POST",
-						url:"${ctx}log/log!saveDownload.action",
+						url:"${ctx}/log/log!saveDownload.action",
 						dataType:"text",
 						data:{queryString:'${info.theme.downloadURL}',cs:'${queryString}'}
 					});

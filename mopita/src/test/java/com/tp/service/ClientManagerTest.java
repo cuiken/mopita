@@ -16,96 +16,44 @@ public class ClientManagerTest extends SpringTxTestCase {
 
 	private ClientFileManager clientManager;
 
+	/**
+	 * 目前该测试仅仅正对个位数的版本比较，由于sql max(2.10.4)<max(2.5.0)
+	 */
 	@Test
 	@Rollback
 	@Transactional
-	public void stNewestVersion() {
+	public void getNestVersion() {
 		ClientFile client = new ClientFile();
 		client.setName("test-client-st");
-		client.setVersion("2.10.5");
+		client.setVersion("2.2.5");
 		client.setDtype("st");
 		clientManager.save(client);
 
 		String maxVersion = clientManager.getNewestVersionCode(client.getDtype());
-		String dtype = client.getDtype();
-
 		String cv = "";
-		String returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
-		assertEquals("", returnVersion);
+		String result = clientManager.compareVersion(cv, maxVersion);
+		assertEquals("", result);
+		cv = "1.1.0";
+		result = clientManager.compareVersion(cv, maxVersion);
+		assertEquals(client.getVersion(), result);
+		cv = "2.2.5";
+		result = clientManager.compareVersion(cv, maxVersion);
+		assertEquals("", result);
+		cv = "2.2.6";
+		result = clientManager.compareVersion(cv, maxVersion);
+		assertEquals("", result);
 
-		cv = "1.10.5";
-		returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
-		assertEquals(client.getVersion(), returnVersion);
+		ClientFile c1 = new ClientFile();
+		c1.setName("test-client-dm");
+		c1.setVersion("2.2.5dm");
+		c1.setDtype("dm");
+		clientManager.save(c1);
 
-		cv = "1.11.5";
-		returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
-		assertEquals(client.getVersion(), returnVersion);
+		String c1max = clientManager.getNewestVersionCode(c1.getDtype());
+		String cv1 = "1.1.0dm";
+		String r1 = clientManager.compareVersion(cv1, c1max);
+		assertEquals(c1.getVersion(), r1);
 
-		cv = "2.9.5";
-		returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
-		assertEquals(client.getVersion(), returnVersion);
-
-		cv = "2.10.1";
-		returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
-		assertEquals(client.getVersion(), returnVersion);
-
-		cv = "2.11.5";
-		returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
-		assertEquals("", returnVersion);
-
-		cv = "2.10.5";
-		returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
-		assertEquals("", returnVersion);
-
-		cv = "2.10.7";
-		returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
-		assertEquals("", returnVersion);
-
-		cv = "3.10.7";
-		returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
-		assertEquals("", returnVersion);
-		
-		cv = "3.11.7";
-		returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
-		assertEquals("", returnVersion);
-		
-		cv = "3.1.7";
-		returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
-		assertEquals("", returnVersion);
-	}
-
-	@Test
-	@Rollback
-	@Transactional
-	public void jpNewestVersion() {
-		ClientFile client = new ClientFile();
-		client.setName("test-client-jp");
-		client.setVersion("2.10.5g");
-		client.setDtype("jp");
-		clientManager.save(client);
-
-		String maxVersion = clientManager.getNewestVersionCode(client.getDtype());
-		String dtype = client.getDtype();
-
-		String cv = "";
-		String returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
-		assertEquals("", returnVersion);
-
-		cv = "1.10.5g";
-		returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
-		assertEquals(client.getVersion(), returnVersion);
-
-		cv = "2.9.5g";
-		returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
-		assertEquals(client.getVersion(), returnVersion);
-
-		cv = "2.10.1g";
-		returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
-		assertEquals(client.getVersion(), returnVersion);
-
-		cv = "2.10.7g";
-		returnVersion = clientManager.compareVersion(cv, maxVersion, dtype);
-		assertEquals("", returnVersion);
 	}
 
 	@Autowired

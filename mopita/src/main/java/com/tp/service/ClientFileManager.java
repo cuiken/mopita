@@ -1,8 +1,11 @@
 package com.tp.service;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,34 +55,41 @@ public class ClientFileManager {
 
 		String maxVersion = getNewestVersionCode(dtype);
 
-		return compareVersion(versionFromClient, maxVersion, dtype);
+		return compareVersion(versionFromClient, maxVersion);
 	}
 
-	public String compareVersion(String vsclient, String maxVersion, String dtype) {
-		if (maxVersion != null && !maxVersion.isEmpty()) {
-			String[] maxvs = StringUtils.split(maxVersion, Constants.DOT_SEPARATOR);
-			String[] vs = StringUtils.split(vsclient, Constants.DOT_SEPARATOR);
-			if (maxvs.length > 2 && vs.length > 2) {
-				if (Integer.parseInt(maxvs[0]) < Integer.parseInt(vs[0])) {
-					return "";
-				}
-				if (Integer.parseInt(maxvs[0]) > Integer.parseInt(vs[0])
-						|| Integer.parseInt(maxvs[1]) > Integer.parseInt(vs[1])) {
-					return maxVersion;
-				}
+	public String compareVersion(String clientVersion, String versionInServer) {
 
-				if (!dtype.equals(Constants.LOCKER_STANDARD)) {
-					String maxlast = StringUtils.substring(maxvs[2], 0, maxvs[2].length() - 1);
-					String vslast = StringUtils.substring(vs[2], 0, vs[2].length() - 1);
-					if (Integer.parseInt(maxlast) > Integer.parseInt(vslast)) {
-						return maxVersion;
-					}
-				} else {
-					if (Integer.parseInt(maxvs[2]) > Integer.parseInt(vs[2])) {
-						return maxVersion;
-					}
-				}
+		Validate.notNull(versionInServer, "版本号不能为空");
+
+		String maxVersion = matchVersionNumber(versionInServer);
+		String vsclient = matchVersionNumber(clientVersion);
+		String[] maxvs = StringUtils.split(maxVersion, Constants.DOT_SEPARATOR);
+		String[] vs = StringUtils.split(vsclient, Constants.DOT_SEPARATOR);
+		if (maxvs.length > 2 && vs.length > 2) {
+			if (Integer.parseInt(maxvs[0]) > Integer.parseInt(vs[0])) {
+				return versionInServer;
 			}
+			if (Integer.parseInt(maxvs[0]) == Integer.parseInt(vs[0])
+					&& Integer.parseInt(maxvs[1]) > Integer.parseInt(vs[1])) {
+				return versionInServer;
+			}
+
+			if (Integer.parseInt(maxvs[0]) == Integer.parseInt(vs[0])
+					&& Integer.parseInt(maxvs[1]) == Integer.parseInt(vs[1])
+					&& Integer.parseInt(maxvs[2]) > Integer.parseInt(vs[2])) {
+				return versionInServer;
+			}
+
+		}
+		return "";
+	}
+
+	private String matchVersionNumber(String version) {
+		Pattern p = Pattern.compile("[\\d|.]+");
+		Matcher m = p.matcher(version);
+		while (m.find()) {
+			return m.group();
 		}
 		return "";
 	}
