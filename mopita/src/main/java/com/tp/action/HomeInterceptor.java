@@ -26,6 +26,7 @@ import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 import com.tp.entity.DownloadType;
@@ -97,21 +98,15 @@ public class HomeInterceptor extends AbstractInterceptor {
 				buffer.append(k).append(":").append(v).append(",");
 			}
 		}
-		log.setRequestParams(removeLastComma(buffer.toString()));
+		log.setRequestParams(removeLastChara(buffer.toString()));
 		log.setCreateTime(DateFormatUtils.convert(new Date()));
 		logService.saveLogInHome(log);
 	}
 
-	private String removeLastComma(String str) {
-		int index = StringUtils.lastIndexOf(str, ",");
-		return StringUtils.substring(str, 0, index);
-	}
+	private String removeLastChara(String str) {
 
-//	private String getQueryString() {
-//		HttpServletRequest request = Struts2Utils.getRequest();
-//		return request.getQueryString();
-//
-//	}
+		return StringUtils.substring(str, 0, str.length() - 1);
+	}
 
 	private void setParamInSession(String method) {
 		HttpSession session = Struts2Utils.getSession();
@@ -123,38 +118,26 @@ public class HomeInterceptor extends AbstractInterceptor {
 		String client_version = Struts2Utils.getParameter(PARA_CLIENT_VERSION);
 		String resolution = Struts2Utils.getParameter(PARA_RESOLUTION);
 		String store_type = Struts2Utils.getParameter(PARA_STORE_TYPE);
-
-		StringBuilder buffer = new StringBuilder();
-		buffer.append(PARA_LANGUAGE + "=" + language)
-		.append("&")
-		.append(PARA_FROM_MARKET + "=" + fromMarket)
-		.append("&")
-		.append(PARA_DOWNLOAD_METHOD + "="+ downMethod)
-		.append("&")
-		.append(PARA_IMEI +"=" +imei )
-		.append("&")
-		.append(PARA_IMSI + "="+ imsi)
-		.append("&")
-		.append(PARA_CLIENT_VERSION +"="+client_version)
-		.append("&")
-		.append(PARA_RESOLUTION +"="+resolution)
-		.append("&")
-		.append(PARA_STORE_TYPE+"="+store_type);
-
+		Map<String, Object> requestParams = Maps.newHashMap();
 		if (imei != null) {
 			session.setAttribute(PARA_IMEI, imei);
+			requestParams.put(PARA_IMEI, imei);
 		}
 		if (imsi != null) {
 			session.setAttribute(PARA_IMSI, imsi);
+			requestParams.put(PARA_IMSI, imsi);
 		}
 		if (client_version != null) {
 			session.setAttribute(PARA_CLIENT_VERSION, client_version);
+			requestParams.put(PARA_CLIENT_VERSION, client_version);
 		}
 		if (resolution != null) {
 			session.setAttribute(PARA_RESOLUTION, resolution);
+			requestParams.put(PARA_RESOLUTION, resolution);
 		}
 		if (store_type != null) {
 			session.setAttribute(PARA_STORE_TYPE, store_type);
+			requestParams.put(PARA_STORE_TYPE, store_type);
 		}
 
 		if (language != null) {
@@ -166,22 +149,31 @@ public class HomeInterceptor extends AbstractInterceptor {
 			}
 
 		} else {
-
-			session.setAttribute(PARA_LANGUAGE, Constants.getLocal());
+			language = Constants.getLocal();
+			session.setAttribute(PARA_LANGUAGE, language);
 		}
+		requestParams.put(PARA_LANGUAGE, language);
+
 		Locale local = new Locale((String) session.getAttribute(PARA_LANGUAGE));
 		ServletActionContext.getContext().setLocale(local);
 		if (fromMarket != null) {
 			session.setAttribute(PARA_FROM_MARKET, fromMarket);
+			requestParams.put(PARA_FROM_MARKET, fromMarket);
 		}
 		if (downMethod != null) {
 			session.setAttribute(PARA_DOWNLOAD_METHOD, downMethod);
 		} else if (downMethod == null && session.getAttribute(PARA_DOWNLOAD_METHOD) == null) {
 			session.setAttribute(PARA_DOWNLOAD_METHOD, DownloadType.HTTP.getValue());
 		}
+		requestParams.put(PARA_DOWNLOAD_METHOD, (String) session.getAttribute(PARA_DOWNLOAD_METHOD));
+
+		StringBuilder buffer = new StringBuilder();
+		for (Map.Entry<String, Object> entry : requestParams.entrySet()) {
+			buffer.append(entry.getKey() + "=" + entry.getValue()).append("&");
+		}
 
 		if (method.equals("execute")) {
-			session.setAttribute(QUERY_STRING, buffer.toString());
+			session.setAttribute(QUERY_STRING, removeLastChara(buffer.toString()));
 		}
 	}
 
