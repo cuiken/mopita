@@ -26,9 +26,9 @@
 			    padding: 0;
 			}
 			.thumbnail {
-			    border: 1px solid #DDDDDD;
+			    border: 0 solid #FFFFFF;
 			    border-radius: 4px 4px 4px 4px;
-			    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
+			    box-shadow: 0 0 0 rgba(0, 0, 0, 0.075);
 			    display: block;
 			    line-height: 1;
 			    padding:0;
