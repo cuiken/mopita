@@ -45,6 +45,11 @@
 			    max-width: 100%;
 			    vertical-align: middle;
 			}
+			.footer {
+				margin-top: 45px;
+				padding: 35px 0 36px;
+				border-top: 1px solid #E5E5E5;
+			}
 		</style>
 	</head>
 	<body>
@@ -67,7 +72,8 @@
 				
 			</ul>	
 		</div>
-		<div>		
+		<footer class="footer"></footer>
+		<div id="c_temp1">		
 			<ul class="thumbnails">
 				<li style="width: 50%;">
 					<a href="#" class="thumbnail">
@@ -81,6 +87,136 @@
 				</li>
 			</ul>
 		</div>
+		<footer class="footer"></footer>
+		<div id="c_temp2">		
+			<ul class="thumbnails">
+				<li style="width: 50%;">
+					<a href="#" class="thumbnail">
+						<img alt="" src="${ctx}/images/nav/gouwu/gouwu_2x.gif">
+					</a>
+					<a href="#" class="thumbnail" style="width: 50%;float: inherit;">
+						<img alt="" src="${ctx}/images/nav/gouwu/gouwu_1x.gif">
+					</a>
+					<a href="#" class="thumbnail" style="width: 50%;float:inherit;">
+						<img alt="" src="${ctx}/images/nav/gouwu/gouwu_1x.gif">
+					</a>
+				</li>
+				<li style="width: 50%;">
+					<a href="#" class="thumbnail">
+						<img alt="" src="${ctx}/images/nav/yuedu/yuedu_4x.gif">
+					</a>
+				</li>
+			</ul>
+		</div>
+		<footer class="footer"></footer>
+		<div id="c_temp3">		
+			<ul class="thumbnails">
+				<li style="width: 50%;">
+					<a href="#" class="thumbnail">
+						<img alt="" src="${ctx}/images/nav/gouwu/gouwu_2x.gif">
+					</a>
+					<a href="#" class="thumbnail" style="width: 50%;float: inherit;">
+						<img alt="" src="${ctx}/images/nav/gouwu/gouwu_1x.gif">
+					</a>
+					<a href="#" class="thumbnail" style="width: 50%;float:inherit;">
+						<img alt="" src="${ctx}/images/nav/gouwu/gouwu_1x.gif">
+					</a>
+				</li>
+				<li style="width: 50%;">
+					<a href="#" class="thumbnail">
+						<img alt="" src="${ctx}/images/nav/yuedu/yuedu_2x.gif">
+					</a>
+					<a href="#" class="thumbnail">
+						<img alt="" src="${ctx}/images/nav/yuedu/yuedu_2x.gif">
+					</a>
+				</li>
+			</ul>
+		</div>
+		<footer class="footer"></footer>
+		<div id="c_temp4">		
+			<ul class="thumbnails">
+				<li style="width: 50%;">
+					<a href="#" class="thumbnail">
+						<img alt="" src="${ctx}/images/nav/gouwu/gouwu_2x.gif">
+					</a>
+					<a href="#" class="thumbnail" style="width: 50%;float: inherit;">
+						<img alt="" src="${ctx}/images/nav/gouwu/gouwu_1x.gif">
+					</a>
+					<a href="#" class="thumbnail" style="width: 50%;float:inherit;">
+						<img alt="" src="${ctx}/images/nav/gouwu/gouwu_1x.gif">
+					</a>
+				</li>
+				<li style="width: 50%;">
+					<a href="#" class="thumbnail">
+						<img alt="" src="${ctx}/images/nav/yuedu/yuedu_2x.gif">
+					</a>
+					<a href="#" class="thumbnail" style="width: 50%;float: inherit;">
+						<img alt="" src="${ctx}/images/nav/yuedu/yuedu_1x.gif">
+					</a>
+					<a href="#" class="thumbnail" style="width: 50%;float: inherit;">
+						<img alt="" src="${ctx}/images/nav/yuedu/yuedu_1x.gif">
+					</a>
+				</li>
+			</ul>
+		</div>
+		<footer class="footer"></footer>
+		<div id="c_temp5">		
+			<ul class="thumbnails">
+				<li style="width: 50%;">
+					<a href="#" class="thumbnail">
+						<img alt="" src="${ctx}/images/nav/gouwu/gouwu_2x.gif">
+					</a>
+					<a href="#" class="thumbnail" style="width: 50%;float: inherit;">
+						<img alt="" src="${ctx}/images/nav/gouwu/gouwu_1x.gif">
+					</a>
+					<a href="#" class="thumbnail" style="width: 50%;float:inherit;">
+						<img alt="" src="${ctx}/images/nav/gouwu/gouwu_1x.gif">
+					</a>
+				</li>
+				<li style="width: 50%;">
+					<a href="#" class="thumbnail" style="width: 50%;float: inherit;">
+						<img alt="" src="${ctx}/images/nav/yuedu/yuedu_1x.gif">
+					</a>
+					<a href="#" class="thumbnail" style="width: 50%;float: inherit;">
+						<img alt="" src="${ctx}/images/nav/yuedu/yuedu_1x.gif">
+					</a>
+					<a href="#" class="thumbnail" style="width: 50%;float: inherit;">
+						<img alt="" src="${ctx}/images/nav/yuedu/yuedu_1x.gif">
+					</a>
+					<a href="#" class="thumbnail" style="width: 50%;float: inherit;">
+						<img alt="" src="${ctx}/images/nav/yuedu/yuedu_1x.gif">
+					</a>
+				</li>
+			</ul>
+		</div>
+		<footer class="footer"></footer>
+		<div id="c_temp6">		
+			<ul class="thumbnails">
+				<li style="width: 50%;">
+					<a href="#" class="thumbnail">
+						<img alt="" src="${ctx}/images/nav/gouwu/gouwu_2x.gif">
+					</a>
+					<a href="#" class="thumbnail" style="width: 50%;float: inherit;">
+						<img alt="" src="${ctx}/images/nav/gouwu/gouwu_1x.gif">
+					</a>
+					<a href="#" class="thumbnail" style="width: 50%;float:inherit;">
+						<img alt="" src="${ctx}/images/nav/gouwu/gouwu_1x.gif">
+					</a>
+				</li>
+				<li style="width: 50%;">
+					<a href="#" class="thumbnail" style="width: 50%;float: inherit;">
+						<img alt="" src="${ctx}/images/nav/yuedu/yuedu_1x.gif">
+					</a>
+					<a href="#" class="thumbnail" style="width: 50%;float: inherit;">
+						<img alt="" src="${ctx}/images/nav/yuedu/yuedu_1x.gif">
+					</a>
+					<a href="#" class="thumbnail">
+						<img alt="" src="${ctx}/images/nav/yuedu/yuedu_2x.gif">
+					</a>
+				</li>
+			</ul>
+		</div>
+		<footer class="footer"></footer>
 		<div>
 			<ul class="thumbnails">		
 				<li style="width: 25%">
