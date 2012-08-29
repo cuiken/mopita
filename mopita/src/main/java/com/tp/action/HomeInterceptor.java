@@ -19,7 +19,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
@@ -33,8 +32,8 @@ import com.tp.entity.DownloadType;
 import com.tp.entity.LogInHome;
 import com.tp.service.LogService;
 import com.tp.utils.Constants;
-import com.tp.utils.DateFormatUtils;
 import com.tp.utils.Constants.Language;
+import com.tp.utils.DateFormatUtils;
 import com.tp.utils.Struts2Utils;
 
 public class HomeInterceptor extends AbstractInterceptor {
@@ -108,11 +107,11 @@ public class HomeInterceptor extends AbstractInterceptor {
 		return StringUtils.substring(str, 0, index);
 	}
 
-	private String getQueryString() {
-		HttpServletRequest request = Struts2Utils.getRequest();
-		return request.getQueryString();
-
-	}
+//	private String getQueryString() {
+//		HttpServletRequest request = Struts2Utils.getRequest();
+//		return request.getQueryString();
+//
+//	}
 
 	private void setParamInSession(String method) {
 		HttpSession session = Struts2Utils.getSession();
@@ -124,6 +123,23 @@ public class HomeInterceptor extends AbstractInterceptor {
 		String client_version = Struts2Utils.getParameter(PARA_CLIENT_VERSION);
 		String resolution = Struts2Utils.getParameter(PARA_RESOLUTION);
 		String store_type = Struts2Utils.getParameter(PARA_STORE_TYPE);
+
+		StringBuilder buffer = new StringBuilder();
+		buffer.append(PARA_LANGUAGE + "=" + language)
+		.append("&")
+		.append(PARA_FROM_MARKET + "=" + fromMarket)
+		.append("&")
+		.append(PARA_DOWNLOAD_METHOD + "="+ downMethod)
+		.append("&")
+		.append(PARA_IMEI +"=" +imei )
+		.append("&")
+		.append(PARA_IMSI + "="+ imsi)
+		.append("&")
+		.append(PARA_CLIENT_VERSION +"="+client_version)
+		.append("&")
+		.append(PARA_RESOLUTION +"="+resolution)
+		.append("&")
+		.append(PARA_STORE_TYPE+"="+store_type);
 
 		if (imei != null) {
 			session.setAttribute(PARA_IMEI, imei);
@@ -165,7 +181,7 @@ public class HomeInterceptor extends AbstractInterceptor {
 		}
 
 		if (method.equals("execute")) {
-			session.setAttribute(QUERY_STRING, getQueryString());
+			session.setAttribute(QUERY_STRING, buffer.toString());
 		}
 	}
 
