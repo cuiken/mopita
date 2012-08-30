@@ -2,11 +2,13 @@ package com.tp.entity.nav;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -23,9 +25,9 @@ public class Navigator extends IdEntity {
 	private String name;
 	private String value;
 	private String navAddr;
-	private String picAddr;
 	private List<Board> boards = Lists.newArrayList();
-	private List<NavTag> tags = Lists.newArrayList();
+	private List<Tag> tags = Lists.newArrayList();
+	private List<NavigatorIcon> icons = Lists.newArrayList();
 
 	public String getName() {
 		return name;
@@ -51,14 +53,6 @@ public class Navigator extends IdEntity {
 		this.navAddr = navAddr;
 	}
 
-	public String getPicAddr() {
-		return picAddr;
-	}
-
-	public void setPicAddr(String picAddr) {
-		this.picAddr = picAddr;
-	}
-
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "nav_board_navigator", joinColumns = { @JoinColumn(name = "n_id") }, inverseJoinColumns = { @JoinColumn(name = "b_id") })
 	public List<Board> getBoards() {
@@ -71,8 +65,17 @@ public class Navigator extends IdEntity {
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "nav_tag_navigator", joinColumns = { @JoinColumn(name = "n_id") }, inverseJoinColumns = { @JoinColumn(name = "t_id") })
-	public List<NavTag> getTags() {
+	public List<Tag> getTags() {
 		return tags;
+	}
+
+	@OneToMany(mappedBy = "navigator", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
+	public List<NavigatorIcon> getIcons() {
+		return icons;
+	}
+
+	public void setIcons(List<NavigatorIcon> icons) {
+		this.icons = icons;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -97,7 +100,7 @@ public class Navigator extends IdEntity {
 		return ConvertUtils.convertElementPropertyToString(boards, "name", ",");
 	}
 
-	public void setTags(List<NavTag> tags) {
+	public void setTags(List<Tag> tags) {
 		this.tags = tags;
 	}
 

@@ -11,7 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.tp.action.CRUDActionSupport;
 import com.tp.dao.HibernateUtils;
 import com.tp.entity.nav.Board;
-import com.tp.entity.nav.NavTag;
+import com.tp.entity.nav.NavigatorIcon;
+import com.tp.entity.nav.Tag;
 import com.tp.entity.nav.Navigator;
 import com.tp.service.nav.NavigatorService;
 import com.tp.utils.Constants;
@@ -55,11 +56,20 @@ public class NavigatorAction extends CRUDActionSupport<Navigator> {
 	@Override
 	public String save() throws Exception {
 		if (upload != null) {
-			File destFile = FileUtils.copyFile(upload, uploadFileName);
-			entity.setPicAddr(Constants.NAV_FOLDER + File.separator + destFile.getName());
+//			File destFile = FileUtils.copyFile(upload, uploadFileName);
+//			entity.setPicAddr(Constants.NAV_FOLDER + File.separator + destFile.getName());
+			List<File> icons=FileUtils.unZip(upload);
+			for(File file:icons){
+				NavigatorIcon icon=new NavigatorIcon();
+				icon.setNavigator(entity);
+				icon.setName(file.getName());
+				icon.setValue(file.getPath());
+				icon.setLevel("");
+				navigatorService.saveNavIcon(icon);
+			}
 		}
 		HibernateUtils.mergeByCheckedIds(entity.getBoards(), checkedBoardIds, Board.class);
-		HibernateUtils.mergeByCheckedIds(entity.getTags(), checkedTagIds, NavTag.class);
+		HibernateUtils.mergeByCheckedIds(entity.getTags(), checkedTagIds, Tag.class);
 		navigatorService.saveNav(entity);
 		return RELOAD;
 	}
@@ -100,7 +110,7 @@ public class NavigatorAction extends CRUDActionSupport<Navigator> {
 		return navigatorService.getAllBoards();
 	}
 
-	public List<NavTag> getAllTags() {
+	public List<Tag> getAllTags() {
 		return navigatorService.getAllTags();
 	}
 

@@ -1,5 +1,6 @@
 package com.tp.action.nav;
 
+import java.io.File;
 import java.util.List;
 
 import org.apache.struts2.convention.annotation.Namespace;
@@ -9,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tp.action.CRUDActionSupport;
 import com.tp.entity.nav.Board;
+import com.tp.entity.nav.BoardIcon;
 import com.tp.service.nav.NavigatorService;
+import com.tp.utils.FileUtils;
 
 @Namespace("/nav")
 @Results({ @Result(name = CRUDActionSupport.RELOAD, location = "board.action", type = "redirect") })
@@ -20,6 +23,8 @@ public class BoardAction extends CRUDActionSupport<Board> {
 	private Board entity;
 	private List<Board> boards;
 	private NavigatorService navigatorService;
+	private File upload;
+	private String uploadFileName;
 
 	@Override
 	public Board getModel() {
@@ -41,7 +46,19 @@ public class BoardAction extends CRUDActionSupport<Board> {
 
 	@Override
 	public String save() throws Exception {
+
 		navigatorService.saveBoard(entity);
+		if (upload != null) {
+			List<File> icons = FileUtils.unZip(upload);
+			for (File file : icons) {
+				BoardIcon icon = new BoardIcon();
+				icon.setBoard(entity);
+				icon.setName(file.getName());
+				icon.setValue(file.getPath());
+				icon.setLevel("");
+				navigatorService.saveBoardIcon(icon);
+			}
+		}
 		return RELOAD;
 	}
 
@@ -73,4 +90,15 @@ public class BoardAction extends CRUDActionSupport<Board> {
 		this.navigatorService = navigatorService;
 	}
 
+	public void setUpload(File upload) {
+		this.upload = upload;
+	}
+
+	public String getUploadFileName() {
+		return uploadFileName;
+	}
+
+	public void setUploadFileName(String uploadFileName) {
+		this.uploadFileName = uploadFileName;
+	}
 }

@@ -5,7 +5,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>分类列表</title>
+		<title>二级分类</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="${ctx}/css/bootstrap/2.0.3/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
 		<link href="${ctx}/css/bootstrap/2.0.3/css/bootstrap-responsive.min.css" type="text/css" rel="stylesheet" />
@@ -14,7 +14,7 @@
 		<form action="nav-tag.action" id="mainForm" method="get">
 			<div class="container">
 				<table class="table table-striped table-bordered table-condensed">
-					<thead><tr><th>名称</th><th>所属版面</th><th>操作</th><tr></thead>
+					<thead><tr><th>名称</th><th>所属一级</th><th>操作</th><tr></thead>
 					<tbody>
 						<c:forEach items="${tags}" var="tag">
 							<tr>

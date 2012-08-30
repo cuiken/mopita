@@ -7,11 +7,17 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tp.dao.nav.BoardDao;
+import com.tp.dao.nav.BoardIconDao;
 import com.tp.dao.nav.NavTagDao;
 import com.tp.dao.nav.NavigatorDao;
+import com.tp.dao.nav.NavigatorIconDao;
+import com.tp.dao.nav.TagIconDao;
 import com.tp.entity.nav.Board;
-import com.tp.entity.nav.NavTag;
+import com.tp.entity.nav.BoardIcon;
+import com.tp.entity.nav.NavigatorIcon;
+import com.tp.entity.nav.Tag;
 import com.tp.entity.nav.Navigator;
+import com.tp.entity.nav.TagIcon;
 
 @Component
 @Transactional
@@ -20,17 +26,35 @@ public class NavigatorService {
 	private NavTagDao tagDao;
 	private BoardDao boardDao;
 	private NavigatorDao navigatorDao;
+	private BoardIconDao boardIconDao;
+	private TagIconDao tagIconDao;
+	private NavigatorIconDao navIconDao;
+
+	//board icon
+	public void saveBoardIcon(BoardIcon entity) {
+		boardIconDao.save(entity);
+	}
+
+	//tag icon
+	public void saveTagIcon(TagIcon entity) {
+		tagIconDao.save(entity);
+	}
+
+	//nav icon
+	public void saveNavIcon(NavigatorIcon entity) {
+		navIconDao.save(entity);
+	}
 
 	//tag manage
-	public List<NavTag> getAllTags() {
+	public List<Tag> getAllTags() {
 		return tagDao.getAll();
 	}
 
-	public NavTag getNavTag(Long id) {
+	public Tag getNavTag(Long id) {
 		return tagDao.get(id);
 	}
 
-	public void saveTag(NavTag entity) {
+	public void saveTag(Tag entity) {
 		tagDao.save(entity);
 	}
 
@@ -87,4 +111,18 @@ public class NavigatorService {
 		this.navigatorDao = navigatorDao;
 	}
 
+	@Autowired
+	public void setBoardIconDao(BoardIconDao boardIconDao) {
+		this.boardIconDao = boardIconDao;
+	}
+
+	@Autowired
+	public void setTagIconDao(TagIconDao tagIconDao) {
+		this.tagIconDao = tagIconDao;
+	}
+
+	@Autowired
+	public void setNavIconDao(NavigatorIconDao navIconDao) {
+		this.navIconDao = navIconDao;
+	}
 }

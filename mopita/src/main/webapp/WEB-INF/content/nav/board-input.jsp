@@ -11,7 +11,7 @@
 		<link href="${ctx}/css/bootstrap/2.0.3/css/bootstrap-responsive.min.css" type="text/css" rel="stylesheet" />
 	</head>
 	<body>
-		<form action="board!save.action" id="inputForm" method="post" class="form-horizontal">
+		<form action="board!save.action" id="inputForm" method="post" class="form-horizontal" enctype="multipart/form-data">
 			<div class="container">
 				<input type="hidden" name="id" value="${id}">
 				<fieldset>
@@ -20,6 +20,12 @@
 						<label for="name" class="control-label">名称:</label>
 						<div class="controls">
 							<input type="text" name="name" id="name" value="${name}" required="required" size="35">
+						</div>
+					</div>
+					<div class="control-group">
+						<label for="fileInput" class="control-label">图标:</label>
+						<div class="controls">
+							<input type="file" class="input-file" id="fileInput" name="upload">
 						</div>
 					</div>
 					<div class="form-actions">

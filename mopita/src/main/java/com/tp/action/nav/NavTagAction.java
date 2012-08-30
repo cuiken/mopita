@@ -11,27 +11,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.common.collect.Lists;
 import com.tp.action.CRUDActionSupport;
 import com.tp.entity.nav.Board;
-import com.tp.entity.nav.NavTag;
+import com.tp.entity.nav.Tag;
+import com.tp.entity.nav.TagIcon;
 import com.tp.service.nav.NavigatorService;
 import com.tp.utils.Constants;
 import com.tp.utils.FileUtils;
 
 @Namespace("/nav")
 @Results({ @Result(name = CRUDActionSupport.RELOAD, location = "nav-tag.action", type = "redirect") })
-public class NavTagAction extends CRUDActionSupport<NavTag> {
+public class NavTagAction extends CRUDActionSupport<Tag> {
 
 	private static final long serialVersionUID = 1L;
 
-	private NavTag entity;
+	private Tag entity;
 	private Long id;
 	private Long boardId;
-	private List<NavTag> tags = Lists.newArrayList();
+	private List<Tag> tags = Lists.newArrayList();
 	private File upload;
 	private String uploadFileName;
 	private NavigatorService navigatorService;
 
 	@Override
-	public NavTag getModel() {
+	public Tag getModel() {
 
 		return entity;
 	}
@@ -52,8 +53,17 @@ public class NavTagAction extends CRUDActionSupport<NavTag> {
 	public String save() throws Exception {
 
 		if (upload != null) {
-			File destFile = FileUtils.copyFile(upload, uploadFileName);
-			entity.setPicAddr(Constants.NAV_FOLDER + File.separator + destFile.getName());
+//			File destFile = FileUtils.copyFile(upload, uploadFileName);
+//			entity.setPicAddr(Constants.NAV_FOLDER + File.separator + destFile.getName());
+			List<File> icons = FileUtils.unZip(upload);
+			for (File file : icons) {
+				TagIcon icon=new TagIcon();
+				icon.setTag(entity);
+				icon.setName(file.getName());
+				icon.setValue(file.getPath());
+				icon.setLevel("");
+				navigatorService.saveTagIcon(icon);
+			}
 		}
 		if (boardId != null) {
 			Board board = navigatorService.getBoard(boardId);
@@ -72,13 +82,13 @@ public class NavTagAction extends CRUDActionSupport<NavTag> {
 	@Override
 	protected void prepareModel() throws Exception {
 		if (id == null) {
-			entity = new NavTag();
+			entity = new Tag();
 		} else {
 			entity = navigatorService.getNavTag(id);
 		}
 	}
 
-	public List<NavTag> getTags() {
+	public List<Tag> getTags() {
 		return tags;
 	}
 

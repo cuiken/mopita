@@ -237,29 +237,27 @@ create table log_cc_market(
 	primary key(id)
 )ENGINE=InnoDB;
 
---分类表
+/**--分类表*/
 create table nav_category(
 	id int not null auto_increment,
 	name varchar(35),
 	value varchar(35),
 	parent_id int,
-	pic_addr varchar(255),
 	dtype varchar(35),
 	primary key(id)
 )ENGINE=InnoDB;
 
---具体元素表
+/**--链接属性表*/
 create table nav_item(
 	id int not null auto_increment,
 	name varchar(35),
 	value varchar(35),
 	nav_addr varchar(255),
-	pic_addr varchar(255),
 	primary key(id)
 
 )ENGINE=InnoDB;
 
---分类元素关系表
+/**一级分类链接关系表*/
 create table nav_board_navigator(
 	id int not null auto_increment,
 	b_id int,
@@ -267,6 +265,7 @@ create table nav_board_navigator(
 	primary key(id)
 )ENGINE=InnoDB;
 
+/**二级分类链接关系表*/
 create table nav_tag_navigator(
 	id int not null auto_increment,
 	t_id int,
@@ -275,3 +274,23 @@ create table nav_tag_navigator(
 
 )ENGINE=InnoDB;
 
+/**--分类图标表*/
+create table nav_category_icon(
+	id int not null auto_increment,
+	name varchar(50),
+	value varchar(255),
+	level varchar(50),
+	dtype varchar(32),
+	pid int,
+	primary key(id)
+)ENGINE=InnoDB;
+
+/**--链接图标表*/
+create table nav_item_icon(
+	id int not null auto_increment,
+	name varchar(50),
+	value varchar(255),
+	level varchar(50),
+	nid int,
+	primary key(id)
+)ENGINE=InnoDB;

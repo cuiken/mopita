@@ -19,15 +19,16 @@ import com.google.common.collect.Lists;
 @DiscriminatorValue("board")
 public class Board extends TagItem {
 
-	private List<NavTag> tags = Lists.newArrayList();
+	private List<Tag> tags = Lists.newArrayList();
 	private List<Navigator> navigators = Lists.newArrayList();
+	private List<BoardIcon> icons=Lists.newArrayList();
 
 	@OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
-	public List<NavTag> getTags() {
+	public List<Tag> getTags() {
 		return tags;
 	}
 
-	public void setTags(List<NavTag> tags) {
+	public void setTags(List<Tag> tags) {
 		this.tags = tags;
 	}
 
@@ -41,6 +42,15 @@ public class Board extends TagItem {
 		this.navigators = navigators;
 	}
 
+	@OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
+	public List<BoardIcon> getIcons() {
+		return icons;
+	}
+	
+	public void setIcons(List<BoardIcon> icons) {
+		this.icons = icons;
+	}
+	
 	@Override
 	public String toString() {
 

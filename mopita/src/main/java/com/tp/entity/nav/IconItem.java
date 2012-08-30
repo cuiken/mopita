@@ -5,18 +5,20 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.DiscriminatorOptions;
 
 import com.tp.entity.IdEntity;
 
 @Entity
-@Table(name = "nav_category")
+@Table(name = "nav_icon")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorOptions(force = true)
-public abstract class TagItem extends IdEntity {
+public abstract class IconItem extends IdEntity {
 
 	private String name;
 	private String value;
+	private String level;
 
 	public String getName() {
 		return name;
@@ -34,4 +36,17 @@ public abstract class TagItem extends IdEntity {
 		this.value = value;
 	}
 
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
+	}
+
+	@Override
+	public String toString() {
+
+		return ToStringBuilder.reflectionToString(this);
+	}
 }
