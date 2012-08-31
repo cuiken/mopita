@@ -8,10 +8,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,18 +24,18 @@ public class FileUtils {
 
 	private static final Logger logger = LoggerFactory.getLogger(FileUtils.class);
 
-	private static final String FILE_STORAGE = Constants.FILE_STORAGE;
+	private static final String ROOT_PATH = Constants.LOCKER_STORAGE;
 
 	private FileUtils() {
 	}
 
-	public static List<File> unZip(File srcFile) {
+	public static List<File> unZip(File srcFile, String rootPath) {
 		try {
 			ZipFile zipFile = new ZipFile(srcFile, "GBK", true);
 
 			Enumeration<ZipArchiveEntry> files = zipFile.getEntries();
 			String folderName = UUIDGenerator.generateUUID();
-			File baseDir = new File(FILE_STORAGE + folderName);
+			File baseDir = new File(rootPath + folderName);
 			baseDir.mkdirs();
 			List<ZipArchiveEntry> entries = Lists.newArrayList();
 			while (files.hasMoreElements()) {
@@ -70,7 +71,7 @@ public class FileUtils {
 	}
 
 	public static long getFileSize(String child) {
-		return new File(Constants.FILE_STORAGE, child).length();
+		return new File(Constants.LOCKER_STORAGE, child).length();
 	}
 
 	public static boolean isPreClient(String fname) {
@@ -112,7 +113,7 @@ public class FileUtils {
 		for (ZipArchiveEntry entry : entries) {
 			File file = new File(baseDir, entry.getName());
 
-			String relativePath = StringUtils.substring(file.getPath(), FILE_STORAGE.length());
+			String relativePath = StringUtils.substring(file.getPath(), ROOT_PATH.length());
 			files.add(new File(relativePath));
 			BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file));
 			InputStream inputStream = zipFile.getInputStream(entry);
@@ -128,12 +129,14 @@ public class FileUtils {
 		return files;
 	}
 
-	public static File copyFile(File upload, String fname) throws Exception {
-		File targetDir = new File(Constants.FILE_STORAGE, Constants.NAV_FOLDER);
-		String fileName = UUIDGenerator.generateUUID();
-		String ext = StringUtils.substringAfterLast(fname, Constants.DOT_SEPARATOR);
-		File destFile = new File(targetDir, fileName + Constants.DOT_SEPARATOR + ext);
-		org.apache.commons.io.FileUtils.copyFile(upload, destFile);
-		return destFile;
+	public static String getIconLevel(String fileName) {
+
+		Pattern p = Pattern.compile("[\\d]+");
+		Matcher m = p.matcher(fileName);
+		while (m.find()) {
+			return m.group();
+		}
+		return "";
 	}
+
 }

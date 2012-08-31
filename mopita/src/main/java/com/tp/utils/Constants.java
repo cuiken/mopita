@@ -8,9 +8,9 @@ import org.apache.struts2.ServletActionContext;
 
 public class Constants {
 
-	public final static String FILE_STORAGE = Config.getProperty("file.storage");
-
-	public static final String NAV_FOLDER = "nav";
+	public final static String LOCKER_STORAGE = Config.getProperty("locker.storage");
+	public final static String NAV_STORAGE = Config.getProperty("nav.storage");
+	public final static String CLIENT_STORAGE = Config.getProperty("client.storeage");
 
 	public final static String[] IMG_EXTENSION = { "jpg", "jpeg", "gif", "bmp", "png" };
 

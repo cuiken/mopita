@@ -11,7 +11,7 @@ import org.hibernate.annotations.DiscriminatorOptions;
 import com.tp.entity.IdEntity;
 
 @Entity
-@Table(name = "nav_icon")
+@Table(name = "nav_category_icon")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorOptions(force = true)
 public abstract class IconItem extends IdEntity {

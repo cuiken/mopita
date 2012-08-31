@@ -102,12 +102,12 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	private List<File> copyNewFile(File newTheme, String oldPath) throws Exception {
 		List<File> files = Lists.newArrayList();
 		if (newTheme != null) {
-			files = FileUtils.unZip(newTheme);
+			files = FileUtils.unZip(newTheme,Constants.LOCKER_STORAGE);
 			String path = oldPath;
 			String[] ps = StringUtils.split(path, File.separator);
 			if (ps.length > 0) {
 				String folderName = ps[0];
-				File themebase = new File(Constants.FILE_STORAGE, folderName);
+				File themebase = new File(Constants.LOCKER_STORAGE, folderName);
 
 				org.apache.commons.io.FileUtils.deleteDirectory(themebase);
 

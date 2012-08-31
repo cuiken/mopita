@@ -51,7 +51,7 @@ public class ImageAction extends ActionSupport {
 			return;
 		}
 		contentPath = URLDecoder.decode(contentPath, "UTF-8");
-		String realPath = Constants.FILE_STORAGE + new String(contentPath.getBytes("iso-8859-1"), "utf-8");
+		String realPath = Constants.LOCKER_STORAGE + new String(contentPath.getBytes("iso-8859-1"), "utf-8");
 		ContentInfo contentInfo = getContentInfo(realPath);
 
 		//根据Etag或ModifiedSince Header判断客户端的缓存文件是否有效, 如仍有效则设置返回码为304,直接返回.

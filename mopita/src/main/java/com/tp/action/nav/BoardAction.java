@@ -12,6 +12,7 @@ import com.tp.action.CRUDActionSupport;
 import com.tp.entity.nav.Board;
 import com.tp.entity.nav.BoardIcon;
 import com.tp.service.nav.NavigatorService;
+import com.tp.utils.Constants;
 import com.tp.utils.FileUtils;
 
 @Namespace("/nav")
@@ -49,13 +50,13 @@ public class BoardAction extends CRUDActionSupport<Board> {
 
 		navigatorService.saveBoard(entity);
 		if (upload != null) {
-			List<File> icons = FileUtils.unZip(upload);
+			List<File> icons = FileUtils.unZip(upload,Constants.NAV_STORAGE);
 			for (File file : icons) {
 				BoardIcon icon = new BoardIcon();
 				icon.setBoard(entity);
 				icon.setName(file.getName());
 				icon.setValue(file.getPath());
-				icon.setLevel("");
+				icon.setLevel(FileUtils.getIconLevel(file.getName()));
 				navigatorService.saveBoardIcon(icon);
 			}
 		}

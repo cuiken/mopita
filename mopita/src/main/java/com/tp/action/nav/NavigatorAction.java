@@ -58,13 +58,13 @@ public class NavigatorAction extends CRUDActionSupport<Navigator> {
 		if (upload != null) {
 //			File destFile = FileUtils.copyFile(upload, uploadFileName);
 //			entity.setPicAddr(Constants.NAV_FOLDER + File.separator + destFile.getName());
-			List<File> icons=FileUtils.unZip(upload);
+			List<File> icons=FileUtils.unZip(upload,Constants.NAV_STORAGE);
 			for(File file:icons){
 				NavigatorIcon icon=new NavigatorIcon();
 				icon.setNavigator(entity);
 				icon.setName(file.getName());
 				icon.setValue(file.getPath());
-				icon.setLevel("");
+				icon.setLevel(FileUtils.getIconLevel(file.getName()));
 				navigatorService.saveNavIcon(icon);
 			}
 		}

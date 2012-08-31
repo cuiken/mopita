@@ -64,7 +64,7 @@
 						<div class="controls">
 							<c:forEach var="board" items="${allBoards}">
 								<label class="radio">
-									<input type="radio" name="checkedBoardIds" value="${board.id}">${board.name}
+									<input type="checkbox" name="checkedBoardIds" value="${board.id}">${board.name}
 								</label>
 							</c:forEach>
 						</div>

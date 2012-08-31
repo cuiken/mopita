@@ -28,7 +28,7 @@ public class FileDownloadAction extends ActionSupport {
 	@Override
 	public String execute() throws Exception {
 
-		inputPath = Constants.FILE_STORAGE + new String(inputPath.getBytes("iso-8859-1"), Constants.ENCODE_UTF_8);
+		inputPath = Constants.LOCKER_STORAGE + new String(inputPath.getBytes("iso-8859-1"), Constants.ENCODE_UTF_8);
 		File file = new File(inputPath);
 		if (file.exists()) {
 			long p = 0;

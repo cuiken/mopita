@@ -74,7 +74,7 @@ public class FileUploadAction extends ActionSupport {
 			return RELOAD;
 		}
 
-		List<File> files = FileUtils.unZip(upload);
+		List<File> files = FileUtils.unZip(upload,Constants.LOCKER_STORAGE);
 		ThemeFile theme = getThemeFile();
 		FileInfo info = getFileInfo();
 		theme = fileManager.saveFiles(files, theme, info);
@@ -91,7 +91,7 @@ public class FileUploadAction extends ActionSupport {
 		String fileName = FileUtils.getFileName(uploadFileName);
 		int indexOfVersion = StringUtils.lastIndexOfIgnoreCase(fileName, "v");
 		String version = StringUtils.substring(fileName, indexOfVersion + 1);
-		File targetDir = new File(Constants.FILE_STORAGE, "client");
+		File targetDir = new File(Constants.CLIENT_STORAGE);
 		File targetFile = new File(targetDir, uploadFileName);
 		org.apache.commons.io.FileUtils.copyFile(upload, targetFile);
 		ClientFile clientFile = clientFileManager.getClientByVersion(version);
