@@ -8,6 +8,8 @@ import java.io.OutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -24,6 +26,7 @@ public class FileDownloadAction extends ActionSupport {
 	private String downloadFileName;
 	private long contentLength;
 	private ClientFileManager clientFileManager;
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public String execute() throws Exception {
@@ -48,7 +51,8 @@ public class FileDownloadAction extends ActionSupport {
 
 				p = Long.parseLong(rs[0]);
 			}
-			response.setHeader("content-Length", String.valueOf(fileLength));
+			logger.warn(file.getName() + ": " + range);
+			response.setHeader("content-Length", String.valueOf(fileLength - p));
 			if (p != 0) {
 				String contentRange = new StringBuffer("bytes").append(new Long(p).toString()).append("-")
 						.append(new Long(fileLength - 1).toString()).append("/")
@@ -58,15 +62,14 @@ public class FileDownloadAction extends ActionSupport {
 			}
 			response.addHeader("Content-Disposition", "attachment; filename=" + "\"" + downloadFileName + "\"");
 			response.setContentType("application/vnd.android.package-archive");
-			byte[] buffer = new byte[1024];
+			byte[] buffer = new byte[4096];
 			int len = 0;
 			OutputStream output = response.getOutputStream();
 			while ((len = inputStream.read(buffer)) != -1) {
 				output.write(buffer, 0, len);
 			}
-			output.flush();
-			output.close();
 			inputStream.close();
+			output.flush();
 		}
 		return null;
 	}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<navigator>
+    <bottom template="default">
+        <Buttons>
+            <buttons title="新闻" tips="" size="3,1" position="1" picture="" id="5" focus="false" class="1" action=""/>
+            <buttons title="新闻" tips="" size="3,1" position="1" picture="" id="6" focus="false" class="1" action=""/>
+            <buttons title="新闻" tips="" size="3,1" position="1" picture="" id="7" focus="false" class="1" action=""/>
+            <buttons title="新闻" tips="" size="3,1" position="1" picture="" id="8" focus="false" class="1" action=""/>
+            <buttons title="新闻" tips="" size="3,1" position="1" picture="" id="9" focus="false" class="1" action=""/>
+            <buttons title="新闻" tips="" size="3,1" position="1" picture="" id="10" focus="false" class="1" action=""/>
+        </Buttons>
+    </bottom>
+    <Center-Left template="default">
+        <Buttons>
+            <buttons title="新闻" tips="" size="3,1" position="1" picture="" id="4" focus="false" class="1" action=""/>
+            <buttons title="新闻" tips="" size="3,1" position="1" picture="" id="12" focus="false" class="1" action=""/>
+        </Buttons>
+    </Center-Left>
+    <Center-Right template="default">
+        <Buttons/>
+    </Center-Right>
+    <top template="1">
+        <Buttons>
+            <buttons title="新闻" tips="" size="3,1" position="1" picture="" id="1" focus="false" class="1" action=""/>
+            <buttons title="新闻" tips="" size="3,1" position="1" picture="" id="2" focus="false" class="1" action=""/>
+            <buttons title="新闻" tips="" size="3,1" position="1" picture="" id="3" focus="false" class="1" action=""/>
+        </Buttons>
+    </top>
+</navigator>
+

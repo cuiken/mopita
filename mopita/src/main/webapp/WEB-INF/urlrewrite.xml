@@ -30,4 +30,9 @@
 		<to type="forward">/service/xml-service.action?st=$1&amp;l=$2</to>
 	</rule>
 	
+	<rule>
+		<from>^/nav/homepage$</from>
+		<to type="forward">/nav/nav-homepage.action</to>
+	</rule>
+	
 </urlrewrite>
