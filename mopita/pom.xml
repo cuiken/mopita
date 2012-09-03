@@ -442,5 +442,12 @@
 			<artifactId>urlrewritefilter</artifactId>
 			<version>3.2.0</version>
 		</dependency>
+		
+		<!-- 加入自定义jar -->
+		<dependency>
+			<groupId>com.tpadsz</groupId>
+			<artifactId>navigator</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 	</dependencies>
 </project>
