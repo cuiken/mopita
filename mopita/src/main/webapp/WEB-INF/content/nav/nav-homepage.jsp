@@ -64,43 +64,54 @@ img {
 	<section id="thumbnails">
 		<div id="top">
 			<ul class="thumbnails">
-				<%@include file="/common/nav/nav-top-temp.jsp"%>
+				<s:if test="tops.template==1">
+					<%@include file="/common/nav-top/nav-top-temp.jsp"%>
+				</s:if>
+				<s:if test="tops.template==2">
+					<%@include file="/common/nav-top/nav-top-temp2.jsp"%>
+				</s:if>
+				<s:if test="tops.template==3">
+					<%@include file="/common/nav-top/nav-top-temp3.jsp"%>
+				</s:if>
+				<s:if test="tops.template==4">
+					<%@include file="/common/nav-top/nav-top-temp4.jsp"%>
+				</s:if>
 			</ul>
 		</div>
 		<div id="center">
 			<ul class="thumbnails">
-				<s:if test="centerLeft.template=='default'">
-					<%@include file="/common/nav/nav-temp1.jsp"%>
+				<s:if test="centerLeft.template==1">
+					<%@include file="/common/nav-cl/nav-temp1.jsp"%>
 				</s:if>
 				<s:if test="centerLeft.template==2">
-					<%@include file="/common/nav/nav-temp2.jsp"%>
+					<%@include file="/common/nav-cl/nav-temp2.jsp"%>
 				</s:if>
 				<s:if test="centerLeft.template==3">
-					<%@include file="/common/nav/nav-temp3-top2.jsp"%>
+					<%@include file="/common/nav-cl/nav-temp3-top2.jsp"%>
 				</s:if>
 				<s:if test="centerLeft.template==4">
-					<%@include file="/common/nav/nav-temp4.jsp"%>
+					<%@include file="/common/nav-cl/nav-temp4.jsp"%>
 				</s:if>
 				
-				<s:if test="centerRight.template=='default'">
-					<%@include file="/common/nav/nav-temp1.jsp"%>
+				<s:if test="centerRight.template==1">
+					<%@include file="/common/nav-cr/nav-temp1.jsp"%>
 				</s:if>
 				<s:if test="centerRight.template==2">
-					<%@include file="/common/nav/nav-temp2.jsp"%>
+					<%@include file="/common/nav-cr/nav-temp2.jsp"%>
 				</s:if>
 				<s:if test="centerRight.template==3">
-					<%@include file="/common/nav/nav-temp3-top2.jsp"%>
+					<%@include file="/common/nav-cr/nav-temp3-top2.jsp"%>
 				</s:if>
 				<s:if test="centerRight.template==4">
-					<%@include file="/common/nav/nav-temp4.jsp"%>
+					<%@include file="/common/nav-cr/nav-temp4.jsp"%>
 				</s:if>
 			</ul>
 		</div>
 		<div id="bottom">
 			<ul class="thumbnails">
-				<%@include file="/common/nav/nav-temp4.jsp"%>
+				<%@include file="/common/nav-bottom/nav-temp4.jsp"%>
 				
-				<%@include file="/common/nav/nav-temp3-top2.jsp"%>
+				<%@include file="/common/nav-bottom/nav-temp3-top2.jsp"%>
 			</ul>
 		</div>
 	</section>

@@ -19,7 +19,7 @@ public class NavHomepageAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
 
-	private Top top;
+	private Top tops;
 	private Bottom bottom;
 	private CenterLeft centerLeft;
 	private CenterRight centerRight;
@@ -36,15 +36,15 @@ public class NavHomepageAction extends ActionSupport {
 		NavigatorProvider np = new NavigatorProvider();
 		Navigator nav = np.getNavigator(users);
 
-		top = nav.getTop();
+		tops = nav.getTop();
 		bottom = nav.getBottom();
 		centerLeft = nav.getLeft();
 		centerRight = nav.getRight();
 		return SUCCESS;
 	}
 
-	public Top getTop() {
-		return top;
+	public Top getTops() {
+		return tops;
 	}
 
 	public Bottom getBottom() {
