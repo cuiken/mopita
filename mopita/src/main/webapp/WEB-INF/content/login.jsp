@@ -24,6 +24,11 @@
 	<script src="${ctx}/js/jquery/jquery-1.7.min.js"></script>
 	<script src="${ctx}/js/jquery/validation/jquery.validate.min.js"></script>
 	<script src="${ctx}/js/jquery/validation/messages_cn.js"></script>
+	<style>
+	body {
+	  background-image: url(${ctx}/images/grid-18px-masked.png);
+	}
+	</style>
 	<script>
 		$(document).ready(function() {
 			$("#username").focus();

@@ -25,7 +25,6 @@ public class BoardAction extends CRUDActionSupport<Board> {
 	private List<Board> boards;
 	private NavigatorService navigatorService;
 	private File upload;
-	private String uploadFileName;
 
 	@Override
 	public Board getModel() {
@@ -50,8 +49,9 @@ public class BoardAction extends CRUDActionSupport<Board> {
 
 		navigatorService.saveBoard(entity);
 		if (upload != null) {
-			List<File> icons = FileUtils.unZip(upload,Constants.NAV_STORAGE);
+			List<File> icons = FileUtils.unZip(upload, Constants.NAV_STORAGE);
 			for (File file : icons) {
+				entity.getIcons().clear();
 				BoardIcon icon = new BoardIcon();
 				icon.setBoard(entity);
 				icon.setName(file.getName());
@@ -95,11 +95,4 @@ public class BoardAction extends CRUDActionSupport<Board> {
 		this.upload = upload;
 	}
 
-	public String getUploadFileName() {
-		return uploadFileName;
-	}
-
-	public void setUploadFileName(String uploadFileName) {
-		this.uploadFileName = uploadFileName;
-	}
 }

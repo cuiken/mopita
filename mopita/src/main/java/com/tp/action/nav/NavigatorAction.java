@@ -28,7 +28,6 @@ public class NavigatorAction extends CRUDActionSupport<Navigator> {
 	private Long id;
 	private List<Navigator> navigators;
 	private File upload;
-	private String uploadFileName;
 	private NavigatorService navigatorService;
 
 	private List<Long> checkedTagIds;
@@ -55,12 +54,14 @@ public class NavigatorAction extends CRUDActionSupport<Navigator> {
 
 	@Override
 	public String save() throws Exception {
+		HibernateUtils.mergeByCheckedIds(entity.getBoards(), checkedBoardIds, Board.class);
+		HibernateUtils.mergeByCheckedIds(entity.getTags(), checkedTagIds, Tag.class);
+		navigatorService.saveNav(entity);
 		if (upload != null) {
-//			File destFile = FileUtils.copyFile(upload, uploadFileName);
-//			entity.setPicAddr(Constants.NAV_FOLDER + File.separator + destFile.getName());
-			List<File> icons=FileUtils.unZip(upload,Constants.NAV_STORAGE);
-			for(File file:icons){
-				NavigatorIcon icon=new NavigatorIcon();
+			List<File> icons = FileUtils.unZip(upload, Constants.NAV_STORAGE);
+			for (File file : icons) {
+				entity.getIcons().clear();
+				NavigatorIcon icon = new NavigatorIcon();
 				icon.setNavigator(entity);
 				icon.setName(file.getName());
 				icon.setValue(file.getPath());
@@ -68,9 +69,7 @@ public class NavigatorAction extends CRUDActionSupport<Navigator> {
 				navigatorService.saveNavIcon(icon);
 			}
 		}
-		HibernateUtils.mergeByCheckedIds(entity.getBoards(), checkedBoardIds, Board.class);
-		HibernateUtils.mergeByCheckedIds(entity.getTags(), checkedTagIds, Tag.class);
-		navigatorService.saveNav(entity);
+
 		return RELOAD;
 	}
 
@@ -92,10 +91,6 @@ public class NavigatorAction extends CRUDActionSupport<Navigator> {
 
 	public void setUpload(File upload) {
 		this.upload = upload;
-	}
-
-	public void setUploadFileName(String uploadFileName) {
-		this.uploadFileName = uploadFileName;
 	}
 
 	public List<Navigator> getNavigators() {

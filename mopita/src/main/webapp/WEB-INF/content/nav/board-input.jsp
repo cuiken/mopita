@@ -9,13 +9,39 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="${ctx}/css/bootstrap/2.0.3/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
 		<link href="${ctx}/css/bootstrap/2.0.3/css/bootstrap-responsive.min.css" type="text/css" rel="stylesheet" />
+		<link href="${ctx}/css/mini-web.css" type="text/css" rel="stylesheet" />
 	</head>
 	<body>
 		<form action="board!save.action" id="inputForm" method="post" class="form-horizontal" enctype="multipart/form-data">
+			<div class="navbar navbar-fixed-top">
+				<div class="navbar-inner">
+					<div class="container">
+						<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+							<span class="icon-bar"></span>
+		           			 <span class="icon-bar"></span>
+		           			 <span class="icon-bar"></span>
+						</a>
+						<a class="brand" href="${ctx}/file/file.action">UMS2.0</a>
+						<div class="nav-collapse">
+							<ul class="nav">
+								<li class="active">
+									<a href="${ctx}/nav/board.action">一级分类</a>
+								</li>
+								<li>
+									<a href="${ctx}/nav/nav-tag.action">二级分类</a>
+								</li>
+								<li>
+									<a href="${ctx}/nav/navigator.action">具体链接</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div class="container">
 				<input type="hidden" name="id" value="${id}">
 				<fieldset>
-					<legend><small>管理板块</small></legend>
+					<legend><small>管理一级分类</small></legend>
 					<div class="control-group">
 						<label for="name" class="control-label">名称:</label>
 						<div class="controls">

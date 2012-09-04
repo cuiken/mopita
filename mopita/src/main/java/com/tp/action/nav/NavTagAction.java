@@ -28,7 +28,7 @@ public class NavTagAction extends CRUDActionSupport<Tag> {
 	private Long boardId;
 	private List<Tag> tags = Lists.newArrayList();
 	private File upload;
-	private String uploadFileName;
+
 	private NavigatorService navigatorService;
 
 	@Override
@@ -52,11 +52,15 @@ public class NavTagAction extends CRUDActionSupport<Tag> {
 	@Override
 	public String save() throws Exception {
 
+		if (boardId != null) {
+			Board board = navigatorService.getBoard(boardId);
+			entity.setBoard(board);
+		}
+		navigatorService.saveTag(entity);
 		if (upload != null) {
-			//			File destFile = FileUtils.copyFile(upload, uploadFileName);
-			//			entity.setPicAddr(Constants.NAV_FOLDER + File.separator + destFile.getName());
-			List<File> icons = FileUtils.unZip(upload,Constants.NAV_STORAGE);
+			List<File> icons = FileUtils.unZip(upload, Constants.NAV_STORAGE);
 			for (File file : icons) {
+				entity.getIcons().clear();
 				TagIcon icon = new TagIcon();
 				icon.setTag(entity);
 				icon.setName(file.getName());
@@ -65,11 +69,7 @@ public class NavTagAction extends CRUDActionSupport<Tag> {
 				navigatorService.saveTagIcon(icon);
 			}
 		}
-		if (boardId != null) {
-			Board board = navigatorService.getBoard(boardId);
-			entity.setBoard(board);
-		}
-		navigatorService.saveTag(entity);
+
 		return RELOAD;
 	}
 
@@ -98,14 +98,6 @@ public class NavTagAction extends CRUDActionSupport<Tag> {
 
 	public void setUpload(File upload) {
 		this.upload = upload;
-	}
-
-	public String getUploadFileName() {
-		return uploadFileName;
-	}
-
-	public void setUploadFileName(String uploadFileName) {
-		this.uploadFileName = uploadFileName;
 	}
 
 	public List<Board> getBoards() {

@@ -41,6 +41,7 @@
 		</shiro:hasPermission>	
 		<a href="${ctx}/report/report-client.action">客户端日报</a>
 		<a href="${ctx}/report/report-content.action">内容日报</a>
+		<a href="${ctx}/nav/board.action">导航相关</a>
 		<a href="${ctx}/logout.action">退出登录</a>
 	</shiro:user>
 	
