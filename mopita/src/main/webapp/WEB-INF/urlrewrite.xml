@@ -35,4 +35,9 @@
 		<to type="forward">/nav/nav-homepage.action</to>
 	</rule>
 	
+	<rule>
+		<from>^/nav/homemore$</from>
+		<to type="forward">/nav/nav-homepage!more.action</to>
+	</rule>
+	
 </urlrewrite>

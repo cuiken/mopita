@@ -1,11 +1,15 @@
 package com.tp.action.nav;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.struts2.convention.annotation.Namespace;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.collect.Maps;
 import com.opensymphony.xwork2.ActionSupport;
+import com.tp.entity.nav.Board;
+import com.tp.service.nav.NavigatorService;
 import com.tp.utils.Struts2Utils;
 import com.tpadsz.navigator.NavigatorProvider;
 import com.tpadsz.navigator.entity.Bottom;
@@ -23,6 +27,8 @@ public class NavHomepageAction extends ActionSupport {
 	private Bottom bottom;
 	private CenterLeft centerLeft;
 	private CenterRight centerRight;
+	private List<Board> boards;
+	private NavigatorService navigatorService;
 
 	@Override
 	public String execute() throws Exception {
@@ -43,6 +49,11 @@ public class NavHomepageAction extends ActionSupport {
 		return SUCCESS;
 	}
 
+	public String more() throws Exception {
+		boards = navigatorService.getAllBoards();
+		return "more";
+	}
+
 	public Top getTops() {
 		return tops;
 	}
@@ -59,4 +70,12 @@ public class NavHomepageAction extends ActionSupport {
 		return centerRight;
 	}
 
+	public List<Board> getBoards() {
+		return boards;
+	}
+
+	@Autowired
+	public void setNavigatorService(NavigatorService navigatorService) {
+		this.navigatorService = navigatorService;
+	}
 }
