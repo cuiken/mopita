@@ -8,7 +8,7 @@
 <title>导航更多</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="${ctx}/css/bootstrap/2.0.3/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
-<link href="${ctx}/css/nav/navhome.min.css" type="text/css" rel="stylesheet" />
+<link href="${ctx}/css/nav/nav.min.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
 	<form action="nav-homepage!more.action">
