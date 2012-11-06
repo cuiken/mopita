@@ -24,7 +24,7 @@ public class ReportClientAction extends ActionSupport {
 
 	private List<Integer> sliders = Lists.newArrayList();
 
-	public String execute() {
+	public String execute() throws Exception{
 		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(Struts2Utils.getRequest());
 		if (!page.isOrderBySetted()) {
 			page.setOrderBy("createTime");

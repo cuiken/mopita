@@ -26,6 +26,8 @@
 				/login.action = authc
 				/home*.action= anon
 				/nav*.action = anon
+				/nav/nav*.action=anon
+				/report/feedback!save.action=anon
 				/image* = anon
 				/log/** = anon
 				/service/**=anon

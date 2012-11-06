@@ -53,6 +53,9 @@ public class ClientFileManager {
 			return "";
 		}
 
+		if (dtype == null || dtype.isEmpty()) {
+			return "";
+		}
 		String maxVersion = getNewestVersionCode(dtype);
 
 		return compareVersion(versionFromClient, maxVersion);

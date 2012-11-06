@@ -7,6 +7,7 @@ import java.net.URLEncoder;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.Validate;
 
@@ -43,6 +44,12 @@ public class Encodes {
 		} catch (DecoderException e) {
 			throw new IllegalStateException("Hex Decoder exception", e);
 		}
+	}
+
+	public static String encodeMd5(String input) {
+		byte[] ebytes = Digests.md5(StringUtils.getBytesUtf8(input));
+		return encodeHex(ebytes);
+
 	}
 
 	/**

@@ -11,6 +11,7 @@ public class Constants {
 	public final static String LOCKER_STORAGE = Config.getProperty("locker.storage");
 	public final static String NAV_STORAGE = Config.getProperty("nav.storage");
 	public final static String CLIENT_STORAGE = Config.getProperty("client.storeage");
+	public final static String INDEX_STORAGE = Config.getProperty("index.log");
 
 	public final static String[] IMG_EXTENSION = { "jpg", "jpeg", "gif", "bmp", "png" };
 
@@ -25,6 +26,7 @@ public class Constants {
 	public static final String ID_LOCK = "lockId";
 	public static final String ID_JPLOCKER = "jplockerId";
 
+	//============客户端参数===========================================================//
 	public static final String PARA_LANGUAGE = "l";
 	public static final String PARA_DOWNLOAD_METHOD = "dm";
 	public static final String PARA_FROM_MARKET = "fm";
@@ -35,13 +37,22 @@ public class Constants {
 	public static final String PARA_CONTENT_VERSION = "cv";
 	public static final String PARA_CLIENT_TYPE = "ct";
 	public static final String PARA_RESOLUTION = "r";
+	public static final String PARA_OPERATORS = "op";
+	public static final String PARA_NET_ENVIRONMENT = "net";
+	public static final String PARA_AUTO_SWITCH = "as";
+	public static final String PARA_SAFETYLOCK = "sl";
+	public static final String PARA_MACHINE_MODEL = "model";
+	public static final String PARA_DO_TYPE = "do";
+	public static final String PARA_APP_NAME = "app";
+
+	//=======================================================================================//
 
 	public static final String QUERY_STRING = "queryString";
-	public static final String AD_XML = "adXml";
-	public static final String GET_CLIENT = "getClient";
+	public static final String METHOD_AD_XML = "adXml";
+	public static final String METHOD_GET_CLIENT = "getClient";
 
-	public static final String LOCKER_STANDARD = "st";
-	public static final String LOCKER_JP = "jp";
+	public static final String LOCKER_STANDARD = "lock";
+	public static final String LOCKER_JP = "jplocker";
 	public static final String LOCKER_DM = "dm";
 
 	public static final String LENVOL_STORE = "com.lenovo.leos.appstore";

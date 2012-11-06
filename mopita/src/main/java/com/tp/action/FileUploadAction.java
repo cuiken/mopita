@@ -18,6 +18,7 @@ import com.tp.entity.Category;
 import com.tp.entity.ClientFile;
 import com.tp.entity.FileInfo;
 import com.tp.entity.FileType;
+import com.tp.entity.Store;
 import com.tp.entity.ThemeFile;
 import com.tp.service.CategoryManager;
 import com.tp.service.ClientFileManager;
@@ -30,7 +31,7 @@ import com.tp.utils.FileUtils;
 @Results({
 		@Result(name = "editinfo", location = "file-info.action", params = { "themeId", "${id}" }, type = "redirect"),
 		@Result(name = "reupload", location = "file-upload.action", type = "redirect"),
-		@Result(name = "reuploadClient", location = "file-upload!client.action", type = "redirect") })
+		@Result(name = "reuploadClient", location = "funlocker-client.action", type = "redirect") })
 public class FileUploadAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
@@ -53,6 +54,7 @@ public class FileUploadAction extends ActionSupport {
 	private String author;
 
 	private List<Long> checkedCategoryIds;
+	private List<Long> checkedStoreIds;
 
 	private FileManager fileManager;
 	private CategoryManager categoryManager;
@@ -121,6 +123,7 @@ public class FileUploadAction extends ActionSupport {
 		theme.setMarketURL(marketURL);
 		theme.setCreateTime(DateFormatUtils.convert(new Date()));
 		HibernateUtils.mergeByCheckedIds(theme.getCategories(), checkedCategoryIds, Category.class);
+		HibernateUtils.mergeByCheckedIds(theme.getStores(), checkedStoreIds, Store.class);
 		return theme;
 	}
 
@@ -153,6 +156,10 @@ public class FileUploadAction extends ActionSupport {
 
 	public List<Category> getAllCategoryList() {
 		return categoryManager.getCategories();
+	}
+	
+	public List<Store> getAllStore(){
+		return categoryManager.getAllStore();
 	}
 
 	public void setLongDescription(String longDescription) {
@@ -195,6 +202,10 @@ public class FileUploadAction extends ActionSupport {
 		this.checkedCategoryIds = checkedCategoryIds;
 	}
 
+	public void setCheckedStoreIds(List<Long> checkedStoreIds) {
+		this.checkedStoreIds = checkedStoreIds;
+	}
+	
 	@Autowired
 	public void setFileManager(FileManager fileManager) {
 		this.fileManager = fileManager;

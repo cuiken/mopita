@@ -8,11 +8,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Lists;
 import com.tp.dao.CategoryDao;
+import com.tp.dao.ClientTypeDao;
 import com.tp.dao.ShelfDao;
 import com.tp.dao.ShelfFileLinkDao;
 import com.tp.dao.StoreDao;
 import com.tp.dto.ShelfDTO;
 import com.tp.entity.Category;
+import com.tp.entity.ClientType;
 import com.tp.entity.FileInfo;
 import com.tp.entity.FileStoreInfo;
 import com.tp.entity.Shelf;
@@ -30,6 +32,7 @@ public class CategoryManager {
 	private ShelfDao shelfDao;
 	private ShelfFileLinkDao sflDao;
 	private FileManager fileManager;
+	private ClientTypeDao clientDao;
 
 	public Category getCategory(Long id) {
 		return categoryDao.get(id);
@@ -242,6 +245,22 @@ public class CategoryManager {
 		return shelfDao.isShelfNameUnique(newName, oldName, id);
 	}
 
+	public void saveClientType(ClientType entity){
+		clientDao.save(entity);
+	}
+	
+	public ClientType getClientType(Long id){
+		return clientDao.get(id);
+	}
+	
+	public void deleteClientType(Long id){
+		clientDao.delete(id);
+	}
+	
+	public List<ClientType> getClientTypes(){
+		return clientDao.getAll();
+	}
+	
 	@Autowired
 	public void setCategoryDao(CategoryDao categoryDao) {
 		this.categoryDao = categoryDao;
@@ -265,5 +284,10 @@ public class CategoryManager {
 	@Autowired
 	public void setSflDao(ShelfFileLinkDao sflDao) {
 		this.sflDao = sflDao;
+	}
+	
+	@Autowired
+	public void setClientDao(ClientTypeDao clientDao) {
+		this.clientDao = clientDao;
 	}
 }

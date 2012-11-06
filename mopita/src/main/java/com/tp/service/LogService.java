@@ -1,8 +1,9 @@
 package com.tp.service;
 
-import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.lucene.search.IndexSearcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tp.dao.LogCountClientDao;
 import com.tp.dao.LogCountContentDao;
 import com.tp.dao.LogCountContentMarketDao;
+import com.tp.dao.LogForContentDao;
 import com.tp.dao.LogFromClientDao;
 import com.tp.dao.LogInHomeDao;
 import com.tp.dao.MarketDao;
@@ -17,12 +19,14 @@ import com.tp.dao.ThemeFileDao;
 import com.tp.entity.LogContentMarket;
 import com.tp.entity.LogCountClient;
 import com.tp.entity.LogCountContent;
+import com.tp.entity.LogForContent;
 import com.tp.entity.LogFromClient;
 import com.tp.entity.LogInHome;
 import com.tp.entity.Market;
 import com.tp.entity.ThemeFile;
 import com.tp.orm.Page;
 import com.tp.orm.PropertyFilter;
+import com.tp.search.LogSearch;
 import com.tp.utils.DateFormatUtils;
 
 @Component
@@ -34,14 +38,25 @@ public class LogService {
 
 	private LogFromClientDao logClientDao;
 	private LogInHomeDao logHomeDao;
+	private LogForContentDao logContentDao;
 	private LogCountClientDao countClientDao;
 	private LogCountContentDao countContentDao;
 	private LogCountContentMarketDao ccMarketDao;
 	private ThemeFileDao themeDao;
 	private MarketDao marketDao;
 
+	private LogSearch logSearch;
+
+	public List<LogInHome> queryLogInHomeByDate(String sdate, String edate) {
+		return logHomeDao.queryByDate(sdate, edate);
+	}
+
 	public void saveLogFromClent(LogFromClient entity) {
 		logClientDao.save(entity);
+	}
+
+	public void saveLogContent(LogForContent entity) {
+		logContentDao.save(entity);
 	}
 
 	public void saveLogInHome(LogInHome entity) {
@@ -77,12 +92,12 @@ public class LogService {
 		return countClientDao.get(id);
 	}
 
-	public void createClientReport(String sdate, String edate) {
+	public void createClientReport(IndexSearcher searcher, String sdate, String edate) throws Exception {
 		LogCountClient client = new LogCountClient();
 		long start = System.currentTimeMillis();
-		long downTotal = countClientDownloadTotal(sdate, edate);
-		long downByContent = countClientDownloadByContent(sdate, edate);
-		long downByShare = countClientDownloadByShare(sdate, edate);
+		long downTotal = logHomeDao.countClientDownload(METHOD_GETCLIENT, sdate, edate);
+		long downByContent = logHomeDao.countClientDownByContent(METHOD_GETCLIENT, "%cv:%", sdate, edate);
+		long downByShare = logSearch.downloadByShare(searcher, sdate, edate);
 		long totalUser = countTotalUser(edate);
 		long perTotalUser = 0L;
 
@@ -95,7 +110,7 @@ public class LogService {
 		client.setDownByShare(downByShare);
 		client.setTotalDownload(downTotal);
 		client.setDownByOther(downTotal - downByContent - downByShare);
-		client.setVisitStoreCount(countVisitHome(sdate, edate));
+		client.setVisitStoreCount(logSearch.storeVisits(searcher, sdate, edate));
 		client.setVisitStoreUser(countVisitUser(sdate, edate));
 		client.setOpenCount(countUse(sdate, edate));
 		client.setTotalUser(totalUser);
@@ -129,68 +144,50 @@ public class LogService {
 	}
 
 	/**
-	 * 查询商店访问量
-	 */
-	private Long countVisitHome(String sdate, String edate) {
-		return logHomeDao.countByMethod(METHOD_EXECUTE, "%%", sdate, edate);
-	}
-
-	/**
 	 * 查询商店访问用户量
 	 */
 	private Long countVisitUser(String sdate, String edate) {
 		return logHomeDao.countUserInHome(METHOD_EXECUTE, sdate, edate);
 	}
 
-	/**
-	 * 查询客户端总下载量
-	 */
-	private Long countClientDownloadTotal(String sdate, String edate) {
-		return logHomeDao.countByMethod(METHOD_GETCLIENT, "%%", sdate, edate);
-	}
-
-	/**
-	 * 分享下载客户端量
-	 */
-	private Long countClientDownloadByShare(String sdate, String edate) {
-		return logHomeDao.countByMethod(METHOD_GETCLIENT, "%f:share%", sdate, edate);
-	}
-
-	/**
-	 * 从内容下载客户端量
-	 */
-	private Long countClientDownloadByContent(String sdate, String edate) {
-		return logHomeDao.countByMethod(METHOD_GETCLIENT, "%cv:%", sdate, edate);
-	}
-
-	public void createContentReport(String sdate, String edate) {
+	public void createContentReport(IndexSearcher searcher, String sdate, String edate) throws Exception {
 		List<ThemeFile> themes = themeDao.getAll();
 		List<Market> markets = marketDao.getAll();
 		for (ThemeFile theme : themes) {
 			LogCountContent lcct = new LogCountContent();
-			long totalVisit = countContentTotalVisit(String.valueOf(theme.getId()), sdate, edate);
-			long visitByAd = countContentVisitByAD(String.valueOf(theme.getId()), sdate, edate);
-			long totalDown = countContentTotalDown(String.valueOf(theme.getId()), theme.getMarketURL(), sdate, edate);
-			long marketDown = countContentMarketDown(theme.getMarketURL(), sdate, edate);
+
+			String fid = String.valueOf(theme.getId());
+			long totalVisit = logSearch.contentVisits(searcher, fid, sdate, edate);
+			long visitByAD = logSearch.contentVisitByAD(searcher, fid, sdate, edate);
+			long marketDown = logSearch.contentDownFromMarket(searcher, theme.getMarketURL(), sdate, edate);
+			long selfDown = logSearch.contentDownFromStore(searcher, fid, sdate, edate);
+
 			lcct.setLogDate(sdate);
 			lcct.setThemeName(theme.getTitle());
 			lcct.setTotalVisit(totalVisit);
-			lcct.setTotalDown(totalDown);
-			lcct.setVisitByAd(visitByAd);
-			lcct.setVisitByStore(totalVisit - visitByAd);
-			lcct.setDownByStore(totalDown - marketDown);
+			lcct.setTotalDown(marketDown + selfDown);
+			lcct.setVisitByAd(visitByAD);
+			lcct.setVisitByStore(totalVisit - visitByAD);
+			lcct.setDownByStore(selfDown);
 			countContentDao.save(lcct);
-			perMarketDown(theme, lcct, markets, sdate, edate);
+			perMarketDown(searcher, theme, lcct, markets, sdate, edate);
 		}
 	}
 
-	private void perMarketDown(ThemeFile theme, LogCountContent lcc, List<Market> markets, String sdate, String edate) {
+	private void perMarketDown(IndexSearcher searcher, ThemeFile theme, LogCountContent lcc, List<Market> markets,
+			String sdate, String edate) throws Exception {
 
 		for (Market market : markets) {
 			if (market.getThemes().contains(theme)) {
 				LogContentMarket ccMarket = new LogContentMarket();
-				long perMarketDown = countContentPerMarketDown(market.getMarketKey(), theme.getMarketURL(), sdate,
-						edate);
+
+				String marketKey = market.getMarketKey();
+				marketKey = escape(marketKey);
+				if (marketKey.equals("marketclient")) {
+					marketKey = market.getPkName();
+				}
+				String fpack = theme.getMarketURL();
+				long perMarketDown = logSearch.contentPerMarketDown(searcher, sdate, edate, marketKey, fpack);
 				ccMarket.setMarketName(market.getName());
 				ccMarket.setTotalDown(perMarketDown);
 				ccMarket.setLogContent(lcc);
@@ -199,45 +196,15 @@ public class LogService {
 		}
 	}
 
-	/**
-	 * 文件内容总访问量
-	 */
-	public Long countContentTotalVisit(String fid, String sdate, String edate) {
-		return logHomeDao.countContentByMethod("details", "%" + fid + "%", sdate, edate);
-	}
+	private String escape(String marketKey) {
+		if (marketKey != null && !marketKey.isEmpty()) {
+			String[] strs = StringUtils.split(marketKey, ":");
+			if (strs.length > 0) {
+				return strs[0];
+			}
+		}
+		return "";
 
-	/**
-	 * 文件内容广告引导访问量
-	 */
-
-	public Long countContentVisitByAD(String fid, String sdate, String edate) {
-		return logHomeDao.countContentByMethod("details", "%f:ad%" + fid + "%", sdate, edate);
-	}
-
-	/**
-	 * 文件下载总量
-	 */
-	public Long countContentTotalDown(String fid, String fpack, String sdate, String edate) {
-		String[] methods = { "execute", "more", "getClient", "details" };
-		return logHomeDao.countContentTotalDown(Arrays.asList(methods), "%" + fpack + "%", "%id:" + fid + "%", sdate,
-				edate);
-	}
-
-	/**
-	 * 文件对应的market访问量(下载量)
-	 */
-	public Long countContentMarketDown(String filePackage, String sdate, String edate) {
-
-		String[] methods = { "execute", "more", "getClient", "details", "file-download.action" };
-
-		return logHomeDao.countContentNotIn(Arrays.asList(methods), "%" + filePackage + "%", sdate, edate);
-	}
-
-	/**
-	 * 文件在每个市场的下载量
-	 */
-	public Long countContentPerMarketDown(String marketKey, String fpack, String sdate, String edate) {
-		return logHomeDao.countContentPerMarketDown("%" + marketKey + "%" + fpack + "%", sdate, edate);
 	}
 
 	@Autowired
@@ -273,5 +240,15 @@ public class LogService {
 	@Autowired
 	public void setCountContentDao(LogCountContentDao countContentDao) {
 		this.countContentDao = countContentDao;
+	}
+
+	@Autowired
+	public void setLogContentDao(LogForContentDao logContentDao) {
+		this.logContentDao = logContentDao;
+	}
+
+	@Autowired
+	public void setLogSearch(LogSearch logSearch) {
+		this.logSearch = logSearch;
 	}
 }

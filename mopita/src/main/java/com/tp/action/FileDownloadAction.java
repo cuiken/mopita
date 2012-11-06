@@ -8,8 +8,7 @@ import java.io.OutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -26,7 +25,6 @@ public class FileDownloadAction extends ActionSupport {
 	private String downloadFileName;
 	private long contentLength;
 	private ClientFileManager clientFileManager;
-	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public String execute() throws Exception {
@@ -51,7 +49,6 @@ public class FileDownloadAction extends ActionSupport {
 
 				p = Long.parseLong(rs[0]);
 			}
-			logger.warn(file.getName() + ": " + range);
 			response.setHeader("content-Length", String.valueOf(fileLength - p));
 			if (p != 0) {
 				String contentRange = new StringBuffer("bytes").append(new Long(p).toString()).append("-")
@@ -62,15 +59,16 @@ public class FileDownloadAction extends ActionSupport {
 			}
 			response.addHeader("Content-Disposition", "attachment; filename=" + "\"" + downloadFileName + "\"");
 			response.setContentType("application/vnd.android.package-archive");
-			byte[] buffer = new byte[4096];
-			int len = 0;
+
 			OutputStream output = response.getOutputStream();
-			while ((len = inputStream.read(buffer)) != -1) {
-				output.write(buffer, 0, len);
+			try {
+				IOUtils.copy(inputStream, output);
+				output.flush();
+			} finally {
+				IOUtils.closeQuietly(inputStream);
 			}
-			inputStream.close();
-			output.flush();
 		}
+
 		return null;
 	}
 
@@ -85,16 +83,19 @@ public class FileDownloadAction extends ActionSupport {
 		}
 		if (ct != null && ct.equals(Constants.DM_LOCKER)) {
 			return getLockerClient(version, app, Constants.LOCKER_DM);
+		} else if (ct != null) {
+			return getLockerClient(version, app, ct);
 		}
+
 		String market = Struts2Utils.getParameter(Constants.PARA_FROM_MARKET);
 		if (contentVersion != null && contentVersion.contains(Constants.LOCKER_DM)) {
 			return getLockerClient(version, app, Constants.LOCKER_DM);
 		}
 		if (market != null && market.equals(Constants.MARKET_GOOGLE)) {
 			return getLockerClient(version, app, Constants.LOCKER_JP);
-		} else {
-			return getLockerClient(version, app, Constants.LOCKER_STANDARD);
 		}
+		return getLockerClient(version, app, Constants.LOCKER_STANDARD);
+
 	}
 
 	private String getLockerClient(String version, String app, String dtype) throws Exception {

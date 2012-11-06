@@ -17,6 +17,11 @@ public class LogFromClient extends IdEntity {
 	private String clientVersion;
 	private String resolution;
 	private String fromMarket;
+	private String autoSwitch;
+	private String safetyLock;
+	private String netEnv;
+	private String operators;
+	private String model;
 	private String createTime;
 
 	public String getImei() {
@@ -81,6 +86,46 @@ public class LogFromClient extends IdEntity {
 
 	public void setFromMarket(String fromMarket) {
 		this.fromMarket = fromMarket;
+	}
+
+	public String getAutoSwitch() {
+		return autoSwitch;
+	}
+
+	public void setAutoSwitch(String autoSwitch) {
+		this.autoSwitch = autoSwitch;
+	}
+
+	public String getSafetyLock() {
+		return safetyLock;
+	}
+
+	public void setSafetyLock(String safetyLock) {
+		this.safetyLock = safetyLock;
+	}
+
+	public String getNetEnv() {
+		return netEnv;
+	}
+
+	public void setNetEnv(String netEnv) {
+		this.netEnv = netEnv;
+	}
+
+	public String getOperators() {
+		return operators;
+	}
+
+	public void setOperators(String operators) {
+		this.operators = operators;
+	}
+
+	public String getModel() {
+		return model;
+	}
+
+	public void setModel(String model) {
+		this.model = model;
 	}
 
 	public String getCreateTime() {

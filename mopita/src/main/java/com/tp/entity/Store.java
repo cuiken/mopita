@@ -6,6 +6,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -18,9 +21,10 @@ import com.tp.utils.ConvertUtils;
 @DiscriminatorValue("Store")
 public class Store extends CateItem {
 
-	private List<FileStoreInfo> fileStoreInfo = Lists.newArrayList();;
-
+	private List<FileStoreInfo> fileStoreInfo = Lists.newArrayList();
 	private List<Shelf> shelfs = Lists.newArrayList();
+
+	private List<ThemeFile> themes = Lists.newArrayList();
 
 	@OneToMany(mappedBy = "store", cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY, orphanRemoval = true)
 	public List<Shelf> getShelfs() {
@@ -38,6 +42,16 @@ public class Store extends CateItem {
 
 	public void setFileStoreInfo(List<FileStoreInfo> fileStoreInfo) {
 		this.fileStoreInfo = fileStoreInfo;
+	}
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "f_file_store", joinColumns = { @JoinColumn(name = "s_id") }, inverseJoinColumns = { @JoinColumn(name = "f_id") })
+	public List<ThemeFile> getThemes() {
+		return themes;
+	}
+	
+	public void setThemes(List<ThemeFile> themes) {
+		this.themes = themes;
 	}
 
 	@Transient

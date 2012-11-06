@@ -15,6 +15,7 @@ import com.google.common.collect.Lists;
 import com.tp.dao.HibernateUtils;
 import com.tp.entity.Category;
 import com.tp.entity.FileInfo;
+import com.tp.entity.Store;
 import com.tp.entity.ThemeFile;
 import com.tp.orm.Page;
 import com.tp.orm.PropertyFilter;
@@ -34,7 +35,8 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	private static final long serialVersionUID = 1L;
 	private ThemeFile entity;
 	private Long id;
-	private List<Long> checkedCategoryId;
+	private List<Long> checkedCategoryIds;
+	private List<Long> checkedStoreIds;
 	private Page<ThemeFile> page = new Page<ThemeFile>();
 	private List<FileInfo> fileInfo;
 	private FileManager fileManager;
@@ -55,7 +57,8 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	@Override
 	//	@RequiresPermissions("file:edit")
 	public String input() throws Exception {
-		checkedCategoryId = entity.getCheckedCategoryIds();
+		checkedCategoryIds = entity.getCheckedCategoryIds();
+		checkedStoreIds=entity.getCheckedStoreIds();
 		return INPUT;
 	}
 
@@ -86,7 +89,8 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	@Override
 	//	@RequiresPermissions("file:edit")
 	public String save() throws Exception {
-		HibernateUtils.mergeByCheckedIds(entity.getCategories(), checkedCategoryId, Category.class);
+		HibernateUtils.mergeByCheckedIds(entity.getCategories(), checkedCategoryIds, Category.class);
+		HibernateUtils.mergeByCheckedIds(entity.getStores(), checkedStoreIds, Store.class);
 		List<File> files = copyNewFile(file, entity.getApkPath());
 
 		entity.setModifyTime(DateFormatUtils.convert(new Date()));
@@ -138,6 +142,10 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 		return categoryManager.getCategories();
 	}
 
+	public List<Store> getAllStore(){
+		return categoryManager.getAllStore();
+	}
+	
 	@Autowired
 	public void setFileManager(FileManager fileManager) {
 		this.fileManager = fileManager;
@@ -161,12 +169,20 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 		this.id = id;
 	}
 
-	public List<Long> getCheckedCategoryId() {
-		return checkedCategoryId;
+	public List<Long> getCheckedCategoryIds() {
+		return checkedCategoryIds;
 	}
 
-	public void setCheckedCategoryId(List<Long> checkedCategoryId) {
-		this.checkedCategoryId = checkedCategoryId;
+	public void setCheckedCategoryIds(List<Long> checkedCategoryIds) {
+		this.checkedCategoryIds = checkedCategoryIds;
+	}
+	
+	public List<Long> getCheckedStoreIds() {
+		return checkedStoreIds;
+	}
+	
+	public void setCheckedStoreIds(List<Long> checkedStoreIds) {
+		this.checkedStoreIds = checkedStoreIds;
 	}
 
 	public List<FileInfo> getFileInfo() {

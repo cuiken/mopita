@@ -1,5 +1,6 @@
 package com.tp.service.nav;
 
+import java.net.URLEncoder;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,12 @@ import com.tp.dao.nav.NavigatorIconDao;
 import com.tp.dao.nav.TagIconDao;
 import com.tp.entity.nav.Board;
 import com.tp.entity.nav.BoardIcon;
+import com.tp.entity.nav.Navigator;
 import com.tp.entity.nav.NavigatorIcon;
 import com.tp.entity.nav.Tag;
-import com.tp.entity.nav.Navigator;
 import com.tp.entity.nav.TagIcon;
+import com.tp.orm.Page;
+import com.tp.orm.PropertyFilter;
 
 @Component
 @Transactional
@@ -30,6 +33,13 @@ public class NavigatorService {
 	private TagIconDao tagIconDao;
 	private NavigatorIconDao navIconDao;
 
+	public Board getBoardByValue(String name) {
+		return boardDao.findUniqueBy("value", name);
+	}
+
+	public Tag getTagByValue(String name){
+		return tagDao.findUniqueBy("value", name);
+	}
 	//board icon
 	public void saveBoardIcon(BoardIcon entity) {
 		boardIconDao.save(entity);
@@ -84,6 +94,10 @@ public class NavigatorService {
 		return navigatorDao.getAll();
 	}
 
+	public Page<Navigator> searchNavigator(final Page<Navigator> page,final List<PropertyFilter> filters){
+		return navigatorDao.findPage(page, filters);
+	}
+	
 	public Navigator getNav(Long id) {
 		return navigatorDao.get(id);
 	}
@@ -94,6 +108,28 @@ public class NavigatorService {
 
 	public void saveNav(Navigator entity) {
 		navigatorDao.save(entity);
+	}
+	
+	public String toXml() throws Exception{
+		StringBuilder buffer=new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		buffer.append("<category>");
+		List<Board> boards=this.getAllBoards();
+		for(Board board:boards){
+			buffer.append("<Button id=\""+board.getUuid()+"\" title=\""+board.getName()+"\" div=\""+board.getValue()+"\">");
+			for(Navigator nav:board.getNavigators()){
+				buffer.append("<Button id=\""+nav.getUuid()+"\" title=\""+nav.getName()+"\" link=\""+URLEncoder.encode(nav.getNavAddr(),"utf-8")+"\"/>");
+			}
+			for(Tag tag:board.getTags()){
+				buffer.append("<Button id=\""+tag.getUuid()+"\" title=\""+tag.getName()+"\" div=\""+tag.getValue()+"\">");
+				for(Navigator nav:tag.getNavigators()){
+					buffer.append("<Button id=\""+nav.getUuid()+"\" title=\""+nav.getName()+"\" link=\""+URLEncoder.encode(nav.getNavAddr(),"utf-8")+"\"/>");
+				}
+				buffer.append("</Button>");
+			}
+			buffer.append("</Button>");
+		}
+		buffer.append("</category>");
+		return buffer.toString();
 	}
 
 	@Autowired
@@ -125,4 +161,5 @@ public class NavigatorService {
 	public void setNavIconDao(NavigatorIconDao navIconDao) {
 		this.navIconDao = navIconDao;
 	}
+
 }

@@ -12,16 +12,19 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.google.common.collect.Lists;
 
 @Entity
 @DiscriminatorValue("board")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Board extends TagItem {
 
 	private List<Tag> tags = Lists.newArrayList();
 	private List<Navigator> navigators = Lists.newArrayList();
-	private List<BoardIcon> icons=Lists.newArrayList();
+	private List<BoardIcon> icons = Lists.newArrayList();
 
 	@OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
 	public List<Tag> getTags() {
@@ -34,6 +37,7 @@ public class Board extends TagItem {
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "nav_board_navigator", joinColumns = { @JoinColumn(name = "b_id") }, inverseJoinColumns = { @JoinColumn(name = "n_id") })
+	@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 	public List<Navigator> getNavigators() {
 		return navigators;
 	}
@@ -46,11 +50,11 @@ public class Board extends TagItem {
 	public List<BoardIcon> getIcons() {
 		return icons;
 	}
-	
+
 	public void setIcons(List<BoardIcon> icons) {
 		this.icons = icons;
 	}
-	
+
 	@Override
 	public String toString() {
 

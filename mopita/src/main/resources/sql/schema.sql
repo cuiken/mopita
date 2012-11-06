@@ -65,6 +65,7 @@ create table f_file(
 	pre_web_path varchar(255),
 	pre_client_path varchar(255),
 	market_url varchar(100),
+	cmcc_url varchar(255),
 	version varchar(10),
 	create_time varchar(30),
 	modify_time varchar(30),
@@ -114,6 +115,13 @@ create table f_file_shelf(
 	f_id int,
 	s_id int,
 	sort int,
+	primary key(id)
+)ENGINE=InnoDB;
+
+create table f_file_store(
+	id int not null auto_increment,
+	f_id int,
+	s_id int,
 	primary key(id)
 )ENGINE=InnoDB;
 
@@ -178,6 +186,11 @@ create table log_f_client(
 	client_version varchar(20),
 	resolution varchar(50),
 	from_market varchar(50),
+	auto_switch varchar(5),
+	safety_lock varchar(5),
+	net_env varchar(35),
+	operators varchar(35),
+	model varchar(35),
 	create_time varchar(32),
 	primary key(id)
 )ENGINE=InnoDB;
@@ -192,9 +205,26 @@ create table log_f_store(
 	client_version varchar(20),
 	resolution varchar(100),
 	from_market varchar(255),
-	request_method varchar(50),
+	request_method varchar(255),
 	request_params varchar(255),
 	create_time varchar(32),
+	primary key(id)
+)ENGINE=InnoDB;
+
+create table log_f_content(
+	id int not null auto_increment,
+	imei varchar(50),
+	imsi varchar(50),
+	language varchar(20),
+	app_name varchar(35),
+	do_type varchar(35),
+	net_env varchar(35),
+	operators varchar(35),
+	resolution varchar(100),
+	from_market varchar(255),
+	content_version varchar(35),
+	client_version varchar(35),
+	create_time timestamp not null default 0,
 	primary key(id)
 )ENGINE=InnoDB;
 
@@ -237,11 +267,35 @@ create table log_cc_market(
 	primary key(id)
 )ENGINE=InnoDB;
 
+create table log_f_feedback(
+	id int not null auto_increment,
+	content varchar(255) not null default 'content is empty!auto created',
+	contact varchar(255),
+	params varchar(255),
+	status tinyint not null default 0,
+	create_time timestamp not null default 0,
+	modify_time timestamp not null default 0,
+	primary key(id)
+)ENGINE=InnoDB;
+
+create table log_f_cmcc(
+	id bigint not null auto_increment,
+	sid varchar(35) not null default 0,
+	theme_id int not null default 0,
+	imei varchar(50) not null default 0,
+	resolution varchar(35),
+	store_type varchar(35),
+	create_time timestamp not null default 0,
+	primary key(id)
+)ENGINE=InnoDB;
+
 /**--分类表*/
 create table nav_category(
 	id int not null auto_increment,
 	name varchar(35),
 	value varchar(35),
+	description varchar(255),
+	uuid varchar(100),
 	parent_id int,
 	dtype varchar(35),
 	primary key(id)
@@ -253,6 +307,7 @@ create table nav_item(
 	name varchar(35),
 	value varchar(35),
 	nav_addr varchar(255),
+	uuid varchar(100),
 	primary key(id)
 
 )ENGINE=InnoDB;

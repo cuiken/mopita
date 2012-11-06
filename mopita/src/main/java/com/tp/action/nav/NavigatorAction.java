@@ -8,15 +8,20 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.collect.Lists;
 import com.tp.action.CRUDActionSupport;
 import com.tp.dao.HibernateUtils;
 import com.tp.entity.nav.Board;
 import com.tp.entity.nav.NavigatorIcon;
 import com.tp.entity.nav.Tag;
 import com.tp.entity.nav.Navigator;
+import com.tp.orm.Page;
+import com.tp.orm.PropertyFilter;
 import com.tp.service.nav.NavigatorService;
 import com.tp.utils.Constants;
 import com.tp.utils.FileUtils;
+import com.tp.utils.Struts2Utils;
+import com.tp.utils.UUIDGenerator;
 
 @Namespace("/nav")
 @Results({ @Result(name = CRUDActionSupport.RELOAD, location = "navigator.action", type = "redirect") })
@@ -26,12 +31,14 @@ public class NavigatorAction extends CRUDActionSupport<Navigator> {
 
 	private Navigator entity;
 	private Long id;
-	private List<Navigator> navigators;
 	private File upload;
 	private NavigatorService navigatorService;
 
 	private List<Long> checkedTagIds;
 	private List<Long> checkedBoardIds;
+
+	private Page<Navigator> page = new Page<Navigator>();
+	private List<Integer> sliders = Lists.newArrayList();
 
 	@Override
 	public Navigator getModel() {
@@ -41,7 +48,10 @@ public class NavigatorAction extends CRUDActionSupport<Navigator> {
 
 	@Override
 	public String list() throws Exception {
-		navigators = navigatorService.getAllNav();
+
+		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(Struts2Utils.getRequest());
+		page = navigatorService.searchNavigator(page, filters);
+		sliders = page.getSlider(10);
 		return SUCCESS;
 	}
 
@@ -54,6 +64,7 @@ public class NavigatorAction extends CRUDActionSupport<Navigator> {
 
 	@Override
 	public String save() throws Exception {
+
 		HibernateUtils.mergeByCheckedIds(entity.getBoards(), checkedBoardIds, Board.class);
 		HibernateUtils.mergeByCheckedIds(entity.getTags(), checkedTagIds, Tag.class);
 		navigatorService.saveNav(entity);
@@ -83,6 +94,7 @@ public class NavigatorAction extends CRUDActionSupport<Navigator> {
 	protected void prepareModel() throws Exception {
 		if (id == null) {
 			entity = new Navigator();
+			entity.setUuid(UUIDGenerator.randomLong());
 		} else {
 			entity = navigatorService.getNav(id);
 		}
@@ -91,10 +103,6 @@ public class NavigatorAction extends CRUDActionSupport<Navigator> {
 
 	public void setUpload(File upload) {
 		this.upload = upload;
-	}
-
-	public List<Navigator> getNavigators() {
-		return navigators;
 	}
 
 	public void setId(Long id) {
@@ -123,6 +131,14 @@ public class NavigatorAction extends CRUDActionSupport<Navigator> {
 
 	public void setCheckedBoardIds(List<Long> checkedBoardIds) {
 		this.checkedBoardIds = checkedBoardIds;
+	}
+
+	public List<Integer> getSliders() {
+		return sliders;
+	}
+
+	public Page<Navigator> getPage() {
+		return page;
 	}
 
 	@Autowired

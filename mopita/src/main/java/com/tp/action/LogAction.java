@@ -16,20 +16,12 @@ import com.tp.service.LogService;
 import com.tp.utils.Constants;
 import com.tp.utils.DateFormatUtils;
 import com.tp.utils.Struts2Utils;
+import static com.tp.utils.Constants.*;
 
 @Namespace("/log")
 public class LogAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
-
-	private static final String PARA_IMEI = Constants.PARA_IMEI;
-	private static final String PARA_IMSI = Constants.PARA_IMSI;
-	private static final String PARA_STORE_TYPE = Constants.PARA_STORE_TYPE;
-	private static final String PARA_DOWNLOAD_TYPE = Constants.PARA_DOWNLOAD_METHOD;
-	private static final String PARA_LANGUAGE = Constants.PARA_LANGUAGE;
-	private static final String PARA_CLIENT_VERSION = Constants.PARA_CLIENT_VERSION;
-	private static final String PARA_RESOLUTION = Constants.PARA_RESOLUTION;
-	private static final String PARA_FROM_MARKET = Constants.PARA_FROM_MARKET;
 
 	private Page<LogFromClient> page = new Page<LogFromClient>();
 
@@ -51,11 +43,16 @@ public class LogAction extends ActionSupport {
 		String imei = Struts2Utils.getParameter(PARA_IMEI);
 		String imsi = Struts2Utils.getParameter(PARA_IMSI);
 		String storeType = Struts2Utils.getParameter(PARA_STORE_TYPE);
-		String downType = Struts2Utils.getParameter(PARA_DOWNLOAD_TYPE);
+		String downType = Struts2Utils.getParameter(PARA_DOWNLOAD_METHOD);
 		String language = Struts2Utils.getParameter(PARA_LANGUAGE);
 		String clientVersion = Struts2Utils.getParameter(PARA_CLIENT_VERSION);
 		String resolution = Struts2Utils.getParameter(PARA_RESOLUTION);
 		String fromMarket = Struts2Utils.getParameter(PARA_FROM_MARKET);
+		String autoSwitch = Struts2Utils.getParameter(PARA_AUTO_SWITCH);
+		String safetyLock = Struts2Utils.getParameter(PARA_SAFETYLOCK);
+		String netEnv = Struts2Utils.getParameter(PARA_NET_ENVIRONMENT);
+		String op = Struts2Utils.getParameter(PARA_OPERATORS);
+		String model=Struts2Utils.getParameter(PARA_MACHINE_MODEL);
 		LogFromClient entity = new LogFromClient();
 		entity.setImei(imei);
 		entity.setImsi(imsi);
@@ -65,14 +62,20 @@ public class LogAction extends ActionSupport {
 		entity.setClientVersion(clientVersion);
 		entity.setResolution(resolution);
 		entity.setFromMarket(fromMarket);
+		entity.setAutoSwitch(autoSwitch);
+		entity.setSafetyLock(safetyLock);
+		entity.setNetEnv(netEnv);
+		entity.setOperators(op);
+		entity.setModel(model);
 		entity.setCreateTime(DateFormatUtils.convert(new Date()));
 		logService.saveLogFromClent(entity);
 
 		ClientFile client = clientFileManager.getByVersion(clientVersion);
-		if (client == null) {
+		if (client == null || clientVersion.equals("2.6.0")) { //兼容客户端无法升级的bug
 			Struts2Utils.renderText("");
 			return null;
 		}
+
 		String version = clientFileManager.getNewestClient(clientVersion, client.getDtype());
 		Struts2Utils.renderText(version);
 		return null;
@@ -87,7 +90,7 @@ public class LogAction extends ActionSupport {
 		int ques = StringUtils.indexOf(queryStr, "?");
 		if (ques != -1) {
 			log.setRequestMethod(StringUtils.substring(queryStr, 0, ques));
-		}else{
+		} else {
 			log.setRequestMethod("d_download");
 		}
 		if (index != -1) {

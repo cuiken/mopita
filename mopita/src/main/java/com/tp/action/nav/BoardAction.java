@@ -14,6 +14,7 @@ import com.tp.entity.nav.BoardIcon;
 import com.tp.service.nav.NavigatorService;
 import com.tp.utils.Constants;
 import com.tp.utils.FileUtils;
+import com.tp.utils.UUIDGenerator;
 
 @Namespace("/nav")
 @Results({ @Result(name = CRUDActionSupport.RELOAD, location = "board.action", type = "redirect") })
@@ -46,7 +47,7 @@ public class BoardAction extends CRUDActionSupport<Board> {
 
 	@Override
 	public String save() throws Exception {
-
+		
 		navigatorService.saveBoard(entity);
 		if (upload != null) {
 			List<File> icons = FileUtils.unZip(upload, Constants.NAV_STORAGE);
@@ -73,6 +74,7 @@ public class BoardAction extends CRUDActionSupport<Board> {
 	protected void prepareModel() throws Exception {
 		if (id == null) {
 			entity = new Board();
+			entity.setUuid(UUIDGenerator.randomLong());
 		} else {
 			entity = navigatorService.getBoard(id);
 		}

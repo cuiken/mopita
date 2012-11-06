@@ -1,16 +1,6 @@
 package com.tp.action;
 
-import static com.tp.utils.Constants.AD_XML;
-import static com.tp.utils.Constants.GET_CLIENT;
-import static com.tp.utils.Constants.PARA_CLIENT_VERSION;
-import static com.tp.utils.Constants.PARA_DOWNLOAD_METHOD;
-import static com.tp.utils.Constants.PARA_FROM_MARKET;
-import static com.tp.utils.Constants.PARA_IMEI;
-import static com.tp.utils.Constants.PARA_IMSI;
-import static com.tp.utils.Constants.PARA_LANGUAGE;
-import static com.tp.utils.Constants.PARA_RESOLUTION;
-import static com.tp.utils.Constants.PARA_STORE_TYPE;
-import static com.tp.utils.Constants.QUERY_STRING;
+import static com.tp.utils.Constants.*;
 
 import java.util.Date;
 import java.util.List;
@@ -30,6 +20,7 @@ import com.google.common.collect.Maps;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 import com.tp.entity.DownloadType;
+import com.tp.entity.LogForContent;
 import com.tp.entity.LogInHome;
 import com.tp.service.LogService;
 import com.tp.utils.Constants;
@@ -48,7 +39,7 @@ public class HomeInterceptor extends AbstractInterceptor {
 		Object action = invocation.getAction();
 		String method = invocation.getProxy().getMethod();
 		Map<String, Object> paramMap = invocation.getInvocationContext().getParameters();
-		if (action instanceof HomeAction || action instanceof JplockerAction || action instanceof LockerAction) {
+		if (action instanceof HomeAction || action instanceof JplockerAction) {
 			saveLog(method, paramMap);
 			setParamInSession(method);
 			String language = (String) Struts2Utils.getSessionAttribute(Constants.PARA_LANGUAGE);
@@ -56,16 +47,65 @@ public class HomeInterceptor extends AbstractInterceptor {
 				Struts2Utils.getSession().setAttribute(Constants.PARA_LANGUAGE, Language.JP.getValue());
 			}
 		}
+		if(action instanceof LockerAction){
+			setParamInSession(method);
+		}
+		if (action instanceof SaveLogAction) {
+			if (method.equals("client")) {
+				method = "getClient2";
+				saveLog(method, paramMap);
+			} else {
+
+				saveContentLog(paramMap);
+			}
+		}
 		if (action instanceof FileDownloadAction) {
-			if (method.equals(GET_CLIENT)) {
+			if (method.equals(METHOD_GET_CLIENT)) {
 				saveLog(method, paramMap);
 			}
 		}
 		return invocation.invoke();
 	}
 
+	private void saveContentLog(Map<String, Object> requestParam) throws Exception {
+
+		LogForContent log = new LogForContent();
+		Set<Entry<String, Object>> keys = requestParam.entrySet();
+		for (Entry<String, Object> e : keys) {
+			String k = e.getKey();
+			String v = ((String[]) e.getValue())[0];
+			if (k.equals(PARA_IMEI)) {
+				log.setImei(v);
+			} else if (k.equals(PARA_IMSI)) {
+				log.setImsi(v);
+			} else if (k.equals(PARA_DO_TYPE)) {
+				log.setDoType(v);
+			} else if (k.equals(PARA_LANGUAGE)) {
+				log.setLanguage(v);
+			} else if (k.equals(PARA_RESOLUTION)) {
+				log.setResolution(v);
+			} else if (k.equals(PARA_NET_ENVIRONMENT)) {
+				log.setNetEnv(v);
+			} else if (k.equals(PARA_APP_NAME)) {
+				log.setAppName(v);
+			} else if (k.equals(PARA_OPERATORS)) {
+				log.setOperators(v);
+			} else if (k.equals(PARA_CONTENT_VERSION)) {
+				log.setContentVersion(v);
+			} else if (k.equals(PARA_CLIENT_VERSION)) {
+				log.setClientVersion(v);
+			} else if (k.equals(PARA_FROM_MARKET)) {
+				log.setFromMarket(v);
+			}
+		}
+		logService.saveLogContent(log);
+	}
+
 	private void saveLog(String requestMethod, Map<String, Object> requestParam) throws Exception {
-		if (requestMethod.equals(AD_XML)) {
+		if (requestMethod.equals(METHOD_AD_XML)) {
+			return;
+		}
+		if (requestMethod.equals("execute") && requestParam.get("f") == null) {
 			return;
 		}
 		StringBuilder buffer = new StringBuilder();

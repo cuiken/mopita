@@ -1,8 +1,8 @@
 <li style="width: 50%;">
-	<a href="${ctx}/nav/homemore?bid=${centerLeft.buttons[0].id}" class="thumbnail">
-		<img alt="${centerLeft.buttons[0].title}" src="${ctx}/images/nav/nvxing/nvxing_2x.gif">
+	<a href="${centerLeft.buttons[0].action}#${centerLeft.buttons[0].value}" data-id="${centerLeft.buttons[0].id}" class="thumbnail">
+		<img alt="${centerLeft.buttons[0].title}" src="${ctx}/image.action?path=${centerLeft.buttons[0].picture}">
 	</a>
-	<a href="${ctx}/nav/homemore?bid=${centerLeft.buttons[1].id}" class="thumbnail">
-		<img alt="${centerLeft.buttons[1].title}" src="${ctx}/images/nav/jiaoyou/jiaoyou_2x.gif">
+	<a href="${centerLeft.buttons[1].action}#${centerLeft.buttons[1].value}" data-id="${centerLeft.buttons[1].id}" class="thumbnail">
+		<img alt="${centerLeft.buttons[1].title}" src="${ctx}/image.action?path=${centerLeft.buttons[1].picture}">
 	</a>
 </li>

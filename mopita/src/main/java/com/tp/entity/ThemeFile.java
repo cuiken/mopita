@@ -16,6 +16,8 @@ import javax.persistence.Transient;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.google.common.collect.Lists;
 import com.tp.utils.ConvertUtils;
@@ -41,6 +43,7 @@ public class ThemeFile extends IdEntity {
 	private String availMachine;
 	private String unavailMachine;
 	private String marketURL;
+	private String cmccURL;
 	private String version;
 	private String iconPath;
 	private String adPath;
@@ -57,6 +60,7 @@ public class ThemeFile extends IdEntity {
 	private List<ShelfFileLink> shelfFiles = Lists.newArrayList();
 	private List<FileMarketValue> marketValues = Lists.newArrayList();
 	private List<Preview> previews = Lists.newArrayList();
+	private List<Store> stores = Lists.newArrayList();
 
 	public String getName() {
 		return name;
@@ -173,6 +177,15 @@ public class ThemeFile extends IdEntity {
 		this.marketURL = marketURL;
 	}
 
+	@Column(name = "cmcc_url")
+	public String getCmccURL() {
+		return cmccURL;
+	}
+
+	public void setCmccURL(String cmccURL) {
+		this.cmccURL = cmccURL;
+	}
+
 	public String getVersion() {
 		return version;
 	}
@@ -262,12 +275,30 @@ public class ThemeFile extends IdEntity {
 		this.categories = categories;
 	}
 
+	@ManyToMany
+	@JoinTable(name = "f_file_store", joinColumns = { @JoinColumn(name = "f_id") }, inverseJoinColumns = { @JoinColumn(name = "s_id") })
+	@Fetch(FetchMode.SUBSELECT)
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+	public List<Store> getStores() {
+		return stores;
+	}
+
+	public void setStores(List<Store> stores) {
+		this.stores = stores;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Transient
 	public List<Long> getCheckedCategoryIds() {
 		return ConvertUtils.convertElementPropertyToList(categories, "id");
 	}
 
+	@SuppressWarnings("unchecked")
+	@Transient
+	public List<Long> getCheckedStoreIds(){
+		return ConvertUtils.convertElementPropertyToList(stores, "id");
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null)

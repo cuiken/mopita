@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.google.common.collect.Lists;
 import com.tp.entity.IdEntity;
@@ -20,11 +22,13 @@ import com.tp.utils.ConvertUtils;
 
 @Entity
 @Table(name = "nav_item")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Navigator extends IdEntity {
 
 	private String name;
 	private String value;
 	private String navAddr;
+	private Long uuid;
 	private List<Board> boards = Lists.newArrayList();
 	private List<Tag> tags = Lists.newArrayList();
 	private List<NavigatorIcon> icons = Lists.newArrayList();
@@ -53,8 +57,17 @@ public class Navigator extends IdEntity {
 		this.navAddr = navAddr;
 	}
 
+	public Long getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(Long uuid) {
+		this.uuid = uuid;
+	}
+
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "nav_board_navigator", joinColumns = { @JoinColumn(name = "n_id") }, inverseJoinColumns = { @JoinColumn(name = "b_id") })
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	public List<Board> getBoards() {
 		return boards;
 	}
@@ -65,8 +78,13 @@ public class Navigator extends IdEntity {
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "nav_tag_navigator", joinColumns = { @JoinColumn(name = "n_id") }, inverseJoinColumns = { @JoinColumn(name = "t_id") })
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	public List<Tag> getTags() {
 		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
 	}
 
 	@OneToMany(mappedBy = "navigator", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
@@ -98,10 +116,6 @@ public class Navigator extends IdEntity {
 	@Transient
 	public String getBoardNames() {
 		return ConvertUtils.convertElementPropertyToString(boards, "name", ",");
-	}
-
-	public void setTags(List<Tag> tags) {
-		this.tags = tags;
 	}
 
 	@Override

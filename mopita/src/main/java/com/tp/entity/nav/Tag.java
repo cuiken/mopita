@@ -13,11 +13,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.google.common.collect.Lists;
 
 @Entity
 @DiscriminatorValue("tag")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Tag extends TagItem {
 
 	private Board board;
@@ -36,6 +39,7 @@ public class Tag extends TagItem {
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "nav_tag_navigator", joinColumns = { @JoinColumn(name = "t_id") }, inverseJoinColumns = { @JoinColumn(name = "n_id") })
+	@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 	public List<Navigator> getNavigators() {
 		return navigators;
 	}

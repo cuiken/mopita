@@ -34,7 +34,7 @@ public class FileUtils {
 			ZipFile zipFile = new ZipFile(srcFile, "GBK", true);
 
 			Enumeration<ZipArchiveEntry> files = zipFile.getEntries();
-			String folderName = UUIDGenerator.generateUUID();
+			String folderName = UUIDGenerator.uuid2();
 			File baseDir = new File(rootPath + folderName);
 			baseDir.mkdirs();
 			List<ZipArchiveEntry> entries = Lists.newArrayList();

@@ -18,6 +18,7 @@ import com.tp.entity.CategoryInfo;
 import com.tp.entity.DownloadType;
 import com.tp.entity.FileMarketValue;
 import com.tp.entity.FileStoreInfo;
+import com.tp.entity.LogForCmcc;
 import com.tp.entity.Market;
 import com.tp.entity.Shelf;
 import com.tp.entity.ThemeFile;
@@ -25,9 +26,11 @@ import com.tp.orm.Page;
 import com.tp.service.CategoryInfoManager;
 import com.tp.service.CategoryManager;
 import com.tp.service.FileManager;
+import com.tp.service.LogCmccService;
 import com.tp.service.MarketManager;
 import com.tp.utils.Constants;
 import com.tp.utils.Struts2Utils;
+import com.tp.utils.UUIDGenerator;
 
 @Namespace("/store")
 public class LockerAction extends ActionSupport {
@@ -38,6 +41,7 @@ public class LockerAction extends ActionSupport {
 	private CategoryInfoManager categoryInfoManager;
 	private FileManager fileManager;
 	private MarketManager marketManager;
+	private LogCmccService logCmccService;
 
 	private Page<FileStoreInfo> hottestPage = new Page<FileStoreInfo>();
 	private Page<FileStoreInfo> recommendPage = new Page<FileStoreInfo>();
@@ -86,6 +90,28 @@ public class LockerAction extends ActionSupport {
 			}
 		}
 		return SUCCESS;
+	}
+
+	public String render() throws Exception {
+		ThemeFile theme = fileManager.getThemeFile(id);
+//		String queryString = (String) Struts2Utils.getSessionAttribute(Constants.QUERY_STRING);
+		String uuid = UUIDGenerator.uuid2();	
+		
+		LogForCmcc cmcc=new LogForCmcc();
+		cmcc.setSid(uuid);
+		cmcc.setThemeId(id);
+		cmcc.setStoreType(Struts2Utils.getParameter(Constants.PARA_STORE_TYPE));
+		cmcc.setImei(Struts2Utils.getParameter(Constants.PARA_IMEI));
+		cmcc.setResolution(Struts2Utils.getParameter(Constants.PARA_RESOLUTION));
+		logCmccService.save(cmcc);
+		
+		StringBuilder buffer = new StringBuilder(theme.getCmccURL());
+		buffer.append("?id=" + theme.getId()).append("&sid=" + uuid).append("&pid=")
+		.append("&title=" + URLEncoder.encode(theme.getTitle(), "utf-8"))
+		.append(URLEncoder.encode("|", "utf-8")).append(
+				URLEncoder.encode(theme.getTitle(), "utf-8"));
+		Struts2Utils.getResponse().sendRedirect(buffer.toString());
+		return null;
 	}
 
 	private boolean visitByBrowse(HttpSession session) {
@@ -242,6 +268,11 @@ public class LockerAction extends ActionSupport {
 	@Autowired
 	public void setCategoryInfoManager(CategoryInfoManager categoryInfoManager) {
 		this.categoryInfoManager = categoryInfoManager;
+	}
+	
+	@Autowired
+	public void setLogCmccService(LogCmccService logCmccService) {
+		this.logCmccService = logCmccService;
 	}
 
 	public Page<FileStoreInfo> getHottestPage() {

@@ -16,6 +16,7 @@ import com.tp.entity.nav.TagIcon;
 import com.tp.service.nav.NavigatorService;
 import com.tp.utils.Constants;
 import com.tp.utils.FileUtils;
+import com.tp.utils.UUIDGenerator;
 
 @Namespace("/nav")
 @Results({ @Result(name = CRUDActionSupport.RELOAD, location = "nav-tag.action", type = "redirect") })
@@ -51,7 +52,7 @@ public class NavTagAction extends CRUDActionSupport<Tag> {
 
 	@Override
 	public String save() throws Exception {
-
+		
 		if (boardId != null) {
 			Board board = navigatorService.getBoard(boardId);
 			entity.setBoard(board);
@@ -83,6 +84,7 @@ public class NavTagAction extends CRUDActionSupport<Tag> {
 	protected void prepareModel() throws Exception {
 		if (id == null) {
 			entity = new Tag();
+			entity.setUuid(UUIDGenerator.randomLong());
 		} else {
 			entity = navigatorService.getNavTag(id);
 		}

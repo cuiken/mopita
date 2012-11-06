@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tp.dao.HibernateUtils;
 import com.tp.entity.ClientFile;
+import com.tp.entity.ClientType;
 import com.tp.entity.Market;
+import com.tp.service.CategoryManager;
 import com.tp.service.ClientFileManager;
 import com.tp.service.MarketManager;
 
@@ -26,6 +28,7 @@ public class FunlockerClientAction extends CRUDActionSupport<ClientFile> {
 	private List<Long> checkedMarketIds;
 	private ClientFileManager clientFileManager;
 	private MarketManager marketManager;
+	private CategoryManager categoryService;
 
 	private File file;
 	private String uploadFileName;
@@ -106,6 +109,10 @@ public class FunlockerClientAction extends CRUDActionSupport<ClientFile> {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	public List<ClientType> getTypes(){
+		return categoryService.getClientTypes();
+	}
 
 	@Autowired
 	public void setClientFileManager(ClientFileManager clientFileManager) {
@@ -115,6 +122,11 @@ public class FunlockerClientAction extends CRUDActionSupport<ClientFile> {
 	@Autowired
 	public void setMarketManager(MarketManager marketManager) {
 		this.marketManager = marketManager;
+	}
+	
+	@Autowired
+	public void setCategoryService(CategoryManager categoryService) {
+		this.categoryService = categoryService;
 	}
 
 }

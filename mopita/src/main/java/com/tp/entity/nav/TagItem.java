@@ -17,6 +17,8 @@ public abstract class TagItem extends IdEntity {
 
 	private String name;
 	private String value;
+	private String description;
+	private Long uuid;
 
 	public String getName() {
 		return name;
@@ -32,6 +34,22 @@ public abstract class TagItem extends IdEntity {
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Long getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(Long uuid) {
+		this.uuid = uuid;
 	}
 
 }
