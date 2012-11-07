@@ -59,10 +59,6 @@
 		maxEntriesLocalDisk="1000"></cache>	
 	<cache name="com.tp.entity.nav.Board.navigators" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true" 
 		maxEntriesLocalDisk="1000"></cache>
-	<cache name="com.tp.entity.nav.Tag" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true" 
-		maxEntriesLocalDisk="1000"></cache>	
-	<cache name="com.tp.entity.nav.Tag.navigators" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true" 
-		maxEntriesLocalDisk="1000"></cache>	
 		
 	<cache name="SimplePageCachingFilter" maxElementsInMemory="10" maxElementsOnDisk="10" eternal="false"
 		overflowToDisk="true" diskSpoolBufferSizeMB="20" timeToIdleSeconds="120" timeToLiveSeconds="120"

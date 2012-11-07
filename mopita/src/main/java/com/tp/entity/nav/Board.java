@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.google.common.collect.Lists;
 
@@ -35,8 +37,9 @@ public class Board extends TagItem {
 		this.tags = tags;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany
 	@JoinTable(name = "nav_board_navigator", joinColumns = { @JoinColumn(name = "b_id") }, inverseJoinColumns = { @JoinColumn(name = "n_id") })
+	@Fetch(FetchMode.SUBSELECT)
 	@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 	public List<Navigator> getNavigators() {
 		return navigators;
