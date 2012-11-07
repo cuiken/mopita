@@ -13,7 +13,7 @@
 				<artifactId>tomcat-maven-plugin</artifactId>
 				<version>1.1</version>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -134,7 +134,7 @@
 			<artifactId>spring-web</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>opensymphony</groupId>
 			<artifactId>sitemesh</artifactId>
@@ -271,11 +271,11 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-	        <groupId>javax.servlet</groupId>
-	        <artifactId>jsp-api</artifactId>
-	        <version>2.0</version>
-	        <scope>provided</scope>
-  		</dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.0</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
@@ -421,8 +421,12 @@
 			<artifactId>poi</artifactId>
 			<version>3.8</version>
 		</dependency>
-		<!-- validator <dependency> <groupId>org.hibernate</groupId> <artifactId>hibernate-validator</artifactId> <version>${hibernate-validator.version}</version> 
-			</dependency> -->
+		<!-- validator -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${hibernate-validator.version}</version>
+		</dependency>
 
 		<!-- httpclient <dependency> <groupId>org.apache.httpcomponents</groupId> <artifactId>httpclient</artifactId> <version>4.2-beta1</version> 
 			</dependency> -->
@@ -460,18 +464,12 @@
 			<artifactId>lucene-core</artifactId>
 			<version>3.6.1</version>
 		</dependency>
-		<!--  
-		<dependency>
-			<groupId>org.hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<version>2.2.8</version>
-		</dependency>
-		-->
+		<!-- <dependency> <groupId>org.hsqldb</groupId> <artifactId>hsqldb</artifactId> <version>2.2.8</version> </dependency> -->
 		<!-- 加入自定义jar -->
-<!--		<dependency>-->
-<!--			<groupId>com.tpadsz</groupId>-->
-<!--			<artifactId>navigator</artifactId>-->
-<!--			<version>1.0.0</version>-->
-<!--		</dependency>-->
+		<!-- <dependency> -->
+		<!-- <groupId>com.tpadsz</groupId> -->
+		<!-- <artifactId>navigator</artifactId> -->
+		<!-- <version>1.0.0</version> -->
+		<!-- </dependency> -->
 	</dependencies>
 </project>

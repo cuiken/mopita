@@ -94,22 +94,25 @@ public class LockerAction extends ActionSupport {
 
 	public String render() throws Exception {
 		ThemeFile theme = fileManager.getThemeFile(id);
-//		String queryString = (String) Struts2Utils.getSessionAttribute(Constants.QUERY_STRING);
-		String uuid = UUIDGenerator.uuid2();	
-		
-		LogForCmcc cmcc=new LogForCmcc();
+		//		String queryString = (String) Struts2Utils.getSessionAttribute(Constants.QUERY_STRING);
+		String uuid = UUIDGenerator.uuid2();
+		String st = Struts2Utils.getParameter(Constants.PARA_STORE_TYPE);
+		String imei = Struts2Utils.getParameter(Constants.PARA_IMEI);
+		String r = Struts2Utils.getParameter(Constants.PARA_RESOLUTION);
+		if (imei == null || imei.isEmpty())
+			imei = "0";
+		LogForCmcc cmcc = new LogForCmcc();
 		cmcc.setSid(uuid);
 		cmcc.setThemeId(id);
-		cmcc.setStoreType(Struts2Utils.getParameter(Constants.PARA_STORE_TYPE));
-		cmcc.setImei(Struts2Utils.getParameter(Constants.PARA_IMEI));
-		cmcc.setResolution(Struts2Utils.getParameter(Constants.PARA_RESOLUTION));
+		cmcc.setStoreType(st);
+		cmcc.setImei(imei);
+		cmcc.setResolution(r);
 		logCmccService.save(cmcc);
-		
+
 		StringBuilder buffer = new StringBuilder(theme.getCmccURL());
 		buffer.append("?id=" + theme.getId()).append("&sid=" + uuid).append("&pid=")
-		.append("&title=" + URLEncoder.encode(theme.getTitle(), "utf-8"))
-		.append(URLEncoder.encode("|", "utf-8")).append(
-				URLEncoder.encode(theme.getTitle(), "utf-8"));
+				.append("&title=" + URLEncoder.encode(theme.getTitle(), "utf-8"))
+				.append(URLEncoder.encode("|", "utf-8")).append(URLEncoder.encode(theme.getTitle(), "utf-8"));
 		Struts2Utils.getResponse().sendRedirect(buffer.toString());
 		return null;
 	}
@@ -269,7 +272,7 @@ public class LockerAction extends ActionSupport {
 	public void setCategoryInfoManager(CategoryInfoManager categoryInfoManager) {
 		this.categoryInfoManager = categoryInfoManager;
 	}
-	
+
 	@Autowired
 	public void setLogCmccService(LogCmccService logCmccService) {
 		this.logCmccService = logCmccService;

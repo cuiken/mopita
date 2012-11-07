@@ -15,6 +15,8 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 import com.google.common.collect.Lists;
 import com.tp.entity.IdEntity;
@@ -34,6 +36,7 @@ public class User extends IdEntity {
 	private String status;
 	private List<Group> groupList = Lists.newArrayList();
 
+	@NotBlank
 	public String getLoginName() {
 		return loginName;
 	}
@@ -67,6 +70,7 @@ public class User extends IdEntity {
 		this.salt = salt;
 	}
 
+	@NotBlank
 	public String getName() {
 		return name;
 	}
@@ -75,6 +79,7 @@ public class User extends IdEntity {
 		this.name = name;
 	}
 
+	@Email
 	public String getEmail() {
 		return email;
 	}

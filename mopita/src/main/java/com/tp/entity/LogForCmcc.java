@@ -1,11 +1,13 @@
 package com.tp.entity;
 
-import java.util.Date;
+
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "log_f_cmcc")
@@ -16,8 +18,19 @@ public class LogForCmcc extends IdEntity {
 	private String imei;
 	private String resolution;
 	private String storeType;
-	private Date createTime;
+	private Long createTime;
+	
+	private String clientVersion;
+	private String imsi;
+	private String fm;
+	private String dm;
+	private String lang;
+	private String visitSource;
+	private String net;
+	private String op;
+	
 
+	@NotBlank
 	public String getSid() {
 		return sid;
 	}
@@ -26,6 +39,7 @@ public class LogForCmcc extends IdEntity {
 		this.sid = sid;
 	}
 
+	@NotNull
 	public Long getThemeId() {
 		return themeId;
 	}
@@ -34,6 +48,7 @@ public class LogForCmcc extends IdEntity {
 		this.themeId = themeId;
 	}
 
+	@NotBlank
 	public String getImei() {
 		return imei;
 	}
@@ -50,6 +65,7 @@ public class LogForCmcc extends IdEntity {
 		this.resolution = resolution;
 	}
 
+	@NotBlank
 	public String getStoreType() {
 		return storeType;
 	}
@@ -58,12 +74,76 @@ public class LogForCmcc extends IdEntity {
 		this.storeType = storeType;
 	}
 
-	public Date getCreateTime() {
+	public Long getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Date createTime) {
+	public void setCreateTime(Long createTime) {
 		this.createTime = createTime;
+	}
+
+	public String getClientVersion() {
+		return clientVersion;
+	}
+
+	public void setClientVersion(String clientVersion) {
+		this.clientVersion = clientVersion;
+	}
+
+	public String getImsi() {
+		return imsi;
+	}
+
+	public void setImsi(String imsi) {
+		this.imsi = imsi;
+	}
+
+	public String getFm() {
+		return fm;
+	}
+
+	public void setFm(String fm) {
+		this.fm = fm;
+	}
+
+	public String getDm() {
+		return dm;
+	}
+
+	public void setDm(String dm) {
+		this.dm = dm;
+	}
+
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
+	}
+
+	public String getVisitSource() {
+		return visitSource;
+	}
+
+	public void setVisitSource(String visitSource) {
+		this.visitSource = visitSource;
+	}
+
+	public String getNet() {
+		return net;
+	}
+
+	public void setNet(String net) {
+		this.net = net;
+	}
+
+	public String getOp() {
+		return op;
+	}
+
+	public void setOp(String op) {
+		this.op = op;
 	}
 
 	@Override
