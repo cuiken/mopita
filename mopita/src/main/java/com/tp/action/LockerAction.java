@@ -21,7 +21,9 @@ import com.tp.entity.FileStoreInfo;
 import com.tp.entity.LogForCmcc;
 import com.tp.entity.Market;
 import com.tp.entity.Shelf;
+import com.tp.entity.Store;
 import com.tp.entity.ThemeFile;
+import com.tp.entity.ThemeThirdURL;
 import com.tp.orm.Page;
 import com.tp.service.CategoryInfoManager;
 import com.tp.service.CategoryManager;
@@ -93,28 +95,66 @@ public class LockerAction extends ActionSupport {
 	}
 
 	public String render() throws Exception {
-		ThemeFile theme = fileManager.getThemeFile(id);
-		//		String queryString = (String) Struts2Utils.getSessionAttribute(Constants.QUERY_STRING);
-		String uuid = UUIDGenerator.uuid2();
+
 		String st = Struts2Utils.getParameter(Constants.PARA_STORE_TYPE);
+
+		Store store = categoryManager.getStoreByValue(st);
+		if (isFree(store.getDescription())) {
+			return renderToDetails();
+		} else {
+			return renderToThird(store);
+		}
+	}
+
+	private String renderToDetails() throws Exception {
+		String queryString = (String) Struts2Utils.getSessionAttribute(Constants.QUERY_STRING);
+		String location = Constants.getDomain() + "/store/locker!details.action?id=" + id + "&" + queryString;
+		Struts2Utils.getResponse().sendRedirect(location);
+		return null;
+	}
+
+	private String renderToThird(Store store) throws Exception {
 		String imei = Struts2Utils.getParameter(Constants.PARA_IMEI);
 		String r = Struts2Utils.getParameter(Constants.PARA_RESOLUTION);
 		if (imei == null || imei.isEmpty())
 			imei = "0";
+
+		ThemeFile theme = fileManager.getThemeFile(id);
+		ThemeThirdURL third=theme.getThirdURL();
+		if (third==null) {
+			return renderToDetails();
+		}
+		String uuid = UUIDGenerator.uuid2();
+		String thirdurl = "";
+		if (store.getDescription().equals("bcm")) {
+			thirdurl = theme.getThirdURL().getCmURL();
+		} else if (store.getDescription().equals("bcu")) {
+			thirdurl = theme.getThirdURL().getCuURL();
+		} else if (store.getDescription().equals("bct")) {
+			thirdurl = theme.getThirdURL().getCtURL();
+		}
+		
+		if(thirdurl.isEmpty())
+			return renderToDetails();
+		
 		LogForCmcc cmcc = new LogForCmcc();
 		cmcc.setSid(uuid);
 		cmcc.setThemeId(id);
-		cmcc.setStoreType(st);
+		cmcc.setStoreType(store.getValue());
 		cmcc.setImei(imei);
 		cmcc.setResolution(r);
 		logCmccService.save(cmcc);
 
-		StringBuilder buffer = new StringBuilder(theme.getCmccURL());
+		StringBuilder buffer = new StringBuilder(thirdurl);
 		buffer.append("?id=" + theme.getId()).append("&sid=" + uuid).append("&pid=")
 				.append("&title=" + URLEncoder.encode(theme.getTitle(), "utf-8"))
 				.append(URLEncoder.encode("|", "utf-8")).append(URLEncoder.encode(theme.getTitle(), "utf-8"));
 		Struts2Utils.getResponse().sendRedirect(buffer.toString());
 		return null;
+	}
+
+	private boolean isFree(String st) {
+		return st == null || st.isEmpty() || st.equals("free");
 	}
 
 	private boolean visitByBrowse(HttpSession session) {

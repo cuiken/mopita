@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -43,7 +44,6 @@ public class ThemeFile extends IdEntity {
 	private String availMachine;
 	private String unavailMachine;
 	private String marketURL;
-	private String cmccURL;
 	private String version;
 	private String iconPath;
 	private String adPath;
@@ -54,6 +54,7 @@ public class ThemeFile extends IdEntity {
 
 	private String downloadURL;
 
+	private ThemeThirdURL thirdURL;
 	private List<Category> categories = Lists.newArrayList();
 	private List<FileInfo> fileInfo = Lists.newArrayList();
 	private List<FileStoreInfo> infoStore = Lists.newArrayList();
@@ -177,15 +178,6 @@ public class ThemeFile extends IdEntity {
 		this.marketURL = marketURL;
 	}
 
-	@Column(name = "cmcc_url")
-	public String getCmccURL() {
-		return cmccURL;
-	}
-
-	public void setCmccURL(String cmccURL) {
-		this.cmccURL = cmccURL;
-	}
-
 	public String getVersion() {
 		return version;
 	}
@@ -217,6 +209,16 @@ public class ThemeFile extends IdEntity {
 
 	public void setDownloadURL(String downloadURL) {
 		this.downloadURL = downloadURL;
+	}
+
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name = "third_id")
+	public ThemeThirdURL getThirdURL() {
+		return thirdURL;
+	}
+
+	public void setThirdURL(ThemeThirdURL thirdURL) {
+		this.thirdURL = thirdURL;
 	}
 
 	@OneToMany(mappedBy = "theme", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
@@ -295,10 +297,10 @@ public class ThemeFile extends IdEntity {
 
 	@SuppressWarnings("unchecked")
 	@Transient
-	public List<Long> getCheckedStoreIds(){
+	public List<Long> getCheckedStoreIds() {
 		return ConvertUtils.convertElementPropertyToList(stores, "id");
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null)

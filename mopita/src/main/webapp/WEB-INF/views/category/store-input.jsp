@@ -57,9 +57,10 @@
 					</div>
 				</div>
 				<div class="control-group">
-					<label for="description" class="control-label">商店描述:</label>
+					<label for="description" class="control-label">商店类型:</label>
 					<div class="controls">
-						<input type="text" id="description" name="description" maxlength="50" value="${description}" />
+						<s:radio name="description" list="#{'free':'普通免费','bcm':'移动收费','bcu':'联通收费','bct':'电信收费'}"
+						 listKey="key" listValue="value" theme="custom"></s:radio>
 					</div>
 				</div>
 

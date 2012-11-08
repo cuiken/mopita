@@ -16,7 +16,7 @@
 		<script src="${ctx}/js/table.js"></script>
 	</head>
 	<body>
-		<form action="navigator.action" id="mainForm" method="get">
+		<form action="navigator.action" id="mainForm" method="post" class="form-horizontal">
 			<div class="navbar navbar-fixed-top">
 				<div class="navbar-inner">
 					<div class="container">
@@ -43,6 +43,12 @@
 				</div>
 			</div>
 			<div class="container" style="margin-top: 60px;">
+				<div id="filter" style="margin-bottom:5px;">
+					链接名称: <input type="text" class="input-medium" name="filter_LIKES_name"
+					value="${param['filter_LIKES_name']}" size="20" /> <input
+					type="button" id="submit_btn" class="btn" value="搜索"
+					onclick="search();" />
+				</div>
 				<table class="table table-striped table-bordered table-condensed">
 					<thead><tr><th>链接名称</th><th>链接地址</th>
 					
@@ -67,7 +73,7 @@
 		<script src="${ctx}/static/bootstrap/2.1.1/js/bootstrap.min.js" type="text/javascript"></script>
 		<script>
 		function deleteThis(id){
-			if(confirm("确定要删除吗?")){
+			if(confirm("该删除为逻辑删除，可恢复！确定要删除吗?")){
 				window.location="navigator!delete.action?id="+id;
 			}
 		}

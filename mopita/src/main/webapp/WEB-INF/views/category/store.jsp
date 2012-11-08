@@ -20,7 +20,7 @@
 		<form action="store.action" method="get">
 			<h1>商店列表</h1>
 			<c:if test="${not empty actionMessages}">
-				<div id="message" class="success">${actionMessages}</div>	
+				<div id="message" class="alert alert-success">${actionMessages}</div>	
 			</c:if>
 			
 			<table class="table table-striped table-bordered table-condensed">

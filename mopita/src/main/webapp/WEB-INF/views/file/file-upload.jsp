@@ -100,13 +100,6 @@
 				</div>
 				
 				<div class="control-group">
-					<label for="cmcc" class="control-label">移动收费地址:</label>
-					<div class="controls">
-						<input type="url" id="cmcc" name="cmccURL" value="${cmccURL}"  maxlength="255">
-					</div>	
-				</div>
-				
-				<div class="control-group">
 					<label for="shortDescription" class="control-label">简要描述:<font class="red">*</font></label>
 					<div class="controls">
 						<input type="text" id="shortDescription" name="shortDescription" value="${shortDescription}" maxlength="50" class="required">

@@ -65,8 +65,8 @@ create table f_file(
 	pre_web_path varchar(255),
 	pre_client_path varchar(255),
 	market_url varchar(100),
-	cmcc_url varchar(255),
 	version varchar(10),
+	third_id int,
 	create_time varchar(30),
 	modify_time varchar(30),
 	primary key(id)
@@ -80,6 +80,14 @@ create table f_preview(
 	theme_id int ,
 	primary key(id)
 
+)ENGINE=InnoDB;
+
+create table f_third_url(
+	id int not null auto_increment,
+	c_mobile varchar(255),
+	c_unicome varchar(255),
+	c_tele varchar(255),
+	primary key(id)
 )ENGINE=InnoDB;
 
 create table f_file_info(
@@ -304,8 +312,8 @@ create table nav_category(
 /**--链接属性表*/
 create table nav_item(
 	id int not null auto_increment,
-	name varchar(35),
-	value varchar(35),
+	name varchar(35) not null,
+	status varchar(35) not null default 'enabled',
 	nav_addr varchar(255),
 	uuid varchar(100),
 	primary key(id)

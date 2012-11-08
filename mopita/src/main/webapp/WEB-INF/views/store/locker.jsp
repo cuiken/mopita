@@ -9,7 +9,7 @@
 	  	<meta name="apple-mobile-web-app-status-bar-style" content="black">  
 	  	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   		<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-		<title>移动商店首页</title>
+		<title>Locker</title>
 		<link rel="stylesheet" href="${ctx}/css/style.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/top.css" media="screen"/>
   		<link rel="stylesheet" href="${ctx}/css/reset.css" media="screen"/>
@@ -26,14 +26,14 @@
 				<s:if test="adFile!=null">		
 					 <div class="imgCenter">
 						<s:if test="adFile!=null">
-							<a href="#" data-cmcc="${adFile.cmccURL}" data-id="${adFile.id}">
+							<a href="#" data-id="${adFile.id}">
 								<img alt="${adFile.title}" src="${ctx}/image.action?path=${adFile.adPath}" class="max-width_100">
 							</a>
 						</s:if><s:else>商店无内容</s:else>
 					</div>
 				 </s:if>					
 				<s:iterator value="newestPage.result">
-					<div class="contents_info" data-cmcc="${theme.cmccURL}" data-id="${theme.id}" >			
+					<div class="contents_info" data-id="${theme.id}" >			
 						<div class="contents_txt">
 							<div style="margin-top: 10px;">
 								<font color="#666666">${title}</font>
@@ -48,7 +48,7 @@
 				
 				<div class="icon_set">
 					<s:iterator value="hottestPage.result">				
-						<a href="#" data-cmcc="${theme.cmccURL}" data-id="${theme.id}">
+						<a href="#" data-id="${theme.id}">
 							<img alt="${title}" style="padding: 1px;" data-original="${ctx}/image.action?path=${theme.iconPath}" src="${ctx}/static/images/default.png" class="icon" width="72" height="72">
 						</a>		
 					</s:iterator>
@@ -67,14 +67,10 @@
 				$("img").lazyload();
 				
 				var golocation=function(thiss){
-					var cmcc=$(thiss).attr("data-cmcc");
 					var id=$(thiss).attr("data-id");
-					if(cmcc==""){
-						location.href="${ctx}/store/locker!details.action?${queryString}&id="+id;
-					}else {
-						location.href="${ctx}/store/locker!render.action?${queryString}&id="+id;
-					}
+					location.href="${ctx}/store/locker!render.action?${queryString}&id="+id;
 				}
+				
 				$(".contents_info").click(function(){ 
 					$(this).css("backgroundColor","#e7e6c8");
 					golocation(this);

@@ -14,12 +14,14 @@ import com.tp.dao.FileInfoDao;
 import com.tp.dao.FileStoreInfoDao;
 import com.tp.dao.PreviewDao;
 import com.tp.dao.ThemeFileDao;
+import com.tp.dao.ThemeThirdURLDao;
 import com.tp.dto.FileDTO;
 import com.tp.entity.FileInfo;
 import com.tp.entity.FileStoreInfo;
 import com.tp.entity.Preview;
 import com.tp.entity.Shelf;
 import com.tp.entity.ThemeFile;
+import com.tp.entity.ThemeThirdURL;
 import com.tp.mapper.JsonMapper;
 import com.tp.orm.Page;
 import com.tp.orm.PropertyFilter;
@@ -34,6 +36,11 @@ public class FileManager {
 	private ThemeFileDao themeFileDao;
 	private FileStoreInfoDao storeInfoDao;
 	private PreviewDao previewDao;
+	private ThemeThirdURLDao thirdDao;
+
+	public void saveThirdURL(ThemeThirdURL entity) {
+		thirdDao.save(entity);
+	}
 
 	public FileInfo getFileInfo(Long id) {
 		return fileInfoDao.get(id);
@@ -276,4 +283,8 @@ public class FileManager {
 		this.previewDao = previewDao;
 	}
 
+	@Autowired
+	public void setThirdDao(ThemeThirdURLDao thirdDao) {
+		this.thirdDao = thirdDao;
+	}
 }

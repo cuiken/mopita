@@ -133,8 +133,10 @@ h4 small {
 
 				<ul class="thumbnails" style="margin-top: 10px;">
 					<s:iterator value="navigators">
+					<s:if test="status=='enabled'">
 						<li class="navitem"><a data-orilink="${navAddr}"
 							data-id="${uuid}">${name}</a></li>
+					</s:if>		
 					</s:iterator>
 				</ul>
 
@@ -149,8 +151,10 @@ h4 small {
 
 						<ul class="thumbnails">
 							<s:iterator value="navigators">
+							<s:if test="status=='enabled'">
 								<li class="navitem"><a data-orilink="${navAddr}"
 									data-id="${uuid}">${name}</a></li>
+							</s:if>		
 							</s:iterator>
 						</ul>
 

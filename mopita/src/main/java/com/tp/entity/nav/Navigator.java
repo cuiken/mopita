@@ -3,6 +3,7 @@ package com.tp.entity.nav;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -28,13 +29,14 @@ import com.tp.utils.ConvertUtils;
 public class Navigator extends IdEntity {
 
 	private String name;
-	private String value;
 	private String navAddr;
+	private String status;
 	private Long uuid;
 	private List<Board> boards = Lists.newArrayList();
 	private List<Tag> tags = Lists.newArrayList();
 	private List<NavigatorIcon> icons = Lists.newArrayList();
 
+	@Column(unique = true)
 	public String getName() {
 		return name;
 	}
@@ -43,12 +45,12 @@ public class Navigator extends IdEntity {
 		this.name = name;
 	}
 
-	public String getValue() {
-		return value;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getNavAddr() {

@@ -17,6 +17,7 @@ import com.tp.entity.Category;
 import com.tp.entity.FileInfo;
 import com.tp.entity.Store;
 import com.tp.entity.ThemeFile;
+import com.tp.entity.ThemeThirdURL;
 import com.tp.orm.Page;
 import com.tp.orm.PropertyFilter;
 import com.tp.orm.PageRequest.Sort;
@@ -58,7 +59,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	//	@RequiresPermissions("file:edit")
 	public String input() throws Exception {
 		checkedCategoryIds = entity.getCheckedCategoryIds();
-		checkedStoreIds=entity.getCheckedStoreIds();
+		checkedStoreIds = entity.getCheckedStoreIds();
 		return INPUT;
 	}
 
@@ -92,6 +93,9 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 		HibernateUtils.mergeByCheckedIds(entity.getCategories(), checkedCategoryIds, Category.class);
 		HibernateUtils.mergeByCheckedIds(entity.getStores(), checkedStoreIds, Store.class);
 		List<File> files = copyNewFile(file, entity.getApkPath());
+		ThemeThirdURL third = getThirdURL();
+		if (third != null)
+			entity.setThirdURL(third);
 
 		entity.setModifyTime(DateFormatUtils.convert(new Date()));
 		fileManager.saveFiles(files, entity);
@@ -103,10 +107,26 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 		return RELOAD;
 	}
 
+	private ThemeThirdURL getThirdURL() {
+		String cmURL = Struts2Utils.getParameter("cmURL");
+		String cuURL = Struts2Utils.getParameter("cuURL");
+		String ctURL = Struts2Utils.getParameter("ctURL");
+		if (cmURL.isEmpty() && cuURL.isEmpty() && ctURL.isEmpty())
+			return null;
+		ThemeThirdURL third = entity.getThirdURL();
+		if(third==null)
+			third=new ThemeThirdURL();
+		third.setCmURL(cmURL);
+		third.setCtURL(ctURL);
+		third.setCuURL(cuURL);
+		fileManager.saveThirdURL(third);
+		return third;
+	}
+
 	private List<File> copyNewFile(File newTheme, String oldPath) throws Exception {
 		List<File> files = Lists.newArrayList();
 		if (newTheme != null) {
-			files = FileUtils.unZip(newTheme,Constants.LOCKER_STORAGE);
+			files = FileUtils.unZip(newTheme, Constants.LOCKER_STORAGE);
 			String path = oldPath;
 			String[] ps = StringUtils.split(path, File.separator);
 			if (ps.length > 0) {
@@ -142,10 +162,10 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 		return categoryManager.getCategories();
 	}
 
-	public List<Store> getAllStore(){
+	public List<Store> getAllStore() {
 		return categoryManager.getAllStore();
 	}
-	
+
 	@Autowired
 	public void setFileManager(FileManager fileManager) {
 		this.fileManager = fileManager;
@@ -176,11 +196,11 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	public void setCheckedCategoryIds(List<Long> checkedCategoryIds) {
 		this.checkedCategoryIds = checkedCategoryIds;
 	}
-	
+
 	public List<Long> getCheckedStoreIds() {
 		return checkedStoreIds;
 	}
-	
+
 	public void setCheckedStoreIds(List<Long> checkedStoreIds) {
 		this.checkedStoreIds = checkedStoreIds;
 	}

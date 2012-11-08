@@ -50,6 +50,8 @@ public class NavigatorAction extends CRUDActionSupport<Navigator> {
 	public String list() throws Exception {
 
 		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(Struts2Utils.getRequest());
+		PropertyFilter extraFileter=new PropertyFilter("EQS_status", "enabled");
+		filters.add(extraFileter);
 		page = navigatorService.searchNavigator(page, filters);
 		sliders = page.getSlider(10);
 		return SUCCESS;
@@ -86,7 +88,9 @@ public class NavigatorAction extends CRUDActionSupport<Navigator> {
 
 	@Override
 	public String delete() throws Exception {
-		navigatorService.deleteNav(id);
+		entity = navigatorService.getNav(id);
+		entity.setStatus("disabled");
+		navigatorService.saveNav(entity);
 		return RELOAD;
 	}
 
@@ -94,6 +98,7 @@ public class NavigatorAction extends CRUDActionSupport<Navigator> {
 	protected void prepareModel() throws Exception {
 		if (id == null) {
 			entity = new Navigator();
+			entity.setStatus("enabled");
 			entity.setUuid(UUIDGenerator.randomLong());
 		} else {
 			entity = navigatorService.getNav(id);

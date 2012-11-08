@@ -41,6 +41,7 @@
 			<div class="tabbable" style="margin-top: 10px;">
 				<ul class="nav nav-tabs">
 					<li class="active"><a href="#basic" data-toggle="tab">基本属性</a></li>
+					<li><a href="#third" data-toggle="tab">第三方地址</a></li>
 					<s:iterator value="fileInfo" status="info">
 						<li><a href="#${language}" data-toggle="tab">${language}</a></li>
 					</s:iterator>
@@ -91,12 +92,7 @@
 								<input type="text" id="version" name="version" value="${version}" maxlength="10" class="required">
 							</div>				
 						</div>	
-						<div class="control-group">
-							<label for="cmcc" class="control-label">移动收费地址:</label>
-							<div class="controls">
-								<input type="url" id="cmcc" name="cmccURL" value="${cmccURL}"  maxlength="255">
-							</div>	
-						</div>		
+	
 						<div class="control-group">
 							<label for="availMachine" class="control-label">可用机型:</label>
 							<div class="controls">
@@ -110,6 +106,26 @@
 							</div>	
 						</div>
 
+					</div>
+					<div id="third" class="tab-pane">
+						<div class="control-group">
+							<label for="cmURL" class="control-label">移动地址:</label>
+							<div class="controls">
+								<input id="cmURL" name="cmURL" type="url" maxlength="255" value="${thirdURL.cmURL}" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label for="ctURL" class="control-label">电信地址:</label>
+							<div class="controls">
+								<input id="ctURL" name="ctURL" type="url" maxlength="255" value="${thirdURL.ctURL}" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label for="cuURL" class="control-label">联通地址:</label>
+							<div class="controls">
+								<input id="cuURL" name="cuURL" type="url" maxlength="255" value="${thirdURL.cuURL}" />
+							</div>
+						</div>
 					</div>
 					<s:iterator value="fileInfo" status="info">
 						<div id="${language}" class="tab-pane">
