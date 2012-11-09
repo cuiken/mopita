@@ -29,8 +29,5 @@
 		<a id="reportcn-tab" href="${ctx}/report/report-content.action">内容日报</a>
 		<a id="feedback-tab" href="${ctx}/report/feedback.action">用户意见反馈</a>
 	</div>
-	<h1>导航管理</h1>
-	<div class="submenu">
-		<a href="${ctx}/nav/board.action">导航相关</a>
-	</div>
+
 </div>
