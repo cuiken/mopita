@@ -2,7 +2,6 @@ package com.tp.action;
 
 import java.util.List;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tp.entity.FileInfo;
 import com.tp.entity.ThemeFile;
-import com.tp.service.FileInfoObservable;
 import com.tp.service.FileManager;
 
 @Namespace("/file")
@@ -24,12 +22,12 @@ public class FileInfoAction extends CRUDActionSupport<FileInfo> {
 	private FileInfo entity;
 
 	private FileManager fileManager;
-	private FileInfoObservable observer;
 
 	@Override
 	//	@RequiresPermissions("file:edit")
 	public String delete() throws Exception {
-		observer.deleteFileInfo(id);
+
+		fileManager.deleteFileInfo(id);
 		return RELOAD;
 	}
 
@@ -63,15 +61,9 @@ public class FileInfoAction extends CRUDActionSupport<FileInfo> {
 		ThemeFile file = fileManager.getThemeFile(themeId);
 		if (entity.getId() == null && fileManager.isFileInfoUnique(themeId, entity.getLanguage())) {
 			entity.setTheme(file);
-			observer.saveFileInfo(entity);
+			fileManager.saveFileInfo(entity);
 			addActionMessage("保存成功");
-		} else if (entity.getId() != null) {
-			entity.setTheme(file);
-			observer.saveFileInfo(entity);
-			addActionMessage("修改成功");
-		} else {
-			addActionMessage("改语言信息已存在");
-		}
+		} 
 
 		return RELOAD;
 	}
@@ -85,11 +77,6 @@ public class FileInfoAction extends CRUDActionSupport<FileInfo> {
 	@Autowired
 	public void setFileManager(FileManager fileManager) {
 		this.fileManager = fileManager;
-	}
-
-	@Autowired
-	public void setObserver(FileInfoObservable observer) {
-		this.observer = observer;
 	}
 
 	public void setId(Long id) {
