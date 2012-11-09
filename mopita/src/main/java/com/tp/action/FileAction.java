@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
@@ -18,9 +19,10 @@ import com.tp.entity.Store;
 import com.tp.entity.ThemeFile;
 import com.tp.entity.ThemeThirdURL;
 import com.tp.orm.Page;
-import com.tp.orm.PageRequest.Sort;
 import com.tp.orm.PropertyFilter;
+import com.tp.orm.PageRequest.Sort;
 import com.tp.service.CategoryManager;
+import com.tp.service.FileInfoObservable;
 import com.tp.service.FileManager;
 import com.tp.utils.Constants;
 import com.tp.utils.DateFormatUtils;
@@ -45,7 +47,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	private File file;
 
 	@Override
-	//	@RequiresPermissions("file:edit")
+	@RequiresPermissions("file:edit")
 	public String delete() throws Exception {
 		fileManager.deleteThemeFile(id);
 		addActionMessage("删除成功");
@@ -53,7 +55,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	}
 
 	@Override
-	//	@RequiresPermissions("file:edit")
+	@RequiresPermissions("file:edit")
 	public String input() throws Exception {
 		checkedCategoryIds = entity.getCheckedCategoryIds();
 		checkedStoreIds = entity.getCheckedStoreIds();
@@ -61,7 +63,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	}
 
 	@Override
-	//	@RequiresPermissions("file:view")
+	@RequiresPermissions("file:view")
 	public String list() throws Exception {
 
 		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(Struts2Utils.getRequest());
@@ -85,7 +87,7 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	}
 
 	@Override
-	//	@RequiresPermissions("file:edit")
+	@RequiresPermissions("file:edit")
 	public String save() throws Exception {
 		HibernateUtils.mergeByCheckedIds(entity.getCategories(), checkedCategoryIds, Category.class);
 		HibernateUtils.mergeByCheckedIds(entity.getStores(), checkedStoreIds, Store.class);
@@ -96,6 +98,12 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 
 		entity.setModifyTime(DateFormatUtils.convert(new Date()));
 		fileManager.saveFiles(files, entity);
+		for (FileInfo info : entity.getFileInfo()) {
+			info.setTheme(entity);
+			FileInfoObservable observer = new FileInfoObservable();
+			observer.setFileManager(fileManager);
+			observer.saveFileInfo(info);
+		}
 		addActionMessage("保存成功");
 		return RELOAD;
 	}
@@ -107,8 +115,8 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 		if (cmURL.isEmpty() && cuURL.isEmpty() && ctURL.isEmpty())
 			return null;
 		ThemeThirdURL third = entity.getThirdURL();
-		if(third==null)
-			third=new ThemeThirdURL();
+		if (third == null)
+			third = new ThemeThirdURL();
 		third.setCmURL(cmURL);
 		third.setCtURL(ctURL);
 		third.setCuURL(cuURL);
