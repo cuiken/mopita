@@ -95,7 +95,7 @@
 		<sitemesh.version>2.4.2</sitemesh.version>
 		<ehcache.version>2.5.2</ehcache.version>
 		<hibernate-validator.version>4.2.0.Final</hibernate-validator.version>
-		<jackson.version>1.9.8</jackson.version>
+		<jackson.version>2.1.0</jackson.version>
 		<slf4j.version>1.6.4</slf4j.version>
 		<!-- Plugin的属性定义 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -141,17 +141,10 @@
 			<version>${sitemesh.version}</version>
 			<scope>runtime</scope>
 		</dependency>
-		<!-- <dependency> <groupId>taglibs</groupId> <artifactId>standard</artifactId> <version>1.2</version> </dependency> -->
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<version>${jackson.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-core-asl</artifactId>
-			<version>${jackson.version}</version>
-		</dependency>
+		<!-- <dependency> <groupId>taglibs</groupId> <artifactId>standard</artifactId> <version>1.2</version> </dependency> <dependency> 
+			<groupId>org.codehaus.jackson</groupId> <artifactId>jackson-mapper-asl</artifactId> <version>${jackson.version}</version> 
+			</dependency> <dependency> <groupId>org.codehaus.jackson</groupId> <artifactId>jackson-core-asl</artifactId> <version>${jackson.version}</version> 
+			</dependency> -->
 		<!-- web end -->
 
 		<!-- SPRING begin -->
@@ -347,10 +340,23 @@
 		<!-- LOGGING end -->
 
 		<!-- JSON begin -->
-		<!--<dependency> <groupId>com.fasterxml.jackson.core</groupId> <artifactId>jackson-databind</artifactId> <version>${jackson.version}</version> 
-			</dependency> <dependency> <groupId>com.fasterxml.jackson.jaxrs</groupId> <artifactId>jackson-jaxrs-json-provider</artifactId> 
-			<version>${jackson.version}</version> </dependency> <dependency> <groupId>com.fasterxml.jackson.datatype</groupId> <artifactId>jackson-datatype-hibernate4</artifactId> 
-			<version>${jackson.version}</version> </dependency> -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<!--  
+		<dependency>
+			<groupId>com.fasterxml.jackson.jaxrs</groupId>
+			<artifactId>jackson-jaxrs-json-provider</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-hibernate4</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>-->
 		<!-- JSON end -->
 
 		<!-- GENERAL UTILS begin -->
