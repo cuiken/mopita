@@ -58,6 +58,12 @@ public class LogService {
 	public void saveLogContent(LogForContent entity) {
 		logContentDao.save(entity);
 	}
+	
+	public void saveLogContents(List<LogForContent> contents){
+		for(LogForContent content:contents){
+			logContentDao.save(content);
+		}
+	}
 
 	public void saveLogInHome(LogInHome entity) {
 		logHomeDao.save(entity);
