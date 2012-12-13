@@ -20,7 +20,7 @@ import com.tp.spring.SpringContextTestCase;
 import com.tp.utils.Threads;
 
 @Category(UnStable.class)
-@ContextConfiguration(locations = { "/applicationContext-memcached.xml", "/applicationContext-test.xml" })
+@ContextConfiguration(locations = { "/applicationContext-test-memcached.xml", "/applicationContext-test.xml" })
 public class SpyMemcachedClientTest extends SpringContextTestCase {
 	
 	protected Logger logger = LoggerFactory.getLogger(getClass());
@@ -45,7 +45,7 @@ public class SpyMemcachedClientTest extends SpringContextTestCase {
 				continue;
 			long cont = client.incr(count_key, 1, 1);
 			client.set(prefix + cont, 60 * 60 * 4, log.getRequestParams());
-
+			Threads.sleep(10);
 			if (client.get(count_key).equals("1000")) {
 				logger.info("1000=>"+client.get(prefix+1000));
 				for (int j = 1; j <= 1000; j++) {
