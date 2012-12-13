@@ -79,7 +79,7 @@ public class LockerAction extends ActionSupport {
 		language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
 		Long storeId = chooseStoreId(session);
 
-		hottestPage.setPageSize(12);
+		hottestPage.setPageSize(16);
 		hottestPage = fileManager.searchStoreInfoInShelf(hottestPage, Shelf.Type.HOTTEST, storeId, language);
 
 		newestPage = fileManager.searchStoreInfoInShelf(newestPage, Shelf.Type.NEWEST, storeId, language);
@@ -97,16 +97,18 @@ public class LockerAction extends ActionSupport {
 	public String render() throws Exception {
 
 		String st = Struts2Utils.getParameter(Constants.PARA_STORE_TYPE);
-
+		if (st == null || st.isEmpty()) {
+			st = (String) Struts2Utils.getSession().getAttribute(Constants.PARA_STORE_TYPE);
+		}
 		Store store = categoryManager.getStoreByValue(st);
 		if (isFree(store.getDescription())) {
-			return renderToDetails();
+			return renderToDetails(st);
 		} else {
 			return renderToThird(store);
 		}
 	}
 
-	private String renderToDetails() throws Exception {
+	private String renderToDetails(String st) throws Exception {
 		String queryString = (String) Struts2Utils.getSessionAttribute(Constants.QUERY_STRING);
 		String location = Constants.getDomain() + "/store/locker!details.action?id=" + id + "&" + queryString;
 		Struts2Utils.getResponse().sendRedirect(location);
@@ -120,23 +122,24 @@ public class LockerAction extends ActionSupport {
 			imei = "0";
 
 		ThemeFile theme = fileManager.getThemeFile(id);
-		ThemeThirdURL third=theme.getThirdURL();
-		if (third==null) {
-			return renderToDetails();
+		List<ThemeThirdURL> thirds = theme.getThirdURLs();
+		if (thirds == null || thirds.isEmpty()) {
+			return renderToDetails(store.getValue());
 		}
 		String uuid = UUIDGenerator.uuid2();
 		String thirdurl = "";
+		ThemeThirdURL third = thirds.get(0);
 		if (store.getDescription().equals("bcm")) {
-			thirdurl = theme.getThirdURL().getCmURL();
+			thirdurl = third.getCmURL();
 		} else if (store.getDescription().equals("bcu")) {
-			thirdurl = theme.getThirdURL().getCuURL();
+			thirdurl = third.getCuURL();
 		} else if (store.getDescription().equals("bct")) {
-			thirdurl = theme.getThirdURL().getCtURL();
+			thirdurl = third.getCtURL();
 		}
-		
-		if(thirdurl.isEmpty())
-			return renderToDetails();
-		
+
+		if (thirdurl.isEmpty())
+			return renderToDetails(store.getValue());
+
 		LogForCmcc cmcc = new LogForCmcc();
 		cmcc.setSid(uuid);
 		cmcc.setThemeId(id);
@@ -146,7 +149,7 @@ public class LockerAction extends ActionSupport {
 		logCmccService.save(cmcc);
 
 		StringBuilder buffer = new StringBuilder(thirdurl);
-		buffer.append("?id=" + theme.getId()).append("&sid=" + uuid).append("&pid=")
+		buffer.append("&id=" + theme.getId()).append("&sid=" + uuid).append("&pid=")
 				.append("&title=" + URLEncoder.encode(theme.getTitle(), "utf-8"))
 				.append(URLEncoder.encode("|", "utf-8")).append(URLEncoder.encode(theme.getTitle(), "utf-8"));
 		Struts2Utils.getResponse().sendRedirect(buffer.toString());
@@ -168,6 +171,8 @@ public class LockerAction extends ActionSupport {
 		if (storeId != null) {
 			return storeId;
 		}
+		if (storeType == null || storeType.isEmpty())
+			storeType = Struts2Utils.getParameter(Constants.PARA_STORE_TYPE);
 		if (storeType != null) {
 			storeId = categoryManager.getStoreByValue(storeType).getId();
 			session.setAttribute(Constants.ID_LOCK, storeId);
@@ -183,11 +188,12 @@ public class LockerAction extends ActionSupport {
 	 * @throws Exception
 	 */
 	public String adXml() throws Exception {
-		Long storeId = categoryManager.getStoreByValue(Constants.DM_LOCKER).getId();
+		String st = Struts2Utils.getParameter(Constants.PARA_STORE_TYPE);
+		Long storeId = categoryManager.getStoreByValue(st).getId();
 		Page<ThemeFile> adPage = new Page<ThemeFile>();
 		adPage = fileManager.searchFileByShelf(adPage, Shelf.Type.RECOMMEND, storeId);
 		String domain = Constants.getDomain();
-		String detailsURL = "/store/locker!details.action?id=";
+		String detailsURL = "/store/locker!details.action?st=" + st + "&amp;id=";
 		String xml = fileManager.adXml(adPage.getResult(), domain, detailsURL);
 		Struts2Utils.renderXml(xml);
 		return null;
@@ -197,7 +203,12 @@ public class LockerAction extends ActionSupport {
 		try {
 
 			HttpSession session = Struts2Utils.getSession();
-
+			String st = (String) session.getAttribute(Constants.PARA_STORE_TYPE);
+			if (st == null || st.isEmpty())
+				st = Struts2Utils.getParameter(Constants.PARA_STORE_TYPE);
+			String queryString = (String) session.getAttribute(Constants.QUERY_STRING);
+			if (queryString == null || queryString.isEmpty())
+				session.setAttribute(Constants.QUERY_STRING, "st=" + st);
 			language = (String) session.getAttribute(Constants.PARA_LANGUAGE);
 			Long storeId = chooseStoreId(session);
 			info = fileManager.getStoreInfoBy(storeId, id, language);

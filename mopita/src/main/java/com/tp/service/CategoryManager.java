@@ -9,9 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.collect.Lists;
 import com.tp.dao.CategoryDao;
 import com.tp.dao.ClientTypeDao;
+import com.tp.dao.FileStoreInfoDao;
 import com.tp.dao.ShelfDao;
 import com.tp.dao.ShelfFileLinkDao;
 import com.tp.dao.StoreDao;
+import com.tp.dao.ThemeFileDao;
 import com.tp.dto.ShelfDTO;
 import com.tp.entity.Category;
 import com.tp.entity.ClientType;
@@ -31,8 +33,9 @@ public class CategoryManager {
 	private StoreDao storeDao;
 	private ShelfDao shelfDao;
 	private ShelfFileLinkDao sflDao;
-	private FileManager fileManager;
 	private ClientTypeDao clientDao;
+	private FileStoreInfoDao storeInfoDao;
+	private ThemeFileDao themeFileDao;
 
 	public Category getCategory(Long id) {
 		return categoryDao.get(id);
@@ -166,7 +169,7 @@ public class CategoryManager {
 		if (ids == null) {
 			for (ThemeFile f : themes) {
 				if (!isFileInStore(store, shelf, f)) {
-					fileManager.deleteStoreInfoByThemeAndStore(f.getId(), store.getId());
+					storeInfoDao.deleteByThemeAndStore(f.getId(), store.getId());
 				}
 			}
 
@@ -180,13 +183,13 @@ public class CategoryManager {
 		for (ThemeFile file : checkedThemes) {
 			Long id = file.getId();
 			if (!checkedIds.contains(id) && !isFileInStore(store, shelf, file)) {
-				fileManager.deleteStoreInfoByThemeAndStore(id, store.getId());
+				storeInfoDao.deleteByThemeAndStore(id, store.getId());
 			} else {
 				checkedIds.remove(id);
 			}
 		}
 		for (Long id : checkedIds) {
-			ThemeFile file = fileManager.getThemeFile(id);
+			ThemeFile file = themeFileDao.get(id);
 			if (!isFileInStore(store, shelf, file)) {
 				copyFileStoreInfo(file, store);
 			}
@@ -223,7 +226,7 @@ public class CategoryManager {
 			storeInfo.setFiId(fmi.getId());
 			storeInfo.setTheme(theme);
 			storeInfo.setStore(store);
-			fileManager.saveStoreInfo(storeInfo);
+			storeInfoDao.save(storeInfo);
 		}
 	}
 
@@ -245,22 +248,22 @@ public class CategoryManager {
 		return shelfDao.isShelfNameUnique(newName, oldName, id);
 	}
 
-	public void saveClientType(ClientType entity){
+	public void saveClientType(ClientType entity) {
 		clientDao.save(entity);
 	}
-	
-	public ClientType getClientType(Long id){
+
+	public ClientType getClientType(Long id) {
 		return clientDao.get(id);
 	}
-	
-	public void deleteClientType(Long id){
+
+	public void deleteClientType(Long id) {
 		clientDao.delete(id);
 	}
-	
-	public List<ClientType> getClientTypes(){
+
+	public List<ClientType> getClientTypes() {
 		return clientDao.getAll();
 	}
-	
+
 	@Autowired
 	public void setCategoryDao(CategoryDao categoryDao) {
 		this.categoryDao = categoryDao;
@@ -277,15 +280,20 @@ public class CategoryManager {
 	}
 
 	@Autowired
-	public void setFileManager(FileManager fileManager) {
-		this.fileManager = fileManager;
+	public void setStoreInfoDao(FileStoreInfoDao storeInfoDao) {
+		this.storeInfoDao = storeInfoDao;
+	}
+
+	@Autowired
+	public void setThemeFileDao(ThemeFileDao themeFileDao) {
+		this.themeFileDao = themeFileDao;
 	}
 
 	@Autowired
 	public void setSflDao(ShelfFileLinkDao sflDao) {
 		this.sflDao = sflDao;
 	}
-	
+
 	@Autowired
 	public void setClientDao(ClientTypeDao clientDao) {
 		this.clientDao = clientDao;

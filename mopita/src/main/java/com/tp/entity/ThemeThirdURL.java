@@ -2,6 +2,9 @@ package com.tp.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -14,6 +17,8 @@ public class ThemeThirdURL extends IdEntity {
 	private String cmURL; //移动
 	private String cuURL; //联通
 	private String ctURL; //电信
+
+	private ThemeFile theme;
 
 	@URL
 	@Column(name = "c_mobile")
@@ -43,6 +48,16 @@ public class ThemeThirdURL extends IdEntity {
 
 	public void setCtURL(String ctURL) {
 		this.ctURL = ctURL;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "theme_id")
+	public ThemeFile getTheme() {
+		return theme;
+	}
+
+	public void setTheme(ThemeFile theme) {
+		this.theme = theme;
 	}
 
 	@Override

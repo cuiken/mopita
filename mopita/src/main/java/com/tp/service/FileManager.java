@@ -12,13 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.collect.Lists;
 import com.tp.dao.FileInfoDao;
 import com.tp.dao.FileStoreInfoDao;
-import com.tp.dao.PreviewDao;
 import com.tp.dao.ThemeFileDao;
 import com.tp.dao.ThemeThirdURLDao;
 import com.tp.dto.FileDTO;
 import com.tp.entity.FileInfo;
+import com.tp.entity.FileMarketValue;
 import com.tp.entity.FileStoreInfo;
-import com.tp.entity.Preview;
+import com.tp.entity.Market;
 import com.tp.entity.Shelf;
 import com.tp.entity.ThemeFile;
 import com.tp.entity.ThemeThirdURL;
@@ -35,7 +35,6 @@ public class FileManager {
 	private FileInfoDao fileInfoDao;
 	private ThemeFileDao themeFileDao;
 	private FileStoreInfoDao storeInfoDao;
-	private PreviewDao previewDao;
 	private ThemeThirdURLDao thirdDao;
 
 	public void saveThirdURL(ThemeThirdURL entity) {
@@ -44,10 +43,6 @@ public class FileManager {
 
 	public FileInfo getFileInfo(Long id) {
 		return fileInfoDao.get(id);
-	}
-
-	public void deletePreview(Long themeId) {
-		previewDao.deleteByTheme(themeId);
 	}
 
 	public List<ThemeFile> getAllThemeFile() {
@@ -112,11 +107,8 @@ public class FileManager {
 	}
 
 	public void saveFiles(List<File> files, ThemeFile theme) {
-		List<File> previews = Lists.newArrayList();
+
 		for (File file : files) {
-			if (file.getParentFile().getName().equals("preview")) {
-				previews.add(file);
-			}
 			String fname = FileUtils.getFileName(file.getName());
 			String extension = FileUtils.getExtension(file.getName());
 			if (FileUtils.isPreClient(fname)) {
@@ -142,19 +134,6 @@ public class FileManager {
 			}
 		}
 		saveThemeFile(theme);
-		if (previews.size() > 0)
-			savePreviews(previews, theme);
-	}
-
-	private void savePreviews(List<File> files, ThemeFile theme) {
-		previewDao.deleteByTheme(theme.getId());
-		for (File file : files) {
-			Preview pre = new Preview();
-			pre.setName(file.getName());
-			pre.setPath(file.getPath());
-			pre.setTheme(theme);
-			previewDao.save(pre);
-		}
 	}
 
 	private void saveFileinfo(ThemeFile f, FileInfo info) {
@@ -205,10 +184,6 @@ public class FileManager {
 
 	public void deleteStoreInfoByFmId(Long fid) {
 		storeInfoDao.deleteByFileInfo(fid);
-	}
-
-	public void deleteStoreInfoByThemeAndStore(Long fid, Long sid) {
-		storeInfoDao.deleteByThemeAndStore(fid, sid);
 	}
 
 	public List<FileStoreInfo> getThemeInfoByStore(Long tid, Long sid) {
@@ -263,6 +238,55 @@ public class FileManager {
 		return buffer.toString();
 	}
 
+	public String gadXml(List<ThemeFile> themes,String domain, Market market) throws Exception {
+		StringBuilder buffer = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		if (themes.size() > 5) {
+			themes = themes.subList(0, 5);
+		}
+
+		buffer.append("<ads>");
+		for (ThemeFile theme : themes) {
+			setDownloadType(market, theme);
+			Long id = theme.getId();
+			String ad = theme.getAdPath();
+			if (ad == null || ad.isEmpty()) {
+				continue;
+			}
+			String[] items = StringUtils.split(ad, File.separator);
+			String adName = items[items.length - 1];
+			String[] exts = StringUtils.split(adName, Constants.DOT_SEPARATOR);
+			buffer.append("<ad id=\"" + id + "\"");
+			buffer.append(" fileName=\"" + adName + "\"");
+			buffer.append(" format=\"" + exts[exts.length - 1] + "\"");
+			buffer.append(" version=\"1\"");
+			buffer.append(">");
+			buffer.append("<linkUrl>" + theme.getDownloadURL() + "</linkUrl>");
+			buffer.append("<downloadUrl>" + domain + "/image.action?path=" + URLEncoder.encode(ad, "UTF-8")
+					+ "</downloadUrl>");
+			buffer.append("</ad>");
+		}
+		buffer.append("</ads>");
+		return buffer.toString();
+	}
+
+	public ThemeFile setDownloadType(Market market, ThemeFile theme) {
+		List<ThemeFile> files = market.getThemes();
+		if (files.contains(theme)) {
+			String uri = market.getMarketKey() + theme.getMarketURL();
+			if (market.getPkName().equals(Constants.LENVOL_STORE)) {
+				uri += ("&versioncode=" + theme.getVersion());
+			}
+			if (market.getPkName().equals(Constants.OPPO_NEARME)) {
+				List<FileMarketValue> fvs = theme.getMarketValues();
+				for (FileMarketValue fm : fvs) {
+					uri += (fm.getKeyName() + "=" + fm.getKeyValue());
+				}
+			}
+			theme.setDownloadURL(uri);
+		}
+		return theme;
+	}
+
 	@Autowired
 	public void setFileInfoDao(FileInfoDao fileInfoDao) {
 		this.fileInfoDao = fileInfoDao;
@@ -276,11 +300,6 @@ public class FileManager {
 	@Autowired
 	public void setStoreInfoDao(FileStoreInfoDao storeInfoDao) {
 		this.storeInfoDao = storeInfoDao;
-	}
-
-	@Autowired
-	public void setPreviewDao(PreviewDao previewDao) {
-		this.previewDao = previewDao;
 	}
 
 	@Autowired

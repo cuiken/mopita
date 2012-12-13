@@ -1,6 +1,21 @@
 package com.tp.action;
 
-import static com.tp.utils.Constants.*;
+import static com.tp.utils.Constants.METHOD_AD_XML;
+import static com.tp.utils.Constants.METHOD_GET_CLIENT;
+import static com.tp.utils.Constants.PARA_APP_NAME;
+import static com.tp.utils.Constants.PARA_CLIENT_VERSION;
+import static com.tp.utils.Constants.PARA_CONTENT_VERSION;
+import static com.tp.utils.Constants.PARA_DOWNLOAD_METHOD;
+import static com.tp.utils.Constants.PARA_DO_TYPE;
+import static com.tp.utils.Constants.PARA_FROM_MARKET;
+import static com.tp.utils.Constants.PARA_IMEI;
+import static com.tp.utils.Constants.PARA_IMSI;
+import static com.tp.utils.Constants.PARA_LANGUAGE;
+import static com.tp.utils.Constants.PARA_NET_ENVIRONMENT;
+import static com.tp.utils.Constants.PARA_OPERATORS;
+import static com.tp.utils.Constants.PARA_RESOLUTION;
+import static com.tp.utils.Constants.PARA_STORE_TYPE;
+import static com.tp.utils.Constants.QUERY_STRING;
 
 import java.util.Date;
 import java.util.List;
@@ -16,7 +31,6 @@ import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 import com.tp.entity.DownloadType;
@@ -41,14 +55,14 @@ public class HomeInterceptor extends AbstractInterceptor {
 		Map<String, Object> paramMap = invocation.getInvocationContext().getParameters();
 		if (action instanceof HomeAction || action instanceof JplockerAction) {
 			saveLog(method, paramMap);
-			setParamInSession(method);
+			setParamInSession(method, paramMap);
 			String language = (String) Struts2Utils.getSessionAttribute(Constants.PARA_LANGUAGE);
 			if (language.equalsIgnoreCase("ja")) {
 				Struts2Utils.getSession().setAttribute(Constants.PARA_LANGUAGE, Language.JP.getValue());
 			}
 		}
-		if(action instanceof LockerAction){
-			setParamInSession(method);
+		if (action instanceof LockerAction) {
+			setParamInSession(method, paramMap);
 		}
 		if (action instanceof SaveLogAction) {
 			if (method.equals("client")) {
@@ -66,11 +80,12 @@ public class HomeInterceptor extends AbstractInterceptor {
 		}
 		return invocation.invoke();
 	}
-
+	
 	private void saveContentLog(Map<String, Object> requestParam) throws Exception {
 
 		LogForContent log = new LogForContent();
 		Set<Entry<String, Object>> keys = requestParam.entrySet();
+		
 		for (Entry<String, Object> e : keys) {
 			String k = e.getKey();
 			String v = ((String[]) e.getValue())[0];
@@ -148,68 +163,50 @@ public class HomeInterceptor extends AbstractInterceptor {
 		return StringUtils.substring(str, 0, str.length() - 1);
 	}
 
-	private void setParamInSession(String method) {
+	private void setParamInSession(String method, Map<String, Object> params) {
 		HttpSession session = Struts2Utils.getSession();
 		String language = Struts2Utils.getParameter(PARA_LANGUAGE);
-		String fromMarket = Struts2Utils.getParameter(PARA_FROM_MARKET);
-		String downMethod = Struts2Utils.getParameter(PARA_DOWNLOAD_METHOD);
-		String imei = Struts2Utils.getParameter(PARA_IMEI);
-		String imsi = Struts2Utils.getParameter(PARA_IMSI);
-		String client_version = Struts2Utils.getParameter(PARA_CLIENT_VERSION);
-		String resolution = Struts2Utils.getParameter(PARA_RESOLUTION);
-		String store_type = Struts2Utils.getParameter(PARA_STORE_TYPE);
-		Map<String, Object> requestParams = Maps.newHashMap();
-		if (imei != null) {
-			session.setAttribute(PARA_IMEI, imei);
-			requestParams.put(PARA_IMEI, imei);
-		}
-		if (imsi != null) {
-			session.setAttribute(PARA_IMSI, imsi);
-			requestParams.put(PARA_IMSI, imsi);
-		}
-		if (client_version != null) {
-			session.setAttribute(PARA_CLIENT_VERSION, client_version);
-			requestParams.put(PARA_CLIENT_VERSION, client_version);
-		}
-		if (resolution != null) {
-			session.setAttribute(PARA_RESOLUTION, resolution);
-			requestParams.put(PARA_RESOLUTION, resolution);
-		}
-		if (store_type != null) {
-			session.setAttribute(PARA_STORE_TYPE, store_type);
-			requestParams.put(PARA_STORE_TYPE, store_type);
-		}
-
-		if (language != null) {
-
-			if (defaultLanguage().contains(language.toLowerCase())) {
-				session.setAttribute(PARA_LANGUAGE, language.toLowerCase());
-			} else {
-				session.setAttribute(PARA_LANGUAGE, Language.EN.getValue());
-			}
-
-		} else {
+		String dm = Struts2Utils.getParameter(PARA_DOWNLOAD_METHOD);
+		if (language == null || language.isEmpty()) {
 			language = Constants.getLocal();
-			session.setAttribute(PARA_LANGUAGE, language);
+		} else if (!(defaultLanguage().contains(language.toLowerCase()))) {
+			language = Language.EN.getValue();
 		}
-		requestParams.put(PARA_LANGUAGE, language);
-
-		Locale local = new Locale((String) session.getAttribute(PARA_LANGUAGE));
-		ServletActionContext.getContext().setLocale(local);
-		if (fromMarket != null) {
-			session.setAttribute(PARA_FROM_MARKET, fromMarket);
-			requestParams.put(PARA_FROM_MARKET, fromMarket);
+		if (dm == null || dm.isEmpty()) {
+			dm = DownloadType.HTTP.getValue();
 		}
-		if (downMethod != null) {
-			session.setAttribute(PARA_DOWNLOAD_METHOD, downMethod);
-		} else if (downMethod == null && session.getAttribute(PARA_DOWNLOAD_METHOD) == null) {
-			session.setAttribute(PARA_DOWNLOAD_METHOD, DownloadType.HTTP.getValue());
-		}
-		requestParams.put(PARA_DOWNLOAD_METHOD, (String) session.getAttribute(PARA_DOWNLOAD_METHOD));
+		session.setAttribute(PARA_DOWNLOAD_METHOD, dm);
+		session.setAttribute(PARA_LANGUAGE, language);
 
 		StringBuilder buffer = new StringBuilder();
-		for (Map.Entry<String, Object> entry : requestParams.entrySet()) {
-			buffer.append(entry.getKey() + "=" + entry.getValue()).append("&");
+		for (Map.Entry<String, Object> entry : params.entrySet()) {
+			String key = entry.getKey();
+			String value = ((String[]) entry.getValue())[0];
+
+			if (key.equals(PARA_STORE_TYPE)) {
+				session.setAttribute(PARA_STORE_TYPE, value);
+			}
+
+			if (key.equals(PARA_IMEI)) {
+				session.setAttribute(PARA_IMEI, value);
+			}
+			if (key.equals(PARA_IMSI)) {
+				session.setAttribute(PARA_IMSI, value);
+			}
+			if (key.equals(PARA_CLIENT_VERSION)) {
+				session.setAttribute(PARA_CLIENT_VERSION, value);
+			}
+			if (key.equals(PARA_RESOLUTION)) {
+				session.setAttribute(PARA_RESOLUTION, value);
+			}
+			if (key.equals(PARA_FROM_MARKET)) {
+				session.setAttribute(PARA_FROM_MARKET, value);
+			}
+
+			Locale local = new Locale(language);
+			ServletActionContext.getContext().setLocale(local);
+
+			buffer.append(entry.getKey() + "=" + value).append("&");
 		}
 
 		if (method.equals("execute")) {

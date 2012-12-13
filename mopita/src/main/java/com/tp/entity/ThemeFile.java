@@ -10,7 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -54,13 +53,12 @@ public class ThemeFile extends IdEntity {
 
 	private String downloadURL;
 
-	private ThemeThirdURL thirdURL;
+	private List<ThemeThirdURL> thirdURLs = Lists.newArrayList();
 	private List<Category> categories = Lists.newArrayList();
 	private List<FileInfo> fileInfo = Lists.newArrayList();
 	private List<FileStoreInfo> infoStore = Lists.newArrayList();
 	private List<ShelfFileLink> shelfFiles = Lists.newArrayList();
 	private List<FileMarketValue> marketValues = Lists.newArrayList();
-	private List<Preview> previews = Lists.newArrayList();
 	private List<Store> stores = Lists.newArrayList();
 
 	public String getName() {
@@ -211,14 +209,13 @@ public class ThemeFile extends IdEntity {
 		this.downloadURL = downloadURL;
 	}
 
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name = "third_id")
-	public ThemeThirdURL getThirdURL() {
-		return thirdURL;
+	@OneToMany(mappedBy = "theme", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
+	public List<ThemeThirdURL> getThirdURLs() {
+		return thirdURLs;
 	}
 
-	public void setThirdURL(ThemeThirdURL thirdURL) {
-		this.thirdURL = thirdURL;
+	public void setThirdURLs(List<ThemeThirdURL> thirdURLs) {
+		this.thirdURLs = thirdURLs;
 	}
 
 	@OneToMany(mappedBy = "theme", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
@@ -255,16 +252,6 @@ public class ThemeFile extends IdEntity {
 
 	public void setMarketValues(List<FileMarketValue> marketValues) {
 		this.marketValues = marketValues;
-	}
-
-	@OneToMany(mappedBy = "theme", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE }, orphanRemoval = true)
-	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-	public List<Preview> getPreviews() {
-		return previews;
-	}
-
-	public void setPreviews(List<Preview> previews) {
-		this.previews = previews;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)

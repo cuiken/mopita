@@ -30,7 +30,8 @@ import com.tp.utils.FileUtils;
 import com.tp.utils.Struts2Utils;
 
 @Namespace("/file")
-@Results({ @Result(name = CRUDActionSupport.RELOAD, location = "file.action", type = "redirect") })
+@Results({ @Result(name = CRUDActionSupport.RELOAD, location = "file.action", params = { "page.pageNo",
+		"${page.pageNo}" }, type = "redirect") })
 public class FileAction extends CRUDActionSupport<ThemeFile> {
 
 	private static final long serialVersionUID = 1L;
@@ -92,9 +93,6 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 		HibernateUtils.mergeByCheckedIds(entity.getCategories(), checkedCategoryIds, Category.class);
 		HibernateUtils.mergeByCheckedIds(entity.getStores(), checkedStoreIds, Store.class);
 		List<File> files = copyNewFile(file, entity.getApkPath());
-		ThemeThirdURL third = getThirdURL();
-		if (third != null)
-			entity.setThirdURL(third);
 
 		entity.setModifyTime(DateFormatUtils.convert(new Date()));
 		fileManager.saveFiles(files, entity);
@@ -104,22 +102,28 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 			observer.setFileManager(fileManager);
 			observer.saveFileInfo(info);
 		}
+		saveThirdURL(entity);
 		addActionMessage("保存成功");
 		return RELOAD;
 	}
 
-	private ThemeThirdURL getThirdURL() {
+	private ThemeThirdURL saveThirdURL(ThemeFile theme) {
 		String cmURL = Struts2Utils.getParameter("cmURL");
 		String cuURL = Struts2Utils.getParameter("cuURL");
 		String ctURL = Struts2Utils.getParameter("ctURL");
 		if (cmURL.isEmpty() && cuURL.isEmpty() && ctURL.isEmpty())
 			return null;
-		ThemeThirdURL third = entity.getThirdURL();
-		if (third == null)
+		List<ThemeThirdURL> thirds = entity.getThirdURLs();
+		ThemeThirdURL third;
+		if (thirds == null || thirds.isEmpty()) {
 			third = new ThemeThirdURL();
+		} else {
+			third = thirds.get(0);
+		}
 		third.setCmURL(cmURL);
 		third.setCtURL(ctURL);
 		third.setCuURL(cuURL);
+		third.setTheme(theme);
 		fileManager.saveThirdURL(third);
 		return third;
 	}
@@ -216,4 +220,5 @@ public class FileAction extends CRUDActionSupport<ThemeFile> {
 	public List<Integer> getSliders() {
 		return sliders;
 	}
+
 }
