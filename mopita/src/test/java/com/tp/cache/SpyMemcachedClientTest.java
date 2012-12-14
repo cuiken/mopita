@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import com.google.common.collect.Lists;
 import com.tp.entity.LogForContent;
 import com.tp.entity.LogInHome;
+import com.tp.mapper.JsonMapper;
 import com.tp.service.LogService;
 import com.tp.spring.SpringContextTestCase;
 import com.tp.utils.Threads;
@@ -22,7 +23,7 @@ import com.tp.utils.Threads;
 @Category(UnStable.class)
 @ContextConfiguration(locations = { "/applicationContext-test-memcached.xml", "/applicationContext-test.xml" })
 public class SpyMemcachedClientTest extends SpringContextTestCase {
-	
+
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
@@ -32,34 +33,42 @@ public class SpyMemcachedClientTest extends SpringContextTestCase {
 	private LogService logService;
 
 	@Test
-	public void db() {
+	public void cacheBegin() {
 		List<LogInHome> lists = logService.queryLogInHomeByDate("2012-07-21", "2012-07-22");
-		logger.info("size=>"+ lists.size());
+		logger.info("size=>" + lists.size());
 
 		String prefix = "log:";
-		String count_key = "counter";
-		List<LogForContent> homes = Lists.newArrayList();
-
+		String count_key = "counter:";
+		List<LogForContent> logs = Lists.newArrayList();
+		JsonMapper mapper = JsonMapper.buildNormalMapper();
 		for (LogInHome log : lists) {
-			if (log.getRequestParams() == null || log.getRequestParams().isEmpty())
-				continue;
+			String logJson = mapper.toJson(log);
+			logger.info(logJson);
 			long cont = client.incr(count_key, 1, 1);
-			client.set(prefix + cont, 60 * 60 * 4, log.getRequestParams());
+			client.set(prefix + cont, 60 * 60 * 1, logJson);
 			Threads.sleep(10);
 			if (client.get(count_key).equals("1000")) {
-				logger.info("1000=>"+client.get(prefix+1000));
-				for (int j = 1; j <= 1000; j++) {
-					String value = client.get(prefix + j);
-					LogForContent content = new LogForContent();
-					content.setFromMarket(value);
-					homes.add(content);
-
-				}
-				logService.saveLogContents(homes);
+				storeInDB(prefix, mapper, logs);
 				client.decr(count_key, 1000, 1);
-				homes.clear();
+				logs.clear();
 			}
 		}
+	}
+
+	private void storeInDB(String key_prefix, JsonMapper mapper, List<LogForContent> logs) {
+		for (int j = 1; j <= 1000; j++) {
+			String value = client.get(key_prefix + j);
+			LogInHome lih = mapper.fromJson(value, LogInHome.class);
+			LogForContent content = new LogForContent();
+			content.setImei(lih.getImei());
+			content.setImsi(lih.getImei());
+			content.setResolution(lih.getResolution());
+
+			content.setFromMarket(lih.getFromMarket());
+			logs.add(content);
+
+		}
+		logService.saveLogContents(logs);
 	}
 
 	@Test
